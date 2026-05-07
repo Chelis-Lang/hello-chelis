@@ -1,0 +1,156 @@
+{
+  "source": "/home/user/hello-chelis/octant/discount_factor.tex",
+  "source_hash": "sha256:114b0527bcbe224d9b297c388b88a2d8bd3359df5392e13fefd3a6208fc3ee1a",
+  "spans": [
+    {
+      "deep_node_id": "n_001",
+      "deep_path": "/__top[0]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 233,
+        "end_byte": 245,
+        "start_line": 7,
+        "start_column": 1,
+        "end_line": 7,
+        "end_column": 13,
+        "label": null
+      },
+      "latex_text": "d = e^{-r t}"
+    },
+    {
+      "deep_node_id": "n_002",
+      "deep_path": "/__top[0]/def[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 237,
+        "end_byte": 245,
+        "start_line": 7,
+        "start_column": 5,
+        "end_line": 7,
+        "end_column": 13,
+        "label": null
+      },
+      "latex_text": "e^{-r t}"
+    },
+    {
+      "deep_node_id": "n_003",
+      "deep_path": "/__top[0]/def[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 237,
+        "end_byte": 245,
+        "start_line": 7,
+        "start_column": 5,
+        "end_line": 7,
+        "end_column": 13,
+        "label": null
+      },
+      "latex_text": "e^{-r t}"
+    },
+    {
+      "deep_node_id": "n_004",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 237,
+        "end_byte": 245,
+        "start_line": 7,
+        "start_column": 5,
+        "end_line": 7,
+        "end_column": 13,
+        "label": null
+      },
+      "latex_text": "e^{-r t}"
+    },
+    {
+      "deep_node_id": "n_005",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 237,
+        "end_byte": 238,
+        "start_line": 7,
+        "start_column": 5,
+        "end_line": 7,
+        "end_column": 6,
+        "label": null
+      },
+      "latex_text": "e"
+    },
+    {
+      "deep_node_id": "n_006",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 240,
+        "end_byte": 244,
+        "start_line": 7,
+        "start_column": 8,
+        "end_line": 7,
+        "end_column": 12,
+        "label": null
+      },
+      "latex_text": "-r t"
+    },
+    {
+      "deep_node_id": "n_007",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 240,
+        "end_byte": 242,
+        "start_line": 7,
+        "start_column": 8,
+        "end_line": 7,
+        "end_column": 10,
+        "label": null
+      },
+      "latex_text": "-r"
+    },
+    {
+      "deep_node_id": "n_008",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 240,
+        "end_byte": 242,
+        "start_line": 7,
+        "start_column": 8,
+        "end_line": 7,
+        "end_column": 10,
+        "label": null
+      },
+      "latex_text": "-r"
+    },
+    {
+      "deep_node_id": "n_009",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 241,
+        "end_byte": 242,
+        "start_line": 7,
+        "start_column": 9,
+        "end_line": 7,
+        "end_column": 10,
+        "label": null
+      },
+      "latex_text": "r"
+    },
+    {
+      "deep_node_id": "n_010",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 243,
+        "end_byte": 244,
+        "start_line": 7,
+        "start_column": 11,
+        "end_line": 7,
+        "end_column": 12,
+        "label": null
+      },
+      "latex_text": "t"
+    }
+  ]
+}

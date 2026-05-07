@@ -1,0 +1,16 @@
+(def {span: "n_001"}
+  d
+  (app {span: "n_002"}
+    (var {} exp)
+    (app {span: "n_003"}
+      (var {} mul)
+      (app {span: "n_004"}
+        (var {} log)
+        (var {span: "n_005"} e))
+      (app {span: "n_006"}
+        (var {} mul)
+        (app {span: "n_007"}
+          (var {} sub)
+          (lit {span: "n_008", type: (t-prim {} f32)} 0.0)
+          (var {span: "n_009"} r))
+        (var {span: "n_010"} t)))))
