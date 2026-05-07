@@ -1,0 +1,20 @@
+(module {}
+  reluthensigmoid
+  (def {}
+    xs
+    (app {}
+      (var {} to_tensor)
+      (app {}
+        (var {} Cons)
+        (cast {}
+          (app {} (var {} neg) (lit {type: (t-prim {} f32)} 1.0))
+          (t-prim {} f32))
+        (app {}
+          (var {} Cons)
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (var {} Nil))))))
+  (def {} relud (app {} (var {} relu) (var {} xs)))
+  (def {} out (app {} (var {} sigmoid) (var {} relud))))
