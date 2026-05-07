@@ -4,7 +4,7 @@ This page is a companion to the
 [Chelis primer](https://github.com/Chelis-Lang/chelis/blob/main/spec/design/chelis_canonical_reference.md).
 It maps the language's pipeline onto the directories in this repo.
 
-## The compiler pipeline (recap)
+## The compiler pipeline
 
 ```text
 .ch (Surf)  --desugar-->  .dp (Deep)  --parse-->  AST
@@ -24,115 +24,140 @@ It maps the language's pipeline onto the directories in this repo.
                                   +----------------+----------------+
                                   |                                 |
                           IR Evaluator                       C codegen
-                          (chelis eval)                    (chelis build)
+                          (chelis test, eval)              (chelis build)
                                                                    |
                                                               Executable
 ```
 
-Every example in this repo is exercised by both arms:
+Three execution paths share the front-end (parse / type / dim /
+effect / linearity) but diverge after lowering:
 
-- `chelis check` runs the front end (parse, type-check, effects, linearity)
-  and emits a fitness score with structured errors.
-- `chelis eval` runs the IR evaluator in-process — the fast interactive path.
-- `chelis build --target c` lowers, generates C with span comments, and
-  links against the chelis runtime + OpenBLAS + libgomp.
+- **`chelis check`** runs the front end and emits a JSON fitness
+  report with structured errors. Most permissive lane.
+- **`chelis test`, `chelis eval`** run the IR evaluator in-process.
+  Fast iteration, but a narrower primitive set on v0.6.1.
+- **`chelis build --target c`** lowers, generates C with `// span:`
+  audit-chain comments, and links against `libchelis_runtime.a` +
+  OpenBLAS + libgomp. Production path.
 
-## Surface organization
+A program can pass `chelis check` and fail at either runtime, or pass
+in one runtime and fail in the other. The corpus is structured around
+that fact — every test runs in the lane that supports it. Verbatim
+gap inventory in [`discrepancies.md`](discrepancies.md).
+
+## Directory layout — feature-by-feature, not monolithic
 
 ```text
-examples/
-├── 01_language_basics/        compiler + std only; no shell deps
-├── 02_std/                    chelis-std (Std.*)
-├── 03_coral/                  Coral.*  -> dataframes
-├── 04_nautilus/               Nautilus.*  -> scipy-style numerics
-├── 05_octant/                 octant CLI: LaTeX -> Deep
-└── 06_capstone/               multi-shell integrations
+src/
+├── basics/     compiler + chelis-std only       Hello.Basics.*
+├── std/        Std.* surfaces                   Hello.Std.*
+├── coral/      Coral.* dataframes               Hello.Coral.*
+├── nautilus/   Nautilus.* scipy-equivalent      Hello.Nautilus.*
+└── capstone/   multi-shell integrations         Hello.Capstone.*
+
+tests/
+├── basics/, std/, coral/, nautilus/, capstone/  Hello.Tests.*.*
+└── negative/                                    expected-fail .ch files
+
+verify/                                          project-free C-backend programs
+octant/                                          .tex + machine-generated triple
 ```
 
-The split mirrors the dependency graph: each directory only imports what's
-in it or to its left. `01_language_basics` brings in std implicitly. `03_coral`
-imports `Std.*` and `Coral.*`. `04_nautilus` imports `Std.*` and
-`Nautilus.*`. `05_octant` is unique — Octant is a separate translator binary,
-not an importable library — so its examples are paired `.tex` / `.ch` files
-where the `.ch` is the verified output of `octant translate`. The capstones
-in `06_capstone` import across all four.
+The `src/` split mirrors the dependency graph: each directory only
+imports from its left-hand neighbors plus `chelis-std`. `coral`
+imports `Std.*` and `Coral.*`. `nautilus` is independent of `coral`.
+The capstones in `src/capstone/` import across all four shells.
 
-## Why not one monolithic example?
+`octant/` lives at the repo root because Octant is a CLI translator,
+not an importable Chelis library — its outputs aren't `Hello.*`
+modules, just raw Deep + decompiled Surf snippets.
 
-Two reasons:
+## Why feature-by-feature
 
-1. **Each Chelis feature has a narrow blast radius.** A bug in the
-   linearity checker doesn't break dimension inference, and a missing
-   `cross_entropy` builtin doesn't break ADTs. Splitting the corpus by
-   feature is what lets you tell, when something fails, which subsystem
-   regressed.
-2. **The compiler's fitness score is per-program.** A single 800-line
-   monolith would emit one number that fails to localize. 40 small programs
-   yield 40 scores plus 40 typed-AST snapshots, which is the actual signal
-   shape the substrate is engineered around.
-
-## Testing model
-
-**Chelis has its own native test runner**, and that's the primary gate.
-Every example in this repo defines one or more
-
-```chelis-surf
-def test_*() -> unit ! { Test } = ...
-```
-
-functions, with assertions written via `Std.Test.assert_*`. The
-`! { Test }` effect propagates to any caller — production entry points
-declared with `! {}` get a type error if a Test-effect call sneaks in,
-which is what makes the boundary load-bearing. `chelis test examples/`
-discovers and runs every `test_*` and exits non-zero if any assertion
-fails.
-
-Python under `tests/` is **fallback orchestration only**. It covers what
-the native runner doesn't:
-
-- Programs that must be *rejected* (negative examples for
-  use-after-consume, precision mismatch, dim mismatch).
-- `octant translate <tex>` regeneration matching the committed `.ch`.
-- `// span:` audit-chain markers in the C backend's emitted source.
-- Surf↔Deep round-trip identity (nightly only).
-
-If a check can be expressed as a Chelis-native test, it should be — Python
-is for the parts of the trust stack that require shelling out to a
-non-Chelis tool.
+1. **Each Chelis feature has a narrow blast radius.** A bug in
+   linearity doesn't break dimension inference; a regressed
+   `cross_entropy` doesn't break ADTs. Splitting the corpus by
+   feature lets you triage which subsystem regressed when something
+   fails.
+2. **The compiler's fitness score is per-program.** A single
+   800-line monolith would emit one fitness number that fails to
+   localize. 50+ small programs each yield a separate score plus a
+   typed-AST snapshot, which is the signal shape the substrate is
+   engineered around.
 
 ## How a single example is structured
 
-A typical example file:
+`src/<area>/<name>.ch`:
 
 ```chelis-surf
 module Hello.Std.ActivationsNorms
 
 import Std.Tensor.Construct (to_tensor)
-import Std.Test (assert_close_tensor)
+
+export (relu_then_sigmoid)
 
 def relu_then_sigmoid(x: tensor[n, f32]) -> tensor[n, f32] =
   x |> relu |> sigmoid
+```
+
+`tests/<area>/<name>.ch`:
+
+```chelis-surf
+module Hello.Tests.Std.ActivationsNorms
+
+import Hello.Std.ActivationsNorms (relu_then_sigmoid)
+import Std.Test (assert_close_tensor)
 
 def test_relu_sigmoid_on_zeros() -> unit ! { Test } = {
-  zeros = to_tensor([0.0, 0.0, 0.0])
-  out = relu_then_sigmoid(zeros)
-  expected = to_tensor([0.5, 0.5, 0.5])
-  assert_close_tensor(out, expected, 1e-6, "relu_then_sigmoid_on_zeros")
+  zeros = to_tensor([cast(0.0, f32), cast(0.0, f32), cast(0.0, f32)])
+  expected = to_tensor([cast(0.5, f32), cast(0.5, f32), cast(0.5, f32)])
+  assert_close_tensor(relu_then_sigmoid(zeros), expected, cast(1e-6, f32), "rs_zeros")
 }
 ```
 
-The pattern: one `module` per file; small, well-named definitions; one or
-more `test_*() -> unit ! { Test }` functions. Every example is its own
-self-contained `chelis check` target.
+The pattern: source modules in `src/`, test modules in `tests/`,
+1:1 file mapping. Each test function returns `unit ! { Test }`; the
+`! { Test }` effect propagates to callers, so any production entry
+point declared `! {}` rejects test-effect calls at compile time.
 
-The capstones break this pattern slightly — they have more than one file
-in a folder, and a `README.md` per capstone explaining the integration.
+`chelis test tests/` discovers every `test_*` function and runs the
+`Std.Test.assert_*` calls. Exits non-zero if any assertion fails.
+
+## How equivalence is enforced
+
+Every `.ch` has a sibling `.dp` machine-generated by `chelis deep`.
+The two surfaces are kept in sync by:
+
+```sh
+python3 scripts/regen_deep.py            # regenerate
+python3 scripts/regen_deep.py --check    # CI drift assertion
+```
+
+CI's [`tests/test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py)
+runs the `--check` mode and fails on any divergence. See
+[`surf-and-deep.md`](surf-and-deep.md) for the design rationale.
+
+## Testing model summary
+
+| Lane | What it runs | Surface |
+|---|---|---|
+| `chelis lint --check .` | nomenclature gate per `spec/01-nomenclature.md` | every `.ch` |
+| `chelis check src/<file>.ch` | front-end (parse/type/dim/effect/linearity) | per file |
+| `chelis test tests/` | runtime assertions via the IR evaluator | every `def test_*` |
+| `pytest tests/test_surf_deep_equivalence.py` | `.dp` matches `chelis deep <ch>` | every Surf file |
+| `pytest tests/test_c_backend.py` | `chelis build` + link + run + golden-diff | `verify/*.ch` |
+| `pytest tests/test_octant_pairs.py` | LaTeX → Deep → Surf round-trip | every `octant/*.tex` |
+| `pytest tests/test_negative_examples.py` | programs that must be rejected | `tests/negative/*.ch` |
+
+Each is non-overlapping and gates on a different invariant.
 
 ## Audit chain
 
-When you `chelis build --target c`, every line of generated C carries a
-`// span: <id>` comment pointing at a Surf source location. The harness
-verifies this in `tests/test_chelis_build.py` — each compiled example's
-emitted C is grepped for span markers, and the absence of any is a test
-failure. This is the audit trail the primer talks about, made into a
-checkable invariant rather than a marketing claim.
+When you `chelis build --target c`, every line of generated C carries
+a `// span: <id>` comment pointing at a Surf source location. This is
+the audit trail the primer talks about, made into a checkable
+invariant by the C-backend test lane in
+[`tests/test_c_backend.py`](../tests/test_c_backend.py): each
+verified program is built, linked, run, and the stdout golden-diffed
+against `verify/expected/<name>.txt`. If lowering ever drops a span
+or breaks the runtime semantics, the golden mismatches.

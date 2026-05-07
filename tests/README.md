@@ -1,18 +1,38 @@
-# Python harness
+# `tests/` — both Chelis-native and Python harnesses
 
-Chelis-native testing is the primary surface — every example declares
-its assertions via `Std.Test.assert_*` inside `def test_*() -> unit !
-{ Test }` functions, run by `chelis test examples/`.
+The repo's primary test surface is **Chelis-native**: every test
+function under `tests/<area>/<name>.ch` is a
+`def test_*() -> unit ! { Test }` whose `Std.Test.assert_*` calls
+verify behavior. Run them all with:
 
-This directory holds Python only for the cases where shelling out to a
-non-Chelis tool is unavoidable:
+```sh
+chelis test tests/
+```
 
-| File | Why |
+Python under `tests/` covers the lanes the native runner doesn't
+reach:
+
+| File | Lane | What it asserts |
+|---|---|---|
+| [`test_surf_deep_equivalence.py`](test_surf_deep_equivalence.py) | drift | every committed `.dp` is byte-identical to `chelis deep <ch>` |
+| [`test_negative_examples.py`](test_negative_examples.py) | reject | every `negative/*.ch` is rejected by `chelis check` with the kind declared in its `-- chelis-expect-fail: <kind>` header |
+| [`test_octant_pairs.py`](test_octant_pairs.py) | round-trip | every `octant/*.tex` re-translates to the committed `.dp`/`.spans.json`/`.ch` byte-equally |
+| [`test_c_backend.py`](test_c_backend.py) | full lowering | every `verify/*.ch` builds via `chelis build --target c`, links, runs, and prints output matching `verify/expected/<name>.txt` |
+
+Run them all:
+
+```sh
+python3 -m pytest tests/
+```
+
+## Adding test cases
+
+| To add | Drop |
 |---|---|
-| `negative/*.ch` + `test_negative_examples.py` | Programs that must be *rejected*. Each negative `.ch` declares its expected error kind in a `// chelis-expect-fail: <kind>` header. The harness runs `chelis check --json` and asserts the first error's kind matches. |
-| `test_octant_pairs.py` | `octant` is an external binary; we re-run `octant translate` and byte-compare against the committed `.ch`. |
-| `test_chelis_build.py` | `chelis build --target c` on a small subset; greps emitted C for `// span:` markers (audit-chain invariant). |
+| A Chelis-native runtime test | a new `def test_*() -> unit ! { Test }` in `tests/<area>/<name>.ch`, then run `chelis test` |
+| A program that must be rejected | a `.ch` under `tests/negative/` with `-- chelis-expect-fail: <ErrorKind>` as the first content line |
+| A LaTeX → Deep test | a `.tex` under `octant/`, then `python3 scripts/regen_octant.py` to capture the triple |
+| A C-backend full-lowering test | a `.ch` under `verify/` with a top-level expression, capture stdout into `verify/expected/<name>.txt` |
 
-Adding a negative example: drop a new `.ch` under `negative/` whose first
-line is `// chelis-expect-fail: <ErrorKind>`. The pytest parametrization
-picks it up automatically.
+Each new addition is picked up automatically by the existing
+parametrized harnesses. No registry to update.

@@ -37,4 +37,5 @@ the corpus here stays inside that boundary.
 
 ## Examples in this repo
 
-See [`examples/02_std/`](../../examples/02_std/).
+See [`src/std/`](../../src/std/) — catalog at
+[`src/std/README.md`](../../src/std/README.md).

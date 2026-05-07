@@ -54,8 +54,15 @@ for free-variable LaTeX. Without them, scope is ambiguous.
 
 ## Examples in this repo
 
-See [`examples/05_octant/`](../../examples/05_octant/). Each example is
-a paired `.tex` + `.ch` (and sometimes `.dp` + `.spans.json`). The harness
-in [`tests/test_octant_pairs.py`](../../tests/test_octant_pairs.py)
-re-runs `octant translate` on each `.tex` and asserts the regenerated `.ch`
-is byte-equivalent to the committed one.
+See [`octant/`](../../octant/) — catalog at
+[`octant/README.md`](../../octant/README.md). Each program is a
+**quadruple**: `.tex` (LaTeX source) + `.dp` (canonical Deep emitted
+by `octant translate`) + `.spans.json` (provenance manifest) + `.ch`
+(best-effort Surf decompile via `chelis surf`). All four files are
+committed; only the `.tex` is human-edited.
+
+The harness at
+[`tests/test_octant_pairs.py`](../../tests/test_octant_pairs.py)
+re-runs the entire pipeline on every PR and asserts byte-equality
+against the committed copies. Regenerate locally with
+`python3 scripts/regen_octant.py`.

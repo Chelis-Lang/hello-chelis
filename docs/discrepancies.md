@@ -105,9 +105,10 @@ through the C backend.
 > `tensor[64, 1, f32]` by `chelis check` but the IR evaluator
 > produces `tensor[64, f32]` at runtime, breaking
 > `add(matmul_output, expanded_bias)` whose matmul side really is
-> rank 2. Hit in `src/capstone/linreg.ch::predict`. Same shape
-> appears in upstream's own `examples/linreg.ch` so the issue is
-> general to v0.6.1.
+> rank 2. Hit in `src/capstone/linreg.ch::predict`. The same shape
+> appears in upstream's own `examples/linreg.ch` (in the chelis
+> source repo, separate from this corpus) so the issue is general to
+> v0.6.1.
 
 ### `to_tensor` doesn't accept 2D Python-style literals
 > ```

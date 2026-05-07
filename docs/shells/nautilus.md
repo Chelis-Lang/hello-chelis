@@ -30,9 +30,12 @@ support — examples here skip it.
 
 ## Examples in this repo
 
-See [`examples/04_nautilus/`](../../examples/04_nautilus/).
+See [`src/nautilus/`](../../src/nautilus/) — catalog at
+[`src/nautilus/README.md`](../../src/nautilus/README.md).
 
-A capstone in [`examples/06_capstone/black_scholes_greeks/`](../../examples/06_capstone/black_scholes_greeks/)
-shows Nautilus's `Distributions.Normal.cdf` being differentiated through
-`grad` to produce option Greeks — the path the primer's "AD through
-quadrature" claim hinges on.
+The Black-Scholes capstone at
+[`src/capstone/blackscholes.ch`](../../src/capstone/blackscholes.ch)
+calls `Nautilus.Distributions.normal_cdf` and differentiates the call
+price via `grad` to produce option Greeks — the path the primer's
+"AD through quadrature" claim hinges on. The corresponding LaTeX
+input lives at [`octant/black_scholes_d1.tex`](../../octant/black_scholes_d1.tex).

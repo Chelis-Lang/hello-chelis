@@ -30,10 +30,13 @@ Pinned to `0.6.1`. Reef declaration in our [`reef.toml`](../../reef.toml).
 
 ## Examples in this repo
 
-See [`examples/03_coral/`](../../examples/03_coral/).
+See [`src/coral/`](../../src/coral/) — catalog at
+[`src/coral/README.md`](../../src/coral/README.md).
 
 The headline example is
-[`ad_through_dataframe.ch`](../../examples/03_coral/ad_through_dataframe.ch),
-which runs `grad` through a typed `group_by` + `agg_mean` pipeline. This
-combination — typed dataframes that participate in AD — is the part of
-Coral that has no analog in pandas, polars, or PyArrow.
+[`adthroughdataframe.ch`](../../src/coral/adthroughdataframe.ch),
+which builds a `Frame` from a learnable tensor and demonstrates `grad`
+flowing through the column-construction path. The runtime exercise of
+`grad` itself lives in [`verify/grad_works.ch`](../../verify/grad_works.ch)
+(the IR evaluator at v0.6.1 doesn't lower `grad` over the `Frame` ADT
+yet — see [`docs/discrepancies.md`](../discrepancies.md)).
