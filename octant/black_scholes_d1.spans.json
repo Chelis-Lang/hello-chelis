@@ -1,0 +1,306 @@
+{
+  "source": "black_scholes_d1.tex",
+  "source_hash": "sha256:a963e6da0e8e5aaf436a3a9a803bd5a1fa37037449aa0dff015172da90858c2b",
+  "spans": [
+    {
+      "deep_node_id": "n_001",
+      "deep_path": "/__top[0]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 268,
+        "end_byte": 347,
+        "start_line": 10,
+        "start_column": 1,
+        "end_line": 10,
+        "end_column": 80,
+        "label": null
+      },
+      "latex_text": "d = \\frac{\\log(s / k) + \\left(r + \\frac{\\sigma^2}{2}\\right) t}{\\sigma \\sqrt{t}}"
+    },
+    {
+      "deep_node_id": "n_002",
+      "deep_path": "/__top[0]/def[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 272,
+        "end_byte": 347,
+        "start_line": 10,
+        "start_column": 5,
+        "end_line": 10,
+        "end_column": 80,
+        "label": null
+      },
+      "latex_text": "\\frac{\\log(s / k) + \\left(r + \\frac{\\sigma^2}{2}\\right) t}{\\sigma \\sqrt{t}}"
+    },
+    {
+      "deep_node_id": "n_003",
+      "deep_path": "/__top[0]/def[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 278,
+        "end_byte": 329,
+        "start_line": 10,
+        "start_column": 11,
+        "end_line": 10,
+        "end_column": 62,
+        "label": null
+      },
+      "latex_text": "\\log(s / k) + \\left(r + \\frac{\\sigma^2}{2}\\right) t"
+    },
+    {
+      "deep_node_id": "n_004",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 278,
+        "end_byte": 289,
+        "start_line": 10,
+        "start_column": 11,
+        "end_line": 10,
+        "end_column": 22,
+        "label": null
+      },
+      "latex_text": "\\log(s / k)"
+    },
+    {
+      "deep_node_id": "n_005",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 283,
+        "end_byte": 288,
+        "start_line": 10,
+        "start_column": 16,
+        "end_line": 10,
+        "end_column": 21,
+        "label": null
+      },
+      "latex_text": "s / k"
+    },
+    {
+      "deep_node_id": "n_006",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[1]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 283,
+        "end_byte": 284,
+        "start_line": 10,
+        "start_column": 16,
+        "end_line": 10,
+        "end_column": 17,
+        "label": null
+      },
+      "latex_text": "s"
+    },
+    {
+      "deep_node_id": "n_007",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[1]/app[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 287,
+        "end_byte": 288,
+        "start_line": 10,
+        "start_column": 20,
+        "end_line": 10,
+        "end_column": 21,
+        "label": null
+      },
+      "latex_text": "k"
+    },
+    {
+      "deep_node_id": "n_008",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 292,
+        "end_byte": 329,
+        "start_line": 10,
+        "start_column": 25,
+        "end_line": 10,
+        "end_column": 62,
+        "label": null
+      },
+      "latex_text": "\\left(r + \\frac{\\sigma^2}{2}\\right) t"
+    },
+    {
+      "deep_node_id": "n_009",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 298,
+        "end_byte": 320,
+        "start_line": 10,
+        "start_column": 31,
+        "end_line": 10,
+        "end_column": 53,
+        "label": null
+      },
+      "latex_text": "r + \\frac{\\sigma^2}{2}"
+    },
+    {
+      "deep_node_id": "n_010",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 298,
+        "end_byte": 299,
+        "start_line": 10,
+        "start_column": 31,
+        "end_line": 10,
+        "end_column": 32,
+        "label": null
+      },
+      "latex_text": "r"
+    },
+    {
+      "deep_node_id": "n_011",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 302,
+        "end_byte": 320,
+        "start_line": 10,
+        "start_column": 35,
+        "end_line": 10,
+        "end_column": 53,
+        "label": null
+      },
+      "latex_text": "\\frac{\\sigma^2}{2}"
+    },
+    {
+      "deep_node_id": "n_012",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[2]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 308,
+        "end_byte": 316,
+        "start_line": 10,
+        "start_column": 41,
+        "end_line": 10,
+        "end_column": 49,
+        "label": null
+      },
+      "latex_text": "\\sigma^2"
+    },
+    {
+      "deep_node_id": "n_013",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[2]/app[1]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 308,
+        "end_byte": 314,
+        "start_line": 10,
+        "start_column": 41,
+        "end_line": 10,
+        "end_column": 47,
+        "label": null
+      },
+      "latex_text": "\\sigma"
+    },
+    {
+      "deep_node_id": "n_014",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[2]/app[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 308,
+        "end_byte": 314,
+        "start_line": 10,
+        "start_column": 41,
+        "end_line": 10,
+        "end_column": 47,
+        "label": null
+      },
+      "latex_text": "\\sigma"
+    },
+    {
+      "deep_node_id": "n_015",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[1]/app[2]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 318,
+        "end_byte": 319,
+        "start_line": 10,
+        "start_column": 51,
+        "end_line": 10,
+        "end_column": 52,
+        "label": null
+      },
+      "latex_text": "2"
+    },
+    {
+      "deep_node_id": "n_016",
+      "deep_path": "/__top[0]/def[1]/app[1]/app[2]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 328,
+        "end_byte": 329,
+        "start_line": 10,
+        "start_column": 61,
+        "end_line": 10,
+        "end_column": 62,
+        "label": null
+      },
+      "latex_text": "t"
+    },
+    {
+      "deep_node_id": "n_017",
+      "deep_path": "/__top[0]/def[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 331,
+        "end_byte": 346,
+        "start_line": 10,
+        "start_column": 64,
+        "end_line": 10,
+        "end_column": 79,
+        "label": null
+      },
+      "latex_text": "\\sigma \\sqrt{t}"
+    },
+    {
+      "deep_node_id": "n_018",
+      "deep_path": "/__top[0]/def[1]/app[2]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 331,
+        "end_byte": 337,
+        "start_line": 10,
+        "start_column": 64,
+        "end_line": 10,
+        "end_column": 70,
+        "label": null
+      },
+      "latex_text": "\\sigma"
+    },
+    {
+      "deep_node_id": "n_019",
+      "deep_path": "/__top[0]/def[1]/app[2]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 338,
+        "end_byte": 346,
+        "start_line": 10,
+        "start_column": 71,
+        "end_line": 10,
+        "end_column": 79,
+        "label": null
+      },
+      "latex_text": "\\sqrt{t}"
+    },
+    {
+      "deep_node_id": "n_020",
+      "deep_path": "/__top[0]/def[1]/app[2]/app[2]/app[1]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 344,
+        "end_byte": 345,
+        "start_line": 10,
+        "start_column": 77,
+        "end_line": 10,
+        "end_column": 78,
+        "label": null
+      },
+      "latex_text": "t"
+    }
+  ]
+}

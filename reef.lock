@@ -1,0 +1,35 @@
+[package]
+name = "hello-chelis"
+version = "0.1.0"
+
+[[dependencies]]
+name = "chelis-std"
+version = "0.2.0"
+compiler = "=0.6.1"
+archive_sha256 = "8fd1535734f5c98cb4cb49023d21717e26f1b7145041fbf4aaaeb05198c844db"
+shell_sha256 = "f56bcee442ece5abc54750215e0a3e590901cb3f67d9c7f7d44bf720597cfc74"
+
+[dependencies.source]
+kind = "bundled"
+compiler_version = "0.6.1"
+
+[[dependencies]]
+name = "coral"
+version = "0.6.1"
+compiler = "=0.6.1"
+archive_sha256 = "83941d078fb7324a139ac15642f994f388318cd5c06804e2d455bb386eb70292"
+shell_sha256 = "f48c221b874b605294f5f07c1e00328ae9fc9459e336c7792cb5de2eee17064a"
+
+[dependencies.source]
+kind = "local_registry"
+
+[[dependencies]]
+name = "nautilus"
+version = "0.6.1"
+compiler = "=0.6.1"
+archive_sha256 = "fffa4285025c54c45c87ae29638336389dfc536c111557e5c4afb7684ee30057"
+shell_sha256 = "610f1987d8e166e83636d0dece8f3b58bf44a7873e92f1a0fa6b5ccb4426e946"
+
+[dependencies.source]
+kind = "local_registry"
+

@@ -1,0 +1,10 @@
+% Black-Scholes d_1 helper:
+%   d = (log(s/k) + (r + sigma^2 / 2) t) / (sigma sqrt(t))
+% Spec §6.1 reference; the d_1 input to Phi(d_1) in the call price.
+% chelis: s : f32
+% chelis: k : f32
+% chelis: r : f32
+% chelis: t : f32
+% chelis: sigma : f32
+% chelis: d : f32
+d = \frac{\log(s / k) + \left(r + \frac{\sigma^2}{2}\right) t}{\sigma \sqrt{t}}

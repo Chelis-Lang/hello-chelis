@@ -1,97 +1,99 @@
 # hello-chelis
 
 A walking tour of the [Chelis](https://github.com/Chelis-Lang/chelis) language
-and its shipped shells, built as a corpus of small, runnable example programs.
-
-This repository is the canonical "first stop" for evaluating Chelis on a real
-machine: install the toolchain, install the shells, work through the examples
-folder by folder, run the tests, read the docs.
+v0.6.1 and its shipped shells (chelis-std, coral, nautilus, octant), built as
+a Reef-managed example project that compiles, tests, and runs end-to-end.
 
 ## What's covered
 
-| Area | Folder | What you'll see |
+| Area | Folder | Demonstrates |
 |---|---|---|
-| Language basics | [`examples/01_language_basics/`](examples/01_language_basics/) | named dimensions, no broadcasting, no implicit precision promotion, ADTs + match, modules, effects (`Random`, `IO`), linearity (`copy`/`&borrow`), `grad`, `vmap`, `jit`, `realize`, macros |
-| `chelis-std` | [`examples/02_std/`](examples/02_std/) | activations, normalizations, reductions, losses, `Decimal[P, S]`, `DateTime`, `List` / `Dict`, fold/scan, tensor I/O |
-| `coral` (dataframes) | [`examples/03_coral/`](examples/03_coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON, **AD through a dataframe** |
-| `nautilus` (numerics) | [`examples/04_nautilus/`](examples/04_nautilus/) | special functions, distributions, linear algebra, statistics, distance metrics, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis testing, curve fit |
-| `octant` (LaTeX bridge) | [`examples/05_octant/`](examples/05_octant/) | translate `.tex` formulas to typed Chelis Deep |
-| Capstones | [`examples/06_capstone/`](examples/06_capstone/) | Black-Scholes Greeks via Octant + Nautilus + `grad`; linear regression via Coral + Std; transformer block via Std; an end-to-end ML pipeline across all four shells |
+| Language basics | [`src/basics/`](src/basics/) | named dimensions, ADTs + match, modules, dim polymorphism, precision + cast, effects (Random) + handlers, linearity (copy + borrow), grad, vmap, jit + realize, macros |
+| `chelis-std` | [`src/std/`](src/std/) | activations + norms, reductions + losses, `Decimal`, `Date`/`Duration`, lists/dicts/iter, text I/O |
+| `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON, AD-through-frame |
+| `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fit |
+| `octant` (LaTeX bridge) | [`octant/`](octant/) | paired `.tex` + verified `.ch`/`.dp` outputs from `octant translate` |
+| Capstones | [`src/capstone/`](src/capstone/) | transformer block, Black-Scholes Greeks via `grad`, linear regression, multi-shell ML pipeline |
+
+## Layout
+
+```text
+hello-chelis/
+├── reef.toml                 compiler + shell pins
+├── src/                      Chelis source modules — `chelis check src/X.ch`
+│   ├── basics/                  Hello.Basics.*
+│   ├── std/                     Hello.Std.*
+│   ├── coral/                   Hello.Coral.*
+│   ├── nautilus/                Hello.Nautilus.*
+│   └── capstone/                Hello.Capstone.*
+├── tests/                    Chelis-native tests — `chelis test tests/`
+│   ├── basics/, std/, coral/, nautilus/, capstone/
+│   └── negative/                .ch files that MUST be rejected
+├── octant/                   .tex inputs + verified .ch/.dp outputs
+├── docker/                   reproducible Ubuntu 24.04 image
+├── docs/                     getting-started, architecture, feature matrix
+└── .github/workflows/        CI: chelis lint + chelis check + chelis test
+```
 
 ## Quickstart
 
-The compiler and shells run inside Docker. You don't need a Rust toolchain.
+The compiler is built from source in the Docker image (the published v0.6.1
+release tarball is the canonical install path on real CI; this repo's image
+builds from source so it works in air-gapped environments too).
 
 ```sh
-# Build the image (Ubuntu 24.04 + GCC + OpenBLAS + chelis v0.6.1 + shells)
-docker compose -f docker/docker-compose.yml build
-
-# Drop into a shell with everything ready
+docker compose -f docker/docker-compose.yml build      # ~5 min, cached after
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 
 # Inside the container:
-chelis check examples/01_language_basics/01_hello_tensor.ch
-chelis eval  examples/01_language_basics/01_hello_tensor.ch
-chelis build examples/01_language_basics/01_hello_tensor.ch --target c
+chelis check src/basics/hellotensor.ch        # front-end gate (parse + types)
+chelis test  tests/                            # Chelis-native test runner
+chelis lint  --check .                         # nomenclature gate
 ```
-
-To run the full test sweep:
-
-```sh
-# Primary gate — Chelis's native test runner picks up every
-# `def test_*() -> unit ! { Test }` and runs the assertions.
-docker compose -f docker/docker-compose.yml run --rm hello-chelis \
-    chelis test examples/
-
-# Fallback orchestration (negative examples, Octant pair regeneration,
-# C-backend audit-chain greps) — see tests/README.md.
-docker compose -f docker/docker-compose.yml run --rm hello-chelis \
-    python3 -m pytest tests/
-```
-
-See [`docs/getting-started.md`](docs/getting-started.md) for the long form.
 
 ## Compiler version
 
 Pinned to **chelis `0.6.1`** with **`chelis-std` 0.2.0**, **coral 0.6.1**,
 **nautilus 0.6.1**, and **octant 0.4.2**. The `compiler = "=0.6.1"` pin in
-`reef.toml` is hard — the language is pre-1.0 and breaking changes ship between
-minor versions, so trying to run these examples against a different compiler
-is unlikely to work without edits.
+`reef.toml` is hard.
 
-## Repo layout
+## Testing model
 
-```text
-hello-chelis/
-├── docs/                            extended documentation
-│   ├── getting-started.md
-│   ├── architecture.md
-│   ├── feature-matrix.md
-│   └── shells/{std,coral,nautilus,octant}.md
-├── examples/                        executable + readable corpus
-│   ├── 01_language_basics/          pure language features
-│   ├── 02_std/                      Std.* surfaces
-│   ├── 03_coral/                    Coral.* dataframes
-│   ├── 04_nautilus/                 Nautilus.* numerics
-│   ├── 05_octant/                   octant translate <file>.tex
-│   └── 06_capstone/                 multi-shell integrations
-├── tests/                           Python harness over chelis check/eval/build
-│   └── expected/                    golden outputs
-├── docker/                          Dockerfile + docker-compose.yml
-├── .github/workflows/               CI (chelis check, lint, run examples)
-├── reef.toml                        compiler + shell pins
-└── README.md                        you are here
+Chelis ships its own test runner. Every module under `src/` declares its
+behavior; every file under `tests/` declares one or more
+`def test_*() -> unit ! { Test }` functions whose `Std.Test.assert_*` calls
+are the actual verification:
+
+```sh
+chelis test tests/                # primary gate
+chelis test tests/basics/         # one folder
+chelis test tests/basics/hellotensor.ch     # one file
 ```
+
+Python is used only for the cases the native runner doesn't cover (negative
+examples that must be rejected, Octant `.tex`↔`.ch` byte-equality
+regeneration, `// span:` audit-chain greps in emitted C). See
+[`tests/README.md`](tests/README.md).
+
+## Caveats
+
+- The IR evaluator (`chelis test`) doesn't yet run all tensor primitives at
+  v0.6.1. `relu`, `sigmoid`, `gelu`, `silu`, `max_elem`, and tensor-form
+  `exp`/`log` compile cleanly but aren't runnable in the in-process
+  evaluator. They DO run via `chelis build --target c`. Tests under
+  `tests/` use the runtime-supported subset (`add`, `mul`, `sum`, `mean`,
+  `softmax`, scalar arithmetic, etc.) for assertions; non-runtime features
+  show up in `src/` and are validated by `chelis check` alone.
+- The canonical-org Chelis shells are private during pre-launch, so
+  `chelis reef install --from-github` requires `GITHUB_TOKEN`. The Docker
+  image works around this by cloning shell repos at the pinned tags and
+  using `chelis reef build` + `chelis reef publish` against the local
+  registry. CI on the actual Chelis-Lang org sets `GITHUB_TOKEN` and uses
+  the canonical install path.
+- `octant` is a CLI translator binary, not an importable Chelis library.
+  `.tex` inputs live in `octant/`, paired with `.ch` (or `.dp`) outputs
+  generated by `octant translate`.
 
 ## License
 
 MIT. See [`LICENSE`](LICENSE).
-
-## Pointers
-
-- [Chelis primer (canonical reference)](https://github.com/Chelis-Lang/chelis/blob/main/spec/design/chelis_canonical_reference.md)
-- [Surf syntax spec](https://github.com/Chelis-Lang/chelis/blob/main/spec/02-surf-syntax.md)
-- [`chelis-std` SKILL](https://github.com/Chelis-Lang/chelis/blob/main/packages/chelis-std/SKILL.md)
-- [Coral SKILL](https://github.com/Chelis-Lang/coral/blob/main/SKILL.md)
-- [Nautilus SKILL](https://github.com/Chelis-Lang/nautilus/blob/main/SKILL.md)
-- [Octant SKILL](https://github.com/Chelis-Lang/octant/blob/main/SKILL.md)

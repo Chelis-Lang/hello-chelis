@@ -1,0 +1,12 @@
+(def {span: "__synthesized_nautilus_stub__"}
+  normal_pdf
+  (fn {span: "__synthesized_nautilus_stub__"}
+    (params {span: "__synthesized_nautilus_stub__"}
+      (x_1 {type: (t-prim {} f32)}))
+    (var {} x_1)))
+
+(def {span: "n_001"}
+  y
+  (app {span: "n_002"}
+    (var {} normal_pdf)
+    (var {span: "n_003"} x)))

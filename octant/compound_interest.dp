@@ -1,0 +1,22 @@
+(def {span: "n_001"}
+  a
+  (app {span: "n_002"}
+    (var {} mul)
+    (var {span: "n_003"} p)
+    (app {span: "n_004"}
+      (var {} exp)
+      (app {span: "n_005"}
+        (var {} mul)
+        (app {span: "n_006"}
+          (var {} log)
+          (app {span: "n_007"}
+            (var {} add)
+            (lit {span: "n_008", type: (t-prim {} f32)} 1.0)
+            (app {span: "n_009"}
+              (var {} div)
+              (var {span: "n_010"} r)
+              (var {span: "n_011"} n))))
+        (app {span: "n_012"}
+          (var {} mul)
+          (var {span: "n_013"} n)
+          (var {span: "n_014"} t))))))

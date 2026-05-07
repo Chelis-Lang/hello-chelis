@@ -1,4 +1,4 @@
-# hello-chelis: Ubuntu 24.04 with the chelis v0.6.1 toolchain and all
+# hello-chelis: Ubuntu 24.04 with the Chelis v0.6.1 toolchain and all
 # extant shells (chelis-std, coral, nautilus, octant) pre-installed.
 #
 # Build:
@@ -7,15 +7,19 @@
 # Run an interactive shell at /workspace:
 #   docker compose -f docker/docker-compose.yml run --rm hello-chelis
 #
-# This image is x86_64-only (the v0.6.1 release ships a darwin-arm64 tarball
-# too, but we standardize on the linux-x86_64 binary inside the container).
+# In CI on real GitHub Actions, switch to the `--from-github` install
+# path with a GITHUB_TOKEN and the prebuilt v0.6.1 release tarball
+# (https://github.com/Chelis-Lang/chelis/releases/tag/v0.6.1). The
+# canonical-org shells are private during pre-launch, which is why this
+# Dockerfile builds chelis from source via a checkout of the public
+# Chelis-Lang/chelis repo at the v0.6.1 tag.
 
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
-    PATH=/opt/chelis/bin:/usr/local/bin:/usr/bin:/bin
+    PATH=/usr/local/bin:/usr/bin:/bin:/root/.cargo/bin
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -31,43 +35,58 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python3-pip \
         python3-venv \
         jq \
-        xxd \
     && rm -rf /var/lib/apt/lists/*
 
-# --- Chelis compiler v0.6.1 ----------------------------------------------------
-# Tarball + sha256 pulled from the GitHub Release. SHA256 is locked in at image
-# build time; if it doesn't match, the build fails and we don't run unverified
-# binaries.
-ARG CHELIS_VERSION=0.6.1
-ARG CHELIS_TARBALL=chelis-v0.6.1-linux-x86_64.tar.gz
-ARG CHELIS_SHA256=ce9debf59b5dc7724222a2a037f7fabeeb79cfd6f0d6afc784c80d25165573ea
+# --- Rust toolchain (needed because we build chelis from source) ----------
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
+        -y --default-toolchain stable --profile minimal --component rustfmt clippy
 
-RUN curl -fsSL -o /tmp/${CHELIS_TARBALL} \
-        https://github.com/Chelis-Lang/chelis/releases/download/v${CHELIS_VERSION}/${CHELIS_TARBALL} \
-    && echo "${CHELIS_SHA256}  /tmp/${CHELIS_TARBALL}" | sha256sum -c - \
-    && mkdir -p /opt/chelis \
-    && tar -xzf /tmp/${CHELIS_TARBALL} -C /opt/chelis --strip-components=1 \
-    && rm /tmp/${CHELIS_TARBALL} \
-    && /opt/chelis/bin/chelis --version
+# --- Chelis compiler v0.6.1 from source ------------------------------------
+ARG CHELIS_TAG=v0.6.1
+RUN git clone --depth 1 --branch ${CHELIS_TAG} \
+        https://github.com/Chelis-Lang/chelis.git /tmp/chelis-src \
+    && cd /tmp/chelis-src \
+    && cargo build --release --bin chelis \
+    && cp target/release/chelis /usr/local/bin/chelis \
+    && chelis --version
 
-# --- Shells -------------------------------------------------------------------
-# `chelis reef install` reads a project's reef.toml, looks up each
-# dependency in the compiler's bootstrap list (chelis-std, coral, nautilus,
-# octant — all pinned in lockstep with the v0.6.1 release), fetches the
-# matching GitHub-Releases archives, sha256-verifies, and populates the
-# local content-addressed registry. We pre-warm here so containers start
-# with everything cached.
-COPY reef.toml /tmp/reef-bootstrap/reef.toml
-RUN cd /tmp/reef-bootstrap && chelis reef install && rm -rf /tmp/reef-bootstrap
+# --- chelis-std into the local registry from the monorepo ------------------
+RUN chelis reef install --from-monorepo /tmp/chelis-src
 
-# --- Workspace ---------------------------------------------------------------
+# --- Build + publish coral, nautilus, octant -------------------------------
+# Each shell is its own repo at a pinned tag. We clone, `chelis reef build`
+# (which auto-fetches transitive deps from the local registry), then
+# `chelis reef publish` to make it available to dependents.
+ARG CORAL_TAG=v0.6.1
+ARG NAUTILUS_TAG=v0.6.1
+ARG OCTANT_TAG=v0.4.2
+
+RUN git clone --depth 1 --branch ${NAUTILUS_TAG} \
+        https://github.com/Chelis-Lang/nautilus.git /tmp/nautilus \
+    && cd /tmp/nautilus \
+    && chelis reef build \
+    && chelis reef publish
+
+RUN git clone --depth 1 --branch ${CORAL_TAG} \
+        https://github.com/Chelis-Lang/coral.git /tmp/coral \
+    && cd /tmp/coral \
+    && chelis reef build \
+    && chelis reef publish
+
+RUN ln -sf /tmp/chelis-src /tmp/chelis \
+    && git clone --depth 1 --branch ${OCTANT_TAG} \
+        https://github.com/Chelis-Lang/octant.git /tmp/octant \
+    && cd /tmp/octant \
+    && cargo build --release --bin octant \
+    && cp target/release/octant /usr/local/bin/octant \
+    && chelis reef build \
+    && chelis reef publish
+
+# --- Workspace -------------------------------------------------------------
 WORKDIR /workspace
 COPY . /workspace
 
-# Sanity check: the std bundle must be importable.
-RUN echo 'module Smoke' > /tmp/smoke.ch \
-    && echo 'def main() -> tensor[n, f32] = add(to_tensor([1.0, 2.0]), to_tensor([3.0, 4.0]))' >> /tmp/smoke.ch \
-    && chelis check /tmp/smoke.ch \
-    && rm /tmp/smoke.ch
+# Sanity check: the project must check clean against v0.6.1.
+RUN chelis check src/basics/hellotensor.ch
 
 CMD ["/bin/bash"]

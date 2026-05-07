@@ -1,0 +1,18 @@
+module Hello.Tests.Basics.MacroBasic
+
+import Hello.Basics.MacroBasic (with_residual, doubled, block)
+import Std.Test (assert_close_tensor)
+
+-- block(x) = x + x = 2x
+def test_block() -> unit ! { Test } = {
+  x = to_tensor([cast(1.0, f32), cast(2.0, f32)])
+  expected = to_tensor([cast(2.0, f32), cast(4.0, f32)])
+  assert_close_tensor(block(x), expected, cast(1e-6, f32), "block_doubles")
+}
+
+-- with_residual(x) = x + block(x) = x + 2x = 3x
+def test_with_residual() -> unit ! { Test } = {
+  x = to_tensor([cast(1.0, f32), cast(2.0, f32)])
+  expected = to_tensor([cast(3.0, f32), cast(6.0, f32)])
+  assert_close_tensor(with_residual(x), expected, cast(1e-6, f32), "residual_macro")
+}
