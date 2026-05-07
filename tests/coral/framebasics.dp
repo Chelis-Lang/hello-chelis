@@ -1,0 +1,116 @@
+(module {}
+  hello.tests.coral.framebasics
+  (import {}
+    hello.coral.framebasics
+    (build_frame add_score_col frame_after_rename frame_after_drop))
+  (import {} coral.frame (nrows ncols columns))
+  (import {} std.test (assert_eq_int assert_eq_string assert_true))
+  (defsig {}
+    test_build_frame_shape
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_build_frame_shape
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          df
+          (app {} (var {} build_frame)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} df))
+              (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "build_frame nrows == 3")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} df))
+            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "build_frame ncols == 3"))))))
+  (defsig {}
+    test_with_column_grows_ncols
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_with_column_grows_ncols
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          df2
+          (app {} (var {} add_score_col) (app {} (var {} build_frame))))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} df2))
+              (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "after with_column nrows still 3")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} df2))
+            (cast {} (lit {type: (t-prim {} int32)} 4) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "after with_column ncols == 4"))))))
+  (defsig {}
+    test_rename_and_drop
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_rename_and_drop
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          renamed
+          (app {} (var {} frame_after_rename) (app {} (var {} build_frame))))
+        (let {}
+          (bind {}
+            dropped
+            (app {} (var {} frame_after_drop) (app {} (var {} build_frame))))
+          (let {}
+            (bind {}
+              names_r
+              (app {} (var {} columns) (var {} renamed)))
+            (let {}
+              (bind {}
+                has_town
+                (app {}
+                  (var {} fold)
+                  (fn {}
+                    (params {}
+                      (acc {type: (t-prim {} bool)})
+                      (n {type: (t-prim {} string)}))
+                    (app {}
+                      (var {} or)
+                      (var {} acc)
+                      (app {}
+                        (var {} eq)
+                        (var {} n)
+                        (lit {type: (t-prim {} string)} "town"))))
+                  (lit {type: (t-prim {} bool)} false)
+                  (var {} names_r)))
+              (let {}
+                (bind {}
+                  __chelis_tmp1
+                  (app {}
+                    (var {} assert_true)
+                    (var {} has_town)
+                    (lit {type: (t-prim {} string)} "renamed frame contains 'town'")))
+                (let {}
+                  (bind {}
+                    __chelis_tmp0
+                    (app {}
+                      (var {} assert_eq_int)
+                      (app {} (var {} ncols) (var {} renamed))
+                      (cast {}
+                        (lit {type: (t-prim {} int32)} 3)
+                        (t-prim {} int64))
+                      (lit {type: (t-prim {} string)} "rename keeps 3 cols")))
+                  (app {}
+                    (var {} assert_eq_int)
+                    (app {} (var {} ncols) (var {} dropped))
+                    (cast {}
+                      (lit {type: (t-prim {} int32)} 2)
+                      (t-prim {} int64))
+                    (lit {type: (t-prim {} string)} "drop_column qty -> 2 cols")))))))))))

@@ -48,6 +48,11 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis check src/basics/hellotensor.ch
 
+      - name: Deep s-expression drift check (every .ch must match its .dp)
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            python3 scripts/regen_deep.py --check
+
       - name: chelis test (the primary gate)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \

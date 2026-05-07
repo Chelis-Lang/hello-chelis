@@ -1,0 +1,15 @@
+(module {}
+  hello.tests.basics.gradbasic
+  (import {} hello.basics.gradbasic (loss dloss_dw dloss_dx))
+  (import {} std.test (assert_true))
+  (defsig {}
+    test_grad_module_loads
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_grad_module_loads
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_true)
+        (lit {type: (t-prim {} bool)} true)
+        (lit {type: (t-prim {} string)} "grad_module_loads")))))

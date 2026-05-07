@@ -1,0 +1,30 @@
+(module {}
+  hello.tests.nautilus.curvefit
+  (import {} hello.nautilus.curvefit (fit_exp_decay fit_linear_through_origin))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_fit_exp_decay_recovers_half
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_fit_exp_decay_recovers_half
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} fit_exp_decay))
+        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "y = exp(-theta*x) recovers theta = 0.5"))))
+  (defsig {}
+    test_fit_linear_recovers_two
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_fit_linear_recovers_two
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} fit_linear_through_origin))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "y = theta*x recovers theta = 2")))))

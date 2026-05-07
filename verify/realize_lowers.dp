@@ -1,0 +1,18 @@
+(module {}
+  realizelowers
+  (def {}
+    xs
+    (app {}
+      (var {} to_tensor)
+      (app {}
+        (var {} Cons)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (app {}
+          (var {} Cons)
+          (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+            (var {} Nil))))))
+  (def {} deferred (app {} (var {} mul) (copy {} (var {} xs)) (var {} xs)))
+  (def {} materialized (realize {} (var {} deferred))))

@@ -1,0 +1,89 @@
+(module {}
+  hello.capstone.transformerblock
+  (export {} block)
+  (defsig {}
+    block
+    (t-fn {}
+      (t-tensor {} (d-name {} seq) (d-lit {} 256) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 256) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 256) (d-lit {} 1024) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 1024) (d-lit {} 256) (t-prim {} f32))
+      (t-tensor {} (d-name {} seq) (d-lit {} 256) (t-prim {} f32))))
+  (def {}
+    block
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-name {} seq) (d-lit {} 256) (t-prim {} f32))})
+        (wq {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
+        (wk {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
+        (wv {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
+        (wo {type: (t-tensor {} (d-lit {} 64) (d-lit {} 256) (t-prim {} f32))})
+        (ff1 {type: (t-tensor {}
+                       (d-lit {} 256)
+                       (d-lit {} 1024)
+                       (t-prim {} f32))
+             })
+        (ff2 {type: (t-tensor {}
+                       (d-lit {} 1024)
+                       (d-lit {} 256)
+                       (t-prim {} f32))
+             }))
+      (let {}
+        (bind {}
+          q
+          (app {} (var {} matmul) (copy {} (var {} x)) (var {} wq)))
+        (let {}
+          (bind {}
+            k
+            (app {} (var {} matmul) (copy {} (var {} x)) (var {} wk)))
+          (let {}
+            (bind {}
+              v
+              (app {} (var {} matmul) (copy {} (var {} x)) (var {} wv)))
+            (let {}
+              (bind {}
+                scores
+                (app {}
+                  (var {} matmul)
+                  (var {} q)
+                  (app {}
+                    (var {} permute)
+                    (var {} k)
+                    (lit {type: (t-prim {} int32)} 1)
+                    (lit {type: (t-prim {} int32)} 0))))
+              (let {}
+                (bind {}
+                  probs
+                  (app {}
+                    (var {} softmax)
+                    (var {} scores)
+                    (lit {type: (t-prim {} int32)} 1)))
+                (let {}
+                  (bind {}
+                    attn_out
+                    (app {}
+                      (var {} matmul)
+                      (app {} (var {} matmul) (var {} probs) (var {} v))
+                      (var {} wo)))
+                  (let {}
+                    (bind {}
+                      resid1
+                      (app {} (var {} add) (var {} x) (var {} attn_out)))
+                    (let {}
+                      (bind {}
+                        ff_out
+                        (pipe {}
+                          (app {}
+                            (var {} matmul)
+                            (copy {} (var {} resid1))
+                            (var {} ff1))
+                          (fn {}
+                            (params {} __chelis_pipe)
+                            (app {}
+                              (var {} matmul)
+                              (var {} __chelis_pipe)
+                              (var {} ff2)))))
+                      (app {} (var {} add) (var {} resid1) (var {} ff_out)))))))))))))

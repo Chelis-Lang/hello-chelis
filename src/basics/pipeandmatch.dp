@@ -1,0 +1,30 @@
+(module {}
+  hello.basics.pipeandmatch
+  (export {} Activation activate pipeline)
+  (deftype {} Activation () (variant {} Relu) (variant {} Sigmoid))
+  (defsig {}
+    activate
+    (t-fn {}
+      (t-adt {} Activation)
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    activate
+    (fn {}
+      (params {}
+        (act {type: (t-adt {} Activation)})
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (match {}
+        (var {} act)
+        (arm {} (pat-ctor {} Relu) () (app {} (var {} relu) (var {} x)))
+        (arm {} (pat-ctor {} Sigmoid) () (app {} (var {} sigmoid) (var {} x))))))
+  (defsig {}
+    pipeline
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    pipeline
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {} (var {} x) (var {} relu) (var {} sigmoid)))))

@@ -1,0 +1,83 @@
+(module {}
+  hello.tests.std.reductionslosses
+  (import {} hello.std.reductionslosses (kl_loss ce_perplexity))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_kl_loss_self_is_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_kl_loss_self_is_zero
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          p
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            q
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+                  (var {} Nil)))))
+          (let {}
+            (bind {}
+              result
+              (app {} (var {} kl_loss) (var {} p) (var {} q)))
+            (app {}
+              (var {} assert_close)
+              (var {} result)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "KL(p||p)=0")))))))
+  (defsig {}
+    test_perplexity_zero_loss_is_one
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_perplexity_zero_loss_is_one
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {}
+            (var {} ce_perplexity)
+            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))
+        (app {}
+          (var {} assert_close)
+          (var {} result)
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "perplexity(0)=1")))))
+  (defsig {}
+    test_perplexity_unit_loss
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_perplexity_unit_loss
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {}
+            (var {} ce_perplexity)
+            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))))
+        (app {}
+          (var {} assert_close)
+          (var {} result)
+          (cast {} (lit {type: (t-prim {} f32)} 2.7182817) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "perplexity(1)=e"))))))

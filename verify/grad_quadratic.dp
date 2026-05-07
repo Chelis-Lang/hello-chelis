@@ -1,0 +1,57 @@
+(module {}
+  gradquadratic
+  (defsig {}
+    sumsq
+    (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    sumsq
+    (fn {}
+      (params {} (theta {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+      (app {}
+        (var {} tensor_to_scalar)
+        (app {}
+          (var {} sum)
+          (app {} (var {} mul) (copy {} (var {} theta)) (var {} theta))
+          (lit {type: (t-prim {} int32)} 0)))))
+  (defsig {}
+    grad_sumsq
+    (t-fn {}
+      (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32)) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {}
+    grad_sumsq
+    (fn {}
+      (params {}
+        (model {type: (t-fn {}
+                         (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+                         (t-prim {} f32))
+               })
+        (theta {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          target
+          (fn {}
+            (params {}
+              (theta_local {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+            (app {} (var {} model) (var {} theta_local))))
+        (app {}
+          (grad {wrt: (var {} theta_local)}
+            (var {} target)
+            (lit {type: (t-prim {} int32)} 0))
+          (var {} theta)))))
+  (def {}
+    theta
+    (app {}
+      (var {} to_tensor)
+      (app {}
+        (var {} Cons)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (app {}
+          (var {} Cons)
+          (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+            (var {} Nil))))))
+  (def {} dsumsq (app {} (var {} grad_sumsq) (var {} sumsq) (var {} theta))))

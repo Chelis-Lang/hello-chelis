@@ -1,0 +1,138 @@
+(module {}
+  hello.capstone.linreg
+  (export {} predict mse_loss sgd_step)
+  (defsig {}
+    predict
+    (t-fn {}
+      (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))))
+  (def {}
+    predict
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
+        (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
+      (app {}
+        (var {} add)
+        (app {} (var {} matmul) (var {} x) (var {} w))
+        (app {}
+          (var {} expand)
+          (var {} b)
+          (lit {type: (t-prim {} int32)} 0)
+          (lit {type: (t-prim {} int32)} 64)))))
+  (defsig {}
+    mse_loss
+    (t-fn {}
+      (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (t-prim {} f32))))
+  (def {}
+    mse_loss
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
+        (y {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
+        (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          pred
+          (app {}
+            (var {} predict)
+            (copy {} (var {} x))
+            (copy {} (var {} w))
+            (copy {} (var {} b))))
+        (let {}
+          (bind {}
+            err
+            (app {} (var {} sub) (var {} pred) (var {} y)))
+          (let {}
+            (bind {}
+              err_copy
+              (copy {} (var {} err)))
+            (app {}
+              (var {} sum)
+              (app {}
+                (var {} sum)
+                (app {} (var {} mul) (var {} err) (var {} err_copy))
+                (lit {type: (t-prim {} int32)} 1))
+              (lit {type: (t-prim {} int32)} 0)))))))
+  (defsig {}
+    sgd_step
+    (t-fn {}
+      (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 1) (t-prim {} f32))
+      (t-prim {} f32)
+      (t-tuple {}
+        (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
+        (t-tensor {} (d-lit {} 1) (t-prim {} f32)))))
+  (def {}
+    sgd_step
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
+        (y {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
+        (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))})
+        (lr {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          dw
+          (app {}
+            (grad {wrt: (var {} w)}
+              (var {} mse_loss)
+              (lit {type: (t-prim {} int32)} 2))
+            (copy {} (var {} x))
+            (copy {} (var {} y))
+            (copy {} (var {} w))
+            (copy {} (var {} b))))
+        (let {}
+          (bind {}
+            db
+            (app {}
+              (grad {wrt: (var {} b)}
+                (var {} mse_loss)
+                (lit {type: (t-prim {} int32)} 3))
+              (var {} x)
+              (var {} y)
+              (copy {} (var {} w))
+              (copy {} (var {} b))))
+          (let {}
+            (bind {}
+              lr_t
+              (app {}
+                (var {} to_tensor)
+                (app {} (var {} Cons) (var {} lr) (var {} Nil))))
+            (let {}
+              (bind {}
+                new_w
+                (app {}
+                  (var {} sub)
+                  (var {} w)
+                  (app {}
+                    (var {} mul)
+                    (app {}
+                      (var {} expand)
+                      (app {}
+                        (var {} expand)
+                        (copy {} (var {} lr_t))
+                        (lit {type: (t-prim {} int32)} 0)
+                        (lit {type: (t-prim {} int32)} 64))
+                      (lit {type: (t-prim {} int32)} 1)
+                      (lit {type: (t-prim {} int32)} 1))
+                    (var {} dw))))
+              (let {}
+                (bind {}
+                  new_b
+                  (app {}
+                    (var {} sub)
+                    (var {} b)
+                    (app {} (var {} mul) (var {} lr_t) (var {} db))))
+                (tuple {} (var {} new_w) (var {} new_b))))))))))

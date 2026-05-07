@@ -1,0 +1,107 @@
+(module {}
+  gradworks
+  (defsig {}
+    loss_fn
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)))
+  (def {}
+    loss_fn
+    (fn {}
+      (params {}
+        (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          one_vec
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            err
+            (app {} (var {} sub) (copy {} (var {} w)) (var {} one_vec)))
+          (let {}
+            (bind {}
+              prod
+              (app {} (var {} mul) (var {} err) (var {} x)))
+            (app {}
+              (var {} tensor_to_scalar)
+              (app {}
+                (var {} sum)
+                (var {} prod)
+                (lit {type: (t-prim {} int32)} 0))))))))
+  (defsig {}
+    dloss_dw
+    (t-fn {}
+      (t-fn {}
+        (t-tensor {} (d-var {} n) (t-prim {} f32))
+        (t-tensor {} (d-var {} n) (t-prim {} f32))
+        (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    dloss_dw
+    (fn {}
+      (params {}
+        (model {type: (t-fn {}
+                         (t-tensor {} (d-var {} n) (t-prim {} f32))
+                         (t-tensor {} (d-var {} n) (t-prim {} f32))
+                         (t-prim {} f32))
+               })
+        (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          target
+          (fn {}
+            (params {}
+              (w_local {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+            (app {} (var {} model) (var {} w_local) (var {} x))))
+        (app {}
+          (grad {wrt: (var {} w_local)}
+            (var {} target)
+            (lit {type: (t-prim {} int32)} 0))
+          (var {} w)))))
+  (def {}
+    w0
+    (app {}
+      (var {} to_tensor)
+      (app {}
+        (var {} Cons)
+        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+        (app {}
+          (var {} Cons)
+          (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+            (var {} Nil))))))
+  (def {}
+    x0
+    (app {}
+      (var {} to_tensor)
+      (app {}
+        (var {} Cons)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (app {}
+          (var {} Cons)
+          (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+            (var {} Nil))))))
+  (def {}
+    dw
+    (app {} (var {} dloss_dw) (var {} loss_fn) (var {} w0) (var {} x0))))

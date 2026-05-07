@@ -1,0 +1,41 @@
+(module {}
+  hello.nautilus.specialfunctions
+  (import {} nautilus.special (erf erfc erfinv log_gamma bessel_j0))
+  (export {} erf_pipe erf_round_trip log_gamma_one complementary_erf j0_at_zero)
+  (defsig {} erf_pipe (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    erf_pipe
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (pipe {} (var {} x) (var {} erf))))
+  (defsig {} erf_round_trip (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    erf_round_trip
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}))
+      (pipe {} (var {} y) (var {} erfinv) (var {} erf))))
+  (defsig {} log_gamma_one (t-fn {} (t-prim {} f32)))
+  (def {}
+    log_gamma_one
+    (fn {}
+      (params {})
+      (app {}
+        (var {} log_gamma)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+  (defsig {} complementary_erf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    complementary_erf
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {}
+        (var {} add)
+        (app {} (var {} erf) (var {} x))
+        (app {} (var {} erfc) (var {} x)))))
+  (defsig {} j0_at_zero (t-fn {} (t-prim {} f32)))
+  (def {}
+    j0_at_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} bessel_j0)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))))

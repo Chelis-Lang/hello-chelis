@@ -1,0 +1,27 @@
+(module {}
+  relulowers
+  (def {}
+    xs
+    (app {}
+      (var {} to_tensor)
+      (app {}
+        (var {} Cons)
+        (cast {}
+          (app {} (var {} neg) (lit {type: (t-prim {} f32)} 2.0))
+          (t-prim {} f32))
+        (app {}
+          (var {} Cons)
+          (cast {}
+            (app {} (var {} neg) (lit {type: (t-prim {} f32)} 0.5))
+            (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (var {} Nil))))))))
+  (def {} ys (app {} (var {} relu) (var {} xs))))

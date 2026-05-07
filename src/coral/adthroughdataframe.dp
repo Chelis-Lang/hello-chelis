@@ -1,0 +1,51 @@
+(module {}
+  hello.coral.adthroughdataframe
+  (import {} coral.frame (Frame Column from_pairs nrows))
+  (export {} frame_shape_check simple_loss dsimple_loss_dw)
+  (defsig {}
+    frame_shape_check
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} int64)))
+  (def {}
+    frame_shape_check
+    (fn {}
+      (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          df
+          (app {}
+            (var {} from_pairs)
+            (app {}
+              (var {} Cons)
+              (tuple {}
+                (lit {type: (t-prim {} string)} "w")
+                (app {} (var {} FloatCol) (var {} w)))
+              (var {} Nil))))
+        (app {} (var {} nrows) (var {} df)))))
+  (defsig {}
+    simple_loss
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (t-prim {} f32))))
+  (def {}
+    simple_loss
+    (fn {}
+      (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          prod
+          (app {} (var {} mul) (copy {} (var {} w)) (var {} w)))
+        (app {} (var {} sum) (var {} prod) (lit {type: (t-prim {} int32)} 0)))))
+  (defsig {}
+    dsimple_loss_dw
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    dsimple_loss_dw
+    (fn {}
+      (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (grad {wrt: (var {} w)}
+          (var {} simple_loss)
+          (lit {type: (t-prim {} int32)} 0))
+        (var {} w)))))

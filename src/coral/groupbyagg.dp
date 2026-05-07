@@ -1,0 +1,97 @@
+(module {}
+  hello.coral.groupbyagg
+  (import {} coral.frame (Frame Column from_pairs nrows ncols get_float_col))
+  (import {} coral.groupby (group_by agg_sum agg_mean))
+  (export {} sales_frame total_per_city mean_per_city)
+  (defsig {} sales_frame (t-fn {} (t-adt {} Frame (t-var {} 4))))
+  (def {}
+    sales_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "city")
+            (app {}
+              (var {} StringCol)
+              (app {}
+                (var {} Cons)
+                (lit {type: (t-prim {} string)} "a")
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "b")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "a")
+                    (app {}
+                      (var {} Cons)
+                      (lit {type: (t-prim {} string)} "b")
+                      (var {} Nil)))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "qty")
+              (app {}
+                (var {} FloatCol)
+                (app {}
+                  (var {} to_tensor)
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 10.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 2.0)
+                          (t-prim {} f32))
+                        (app {}
+                          (var {} Cons)
+                          (cast {}
+                            (lit {type: (t-prim {} f32)} 20.0)
+                            (t-prim {} f32))
+                          (var {} Nil))))))))
+            (var {} Nil))))))
+  (defsig {} total_per_city (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (def {}
+    total_per_city
+    (fn {}
+      (params {})
+      (pipe {}
+        (app {} (var {} sales_frame))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {}
+            (var {} group_by)
+            (var {} __chelis_pipe)
+            (lit {type: (t-prim {} string)} "city")))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {}
+            (var {} agg_sum)
+            (var {} __chelis_pipe)
+            (lit {type: (t-prim {} string)} "qty"))))))
+  (defsig {} mean_per_city (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (def {}
+    mean_per_city
+    (fn {}
+      (params {})
+      (pipe {}
+        (app {} (var {} sales_frame))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {}
+            (var {} group_by)
+            (var {} __chelis_pipe)
+            (lit {type: (t-prim {} string)} "city")))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {}
+            (var {} agg_mean)
+            (var {} __chelis_pipe)
+            (lit {type: (t-prim {} string)} "qty")))))))

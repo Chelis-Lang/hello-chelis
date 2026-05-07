@@ -1,0 +1,34 @@
+(module {}
+  hello.basics.modulesandimports.util
+  (export {} double ones3)
+  (defsig {}
+    double
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    double
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {}
+        (copy {} (var {} x))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {} (var {} add) (var {} __chelis_pipe) (var {} x))))))
+  (defsig {} ones3 (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    ones3
+    (fn {}
+      (params {})
+      (app {}
+        (var {} to_tensor)
+        (app {}
+          (var {} Cons)
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (var {} Nil))))))))

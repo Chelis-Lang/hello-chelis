@@ -1,0 +1,133 @@
+(module {}
+  hello.coral.framebasics
+  (import {}
+    coral.frame
+    (Frame
+      Column
+      from_pairs
+      nrows
+      ncols
+      columns
+      with_column
+      rename
+      drop_column
+      int_col_of_list))
+  (export {} build_frame add_score_col frame_after_rename frame_after_drop)
+  (defsig {} build_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    build_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "price")
+            (app {}
+              (var {} FloatCol)
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 20.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 30.0)
+                        (t-prim {} f32))
+                      (var {} Nil)))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "qty")
+              (app {}
+                (var {} int_col_of_list)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))
+                  (app {}
+                    (var {} Cons)
+                    (cast {}
+                      (lit {type: (t-prim {} int32)} 2)
+                      (t-prim {} int64))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} int32)} 3)
+                        (t-prim {} int64))
+                      (var {} Nil))))))
+            (app {}
+              (var {} Cons)
+              (tuple {}
+                (lit {type: (t-prim {} string)} "city")
+                (app {}
+                  (var {} StringCol)
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "paris")
+                    (app {}
+                      (var {} Cons)
+                      (lit {type: (t-prim {} string)} "oslo")
+                      (app {}
+                        (var {} Cons)
+                        (lit {type: (t-prim {} string)} "berlin")
+                        (var {} Nil))))))
+              (var {} Nil)))))))
+  (defsig {}
+    add_score_col
+    (t-fn {} (t-adt {} Frame (t-var {} 3)) (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    add_score_col
+    (fn {}
+      (params {} (df {type: (t-adt {} Frame (t-var {} 3))}))
+      (pipe {}
+        (var {} df)
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {}
+            (var {} with_column)
+            (var {} __chelis_pipe)
+            (lit {type: (t-prim {} string)} "score")
+            (app {}
+              (var {} FloatCol)
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 0.75) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 0.9)
+                        (t-prim {} f32))
+                      (var {} Nil)))))))))))
+  (defsig {}
+    frame_after_rename
+    (t-fn {} (t-adt {} Frame (t-var {} 3)) (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    frame_after_rename
+    (fn {}
+      (params {} (df {type: (t-adt {} Frame (t-var {} 3))}))
+      (app {}
+        (var {} rename)
+        (var {} df)
+        (lit {type: (t-prim {} string)} "city")
+        (lit {type: (t-prim {} string)} "town"))))
+  (defsig {}
+    frame_after_drop
+    (t-fn {} (t-adt {} Frame (t-var {} 3)) (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    frame_after_drop
+    (fn {}
+      (params {} (df {type: (t-adt {} Frame (t-var {} 3))}))
+      (app {}
+        (var {} drop_column)
+        (var {} df)
+        (lit {type: (t-prim {} string)} "qty")))))

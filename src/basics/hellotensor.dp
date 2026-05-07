@@ -1,0 +1,16 @@
+(module {}
+  hello.basics.hellotensor
+  (export {} add_vec)
+  (defsig {}
+    add_vec
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    add_vec
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (y {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} add) (var {} x) (var {} y)))))

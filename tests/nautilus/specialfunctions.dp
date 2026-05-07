@@ -1,0 +1,77 @@
+(module {}
+  hello.tests.nautilus.specialfunctions
+  (import {}
+    hello.nautilus.specialfunctions
+    (erf_pipe erf_round_trip log_gamma_one complementary_erf j0_at_zero))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_erf_pipe_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_erf_pipe_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} erf_pipe)
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "erf(0) = 0"))))
+  (defsig {}
+    test_erf_round_trip
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_erf_round_trip
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} erf_round_trip)
+          (cast {} (lit {type: (t-prim {} f32)} 0.3) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 0.3) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "erf(erfinv(0.3)) = 0.3"))))
+  (defsig {}
+    test_log_gamma_one
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_log_gamma_one
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} log_gamma_one))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "log_gamma(1) = 0"))))
+  (defsig {}
+    test_complementary_erf
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_complementary_erf
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} complementary_erf)
+          (cast {} (lit {type: (t-prim {} f32)} 0.7) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "erf + erfc = 1"))))
+  (defsig {}
+    test_bessel_j0_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_bessel_j0_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} j0_at_zero))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "j0(0) = 1")))))

@@ -1,0 +1,207 @@
+(module {}
+  hello.std.activationsnorms
+  (import {} std.nn.silu (sigmoid_scalar))
+  (import {} std.nn.gelu (gelu_scalar tanh_scalar))
+  (import {} std.nn.rmsnorm (rms_scale))
+  (export {}
+    relu_then_sigmoid
+    gelu_vec
+    silu_vec
+    tanh_vec
+    rms_normalize
+    manual_layer_norm
+    sigmoid_then_tanh
+    gelu_then_relu)
+  (defsig {}
+    relu_then_sigmoid
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    relu_then_sigmoid
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {} (var {} x) (var {} relu) (var {} sigmoid))))
+  (defsig {}
+    gelu_vec
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    gelu_vec
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} to_tensor)
+        (app {}
+          (var {} map)
+          (fn {}
+            (params {} (v {type: (t-prim {} f32)}))
+            (app {} (var {} gelu_scalar) (var {} v)))
+          (app {} (var {} to_list) (var {} x))))))
+  (defsig {}
+    silu_vec
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    silu_vec
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} to_tensor)
+        (app {}
+          (var {} map)
+          (fn {}
+            (params {} (v {type: (t-prim {} f32)}))
+            (app {}
+              (var {} mul)
+              (var {} v)
+              (app {} (var {} sigmoid_scalar) (var {} v))))
+          (app {} (var {} to_list) (var {} x))))))
+  (defsig {}
+    tanh_vec
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    tanh_vec
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} to_tensor)
+        (app {}
+          (var {} map)
+          (fn {}
+            (params {} (v {type: (t-prim {} f32)}))
+            (app {} (var {} tanh_scalar) (var {} v)))
+          (app {} (var {} to_list) (var {} x))))))
+  (defsig {}
+    gelu_then_relu
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    gelu_then_relu
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {} (var {} x) (var {} gelu_vec) (var {} relu))))
+  (defsig {}
+    sigmoid_then_tanh
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    sigmoid_then_tanh
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {} (var {} x) (var {} sigmoid) (var {} tanh_vec))))
+  (defsig {}
+    rms_normalize
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    rms_normalize
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (eps {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          scale
+          (app {} (var {} rms_scale) (copy {} (var {} x)) (var {} eps)))
+        (app {}
+          (var {} to_tensor)
+          (app {}
+            (var {} map)
+            (fn {}
+              (params {} (v {type: (t-prim {} f32)}))
+              (app {} (var {} mul) (var {} v) (var {} scale)))
+            (app {} (var {} to_list) (var {} x)))))))
+  (defsig {}
+    manual_layer_norm
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    manual_layer_norm
+    (fn {}
+      (params {}
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (eps {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          xs
+          (app {} (var {} to_list) (copy {} (var {} x))))
+        (let {}
+          (bind {}
+            count
+            (cast {} (app {} (var {} len) (var {} xs)) (t-prim {} f32)))
+          (let {}
+            (bind {}
+              total
+              (app {}
+                (var {} fold)
+                (fn {}
+                  (params {}
+                    (acc {type: (t-prim {} f32)})
+                    (v {type: (t-prim {} f32)}))
+                  (app {} (var {} add) (var {} acc) (var {} v)))
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (var {} xs)))
+            (let {}
+              (bind {}
+                mu
+                (app {} (var {} div) (var {} total) (var {} count)))
+              (let {}
+                (bind {}
+                  centered
+                  (app {}
+                    (var {} map)
+                    (fn {}
+                      (params {} (v {type: (t-prim {} f32)}))
+                      (app {} (var {} sub) (var {} v) (var {} mu)))
+                    (app {} (var {} to_list) (var {} x))))
+                (let {}
+                  (bind {}
+                    sq_sum
+                    (app {}
+                      (var {} fold)
+                      (fn {}
+                        (params {}
+                          (acc {type: (t-prim {} f32)})
+                          (v {type: (t-prim {} f32)}))
+                        (app {}
+                          (var {} add)
+                          (var {} acc)
+                          (app {} (var {} mul) (var {} v) (var {} v))))
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 0.0)
+                        (t-prim {} f32))
+                      (var {} centered)))
+                  (let {}
+                    (bind {}
+                      variance
+                      (app {} (var {} div) (var {} sq_sum) (var {} count)))
+                    (let {}
+                      (bind {}
+                        inv_std
+                        (app {}
+                          (var {} div)
+                          (cast {}
+                            (lit {type: (t-prim {} f32)} 1.0)
+                            (t-prim {} f32))
+                          (app {}
+                            (var {} sqrt)
+                            (app {} (var {} add) (var {} variance) (var {} eps)))))
+                      (app {}
+                        (var {} to_tensor)
+                        (app {}
+                          (var {} map)
+                          (fn {}
+                            (params {} (v {type: (t-prim {} f32)}))
+                            (app {} (var {} mul) (var {} v) (var {} inv_std)))
+                          (var {} centered))))))))))))))

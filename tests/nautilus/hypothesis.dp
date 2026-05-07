@@ -1,0 +1,63 @@
+(module {}
+  hello.tests.nautilus.hypothesis
+  (import {}
+    hello.nautilus.hypothesis
+    (z_score_at_mean z_p_two_sided_zero t_one_sample_at_mean z_score))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_z_score_at_mean_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_z_score_at_mean_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} z_score_at_mean))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "z = 0 when sample_mean = pop_mean"))))
+  (defsig {}
+    test_z_p_two_sided_at_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_z_p_two_sided_at_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} z_p_two_sided_zero))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "two-sided p(z=0) = 1"))))
+  (defsig {}
+    test_t_one_sample_at_mean_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_t_one_sample_at_mean_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} t_one_sample_at_mean))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "t = 0 when sample_mean = pop_mean"))))
+  (defsig {}
+    test_z_score_one_sigma
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_z_score_one_sigma
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} z_score)
+          (cast {} (lit {type: (t-prim {} f32)} 51.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 50.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 100.0) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "z-score = 1 at one SE above mean")))))

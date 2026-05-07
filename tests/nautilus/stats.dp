@@ -1,0 +1,191 @@
+(module {}
+  hello.tests.nautilus.stats
+  (import {}
+    hello.nautilus.stats
+    (sample_mean sample_var sample_std sample_median sample_correlation))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_sample_mean_constant
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sample_mean_constant
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          v
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                    (var {} Nil)))))))
+        (app {}
+          (var {} assert_close)
+          (app {} (var {} sample_mean) (var {} v))
+          (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "mean of constant vec = constant")))))
+  (defsig {}
+    test_sample_var_constant_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sample_var_constant_zero
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          v
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                    (var {} Nil)))))))
+        (app {}
+          (var {} assert_close)
+          (app {} (var {} sample_var) (var {} v))
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "variance of constant = 0")))))
+  (defsig {}
+    test_sample_std_known
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sample_std_known
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          v
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 5.0)
+                        (t-prim {} f32))
+                      (var {} Nil))))))))
+        (app {}
+          (var {} assert_close)
+          (app {} (var {} sample_std) (var {} v))
+          (cast {} (lit {type: (t-prim {} f32)} 1.5811388) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "std [1..5] = sqrt(2.5)")))))
+  (defsig {}
+    test_sample_median_odd
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sample_median_odd
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          v
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 4.0)
+                        (t-prim {} f32))
+                      (var {} Nil))))))))
+        (app {}
+          (var {} assert_close)
+          (app {} (var {} sample_median) (var {} v))
+          (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "median of 1..5 = 3")))))
+  (defsig {}
+    test_sample_correlation_perfect
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sample_correlation_perfect
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          a
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                    (var {} Nil)))))))
+        (let {}
+          (bind {}
+            b
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 9.0)
+                        (t-prim {} f32))
+                      (var {} Nil)))))))
+          (app {}
+            (var {} assert_close)
+            (app {} (var {} sample_correlation) (var {} a) (var {} b))
+            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "perfect linear correlation = 1")))))))

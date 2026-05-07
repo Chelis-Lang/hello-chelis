@@ -1,0 +1,88 @@
+(module {}
+  hello.capstone.mlpipeline
+  (import {} coral.frame (Frame from_pairs get_float_col nrows))
+  (import {} coral.groupby (group_by agg_mean))
+  (import {} nautilus.stats (mean_vec std_vec))
+  (export {} build_frame mean_grouped summary_stat)
+  (defsig {}
+    build_frame
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-adt {} List (t-prim {} string))
+      (t-adt {} Frame)))
+  (def {}
+    build_frame
+    (fn {}
+      (params {}
+        (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (cities {type: (t-adt {} List (t-prim {} string))}))
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "price")
+            (app {} (var {} FloatCol) (var {} prices)))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "city")
+              (app {} (var {} StringCol) (var {} cities)))
+            (var {} Nil))))))
+  (defsig {}
+    mean_grouped
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-adt {} List (t-prim {} string))
+      (t-prim {} int64)))
+  (def {}
+    mean_grouped
+    (fn {}
+      (params {}
+        (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (cities {type: (t-adt {} List (t-prim {} string))}))
+      (let {}
+        (bind {}
+          df
+          (app {} (var {} build_frame) (var {} prices) (var {} cities)))
+        (let {}
+          (bind {}
+            totals
+            (app {}
+              (var {} agg_mean)
+              (app {}
+                (var {} group_by)
+                (var {} df)
+                (lit {type: (t-prim {} string)} "city"))
+              (lit {type: (t-prim {} string)} "price")))
+          (app {} (var {} nrows) (var {} totals))))))
+  (defsig {}
+    summary_stat
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-adt {} List (t-prim {} string))
+      (t-prim {} f32)))
+  (def {}
+    summary_stat
+    (fn {}
+      (params {}
+        (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (cities {type: (t-adt {} List (t-prim {} string))}))
+      (let {}
+        (bind {}
+          df
+          (app {} (var {} build_frame) (var {} prices) (var {} cities)))
+        (let {}
+          (bind {}
+            col
+            (app {}
+              (var {} get_float_col)
+              (var {} df)
+              (lit {type: (t-prim {} string)} "price")))
+          (app {}
+            (var {} add)
+            (app {} (var {} mean_vec) (copy {} (var {} col)))
+            (app {}
+              (var {} std_vec)
+              (var {} col)
+              (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64)))))))))

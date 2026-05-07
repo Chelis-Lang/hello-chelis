@@ -1,0 +1,47 @@
+(module {}
+  hello.basics.macrobasic
+  (export {} with_residual doubled)
+  (defsig {}
+    block
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    block
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {}
+        (copy {} (var {} x))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {} (var {} add) (var {} __chelis_pipe) (var {} x))))))
+  (defsig {}
+    with_residual
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    with_residual
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {source: (residual (copy {} (var {} x)) (var {} block))}
+        (var {source: (residual (copy {} (var {} x)) (var {} block))} add)
+        (copy {source: (residual (copy {} (var {} x)) (var {} block))}
+          (var {source: (residual (copy {} (var {} x)) (var {} block))} x))
+        (app {source: (residual (copy {} (var {} x)) (var {} block))}
+          (var {source: (residual (copy {} (var {} x)) (var {} block))} block)
+          (copy {source: (residual (copy {} (var {} x)) (var {} block))}
+            (var {source: (residual (copy {} (var {} x)) (var {} block))} x))))))
+  (defsig {}
+    doubled
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    doubled
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} add)
+        (copy {} (var {} x))
+        (app {} (var {} block) (var {} x))))))

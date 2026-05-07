@@ -1,0 +1,193 @@
+(module {}
+  hello.tests.basics.pipeandmatch
+  (import {} hello.basics.pipeandmatch (Activation activate pipeline))
+  (import {} std.test (assert_close_tensor))
+  (defsig {}
+    shifted
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    shifted
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {}
+        (var {} x)
+        (var {} neg)
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {}
+            (var {} add)
+            (var {} __chelis_pipe)
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                    (var {} Nil))))))))))
+  (defsig {} test_pipe_neg_add (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_pipe_neg_add
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          x
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            expected
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                    (var {} Nil))))))
+          (app {}
+            (var {} assert_close_tensor)
+            (app {} (var {} shifted) (var {} x))
+            (var {} expected)
+            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "pipe_neg_add"))))))
+  (deftype {} Op () (variant {} Plus) (variant {} Minus))
+  (defsig {}
+    apply
+    (t-fn {}
+      (t-adt {} Op)
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    apply
+    (fn {}
+      (params {}
+        (op {type: (t-adt {} Op)})
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (y {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (match {}
+        (var {} op)
+        (arm {}
+          (pat-ctor {} Plus)
+          ()
+          (app {} (var {} add) (var {} x) (var {} y)))
+        (arm {}
+          (pat-ctor {} Minus)
+          ()
+          (app {} (var {} add) (var {} x) (app {} (var {} neg) (var {} y)))))))
+  (defsig {} test_apply_plus (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_apply_plus
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          a
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            b
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (var {} Nil)))))
+          (let {}
+            (bind {}
+              expected
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
+                    (var {} Nil)))))
+            (app {}
+              (var {} assert_close_tensor)
+              (app {} (var {} apply) (var {} Plus) (var {} a) (var {} b))
+              (var {} expected)
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "apply_plus")))))))
+  (defsig {} test_apply_minus (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_apply_minus
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          a
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            b
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (var {} Nil)))))
+          (let {}
+            (bind {}
+              expected
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                    (var {} Nil)))))
+            (app {}
+              (var {} assert_close_tensor)
+              (app {} (var {} apply) (var {} Minus) (var {} a) (var {} b))
+              (var {} expected)
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "apply_minus"))))))))

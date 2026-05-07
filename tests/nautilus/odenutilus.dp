@@ -1,0 +1,39 @@
+(module {}
+  hello.tests.nautilus.odenutilus
+  (import {} hello.nautilus.odenutilus (decay_rk4 decay_euler exp_growth_rk4))
+  (import {} std.test (assert_close))
+  (defsig {} test_decay_rk4 (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_decay_rk4
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} decay_rk4))
+        (cast {} (lit {type: (t-prim {} f32)} 0.36787944) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "rk4 dy/dt = -y, y(1) = 1/e"))))
+  (defsig {} test_decay_euler (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_decay_euler
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} decay_euler))
+        (cast {} (lit {type: (t-prim {} f32)} 0.36787944) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "euler dy/dt = -y, y(1) ~ 1/e"))))
+  (defsig {}
+    test_exp_growth_rk4
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_exp_growth_rk4
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} exp_growth_rk4))
+        (cast {} (lit {type: (t-prim {} f32)} 2.7182817) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "rk4 dy/dt = y, y(1) = e")))))

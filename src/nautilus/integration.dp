@@ -1,0 +1,49 @@
+(module {}
+  hello.nautilus.integration
+  (import {} nautilus.integrate (trapezoidal simpsons gauss_legendre_5))
+  (export {} sin_integral_trap sin_integral_simpson sin_integral_gl5)
+  (defsig {} sin_fn (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    sin_fn
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {} (var {} sin) (var {} x))))
+  (defsig {} pi_f (t-fn {} (t-prim {} f32)))
+  (def {}
+    pi_f
+    (fn {}
+      (params {})
+      (cast {} (lit {type: (t-prim {} f32)} 3.1415927) (t-prim {} f32))))
+  (defsig {} sin_integral_trap (t-fn {} (t-prim {} f32)))
+  (def {}
+    sin_integral_trap
+    (fn {}
+      (params {})
+      (app {}
+        (var {} trapezoidal)
+        (var {} sin_fn)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (app {} (var {} pi_f))
+        (cast {} (lit {type: (t-prim {} int32)} 1000) (t-prim {} int64)))))
+  (defsig {} sin_integral_simpson (t-fn {} (t-prim {} f32)))
+  (def {}
+    sin_integral_simpson
+    (fn {}
+      (params {})
+      (app {}
+        (var {} simpsons)
+        (var {} sin_fn)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (app {} (var {} pi_f))
+        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64)))))
+  (defsig {} sin_integral_gl5 (t-fn {} (t-prim {} f32)))
+  (def {}
+    sin_integral_gl5
+    (fn {}
+      (params {})
+      (app {}
+        (var {} gauss_legendre_5)
+        (var {} sin_fn)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (app {} (var {} pi_f))
+        (cast {} (lit {type: (t-prim {} int32)} 5) (t-prim {} int64))))))

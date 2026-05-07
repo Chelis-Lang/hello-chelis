@@ -1,0 +1,49 @@
+(module {}
+  hello.tests.coral.reshape
+  (import {} hello.coral.reshape (pivoted melted))
+  (import {} coral.frame (nrows ncols))
+  (import {} std.test (assert_eq_int))
+  (defsig {} test_pivot_shape (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_pivot_shape
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          p
+          (app {} (var {} pivoted)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} p))
+              (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "pivot: 2 distinct cities")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} p))
+            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "pivot: city + x + y == 3 cols"))))))
+  (defsig {} test_melt_shape (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_melt_shape
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          m
+          (app {} (var {} melted)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} m))
+              (cast {} (lit {type: (t-prim {} int32)} 6) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "melt: 3 rows * 2 value cols == 6")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} m))
+            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "melt: city + variable + value == 3 cols")))))))

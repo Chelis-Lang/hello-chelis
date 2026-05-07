@@ -1,0 +1,23 @@
+(module {}
+  hello.basics.effectsrandom
+  (import {} std.init.random (normal_like))
+  (export {} sample_normal)
+  (defsig {}
+    sample_normal
+    (t-fn {eff: (effects {} random)}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (defsig {}
+    sample_normal
+    (t-fn {eff: (effects {} random)}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    sample_normal
+    (fn {}
+      (params {} (template {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} normal_like)
+        (var {} template)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))))))

@@ -1,0 +1,69 @@
+(module {}
+  hello.std.decimal
+  (import {}
+    std.decimal
+    (Decimal
+      decimal
+      decimal_from_int
+      decimal_add
+      decimal_sub
+      decimal_mul
+      decimal_to_string))
+  (export {} price_with_tax total_cents parse_price format_total add_cents)
+  (defsig {} parse_price (t-fn {} (t-prim {} string) (t-adt {} Decimal)))
+  (def {}
+    parse_price
+    (fn {}
+      (params {} (text {type: (t-prim {} string)}))
+      (app {} (var {} decimal) (var {} text))))
+  (defsig {}
+    total_cents
+    (t-fn {} (t-adt {} Decimal) (t-adt {} Decimal) (t-adt {} Decimal)))
+  (def {}
+    total_cents
+    (fn {}
+      (params {} (a {type: (t-adt {} Decimal)}) (b {type: (t-adt {} Decimal)}))
+      (app {} (var {} decimal_add) (var {} a) (var {} b))))
+  (defsig {}
+    price_with_tax
+    (t-fn {} (t-adt {} Decimal) (t-adt {} Decimal) (t-adt {} Decimal)))
+  (def {}
+    price_with_tax
+    (fn {}
+      (params {}
+        (base {type: (t-adt {} Decimal)})
+        (tax_multiplier {type: (t-adt {} Decimal)}))
+      (app {} (var {} decimal_mul) (var {} base) (var {} tax_multiplier))))
+  (defsig {}
+    format_total
+    (t-fn {} (t-adt {} Decimal) (t-adt {} Decimal) (t-prim {} string)))
+  (def {}
+    format_total
+    (fn {}
+      (params {}
+        (subtotal {type: (t-adt {} Decimal)})
+        (discount {type: (t-adt {} Decimal)}))
+      (let {}
+        (bind {}
+          net
+          (app {} (var {} decimal_sub) (var {} subtotal) (var {} discount)))
+        (app {} (var {} decimal_to_string) (var {} net)))))
+  (defsig {}
+    add_cents
+    (t-fn {} (t-adt {} Decimal) (t-prim {} int64) (t-adt {} Decimal)))
+  (def {}
+    add_cents
+    (fn {}
+      (params {}
+        (price {type: (t-adt {} Decimal)})
+        (cents {type: (t-prim {} int64)}))
+      (let {}
+        (bind {}
+          delta
+          (record {}
+            Decimal
+            (kv {} coefficient (var {} cents))
+            (kv {}
+              scale
+              (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64)))))
+        (app {} (var {} decimal_add) (var {} price) (var {} delta))))))

@@ -1,0 +1,57 @@
+(module {}
+  hello.basics.precisioncast
+  (export {}
+    to_f64_scalar
+    to_f32_scalar
+    round_scalar
+    to_f64
+    to_f32
+    low_then_high)
+  (defsig {} to_f64_scalar (t-fn {} (t-prim {} f32) (t-prim {} f64)))
+  (def {}
+    to_f64_scalar
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (cast {} (var {} x) (t-prim {} f64))))
+  (defsig {} to_f32_scalar (t-fn {} (t-prim {} f64) (t-prim {} f32)))
+  (def {}
+    to_f32_scalar
+    (fn {}
+      (params {} (x {type: (t-prim {} f64)}))
+      (cast {} (var {} x) (t-prim {} f32))))
+  (defsig {} round_scalar (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    round_scalar
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (pipe {} (var {} x) (var {} to_f64_scalar) (var {} to_f32_scalar))))
+  (defsig {}
+    to_f64
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f64))))
+  (def {}
+    to_f64
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (cast {} (var {} x) (t-prim {} f64))))
+  (defsig {}
+    to_f32
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f64))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    to_f32
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f64))}))
+      (cast {} (var {} x) (t-prim {} f32))))
+  (defsig {}
+    low_then_high
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    low_then_high
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (pipe {} (var {} x) (var {} to_f64) (var {} to_f32)))))

@@ -1,0 +1,51 @@
+(module {}
+  hello.tests.basics.jitrealize
+  (import {} hello.basics.jitrealize (eager))
+  (import {} std.test (assert_close_tensor))
+  (defsig {} test_eager (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_eager
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          w
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            x
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (var {} Nil)))))
+          (let {}
+            (bind {}
+              expected
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 8.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 15.0) (t-prim {} f32))
+                    (var {} Nil)))))
+            (app {}
+              (var {} assert_close_tensor)
+              (app {} (var {} eager) (var {} w) (var {} x))
+              (var {} expected)
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "eager_mul"))))))))

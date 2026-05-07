@@ -1,0 +1,127 @@
+(module {}
+  hello.coral.joins
+  (import {} coral.frame (Frame Column from_pairs nrows))
+  (import {} coral.join (inner_join left_join outer_join))
+  (export {} left_frame right_frame inner left outer)
+  (defsig {} left_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    left_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "customer")
+            (app {}
+              (var {} StringCol)
+              (app {}
+                (var {} Cons)
+                (lit {type: (t-prim {} string)} "a")
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "b")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "c")
+                    (var {} Nil))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "qty")
+              (app {}
+                (var {} FloatCol)
+                (app {}
+                  (var {} to_tensor)
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 2.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 3.0)
+                          (t-prim {} f32))
+                        (var {} Nil)))))))
+            (var {} Nil))))))
+  (defsig {} right_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    right_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "customer")
+            (app {}
+              (var {} StringCol)
+              (app {}
+                (var {} Cons)
+                (lit {type: (t-prim {} string)} "b")
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "c")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "d")
+                    (var {} Nil))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "score")
+              (app {}
+                (var {} FloatCol)
+                (app {}
+                  (var {} to_tensor)
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 20.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 30.0)
+                          (t-prim {} f32))
+                        (var {} Nil)))))))
+            (var {} Nil))))))
+  (defsig {} inner (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (def {}
+    inner
+    (fn {}
+      (params {})
+      (app {}
+        (var {} inner_join)
+        (app {} (var {} left_frame))
+        (app {} (var {} right_frame))
+        (lit {type: (t-prim {} string)} "customer"))))
+  (defsig {} left (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    left
+    (fn {}
+      (params {})
+      (app {}
+        (var {} left_join)
+        (app {} (var {} left_frame))
+        (app {} (var {} right_frame))
+        (lit {type: (t-prim {} string)} "customer"))))
+  (defsig {} outer (t-fn {} (t-adt {} Frame (t-var {} 4))))
+  (def {}
+    outer
+    (fn {}
+      (params {})
+      (app {}
+        (var {} outer_join)
+        (app {} (var {} left_frame))
+        (app {} (var {} right_frame))
+        (lit {type: (t-prim {} string)} "customer")))))

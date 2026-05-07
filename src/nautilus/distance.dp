@@ -1,0 +1,69 @@
+(module {}
+  hello.nautilus.distance
+  (import {} nautilus.distance (euclidean manhattan chebyshev cosine_distance))
+  (export {}
+    euclid
+    manhattan_dist
+    chebyshev_dist
+    cosine_dist
+    self_distance_zero)
+  (defsig {}
+    euclid
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)))
+  (def {}
+    euclid
+    (fn {}
+      (params {}
+        (a {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} euclidean) (var {} a) (var {} b))))
+  (defsig {}
+    manhattan_dist
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)))
+  (def {}
+    manhattan_dist
+    (fn {}
+      (params {}
+        (a {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} manhattan) (var {} a) (var {} b))))
+  (defsig {}
+    chebyshev_dist
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)))
+  (def {}
+    chebyshev_dist
+    (fn {}
+      (params {}
+        (a {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} chebyshev) (var {} a) (var {} b))))
+  (defsig {}
+    cosine_dist
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)))
+  (def {}
+    cosine_dist
+    (fn {}
+      (params {}
+        (a {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} cosine_distance) (var {} a) (var {} b))))
+  (defsig {}
+    self_distance_zero
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    self_distance_zero
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} euclidean) (copy {} (var {} x)) (var {} x)))))

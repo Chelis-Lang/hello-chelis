@@ -1,0 +1,58 @@
+(module {}
+  hello.nautilus.roots
+  (import {} nautilus.roots (bisection newton brent))
+  (export {} sqrt2_bisect sqrt2_brent sqrt2_newton)
+  (defsig {} quad_minus_2 (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    quad_minus_2
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {}
+        (var {} sub)
+        (app {} (var {} mul) (var {} x) (var {} x))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32)))))
+  (defsig {} dquad_minus_2 (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    dquad_minus_2
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {}
+        (var {} mul)
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (var {} x))))
+  (defsig {} sqrt2_bisect (t-fn {} (t-prim {} f32)))
+  (def {}
+    sqrt2_bisect
+    (fn {}
+      (params {})
+      (app {}
+        (var {} bisection)
+        (var {} quad_minus_2)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00000001) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64)))))
+  (defsig {} sqrt2_brent (t-fn {} (t-prim {} f32)))
+  (def {}
+    sqrt2_brent
+    (fn {}
+      (params {})
+      (app {}
+        (var {} brent)
+        (var {} quad_minus_2)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0000000001) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64)))))
+  (defsig {} sqrt2_newton (t-fn {} (t-prim {} f32)))
+  (def {}
+    sqrt2_newton
+    (fn {}
+      (params {})
+      (app {}
+        (var {} newton)
+        (var {} quad_minus_2)
+        (var {} dquad_minus_2)
+        (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0000000001) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 50) (t-prim {} int64))))))

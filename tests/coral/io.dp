@@ -1,0 +1,99 @@
+(module {}
+  hello.tests.coral.io
+  (import {} hello.coral.io (roundtrip_csv))
+  (import {} coral.frame (nrows ncols get_float_col get_string_col))
+  (import {} std.test (assert_eq_int assert_eq_string assert_close))
+  (defsig {} zero_i64 (t-fn {} (t-prim {} int64)))
+  (def {}
+    zero_i64
+    (fn {}
+      (params {})
+      (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))))
+  (defsig {} one_i64 (t-fn {} (t-prim {} int64)))
+  (def {}
+    one_i64
+    (fn {}
+      (params {})
+      (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))))
+  (defsig {}
+    test_csv_roundtrip_shape_and_values
+    (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
+  (def {}
+    test_csv_roundtrip_shape_and_values
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          back
+          (app {}
+            (var {} roundtrip_csv)
+            (lit {type: (t-prim {} string)} "/tmp/hello-coral.csv")))
+        (let {}
+          (bind {}
+            prices
+            (app {}
+              (var {} to_list)
+              (app {}
+                (var {} get_float_col)
+                (var {} back)
+                (lit {type: (t-prim {} string)} "price"))))
+          (let {}
+            (bind {}
+              cities
+              (app {}
+                (var {} get_string_col)
+                (var {} back)
+                (lit {type: (t-prim {} string)} "city")))
+            (let {}
+              (bind {}
+                __chelis_tmp3
+                (app {}
+                  (var {} assert_eq_int)
+                  (app {} (var {} nrows) (var {} back))
+                  (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+                  (lit {type: (t-prim {} string)} "csv roundtrip nrows == 2")))
+              (let {}
+                (bind {}
+                  __chelis_tmp2
+                  (app {}
+                    (var {} assert_eq_int)
+                    (app {} (var {} ncols) (var {} back))
+                    (cast {}
+                      (lit {type: (t-prim {} int32)} 2)
+                      (t-prim {} int64))
+                    (lit {type: (t-prim {} string)} "csv roundtrip ncols == 2")))
+                (let {}
+                  (bind {}
+                    __chelis_tmp1
+                    (app {}
+                      (var {} assert_close)
+                      (app {}
+                        (var {} index)
+                        (var {} prices)
+                        (app {} (var {} zero_i64)))
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 10.5)
+                        (t-prim {} f32))
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 0.001)
+                        (t-prim {} f32))
+                      (lit {type: (t-prim {} string)} "price[0] == 10.5")))
+                  (let {}
+                    (bind {}
+                      __chelis_tmp0
+                      (app {}
+                        (var {} assert_eq_string)
+                        (app {}
+                          (var {} index)
+                          (var {} cities)
+                          (app {} (var {} zero_i64)))
+                        (lit {type: (t-prim {} string)} "paris")
+                        (lit {type: (t-prim {} string)} "city[0] == paris")))
+                    (app {}
+                      (var {} assert_eq_string)
+                      (app {}
+                        (var {} index)
+                        (var {} cities)
+                        (app {} (var {} one_i64)))
+                      (lit {type: (t-prim {} string)} "london")
+                      (lit {type: (t-prim {} string)} "city[1] == london"))))))))))))

@@ -1,0 +1,91 @@
+(module {}
+  hello.tests.nautilus.linalg
+  (import {} hello.nautilus.linalg (vec_norm vec_dot solve_diag_2x2))
+  (import {} std.test (assert_close assert_close_tensor))
+  (defsig {}
+    test_vec_norm_3_4_5
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_vec_norm_3_4_5
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          v
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (app {}
+          (var {} assert_close)
+          (app {} (var {} vec_norm) (var {} v))
+          (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "||(3,4)|| = 5")))))
+  (defsig {}
+    test_vec_dot_orthogonal
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_vec_dot_orthogonal
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          a
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            b
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                  (var {} Nil)))))
+          (app {}
+            (var {} assert_close)
+            (app {} (var {} vec_dot) (var {} a) (var {} b))
+            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "e0 . e1 = 0"))))))
+  (defsig {}
+    test_solve_diag_2x2
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_solve_diag_2x2
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          expected
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (app {}
+          (var {} assert_close_tensor)
+          (app {} (var {} solve_diag_2x2))
+          (var {} expected)
+          (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "solve diag 2x2"))))))

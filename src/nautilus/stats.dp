@@ -1,0 +1,74 @@
+(module {}
+  hello.nautilus.stats
+  (import {}
+    nautilus.stats
+    (mean_vec variance_vec std_vec median_vec quantile_vec correlation_scalar))
+  (export {}
+    sample_mean
+    sample_var
+    sample_std
+    sample_median
+    sample_quartile_low
+    sample_correlation)
+  (defsig {}
+    sample_mean
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    sample_mean
+    (fn {}
+      (params {} (v {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} mean_vec) (var {} v))))
+  (defsig {}
+    sample_var
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    sample_var
+    (fn {}
+      (params {} (v {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} variance_vec)
+        (var {} v)
+        (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64)))))
+  (defsig {}
+    sample_std
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    sample_std
+    (fn {}
+      (params {} (v {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} std_vec)
+        (var {} v)
+        (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64)))))
+  (defsig {}
+    sample_median
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    sample_median
+    (fn {}
+      (params {} (v {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} median_vec) (var {} v))))
+  (defsig {}
+    sample_quartile_low
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    sample_quartile_low
+    (fn {}
+      (params {} (v {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} quantile_vec)
+        (var {} v)
+        (cast {} (lit {type: (t-prim {} f32)} 0.25) (t-prim {} f32)))))
+  (defsig {}
+    sample_correlation
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-prim {} f32)))
+  (def {}
+    sample_correlation
+    (fn {}
+      (params {}
+        (a {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (b {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} correlation_scalar) (var {} a) (var {} b)))))

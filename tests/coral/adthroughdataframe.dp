@@ -1,0 +1,113 @@
+(module {}
+  hello.tests.coral.adthroughdataframe
+  (import {}
+    hello.coral.adthroughdataframe
+    (frame_shape_check simple_loss dsimple_loss_dw))
+  (import {} std.test (assert_eq_int assert_close_tensor))
+  (defsig {}
+    reshape_to_one
+    (t-fn {}
+      (t-tensor {} (t-prim {} f32))
+      (t-tensor {} (d-lit {} 1) (t-prim {} f32))))
+  (def {}
+    reshape_to_one
+    (fn {}
+      (params {} (s {type: (t-tensor {} (t-prim {} f32))}))
+      (app {}
+        (var {} expand)
+        (var {} s)
+        (lit {type: (t-prim {} int32)} 0)
+        (lit {type: (t-prim {} int32)} 1))))
+  (defsig {}
+    test_frame_shape_from_tensor
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_frame_shape_from_tensor
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          w
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (app {}
+          (var {} assert_eq_int)
+          (app {} (var {} frame_shape_check) (var {} w))
+          (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+          (lit {type: (t-prim {} string)} "frame nrows == 3")))))
+  (defsig {}
+    test_simple_loss_value
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_simple_loss_value
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          w
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            expected
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 14.0) (t-prim {} f32))
+                (var {} Nil))))
+          (app {}
+            (var {} assert_close_tensor)
+            (app {}
+              (var {} reshape_to_one)
+              (app {} (var {} simple_loss) (var {} w)))
+            (var {} expected)
+            (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "loss == 14.0"))))))
+  (defsig {}
+    test_dgrad_is_callable_in_typecheck
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_dgrad_is_callable_in_typecheck
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          w
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (app {}
+          (var {} assert_eq_int)
+          (app {} (var {} frame_shape_check) (var {} w))
+          (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+          (lit {type: (t-prim {} string)} "grad input has shape 3"))))))

@@ -1,0 +1,76 @@
+(module {}
+  hello.tests.basics.macrobasic
+  (import {} hello.basics.macrobasic (with_residual doubled block))
+  (import {} std.test (assert_close_tensor))
+  (defsig {} test_block (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_block
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          x
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            expected
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (var {} Nil)))))
+          (app {}
+            (var {} assert_close_tensor)
+            (app {} (var {} block) (var {} x))
+            (var {} expected)
+            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "block_doubles"))))))
+  (defsig {}
+    test_with_residual
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_with_residual
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          x
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (var {} Nil)))))
+        (let {}
+          (bind {}
+            expected
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
+                  (var {} Nil)))))
+          (app {}
+            (var {} assert_close_tensor)
+            (app {} (var {} with_residual) (var {} x))
+            (var {} expected)
+            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "residual_macro")))))))

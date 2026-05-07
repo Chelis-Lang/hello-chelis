@@ -1,0 +1,45 @@
+(module {}
+  hello.basics.dimpoly
+  (export {} identity_dim scaled double_apply)
+  (defsig {}
+    identity_dim
+    (t-fn {}
+      (t-tensor {} (d-var {} a) (t-prim {} f32))
+      (t-tensor {} (d-var {} a) (t-prim {} f32))))
+  (def {}
+    identity_dim
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} a) (t-prim {} f32))}))
+      (var {} x)))
+  (defsig {}
+    scaled
+    (t-fn {}
+      (t-tensor {} (d-var {} a) (t-prim {} f32))
+      (t-tensor {} (d-var {} a) (t-prim {} f32))))
+  (def {}
+    scaled
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} a) (t-prim {} f32))}))
+      (pipe {}
+        (copy {} (var {} x))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {} (var {} add) (var {} __chelis_pipe) (var {} x))))))
+  (defsig {}
+    double_apply
+    (t-fn {}
+      (t-fn {}
+        (t-tensor {} (d-var {} a) (t-prim {} f32))
+        (t-tensor {} (d-var {} a) (t-prim {} f32)))
+      (t-tensor {} (d-var {} a) (t-prim {} f32))
+      (t-tensor {} (d-var {} a) (t-prim {} f32))))
+  (def {}
+    double_apply
+    (fn {}
+      (params {}
+        (f {type: (t-fn {}
+                     (t-tensor {} (d-var {} a) (t-prim {} f32))
+                     (t-tensor {} (d-var {} a) (t-prim {} f32)))
+           })
+        (x {type: (t-tensor {} (d-var {} a) (t-prim {} f32))}))
+      (pipe {} (var {} x) (var {} f) (var {} f)))))

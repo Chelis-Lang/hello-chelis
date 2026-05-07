@@ -1,0 +1,61 @@
+(module {}
+  hello.tests.std.tensorio
+  (import {} hello.std.tensorio (write_then_read file_or_default save_message))
+  (import {} std.test (assert_eq_string))
+  (defsig {}
+    test_write_then_read
+    (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
+  (def {}
+    test_write_then_read
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {}
+            (var {} write_then_read)
+            (lit {type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-test.txt")
+            (lit {type: (t-prim {} string)} "round-trip!")))
+        (app {}
+          (var {} assert_eq_string)
+          (var {} result)
+          (lit {type: (t-prim {} string)} "round-trip!")
+          (lit {type: (t-prim {} string)} "round-trip text I/O")))))
+  (defsig {}
+    test_file_or_default_missing
+    (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
+  (def {}
+    test_file_or_default_missing
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          fallback
+          (app {}
+            (var {} file_or_default)
+            (lit {type: (t-prim {} string)} "/tmp/hello-chelis-does-not-exist.txt")
+            (lit {type: (t-prim {} string)} "default")))
+        (app {}
+          (var {} assert_eq_string)
+          (var {} fallback)
+          (lit {type: (t-prim {} string)} "default")
+          (lit {type: (t-prim {} string)} "missing path -> fallback")))))
+  (defsig {}
+    test_save_message
+    (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
+  (def {}
+    test_save_message
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          out
+          (app {}
+            (var {} save_message)
+            (lit {type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-msg.txt")
+            (lit {type: (t-prim {} string)} "hi")))
+        (app {}
+          (var {} assert_eq_string)
+          (var {} out)
+          (lit {type: (t-prim {} string)} "[hello] hi")
+          (lit {type: (t-prim {} string)} "save_message persists banner"))))))

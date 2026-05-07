@@ -1,0 +1,52 @@
+(module {}
+  hello.nautilus.odenutilus
+  (import {} nautilus.ode (rk4_solve euler_solve))
+  (export {} decay_rk4 decay_euler exp_growth_rk4)
+  (defsig {} decay (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    decay
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (app {} (var {} neg) (var {} y))))
+  (defsig {} growth (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    growth
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (var {} y)))
+  (defsig {} decay_rk4 (t-fn {} (t-prim {} f32)))
+  (def {}
+    decay_rk4
+    (fn {}
+      (params {})
+      (app {}
+        (var {} rk4_solve)
+        (var {} decay)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64)))))
+  (defsig {} decay_euler (t-fn {} (t-prim {} f32)))
+  (def {}
+    decay_euler
+    (fn {}
+      (params {})
+      (app {}
+        (var {} euler_solve)
+        (var {} decay)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 2000) (t-prim {} int64)))))
+  (defsig {} exp_growth_rk4 (t-fn {} (t-prim {} f32)))
+  (def {}
+    exp_growth_rk4
+    (fn {}
+      (params {})
+      (app {}
+        (var {} rk4_solve)
+        (var {} growth)
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64))))))

@@ -1,0 +1,64 @@
+(module {}
+  hello.tests.nautilus.interpolation
+  (import {}
+    hello.nautilus.interpolation
+    (linear_at_query hermite_unit_segment hermite_endpoint))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_linear_at_node
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_linear_at_node
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} linear_at_query)
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "linear interp at node = node value"))))
+  (defsig {}
+    test_linear_midpoint
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_linear_midpoint
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} linear_at_query)
+          (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 2.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "linear interp midpoint of (1,1)-(2,4)"))))
+  (defsig {}
+    test_hermite_unit_midpoint
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_hermite_unit_midpoint
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} hermite_unit_segment)
+          (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "Hermite cubic mid value = 0.5"))))
+  (defsig {}
+    test_hermite_endpoint
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_hermite_endpoint
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} hermite_endpoint))
+        (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "Hermite at right endpoint = y1")))))

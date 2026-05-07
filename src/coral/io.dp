@@ -1,0 +1,61 @@
+(module {}
+  hello.coral.io
+  (import {} coral.frame (Frame Column from_pairs nrows ncols))
+  (import {} coral.io (write_csv_frame read_csv_frame))
+  (export {} sample_frame roundtrip_csv)
+  (defsig {} sample_frame (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (def {}
+    sample_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "price")
+            (app {}
+              (var {} FloatCol)
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 10.5) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {}
+                      (lit {type: (t-prim {} f32)} 20.25)
+                      (t-prim {} f32))
+                    (var {} Nil))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "city")
+              (app {}
+                (var {} StringCol)
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "paris")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "london")
+                    (var {} Nil)))))
+            (var {} Nil))))))
+  (defsig {}
+    roundtrip_csv
+    (t-fn {eff: (effects {} io)}
+      (t-prim {} string)
+      (t-adt {} Frame (t-var {} 2))))
+  (def {}
+    roundtrip_csv
+    (fn {}
+      (params {} (path {type: (t-prim {} string)}))
+      (let {}
+        (bind {}
+          df
+          (app {} (var {} sample_frame)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {} (var {} write_csv_frame) (var {} df) (var {} path)))
+          (app {} (var {} read_csv_frame) (var {} path)))))))

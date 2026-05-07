@@ -1,0 +1,75 @@
+(module {}
+  hello.std.datetimecal
+  (import {}
+    std.time
+    (Date date add_days sub_days days_between date_to_string day_of_week_name))
+  (export {}
+    anniversary
+    weekday_name
+    days_until
+    format_date
+    after_30_days
+    week_before
+    new_years_day)
+  (defsig {}
+    anniversary
+    (t-fn {} (t-adt {} Date) (t-prim {} int64) (t-adt {} Date)))
+  (def {}
+    anniversary
+    (fn {}
+      (params {} (d {type: (t-adt {} Date)}) (years {type: (t-prim {} int64)}))
+      (app {}
+        (var {} add_days)
+        (var {} d)
+        (app {}
+          (var {} mul)
+          (var {} years)
+          (cast {} (lit {type: (t-prim {} int32)} 365) (t-prim {} int64))))))
+  (defsig {} weekday_name (t-fn {} (t-adt {} Date) (t-prim {} string)))
+  (def {}
+    weekday_name
+    (fn {}
+      (params {} (d {type: (t-adt {} Date)}))
+      (app {} (var {} day_of_week_name) (var {} d))))
+  (defsig {}
+    days_until
+    (t-fn {} (t-adt {} Date) (t-adt {} Date) (t-prim {} int64)))
+  (def {}
+    days_until
+    (fn {}
+      (params {} (from {type: (t-adt {} Date)}) (to {type: (t-adt {} Date)}))
+      (app {} (var {} days_between) (var {} from) (var {} to))))
+  (defsig {} format_date (t-fn {} (t-adt {} Date) (t-prim {} string)))
+  (def {}
+    format_date
+    (fn {}
+      (params {} (d {type: (t-adt {} Date)}))
+      (app {} (var {} date_to_string) (var {} d))))
+  (defsig {} after_30_days (t-fn {} (t-adt {} Date) (t-adt {} Date)))
+  (def {}
+    after_30_days
+    (fn {}
+      (params {} (d {type: (t-adt {} Date)}))
+      (app {}
+        (var {} add_days)
+        (var {} d)
+        (cast {} (lit {type: (t-prim {} int32)} 30) (t-prim {} int64)))))
+  (defsig {} week_before (t-fn {} (t-adt {} Date) (t-adt {} Date)))
+  (def {}
+    week_before
+    (fn {}
+      (params {} (d {type: (t-adt {} Date)}))
+      (app {}
+        (var {} sub_days)
+        (var {} d)
+        (cast {} (lit {type: (t-prim {} int32)} 7) (t-prim {} int64)))))
+  (defsig {} new_years_day (t-fn {} (t-prim {} int64) (t-adt {} Date)))
+  (def {}
+    new_years_day
+    (fn {}
+      (params {} (year {type: (t-prim {} int64)}))
+      (app {}
+        (var {} date)
+        (var {} year)
+        (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))
+        (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))))))

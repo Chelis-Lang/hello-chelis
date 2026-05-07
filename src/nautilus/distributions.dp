@@ -1,0 +1,49 @@
+(module {}
+  hello.nautilus.distributions
+  (import {}
+    nautilus.distributions
+    (normal_pdf normal_cdf normal_inv_cdf exponential_cdf))
+  (export {}
+    std_normal_pdf
+    std_normal_cdf
+    std_normal_quantile
+    exp_cdf_half_life)
+  (defsig {} std_normal_pdf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    std_normal_pdf
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {}
+        (var {} normal_pdf)
+        (var {} x)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+  (defsig {} std_normal_cdf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    std_normal_cdf
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {}
+        (var {} normal_cdf)
+        (var {} x)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+  (defsig {} std_normal_quantile (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    std_normal_quantile
+    (fn {}
+      (params {} (p {type: (t-prim {} f32)}))
+      (app {}
+        (var {} normal_inv_cdf)
+        (var {} p)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+  (defsig {} exp_cdf_half_life (t-fn {} (t-prim {} f32)))
+  (def {}
+    exp_cdf_half_life
+    (fn {}
+      (params {})
+      (app {}
+        (var {} exponential_cdf)
+        (cast {} (lit {type: (t-prim {} f32)} 0.6931472) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))))))

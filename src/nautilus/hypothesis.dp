@@ -1,0 +1,85 @@
+(module {}
+  hello.nautilus.hypothesis
+  (import {}
+    nautilus.testing
+    (z_statistic z_p_value_two_sided t_statistic_one_sample))
+  (export {}
+    z_score
+    z_score_at_mean
+    z_p_two_sided_zero
+    t_one_sample
+    t_one_sample_at_mean)
+  (defsig {}
+    z_score
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {}
+    z_score
+    (fn {}
+      (params {}
+        (sample_mean {type: (t-prim {} f32)})
+        (pop_mean {type: (t-prim {} f32)})
+        (pop_std {type: (t-prim {} f32)})
+        (n {type: (t-prim {} f32)}))
+      (app {}
+        (var {} z_statistic)
+        (var {} sample_mean)
+        (var {} pop_mean)
+        (var {} pop_std)
+        (var {} n))))
+  (defsig {} z_score_at_mean (t-fn {} (t-prim {} f32)))
+  (def {}
+    z_score_at_mean
+    (fn {}
+      (params {})
+      (app {}
+        (var {} z_statistic)
+        (cast {} (lit {type: (t-prim {} f32)} 50.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 50.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 25.0) (t-prim {} f32)))))
+  (defsig {} z_p_two_sided_zero (t-fn {} (t-prim {} f32)))
+  (def {}
+    z_p_two_sided_zero
+    (fn {}
+      (params {})
+      (app {}
+        (var {} z_p_value_two_sided)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32)))))
+  (defsig {}
+    t_one_sample
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {}
+    t_one_sample
+    (fn {}
+      (params {}
+        (sample_mean {type: (t-prim {} f32)})
+        (sample_std {type: (t-prim {} f32)})
+        (n {type: (t-prim {} f32)})
+        (pop_mean {type: (t-prim {} f32)}))
+      (app {}
+        (var {} t_statistic_one_sample)
+        (var {} sample_mean)
+        (var {} sample_std)
+        (var {} n)
+        (var {} pop_mean))))
+  (defsig {} t_one_sample_at_mean (t-fn {} (t-prim {} f32)))
+  (def {}
+    t_one_sample_at_mean
+    (fn {}
+      (params {})
+      (app {}
+        (var {} t_statistic_one_sample)
+        (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))))))

@@ -1,0 +1,80 @@
+(module {}
+  hello.nautilus.optimize
+  (import {}
+    nautilus.optim
+    (golden_section_search brent_minimize newton_minimize_1d))
+  (export {}
+    parabola_minimum_gss
+    parabola_minimum_brent
+    parabola_minimum_newton)
+  (defsig {} parabola (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    parabola
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          d
+          (app {}
+            (var {} sub)
+            (var {} x)
+            (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))))
+        (app {}
+          (var {} add)
+          (app {} (var {} mul) (var {} d) (var {} d))
+          (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))))))
+  (defsig {} dparabola (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    dparabola
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {}
+        (var {} mul)
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (app {}
+          (var {} sub)
+          (var {} x)
+          (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))))))
+  (defsig {} ddparabola (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    ddparabola
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))))
+  (defsig {} parabola_minimum_gss (t-fn {} (t-prim {} f32)))
+  (def {}
+    parabola_minimum_gss
+    (fn {}
+      (params {})
+      (app {}
+        (var {} golden_section_search)
+        (var {} parabola)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00000001) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 200) (t-prim {} int64)))))
+  (defsig {} parabola_minimum_brent (t-fn {} (t-prim {} f32)))
+  (def {}
+    parabola_minimum_brent
+    (fn {}
+      (params {})
+      (app {}
+        (var {} brent_minimize)
+        (var {} parabola)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00000001) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 200) (t-prim {} int64)))))
+  (defsig {} parabola_minimum_newton (t-fn {} (t-prim {} f32)))
+  (def {}
+    parabola_minimum_newton
+    (fn {}
+      (params {})
+      (app {}
+        (var {} newton_minimize_1d)
+        (var {} parabola)
+        (var {} dparabola)
+        (var {} ddparabola)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0000000001) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} int32)} 50) (t-prim {} int64))))))

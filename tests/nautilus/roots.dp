@@ -1,0 +1,37 @@
+(module {}
+  hello.tests.nautilus.roots
+  (import {} hello.nautilus.roots (sqrt2_bisect sqrt2_brent sqrt2_newton))
+  (import {} std.test (assert_close))
+  (defsig {} test_sqrt2_bisect (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sqrt2_bisect
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} sqrt2_bisect))
+        (cast {} (lit {type: (t-prim {} f32)} 1.4142135) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "bisection sqrt(2)"))))
+  (defsig {} test_sqrt2_brent (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sqrt2_brent
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} sqrt2_brent))
+        (cast {} (lit {type: (t-prim {} f32)} 1.4142135) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "brent sqrt(2)"))))
+  (defsig {} test_sqrt2_newton (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sqrt2_newton
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} sqrt2_newton))
+        (cast {} (lit {type: (t-prim {} f32)} 1.4142135) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "newton sqrt(2)")))))

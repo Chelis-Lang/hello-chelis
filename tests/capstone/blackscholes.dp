@@ -1,0 +1,21 @@
+(module {}
+  hello.tests.capstone.blackscholes
+  (import {} hello.capstone.blackscholes (call_price))
+  (import {} std.test (assert_close))
+  (defsig {} test_call_atm (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_call_atm
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} call_price)
+          (cast {} (lit {type: (t-prim {} f32)} 100.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 100.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.05) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.2) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 10.4506) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.05) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "bs_call_atm")))))

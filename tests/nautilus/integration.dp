@@ -1,0 +1,45 @@
+(module {}
+  hello.tests.nautilus.integration
+  (import {}
+    hello.nautilus.integration
+    (sin_integral_trap sin_integral_simpson sin_integral_gl5))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_sin_integral_trap
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sin_integral_trap
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} sin_integral_trap))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "trap int sin = 2"))))
+  (defsig {}
+    test_sin_integral_simpson
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sin_integral_simpson
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} sin_integral_simpson))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "simpson int sin = 2"))))
+  (defsig {}
+    test_sin_integral_gl5
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sin_integral_gl5
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {} (var {} sin_integral_gl5))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "gl5 int sin ~ 2")))))

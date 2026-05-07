@@ -1,0 +1,125 @@
+(module {}
+  hello.tests.coral.groupbyagg
+  (import {} hello.coral.groupbyagg (sales_frame total_per_city mean_per_city))
+  (import {} coral.frame (nrows ncols get_float_col))
+  (import {} std.test (assert_eq_int assert_close))
+  (defsig {} zero_i64 (t-fn {} (t-prim {} int64)))
+  (def {}
+    zero_i64
+    (fn {}
+      (params {})
+      (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))))
+  (defsig {}
+    tensor_sum_f32
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+  (def {}
+    tensor_sum_f32
+    (fn {}
+      (params {} (t {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {}
+        (var {} fold)
+        (fn {}
+          (params {} (acc {type: (t-prim {} f32)}) (v {type: (t-prim {} f32)}))
+          (app {} (var {} add) (var {} acc) (var {} v)))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (app {} (var {} to_list) (var {} t)))))
+  (defsig {}
+    test_sales_frame_shape
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sales_frame_shape
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          df
+          (app {} (var {} sales_frame)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} df))
+              (cast {} (lit {type: (t-prim {} int32)} 4) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "sales nrows == 4")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} df))
+            (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "sales ncols == 2"))))))
+  (defsig {}
+    test_agg_sum_per_city
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_agg_sum_per_city
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {} (var {} total_per_city)))
+        (let {}
+          (bind {}
+            total
+            (app {}
+              (var {} tensor_sum_f32)
+              (app {}
+                (var {} get_float_col)
+                (var {} result)
+                (lit {type: (t-prim {} string)} "qty_sum"))))
+          (let {}
+            (bind {}
+              __chelis_tmp1
+              (app {}
+                (var {} assert_eq_int)
+                (app {} (var {} nrows) (var {} result))
+                (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+                (lit {type: (t-prim {} string)} "two unique cities")))
+            (let {}
+              (bind {}
+                __chelis_tmp0
+                (app {}
+                  (var {} assert_eq_int)
+                  (app {} (var {} ncols) (var {} result))
+                  (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+                  (lit {type: (t-prim {} string)} "key + qty_sum")))
+              (app {}
+                (var {} assert_close)
+                (var {} total)
+                (cast {} (lit {type: (t-prim {} f32)} 33.0) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "sum of per-city totals == 33"))))))))
+  (defsig {}
+    test_agg_mean_per_city
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_agg_mean_per_city
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {} (var {} mean_per_city)))
+        (let {}
+          (bind {}
+            total
+            (app {}
+              (var {} tensor_sum_f32)
+              (app {}
+                (var {} get_float_col)
+                (var {} result)
+                (lit {type: (t-prim {} string)} "qty_mean"))))
+          (let {}
+            (bind {}
+              __chelis_tmp0
+              (app {}
+                (var {} assert_eq_int)
+                (app {} (var {} nrows) (var {} result))
+                (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+                (lit {type: (t-prim {} string)} "two unique cities")))
+            (app {}
+              (var {} assert_close)
+              (var {} total)
+              (cast {} (lit {type: (t-prim {} f32)} 16.5) (t-prim {} f32))
+              (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "sum of per-city means == 16.5"))))))))

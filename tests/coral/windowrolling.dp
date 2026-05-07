@@ -1,0 +1,122 @@
+(module {}
+  hello.tests.coral.windowrolling
+  (import {} hello.coral.windowrolling (mean3 std3 ewm_half))
+  (import {} std.test (assert_close assert_true))
+  (defsig {} is_nan_local (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    is_nan_local
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {} (var {} neq) (var {} x) (var {} x))))
+  (defsig {}
+    test_rolling_mean_window_3
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_rolling_mean_window_3
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          out
+          (app {} (var {} to_list) (app {} (var {} mean3))))
+        (let {}
+          (bind {}
+            __chelis_tmp2
+            (app {}
+              (var {} assert_true)
+              (app {}
+                (var {} is_nan_local)
+                (app {}
+                  (var {} index)
+                  (var {} out)
+                  (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))))
+              (lit {type: (t-prim {} string)} "mean3[0] is NaN")))
+          (let {}
+            (bind {}
+              __chelis_tmp1
+              (app {}
+                (var {} assert_close)
+                (app {}
+                  (var {} index)
+                  (var {} out)
+                  (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64)))
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "mean3[2] == 2.0")))
+            (let {}
+              (bind {}
+                __chelis_tmp0
+                (app {}
+                  (var {} assert_close)
+                  (app {}
+                    (var {} index)
+                    (var {} out)
+                    (cast {}
+                      (lit {type: (t-prim {} int32)} 3)
+                      (t-prim {} int64)))
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (cast {}
+                    (lit {type: (t-prim {} f32)} 0.00001)
+                    (t-prim {} f32))
+                  (lit {type: (t-prim {} string)} "mean3[3] == 3.0")))
+              (app {}
+                (var {} assert_close)
+                (app {}
+                  (var {} index)
+                  (var {} out)
+                  (cast {} (lit {type: (t-prim {} int32)} 4) (t-prim {} int64)))
+                (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "mean3[4] == 4.0"))))))))
+  (defsig {}
+    test_rolling_std_window_3
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_rolling_std_window_3
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          out
+          (app {} (var {} to_list) (app {} (var {} std3))))
+        (app {}
+          (var {} assert_close)
+          (app {}
+            (var {} index)
+            (var {} out)
+            (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64)))
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "std3[2] == 1.0")))))
+  (defsig {}
+    test_ewm_alpha_half
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_ewm_alpha_half
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          out
+          (app {} (var {} to_list) (app {} (var {} ewm_half))))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_close)
+              (app {}
+                (var {} index)
+                (var {} out)
+                (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64)))
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "ewm[0] == 1.0")))
+          (app {}
+            (var {} assert_close)
+            (app {}
+              (var {} index)
+              (var {} out)
+              (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64)))
+            (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+            (lit {type: (t-prim {} string)} "ewm[1] == 1.5")))))))

@@ -1,0 +1,180 @@
+(module {}
+  hello.coral.reshape
+  (import {} coral.frame (Frame Column from_pairs))
+  (import {} coral.reshape (pivot melt))
+  (export {} long_frame wide_frame pivoted melted)
+  (defsig {} long_frame (t-fn {} (t-adt {} Frame (t-var {} 4))))
+  (def {}
+    long_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "city")
+            (app {}
+              (var {} StringCol)
+              (app {}
+                (var {} Cons)
+                (lit {type: (t-prim {} string)} "a")
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "a")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "b")
+                    (app {}
+                      (var {} Cons)
+                      (lit {type: (t-prim {} string)} "b")
+                      (var {} Nil)))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "product")
+              (app {}
+                (var {} StringCol)
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "x")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "y")
+                    (app {}
+                      (var {} Cons)
+                      (lit {type: (t-prim {} string)} "x")
+                      (app {}
+                        (var {} Cons)
+                        (lit {type: (t-prim {} string)} "y")
+                        (var {} Nil)))))))
+            (app {}
+              (var {} Cons)
+              (tuple {}
+                (lit {type: (t-prim {} string)} "price")
+                (app {}
+                  (var {} FloatCol)
+                  (app {}
+                    (var {} to_tensor)
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 1.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 2.0)
+                          (t-prim {} f32))
+                        (app {}
+                          (var {} Cons)
+                          (cast {}
+                            (lit {type: (t-prim {} f32)} 3.0)
+                            (t-prim {} f32))
+                          (app {}
+                            (var {} Cons)
+                            (cast {}
+                              (lit {type: (t-prim {} f32)} 4.0)
+                              (t-prim {} f32))
+                            (var {} Nil))))))))
+              (var {} Nil)))))))
+  (defsig {} wide_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (def {}
+    wide_frame
+    (fn {}
+      (params {})
+      (app {}
+        (var {} from_pairs)
+        (app {}
+          (var {} Cons)
+          (tuple {}
+            (lit {type: (t-prim {} string)} "city")
+            (app {}
+              (var {} StringCol)
+              (app {}
+                (var {} Cons)
+                (lit {type: (t-prim {} string)} "a")
+                (app {}
+                  (var {} Cons)
+                  (lit {type: (t-prim {} string)} "b")
+                  (app {}
+                    (var {} Cons)
+                    (lit {type: (t-prim {} string)} "c")
+                    (var {} Nil))))))
+          (app {}
+            (var {} Cons)
+            (tuple {}
+              (lit {type: (t-prim {} string)} "qty")
+              (app {}
+                (var {} FloatCol)
+                (app {}
+                  (var {} to_tensor)
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 2.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 3.0)
+                          (t-prim {} f32))
+                        (var {} Nil)))))))
+            (app {}
+              (var {} Cons)
+              (tuple {}
+                (lit {type: (t-prim {} string)} "price")
+                (app {}
+                  (var {} FloatCol)
+                  (app {}
+                    (var {} to_tensor)
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 10.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 20.0)
+                          (t-prim {} f32))
+                        (app {}
+                          (var {} Cons)
+                          (cast {}
+                            (lit {type: (t-prim {} f32)} 30.0)
+                            (t-prim {} f32))
+                          (var {} Nil)))))))
+              (var {} Nil)))))))
+  (defsig {} pivoted (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (def {}
+    pivoted
+    (fn {}
+      (params {})
+      (app {}
+        (var {} pivot)
+        (app {} (var {} long_frame))
+        (lit {type: (t-prim {} string)} "city")
+        (lit {type: (t-prim {} string)} "product")
+        (lit {type: (t-prim {} string)} "price"))))
+  (defsig {} melted (t-fn {} (t-adt {} Frame (t-var {} 6))))
+  (def {}
+    melted
+    (fn {}
+      (params {})
+      (app {}
+        (var {} melt)
+        (app {} (var {} wide_frame))
+        (app {}
+          (var {} Cons)
+          (lit {type: (t-prim {} string)} "city")
+          (var {} Nil))
+        (app {}
+          (var {} Cons)
+          (lit {type: (t-prim {} string)} "qty")
+          (app {}
+            (var {} Cons)
+            (lit {type: (t-prim {} string)} "price")
+            (var {} Nil)))))))

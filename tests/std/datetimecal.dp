@@ -1,0 +1,81 @@
+(module {}
+  hello.tests.std.datetimecal
+  (import {}
+    hello.std.datetimecal
+    (days_until format_date after_30_days week_before new_years_day))
+  (import {} std.time (date))
+  (import {} std.test (assert_eq_int assert_eq_string))
+  (defsig {} test_days_until (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_days_until
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          jan_1
+          (app {}
+            (var {} date)
+            (cast {} (lit {type: (t-prim {} int32)} 2026) (t-prim {} int64))
+            (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))
+            (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))))
+        (let {}
+          (bind {}
+            jan_31
+            (app {}
+              (var {} date)
+              (cast {} (lit {type: (t-prim {} int32)} 2026) (t-prim {} int64))
+              (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))
+              (cast {} (lit {type: (t-prim {} int32)} 31) (t-prim {} int64))))
+          (let {}
+            (bind {}
+              diff
+              (app {} (var {} days_until) (var {} jan_1) (var {} jan_31)))
+            (app {}
+              (var {} assert_eq_int)
+              (var {} diff)
+              (cast {} (lit {type: (t-prim {} int32)} 30) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "30 days from Jan 1 to Jan 31")))))))
+  (defsig {}
+    test_format_and_offset
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_format_and_offset
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          d
+          (app {}
+            (var {} date)
+            (cast {} (lit {type: (t-prim {} int32)} 2026) (t-prim {} int64))
+            (cast {} (lit {type: (t-prim {} int32)} 5) (t-prim {} int64))
+            (cast {} (lit {type: (t-prim {} int32)} 7) (t-prim {} int64))))
+        (let {}
+          (bind {}
+            later
+            (app {} (var {} after_30_days) (var {} d)))
+          (app {}
+            (var {} assert_eq_string)
+            (app {} (var {} format_date) (var {} later))
+            (lit {type: (t-prim {} string)} "2026-06-06")
+            (lit {type: (t-prim {} string)} "May 7 + 30 days = Jun 6"))))))
+  (defsig {} test_week_before (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_week_before
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          d
+          (app {}
+            (var {} new_years_day)
+            (cast {} (lit {type: (t-prim {} int32)} 2026) (t-prim {} int64))))
+        (let {}
+          (bind {}
+            earlier
+            (app {} (var {} week_before) (var {} d)))
+          (app {}
+            (var {} assert_eq_string)
+            (app {} (var {} format_date) (var {} earlier))
+            (lit {type: (t-prim {} string)} "2025-12-25")
+            (lit {type: (t-prim {} string)} "7 days before Jan 1, 2026 is Dec 25, 2025")))))))

@@ -1,0 +1,77 @@
+(module {}
+  hello.tests.coral.joins
+  (import {} hello.coral.joins (inner left outer))
+  (import {} coral.frame (nrows ncols))
+  (import {} std.test (assert_eq_int))
+  (defsig {}
+    test_inner_join_intersection
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_inner_join_intersection
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          r
+          (app {} (var {} inner)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} r))
+              (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "inner join keeps 2 matching rows")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} r))
+            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "inner join: customer + qty + score == 3"))))))
+  (defsig {}
+    test_left_join_keeps_left_side
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_left_join_keeps_left_side
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          r
+          (app {} (var {} left)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} r))
+              (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "left join keeps all 3 left rows")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} r))
+            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "left join: customer + qty + score == 3"))))))
+  (defsig {}
+    test_outer_join_union
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_outer_join_union
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          r
+          (app {} (var {} outer)))
+        (let {}
+          (bind {}
+            __chelis_tmp0
+            (app {}
+              (var {} assert_eq_int)
+              (app {} (var {} nrows) (var {} r))
+              (cast {} (lit {type: (t-prim {} int32)} 4) (t-prim {} int64))
+              (lit {type: (t-prim {} string)} "outer join produces union of 4 rows")))
+          (app {}
+            (var {} assert_eq_int)
+            (app {} (var {} ncols) (var {} r))
+            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64))
+            (lit {type: (t-prim {} string)} "outer join: customer + qty + score == 3")))))))

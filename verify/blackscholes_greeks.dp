@@ -1,0 +1,195 @@
+(module {}
+  blackscholesgreeks
+  (defsig {} std_normal_cdf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    std_normal_cdf
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          z
+          (app {}
+            (var {} div)
+            (var {} x)
+            (app {}
+              (var {} sqrt)
+              (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32)))))
+        (app {}
+          (var {} mul)
+          (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+          (app {}
+            (var {} add)
+            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (app {} (var {} erf) (var {} z)))))))
+  (defsig {}
+    d1
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {}
+    d1
+    (fn {}
+      (params {}
+        (s {type: (t-prim {} f32)})
+        (k {type: (t-prim {} f32)})
+        (r {type: (t-prim {} f32)})
+        (sigma {type: (t-prim {} f32)})
+        (t {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          num
+          (app {}
+            (var {} add)
+            (app {} (var {} log) (app {} (var {} div) (var {} s) (var {} k)))
+            (app {}
+              (var {} mul)
+              (app {}
+                (var {} add)
+                (var {} r)
+                (app {}
+                  (var {} mul)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+                  (app {} (var {} mul) (var {} sigma) (var {} sigma))))
+              (var {} t))))
+        (let {}
+          (bind {}
+            den
+            (app {}
+              (var {} mul)
+              (var {} sigma)
+              (app {} (var {} sqrt) (var {} t))))
+          (app {} (var {} div) (var {} num) (var {} den))))))
+  (defsig {}
+    call_price
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {}
+    call_price
+    (fn {}
+      (params {}
+        (s {type: (t-prim {} f32)})
+        (k {type: (t-prim {} f32)})
+        (r {type: (t-prim {} f32)})
+        (sigma {type: (t-prim {} f32)})
+        (t {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          d_1
+          (app {}
+            (var {} d1)
+            (var {} s)
+            (var {} k)
+            (var {} r)
+            (var {} sigma)
+            (var {} t)))
+        (let {}
+          (bind {}
+            d_2
+            (app {}
+              (var {} sub)
+              (var {} d_1)
+              (app {}
+                (var {} mul)
+                (var {} sigma)
+                (app {} (var {} sqrt) (var {} t)))))
+          (let {}
+            (bind {}
+              discount
+              (app {}
+                (var {} exp)
+                (app {}
+                  (var {} neg)
+                  (app {} (var {} mul) (var {} r) (var {} t)))))
+            (app {}
+              (var {} sub)
+              (app {}
+                (var {} mul)
+                (var {} s)
+                (app {} (var {} std_normal_cdf) (var {} d_1)))
+              (app {}
+                (var {} mul)
+                (app {} (var {} mul) (var {} k) (var {} discount))
+                (app {} (var {} std_normal_cdf) (var {} d_2)))))))))
+  (defsig {}
+    delta_via_grad
+    (t-fn {}
+      (t-fn {}
+        (t-prim {} f32)
+        (t-prim {} f32)
+        (t-prim {} f32)
+        (t-prim {} f32)
+        (t-prim {} f32)
+        (t-prim {} f32))
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {}
+    delta_via_grad
+    (fn {}
+      (params {}
+        (model {type: (t-fn {}
+                         (t-prim {} f32)
+                         (t-prim {} f32)
+                         (t-prim {} f32)
+                         (t-prim {} f32)
+                         (t-prim {} f32)
+                         (t-prim {} f32))
+               })
+        (s {type: (t-prim {} f32)})
+        (k {type: (t-prim {} f32)})
+        (r {type: (t-prim {} f32)})
+        (sigma {type: (t-prim {} f32)})
+        (t {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          target
+          (fn {}
+            (params {} (s_local {type: (t-prim {} f32)}))
+            (app {}
+              (var {} model)
+              (var {} s_local)
+              (var {} k)
+              (var {} r)
+              (var {} sigma)
+              (var {} t))))
+        (app {}
+          (grad {wrt: (var {} s_local)}
+            (var {} target)
+            (lit {type: (t-prim {} int32)} 0))
+          (var {} s)))))
+  (def {} s0 (cast {} (lit {type: (t-prim {} f32)} 100.0) (t-prim {} f32)))
+  (def {} k0 (cast {} (lit {type: (t-prim {} f32)} 100.0) (t-prim {} f32)))
+  (def {} r0 (cast {} (lit {type: (t-prim {} f32)} 0.05) (t-prim {} f32)))
+  (def {} sigma0 (cast {} (lit {type: (t-prim {} f32)} 0.2) (t-prim {} f32)))
+  (def {} t0 (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))
+  (def {}
+    c
+    (app {}
+      (var {} call_price)
+      (var {} s0)
+      (var {} k0)
+      (var {} r0)
+      (var {} sigma0)
+      (var {} t0)))
+  (def {}
+    delta_ad
+    (app {}
+      (var {} delta_via_grad)
+      (var {} call_price)
+      (var {} s0)
+      (var {} k0)
+      (var {} r0)
+      (var {} sigma0)
+      (var {} t0))))

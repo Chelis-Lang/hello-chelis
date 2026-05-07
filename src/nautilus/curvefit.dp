@@ -1,0 +1,156 @@
+(module {}
+  hello.nautilus.curvefit
+  (import {} nautilus.curvefit (lm_scalar_1param))
+  (export {} fit_exp_decay fit_linear_through_origin)
+  (defsig {}
+    exp_decay_model
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    exp_decay_model
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (theta {type: (t-prim {} f32)}))
+      (app {}
+        (var {} exp)
+        (app {} (var {} neg) (app {} (var {} mul) (var {} theta) (var {} x))))))
+  (defsig {}
+    exp_decay_dmodel
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    exp_decay_dmodel
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (theta {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          e
+          (app {}
+            (var {} exp)
+            (app {}
+              (var {} neg)
+              (app {} (var {} mul) (var {} theta) (var {} x)))))
+        (app {} (var {} mul) (app {} (var {} neg) (var {} x)) (var {} e)))))
+  (defsig {} fit_exp_decay (t-fn {} (t-prim {} f32)))
+  (def {}
+    fit_exp_decay
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          xs
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                    (var {} Nil)))))))
+        (let {}
+          (bind {}
+            ys
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {}
+                    (lit {type: (t-prim {} f32)} 0.6065307)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {}
+                      (lit {type: (t-prim {} f32)} 0.3678794)
+                      (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 0.2231302)
+                        (t-prim {} f32))
+                      (var {} Nil)))))))
+          (app {}
+            (var {} lm_scalar_1param)
+            (var {} exp_decay_model)
+            (var {} exp_decay_dmodel)
+            (var {} xs)
+            (var {} ys)
+            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.01) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} int32)} 200) (t-prim {} int64)))))))
+  (defsig {}
+    lin_model
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    lin_model
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (theta {type: (t-prim {} f32)}))
+      (app {} (var {} mul) (var {} theta) (var {} x))))
+  (defsig {}
+    lin_dmodel
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    lin_dmodel
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (theta {type: (t-prim {} f32)}))
+      (var {} x)))
+  (defsig {} fit_linear_through_origin (t-fn {} (t-prim {} f32)))
+  (def {}
+    fit_linear_through_origin
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          xs
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                    (var {} Nil)))))))
+        (let {}
+          (bind {}
+            ys
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 8.0)
+                        (t-prim {} f32))
+                      (var {} Nil)))))))
+          (app {}
+            (var {} lm_scalar_1param)
+            (var {} lin_model)
+            (var {} lin_dmodel)
+            (var {} xs)
+            (var {} ys)
+            (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.01) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} f32)} 0.00000001) (t-prim {} f32))
+            (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64))))))))

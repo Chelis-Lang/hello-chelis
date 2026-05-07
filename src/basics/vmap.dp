@@ -1,0 +1,34 @@
+(module {}
+  hello.basics.vmap
+  (export {} process batch_process)
+  (defsig {}
+    process
+    (t-fn {}
+      (t-tensor {} (d-name {} features) (t-prim {} f32))
+      (t-tensor {} (d-name {} features) (t-prim {} f32))))
+  (def {}
+    process
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-name {} features) (t-prim {} f32))}))
+      (pipe {}
+        (copy {} (var {} x))
+        (fn {}
+          (params {} __chelis_pipe)
+          (app {} (var {} add) (var {} __chelis_pipe) (var {} x))))))
+  (defsig {}
+    batch_process
+    (t-fn {}
+      (t-tensor {} (d-name {} batch) (d-name {} features) (t-prim {} f32))
+      (t-tensor {} (d-name {} batch) (d-name {} features) (t-prim {} f32))))
+  (def {}
+    batch_process
+    (fn {}
+      (params {}
+        (xs {type: (t-tensor {}
+                      (d-name {} batch)
+                      (d-name {} features)
+                      (t-prim {} f32))
+            }))
+      (pipe {}
+        (var {} xs)
+        (vmap {} (var {} process) (lit {type: (t-prim {} int32)} 0))))))

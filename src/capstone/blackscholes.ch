@@ -28,9 +28,22 @@ def call_price(s: f32, k: f32, r: f32, sigma: f32, t: f32) -> f32 = {
   sub(mul(s, normal_cdf(d_1, cast(0.0, f32), cast(1.0, f32))), mul(mul(k, discount), normal_cdf(d_2, cast(0.0, f32), cast(1.0, f32))))
 }
 
--- Greeks via `grad`. delta = ∂C/∂s, vega = ∂C/∂sigma.
-def delta(s: f32, k: f32, r: f32, sigma: f32, t: f32) -> f32 =
-  grad(call_price, wrt=s)(s, k, r, sigma, t)
+-- Greeks via `grad`. Uses the wrapper-over-fn-param form so the C
+-- backend lowers correctly: name a local closure that captures the
+-- non-differentiated args, then grad(local, wrt=(arg))(arg).
 
-def vega(s: f32, k: f32, r: f32, sigma: f32, t: f32) -> f32 =
-  grad(call_price, wrt=sigma)(s, k, r, sigma, t)
+def delta(
+  model: f32 -> f32 -> f32 -> f32 -> f32 -> f32,
+  s: f32, k: f32, r: f32, sigma: f32, t: f32
+) -> f32 = {
+  target = fn (s_local: f32) -> model(s_local, k, r, sigma, t)
+  grad(target, wrt=(s_local))(s)
+}
+
+def vega(
+  model: f32 -> f32 -> f32 -> f32 -> f32 -> f32,
+  s: f32, k: f32, r: f32, sigma: f32, t: f32
+) -> f32 = {
+  target = fn (sigma_local: f32) -> model(s, k, r, sigma_local, t)
+  grad(target, wrt=(sigma_local))(sigma)
+}

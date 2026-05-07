@@ -1,0 +1,61 @@
+(module {}
+  hello.nautilus.interpolation
+  (import {} nautilus.interpolation (linear_interp_uniform cubic_hermite))
+  (export {} linear_at_query hermite_unit_segment hermite_endpoint)
+  (defsig {} linear_at_query (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    linear_at_query
+    (fn {}
+      (params {} (x_q {type: (t-prim {} f32)}))
+      (let {}
+        (bind {}
+          ys
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 9.0) (t-prim {} f32))
+                    (var {} Nil)))))))
+        (app {}
+          (var {} linear_interp_uniform)
+          (var {} ys)
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+          (var {} x_q)))))
+  (defsig {} hermite_unit_segment (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    hermite_unit_segment
+    (fn {}
+      (params {} (x_q {type: (t-prim {} f32)}))
+      (app {}
+        (var {} cubic_hermite)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (var {} x_q))))
+  (defsig {} hermite_endpoint (t-fn {} (t-prim {} f32)))
+  (def {}
+    hermite_endpoint
+    (fn {}
+      (params {})
+      (app {}
+        (var {} cubic_hermite)
+        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))))))

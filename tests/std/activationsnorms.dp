@@ -1,0 +1,93 @@
+(module {}
+  hello.tests.std.activationsnorms
+  (import {} hello.std.activationsnorms (rms_normalize manual_layer_norm))
+  (import {} std.nn.silu (sigmoid_scalar))
+  (import {} std.nn.gelu (gelu_scalar))
+  (import {} std.test (assert_close))
+  (defsig {}
+    test_sigmoid_scalar_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_sigmoid_scalar_zero
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {}
+            (var {} sigmoid_scalar)
+            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))
+        (app {}
+          (var {} assert_close)
+          (var {} result)
+          (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "sigmoid(0)=0.5")))))
+  (defsig {}
+    test_gelu_scalar_zero
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_gelu_scalar_zero
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          result
+          (app {}
+            (var {} gelu_scalar)
+            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))
+        (app {}
+          (var {} assert_close)
+          (var {} result)
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+          (lit {type: (t-prim {} string)} "gelu(0)=0")))))
+  (defsig {}
+    test_manual_layer_norm_zero_mean
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_manual_layer_norm_zero_mean
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          x
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {}
+                (app {} (var {} neg) (lit {type: (t-prim {} f32)} 1.0))
+                (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            normed
+            (app {}
+              (var {} manual_layer_norm)
+              (var {} x)
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))))
+          (let {}
+            (bind {}
+              total
+              (app {}
+                (var {} fold)
+                (fn {}
+                  (params {}
+                    (acc {type: (t-prim {} f32)})
+                    (v {type: (t-prim {} f32)}))
+                  (app {} (var {} add) (var {} acc) (var {} v)))
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (app {} (var {} to_list) (var {} normed))))
+            (app {}
+              (var {} assert_close)
+              (var {} total)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "layer_norm has zero mean"))))))))

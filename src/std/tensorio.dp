@@ -1,0 +1,57 @@
+(module {}
+  hello.std.tensorio
+  (import {} std.io (read_text write_text exists))
+  (export {} write_then_read file_or_default save_message)
+  (defsig {}
+    write_then_read
+    (t-fn {eff: (effects {} io)}
+      (t-prim {} string)
+      (t-prim {} string)
+      (t-prim {} string)))
+  (def {}
+    write_then_read
+    (fn {}
+      (params {}
+        (path {type: (t-prim {} string)})
+        (contents {type: (t-prim {} string)}))
+      (let {}
+        (bind {}
+          __chelis_tmp0
+          (app {} (var {} write_text) (var {} path) (var {} contents)))
+        (app {} (var {} read_text) (var {} path)))))
+  (defsig {}
+    file_or_default
+    (t-fn {eff: (effects {} io)}
+      (t-prim {} string)
+      (t-prim {} string)
+      (t-prim {} string)))
+  (def {}
+    file_or_default
+    (fn {}
+      (params {}
+        (path {type: (t-prim {} string)})
+        (fallback {type: (t-prim {} string)}))
+      (if {}
+        (app {} (var {} exists) (var {} path))
+        (app {} (var {} read_text) (var {} path))
+        (var {} fallback))))
+  (defsig {}
+    save_message
+    (t-fn {eff: (effects {} io)}
+      (t-prim {} string)
+      (t-prim {} string)
+      (t-prim {} string)))
+  (def {}
+    save_message
+    (fn {}
+      (params {}
+        (path {type: (t-prim {} string)})
+        (message {type: (t-prim {} string)}))
+      (let {}
+        (bind {}
+          banner
+          (app {}
+            (var {} string_concat)
+            (lit {type: (t-prim {} string)} "[hello] ")
+            (var {} message)))
+        (app {} (var {} write_then_read) (var {} path) (var {} banner))))))

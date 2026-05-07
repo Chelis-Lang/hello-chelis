@@ -1,0 +1,15 @@
+(defsig {}
+  bad
+  (t-fn {}
+    (t-tensor {} (d-var {} n) (t-prim {} f32))
+    (t-tensor {} (d-var {} n) (t-prim {} f32))))
+
+(def {}
+  bad
+  (fn {}
+    (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+    (let {}
+      (bind {}
+        y
+        (app {} (var {} relu) (var {} x)))
+      (app {} (var {} add) (var {} x) (var {} y)))))

@@ -1,0 +1,92 @@
+(module {}
+  hello.tests.std.decimal
+  (import {} hello.std.decimal (parse_price total_cents format_total add_cents))
+  (import {} std.decimal (decimal decimal_to_string decimal_eq))
+  (import {} std.test (assert_eq_string assert_true))
+  (defsig {}
+    test_parse_and_format
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_parse_and_format
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          price
+          (app {} (var {} parse_price) (lit {type: (t-prim {} string)} "19.95")))
+        (app {}
+          (var {} assert_eq_string)
+          (app {} (var {} decimal_to_string) (var {} price))
+          (lit {type: (t-prim {} string)} "19.95")
+          (lit {type: (t-prim {} string)} "round-trip")))))
+  (defsig {}
+    test_total_cents_sum
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_total_cents_sum
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          a
+          (app {} (var {} decimal) (lit {type: (t-prim {} string)} "1.50")))
+        (let {}
+          (bind {}
+            b
+            (app {} (var {} decimal) (lit {type: (t-prim {} string)} "2.25")))
+          (let {}
+            (bind {}
+              total
+              (app {} (var {} total_cents) (var {} a) (var {} b)))
+            (app {}
+              (var {} assert_eq_string)
+              (app {} (var {} decimal_to_string) (var {} total))
+              (lit {type: (t-prim {} string)} "3.75")
+              (lit {type: (t-prim {} string)} "1.50+2.25=3.75")))))))
+  (defsig {}
+    test_format_total_with_discount
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_format_total_with_discount
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          subtotal
+          (app {} (var {} decimal) (lit {type: (t-prim {} string)} "100.00")))
+        (let {}
+          (bind {}
+            discount
+            (app {} (var {} decimal) (lit {type: (t-prim {} string)} "15.50")))
+          (let {}
+            (bind {}
+              out
+              (app {} (var {} format_total) (var {} subtotal) (var {} discount)))
+            (app {}
+              (var {} assert_eq_string)
+              (var {} out)
+              (lit {type: (t-prim {} string)} "84.5")
+              (lit {type: (t-prim {} string)} "100.00-15.50=84.5")))))))
+  (defsig {} test_add_cents (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_add_cents
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          base
+          (app {} (var {} decimal) (lit {type: (t-prim {} string)} "10.00")))
+        (let {}
+          (bind {}
+            bumped
+            (app {}
+              (var {} add_cents)
+              (var {} base)
+              (cast {} (lit {type: (t-prim {} int32)} 7) (t-prim {} int64))))
+          (app {}
+            (var {} assert_true)
+            (app {}
+              (var {} decimal_eq)
+              (var {} bumped)
+              (app {} (var {} decimal) (lit {type: (t-prim {} string)} "10.07")))
+            (lit {type: (t-prim {} string)} "add 7 cents")))))))

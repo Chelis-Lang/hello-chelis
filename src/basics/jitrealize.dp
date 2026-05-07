@@ -1,0 +1,31 @@
+(module {}
+  hello.basics.jitrealize
+  (export {} eager with_realize)
+  (defsig {}
+    eager
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    eager
+    (fn {}
+      (params {}
+        (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {} (var {} mul) (var {} w) (var {} x))))
+  (defsig {}
+    with_realize
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    with_realize
+    (fn {}
+      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (let {}
+        (bind {}
+          doubled
+          (realize {}
+            (app {} (var {} add) (copy {} (var {} x)) (copy {} (var {} x)))))
+        (app {} (var {} add) (var {} doubled) (var {} x))))))

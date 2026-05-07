@@ -1,0 +1,125 @@
+(module {}
+  hello.nautilus.sde
+  (import {} nautilus.sde (euler_maruyama_fixed))
+  (export {} gbm_path_zero_noise em_one_step_decay)
+  (defsig {}
+    gbm_drift
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    gbm_drift
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (app {}
+        (var {} mul)
+        (cast {} (lit {type: (t-prim {} f32)} 0.1) (t-prim {} f32))
+        (var {} y))))
+  (defsig {}
+    gbm_diffusion
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    gbm_diffusion
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (app {}
+        (var {} mul)
+        (cast {} (lit {type: (t-prim {} f32)} 0.2) (t-prim {} f32))
+        (var {} y))))
+  (defsig {}
+    decay_drift
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    decay_drift
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (app {} (var {} neg) (var {} y))))
+  (defsig {}
+    zero_diffusion
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {}
+    zero_diffusion
+    (fn {}
+      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))
+  (defsig {} gbm_path_zero_noise (t-fn {} (t-prim {} f32)))
+  (def {}
+    gbm_path_zero_noise
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          noise
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 0.0)
+                        (t-prim {} f32))
+                      (app {}
+                        (var {} Cons)
+                        (cast {}
+                          (lit {type: (t-prim {} f32)} 0.0)
+                          (t-prim {} f32))
+                        (app {}
+                          (var {} Cons)
+                          (cast {}
+                            (lit {type: (t-prim {} f32)} 0.0)
+                            (t-prim {} f32))
+                          (app {}
+                            (var {} Cons)
+                            (cast {}
+                              (lit {type: (t-prim {} f32)} 0.0)
+                              (t-prim {} f32))
+                            (app {}
+                              (var {} Cons)
+                              (cast {}
+                                (lit {type: (t-prim {} f32)} 0.0)
+                                (t-prim {} f32))
+                              (app {}
+                                (var {} Cons)
+                                (cast {}
+                                  (lit {type: (t-prim {} f32)} 0.0)
+                                  (t-prim {} f32))
+                                (var {} Nil)))))))))))))
+        (app {}
+          (var {} euler_maruyama_fixed)
+          (var {} gbm_drift)
+          (var {} gbm_diffusion)
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (var {} noise)))))
+  (defsig {} em_one_step_decay (t-fn {} (t-prim {} f32)))
+  (def {}
+    em_one_step_decay
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          noise
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (var {} Nil))))
+        (app {}
+          (var {} euler_maruyama_fixed)
+          (var {} decay_drift)
+          (var {} zero_diffusion)
+          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (cast {} (lit {type: (t-prim {} f32)} 0.1) (t-prim {} f32))
+          (var {} noise))))))

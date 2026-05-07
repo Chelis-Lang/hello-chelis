@@ -1,0 +1,30 @@
+(module {}
+  hello.tests.basics.precisioncast
+  (import {} hello.basics.precisioncast (round_scalar))
+  (import {} std.test (assert_close))
+  (defsig {} test_round_15 (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_round_15
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} round_scalar)
+          (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "round_1p5"))))
+  (defsig {} test_round_pi (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_round_pi
+    (fn {}
+      (params {})
+      (app {}
+        (var {} assert_close)
+        (app {}
+          (var {} round_scalar)
+          (cast {} (lit {type: (t-prim {} f32)} 3.14159) (t-prim {} f32)))
+        (cast {} (lit {type: (t-prim {} f32)} 3.14159) (t-prim {} f32))
+        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+        (lit {type: (t-prim {} string)} "round_pi")))))

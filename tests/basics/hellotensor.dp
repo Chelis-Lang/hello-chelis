@@ -1,0 +1,62 @@
+(module {}
+  hello.tests.basics.hellotensor
+  (import {} hello.basics.hellotensor (add_vec))
+  (import {} std.test (assert_close_tensor))
+  (defsig {} test_add_vec (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_add_vec
+    (fn {}
+      (params {})
+      (let {}
+        (bind {}
+          a
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            b
+            (app {}
+              (var {} to_tensor)
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
+                    (var {} Nil))))))
+          (let {}
+            (bind {}
+              expected
+              (app {}
+                (var {} to_tensor)
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {}
+                        (lit {type: (t-prim {} f32)} 9.0)
+                        (t-prim {} f32))
+                      (var {} Nil))))))
+            (app {}
+              (var {} assert_close_tensor)
+              (app {} (var {} add_vec) (var {} a) (var {} b))
+              (var {} expected)
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "add_vec_3"))))))))

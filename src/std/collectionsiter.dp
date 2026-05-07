@@ -1,0 +1,161 @@
+(module {}
+  hello.std.collectionsiter
+  (export {}
+    sum_evens
+    running_sums
+    build_vocab
+    lookup_or_default
+    take_first_three
+    double_then_pairs
+    increments
+    partition_threshold)
+  (defsig {}
+    sum_evens
+    (t-fn {} (t-adt {} List (t-prim {} int64)) (t-prim {} int64)))
+  (def {}
+    sum_evens
+    (fn {}
+      (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
+      (let {}
+        (bind {}
+          evens
+          (app {}
+            (var {} filter)
+            (fn {}
+              (params {} (x {type: (t-prim {} int64)}))
+              (app {}
+                (var {} eq)
+                (app {}
+                  (var {} mod)
+                  (var {} x)
+                  (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64)))
+                (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))))
+            (var {} xs)))
+        (app {}
+          (var {} fold)
+          (fn {}
+            (params {}
+              (acc {type: (t-prim {} int64)})
+              (x {type: (t-prim {} int64)}))
+            (app {} (var {} add) (var {} acc) (var {} x)))
+          (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))
+          (var {} evens)))))
+  (defsig {}
+    running_sums
+    (t-fn {}
+      (t-adt {} List (t-prim {} int64))
+      (t-adt {} List (t-prim {} int64))))
+  (def {}
+    running_sums
+    (fn {}
+      (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
+      (app {}
+        (var {} scan)
+        (fn {}
+          (params {}
+            (acc {type: (t-prim {} int64)})
+            (x {type: (t-prim {} int64)}))
+          (app {} (var {} add) (var {} acc) (var {} x)))
+        (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))
+        (var {} xs))))
+  (defsig {}
+    build_vocab
+    (t-fn {}
+      (t-adt {} List (t-prim {} string))
+      (t-adt {} List (t-prim {} int64))
+      (t-adt {} Dict (t-prim {} string) (t-prim {} int64))))
+  (def {}
+    build_vocab
+    (fn {}
+      (params {}
+        (keys {type: (t-adt {} List (t-prim {} string))})
+        (ids {type: (t-adt {} List (t-prim {} int64))}))
+      (app {} (var {} dict_of) (app {} (var {} zip) (var {} keys) (var {} ids)))))
+  (defsig {}
+    lookup_or_default
+    (t-fn {}
+      (t-adt {} Dict (t-prim {} string) (t-prim {} int64))
+      (t-prim {} string)
+      (t-prim {} int64)
+      (t-prim {} int64)))
+  (def {}
+    lookup_or_default
+    (fn {}
+      (params {}
+        (d {type: (t-adt {} Dict (t-prim {} string) (t-prim {} int64))})
+        (k {type: (t-prim {} string)})
+        (fallback {type: (t-prim {} int64)}))
+      (match {}
+        (app {} (var {} dict_get) (var {} d) (var {} k))
+        (arm {} (pat-ctor {} Some (pat-var {} value)) () (var {} value))
+        (arm {} (pat-ctor {} None) () (var {} fallback)))))
+  (defsig {}
+    increments
+    (t-fn {}
+      (t-adt {} List (t-prim {} int64))
+      (t-adt {} List (t-prim {} int64))))
+  (def {}
+    increments
+    (fn {}
+      (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
+      (app {}
+        (var {} map)
+        (fn {}
+          (params {} (x {type: (t-prim {} int64)}))
+          (app {}
+            (var {} add)
+            (var {} x)
+            (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))))
+        (var {} xs))))
+  (defsig {}
+    take_first_three
+    (t-fn {}
+      (t-adt {} List (t-prim {} int64))
+      (t-adt {} List (t-prim {} int64))))
+  (def {}
+    take_first_three
+    (fn {}
+      (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
+      (app {}
+        (var {} take)
+        (var {} xs)
+        (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64)))))
+  (defsig {}
+    double_then_pairs
+    (t-fn {}
+      (t-adt {} List (t-prim {} int64))
+      (t-adt {} List (t-prim {} int64))))
+  (def {}
+    double_then_pairs
+    (fn {}
+      (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
+      (app {}
+        (var {} flat_map)
+        (fn {}
+          (params {} (x {type: (t-prim {} int64)}))
+          (app {}
+            (var {} Cons)
+            (var {} x)
+            (app {}
+              (var {} Cons)
+              (app {}
+                (var {} mul)
+                (var {} x)
+                (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64)))
+              (var {} Nil))))
+        (var {} xs))))
+  (defsig {}
+    partition_threshold
+    (t-fn {} (t-adt {} List (t-prim {} int64)) (t-prim {} int64) (t-var {} _)))
+  (def {}
+    partition_threshold
+    (fn {}
+      (params {}
+        (xs {type: (t-adt {} List (t-prim {} int64))})
+        (threshold {type: (t-prim {} int64)}))
+      (app {}
+        (var {} partition)
+        (fn {}
+          (params {} (x {type: (t-prim {} int64)}))
+          (app {} (var {} gt) (var {} x) (var {} threshold)))
+        (var {} xs)))))
