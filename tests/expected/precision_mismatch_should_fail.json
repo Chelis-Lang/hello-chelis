@@ -1,0 +1,9 @@
+{
+  "_doc": "Mixed-precision arithmetic without explicit cast must be rejected with a `precision_mismatch` error and a hint to insert `cast`.",
+  "snippet": "module Hello.Negative.PrecisionMismatch\nimport Std.Tensor.Construct (to_tensor)\ndef bad(x: tensor[n, f32], y: tensor[n, bf16]) -> tensor[n, f32] = add(x, y)\n",
+  "expected": {
+    "rc_nonzero": true,
+    "error_kind": "precision_mismatch",
+    "expected_substring_in_error": "cast"
+  }
+}

@@ -1,0 +1,79 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  examples:
+    name: chelis check + test (Docker)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build hello-chelis Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile
+          tags: hello-chelis:ci
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: chelis lint --check
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            python3 scripts/lint_examples.py
+
+      - name: chelis check on every example
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            python3 -m pytest -q tests/test_chelis_check.py tests/test_negative_examples.py
+
+      - name: chelis test (run example test suites)
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            python3 -m pytest -q tests/test_chelis_eval.py
+
+      - name: octant pair regeneration
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            python3 -m pytest -q tests/test_octant_pairs.py
+
+  build:
+    name: chelis build --target c (subset)
+    runs-on: ubuntu-24.04
+    needs: examples
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Reuse hello-chelis image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile
+          tags: hello-chelis:ci
+          load: true
+          cache-from: type=gha
+
+      - name: Build C backend on representative subset and verify span markers
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            python3 -m pytest -q tests/test_chelis_build.py

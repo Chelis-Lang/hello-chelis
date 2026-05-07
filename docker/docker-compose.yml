@@ -1,0 +1,12 @@
+services:
+  hello-chelis:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: hello-chelis:0.6.1
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+    stdin_open: true
+    tty: true
+    command: /bin/bash

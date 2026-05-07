@@ -1,0 +1,17 @@
+% chelis: S : f32
+% chelis: K : f32
+% chelis: r : f32
+% chelis: sigma : f32
+% chelis: T : f32
+
+\begin{equation}\label{eq:bs_d1}
+d_1 = \frac{\ln(S/K) + (r + \sigma^2 / 2) T}{\sigma \sqrt{T}}
+\end{equation}
+
+\begin{equation}\label{eq:bs_d2}
+d_2 = d_1 - \sigma \sqrt{T}
+\end{equation}
+
+\begin{equation}\label{eq:bs_call}
+C = S \, N(d_1) - K e^{-rT} N(d_2)
+\end{equation}

@@ -1,0 +1,25 @@
+# Chelis compiler / shell artifacts
+.chelis/
+build/
+*.dp.out
+*.spans.json.tmp
+
+# Reef cache
+.reef-cache/
+target/
+
+# Python harness
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# CI
+.cache/

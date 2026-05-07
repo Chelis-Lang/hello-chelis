@@ -1,0 +1,17 @@
+[project]
+name = "hello-chelis-tests"
+version = "0.1.0"
+description = "Python harness for the hello-chelis example corpus"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-xdist>=3.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra"
