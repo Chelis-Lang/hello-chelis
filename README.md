@@ -77,7 +77,6 @@ hello-chelis/
 │   └── 06_capstone/                 multi-shell integrations
 ├── tests/                           Python harness over chelis check/eval/build
 │   └── expected/                    golden outputs
-├── scripts/install_shells.py        single-purpose: reef install for the shells
 ├── docker/                          Dockerfile + docker-compose.yml
 ├── .github/workflows/               CI (chelis check, lint, run examples)
 ├── reef.toml                        compiler + shell pins

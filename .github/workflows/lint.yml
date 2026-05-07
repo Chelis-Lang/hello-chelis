@@ -25,10 +25,10 @@ jobs:
           python -m pip install ruff==0.6.* black==24.*
 
       - name: ruff check
-        run: ruff check scripts/ tests/
+        run: ruff check tests/
 
       - name: black --check
-        run: black --check scripts/ tests/
+        run: black --check tests/
 
   chelis-lint:
     name: chelis lint --check

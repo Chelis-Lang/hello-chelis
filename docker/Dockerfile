@@ -51,11 +51,14 @@ RUN curl -fsSL -o /tmp/${CHELIS_TARBALL} \
     && /opt/chelis/bin/chelis --version
 
 # --- Shells -------------------------------------------------------------------
-# The reef GitHub-Releases install path (`chelis reef install --from-github`)
-# is the canonical mechanism; we fall back to a local clone + `reef pack` when
-# it isn't available. install_shells.py handles both.
-COPY scripts/install_shells.py /tmp/install_shells.py
-RUN python3 /tmp/install_shells.py --system && rm /tmp/install_shells.py
+# `chelis reef install` reads a project's reef.toml, looks up each
+# dependency in the compiler's bootstrap list (chelis-std, coral, nautilus,
+# octant — all pinned in lockstep with the v0.6.1 release), fetches the
+# matching GitHub-Releases archives, sha256-verifies, and populates the
+# local content-addressed registry. We pre-warm here so containers start
+# with everything cached.
+COPY reef.toml /tmp/reef-bootstrap/reef.toml
+RUN cd /tmp/reef-bootstrap && chelis reef install && rm -rf /tmp/reef-bootstrap
 
 # --- Workspace ---------------------------------------------------------------
 WORKDIR /workspace

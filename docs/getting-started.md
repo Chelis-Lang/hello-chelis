@@ -103,7 +103,8 @@ chelis check examples/
   stable name surface is narrower than the primer suggests. Examples in
   this repo stick to what `chelis check` accepts on v0.6.1 — see
   [`docs/feature-matrix.md`](feature-matrix.md) for the deltas.
-- **Reef's GitHub-Releases install path is recent.** If `chelis reef install
-  --from-github` fails on your image build, `scripts/install_shells.py`
-  falls back to cloning each shell repo and running `chelis reef pack` +
-  `chelis reef install --from-archive`.
+- **Shells are installed via reef.** The Dockerfile runs `chelis reef
+  install` against this repo's `reef.toml`; reef looks each dependency up
+  in the compiler's `DEFAULT_BOOTSTRAP_LIST` (refreshed in lockstep with
+  every chelis release) and fetches the matching GitHub-Releases archive.
+  No glue script needed.
