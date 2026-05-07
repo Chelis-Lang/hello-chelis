@@ -1,7 +1,7 @@
 (module {}
   hello.basics.effectsrandom
   (import {} std.init.random (normal_like))
-  (export {} sample_normal)
+  (export {} sample_normal deterministic_pair)
   (defsig {}
     sample_normal
     (t-fn {eff: (effects {} random)}
@@ -20,4 +20,27 @@
         (var {} normal_like)
         (var {} template)
         (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))))))
+        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+  (defsig {}
+    deterministic_pair
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {}
+    deterministic_pair
+    (fn {}
+      (params {})
+      (handle-effect {effect: random}
+        (lit {type: (t-prim {} int32)} 42)
+        (app {}
+          (var {} sample_normal)
+          (app {}
+            (var {} to_tensor)
+            (app {}
+              (var {} Cons)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                  (var {} Nil))))))))))

@@ -139,13 +139,6 @@
   (defsig {}
     delta
     (t-fn {}
-      (t-fn {}
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32))
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)
@@ -156,46 +149,23 @@
     delta
     (fn {}
       (params {}
-        (model {type: (t-fn {}
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32))
-               })
         (s {type: (t-prim {} f32)})
         (k {type: (t-prim {} f32)})
         (r {type: (t-prim {} f32)})
         (sigma {type: (t-prim {} f32)})
         (t {type: (t-prim {} f32)}))
-      (let {}
-        (bind {}
-          target
-          (fn {}
-            (params {} (s_local {type: (t-prim {} f32)}))
-            (app {}
-              (var {} model)
-              (var {} s_local)
-              (var {} k)
-              (var {} r)
-              (var {} sigma)
-              (var {} t))))
-        (app {}
-          (grad {wrt: (var {} s_local)}
-            (var {} target)
-            (lit {type: (t-prim {} int32)} 0))
-          (var {} s)))))
+      (app {}
+        (grad {wrt: (var {} s)}
+          (var {} call_price)
+          (lit {type: (t-prim {} int32)} 0))
+        (var {} s)
+        (var {} k)
+        (var {} r)
+        (var {} sigma)
+        (var {} t))))
   (defsig {}
     vega
     (t-fn {}
-      (t-fn {}
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32)
-        (t-prim {} f32))
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)
@@ -206,33 +176,17 @@
     vega
     (fn {}
       (params {}
-        (model {type: (t-fn {}
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32)
-                         (t-prim {} f32))
-               })
         (s {type: (t-prim {} f32)})
         (k {type: (t-prim {} f32)})
         (r {type: (t-prim {} f32)})
         (sigma {type: (t-prim {} f32)})
         (t {type: (t-prim {} f32)}))
-      (let {}
-        (bind {}
-          target
-          (fn {}
-            (params {} (sigma_local {type: (t-prim {} f32)}))
-            (app {}
-              (var {} model)
-              (var {} s)
-              (var {} k)
-              (var {} r)
-              (var {} sigma_local)
-              (var {} t))))
-        (app {}
-          (grad {wrt: (var {} sigma_local)}
-            (var {} target)
-            (lit {type: (t-prim {} int32)} 0))
-          (var {} sigma))))))
+      (app {}
+        (grad {wrt: (var {} sigma)}
+          (var {} call_price)
+          (lit {type: (t-prim {} int32)} 3))
+        (var {} s)
+        (var {} k)
+        (var {} r)
+        (var {} sigma)
+        (var {} t)))))
