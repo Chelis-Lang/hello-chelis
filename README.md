@@ -93,6 +93,16 @@ python3 scripts/regen_deep.py
 The full design rationale is in
 [`docs/surf-and-deep.md`](docs/surf-and-deep.md).
 
+## Compiler vs interpreter discrepancies
+
+The compiler ships three distinct execution paths that don't all share
+the same primitive set: `chelis check` (front-end), the IR evaluator
+(`chelis test`/`chelis eval`), and the C backend (`chelis build`). A
+program can pass `chelis check` and fail at either runtime, or pass
+in one runtime and fail in the other. Each test in this corpus runs
+in the lane that supports it; the gaps are catalogued with verbatim
+compiler error messages in [`docs/discrepancies.md`](docs/discrepancies.md).
+
 ## Compiler version
 
 Pinned to **chelis `0.6.1`** with **`chelis-std` 0.2.0**, **coral 0.6.1**,
