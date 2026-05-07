@@ -1,9 +1,0 @@
-{
-  "_doc": "Adding tensors with different named dims must be rejected.",
-  "snippet": "module Hello.Negative.DimMismatch\nimport Std.Tensor.Construct (to_tensor)\ndef bad(x: tensor[batch, f32], y: tensor[seq, f32]) -> tensor[batch, f32] = add(x, y)\n",
-  "expected": {
-    "rc_nonzero": true,
-    "error_kind": "DimensionMismatch",
-    "expected_substring_in_error": "batch"
-  }
-}

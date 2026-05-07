@@ -81,7 +81,4 @@ jobs:
       - name: Negative examples + Octant pairs + C-backend audit chain
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            python3 -m pytest -q \
-              tests/test_negative_examples.py \
-              tests/test_octant_pairs.py \
-              tests/test_chelis_build.py
+            python3 -m pytest -q tests/

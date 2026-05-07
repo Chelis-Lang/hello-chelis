@@ -1,9 +1,0 @@
-{
-  "_doc": "Programmable counterexample: this fragment must be REJECTED by `chelis check`. Used by tests/test_negative_examples.py once that test is wired up. The fragment lives only in this JSON; we deliberately don't put it in examples/ so the corpus stays passable.",
-  "snippet": "module Hello.Negative.UseAfterConsume\nimport Std.Tensor.Construct (to_tensor)\ndef bad(x: tensor[n, f32]) -> tensor[n, f32] = {\n  y = relu(x)\n  add(x, y)\n}\n",
-  "expected": {
-    "rc_nonzero": true,
-    "error_kind": "UseAfterConsume",
-    "expected_substring_in_error": "x"
-  }
-}

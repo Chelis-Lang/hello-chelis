@@ -7,9 +7,9 @@ example pins down.
 
 | Primer claim | Example file | Notes |
 |---|---|---|
-| Surf and Deep round-trip | covered by `scripts/run_examples.py` (calls `chelis surf` + `chelis deep` on every file) | round-trip equality up to formatting |
+| Surf and Deep round-trip | implicit: `chelis check` re-parses both surfaces; canonical print is identity up to formatting |
 | Module + import (3 forms) | `01_language_basics/03_modules_and_imports/` | qualified, selective, glob |
-| ADTs + exhaustive match | `01_language_basics/02_pipe_and_match.ch` | missing-arm error reproduced in `tests/expected/` |
+| ADTs + exhaustive match | `01_language_basics/02_pipe_and_match.ch` | missing-arm rejection covered as a negative example would go under `tests/negative/` |
 | Named dimensions, no broadcasting | `01_language_basics/01_hello_tensor.ch`, `04_dimension_polymorphism.ch` | mismatch is a compile error |
 | No implicit precision promotion | `01_language_basics/05_precision_and_cast.ch` | `add(f32, bf16)` rejected; explicit `cast` required |
 | Effects: `Random` + handler | `01_language_basics/06_effects_random.ch` | `with seed(...)` discharges the effect |

@@ -34,18 +34,10 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
             chelis test examples/
 
-      - name: Surf <-> Deep round-trip on every .ch
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
-            python3 -m pytest -q tests/test_round_trip.py
-
       - name: Negative examples, Octant pairs, audit chain
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
-            python3 -m pytest -q \
-              tests/test_negative_examples.py \
-              tests/test_octant_pairs.py \
-              tests/test_chelis_build.py
+            python3 -m pytest -q tests/
 
       - name: Valgrind on built C output (subset)
         run: |

@@ -1,31 +1,18 @@
-# Python test harness
+# Python harness
 
-**Chelis has its own native test runner.** Every `.ch` example in this
-repo declares its assertions via `Std.Test.assert_*` inside `def test_*()
--> unit ! { Test }` functions, and `chelis test examples/` is the
-primary gate in CI.
+Chelis-native testing is the primary surface — every example declares
+its assertions via `Std.Test.assert_*` inside `def test_*() -> unit !
+{ Test }` functions, run by `chelis test examples/`.
 
-This `tests/` directory holds **fallback orchestration only** — the few
-things `chelis test` doesn't cover:
+This directory holds Python only for the cases where shelling out to a
+non-Chelis tool is unavoidable:
 
-| File | Why Python |
+| File | Why |
 |---|---|
-| `test_negative_examples.py` | Snippets that must be *rejected* by `chelis check`. The native runner only knows about programs that compile. |
-| `test_octant_pairs.py` | Re-runs `octant translate` on each `.tex` and asserts byte-equality with the committed `.ch`. Octant is an external CLI, not part of `chelis test`. |
-| `test_chelis_build.py` | Builds a representative subset via `chelis build --target c` and greps the emitted C for `// span:` audit-chain markers. |
-| `test_round_trip.py` | Surf → Deep → Surf identity, exercised by the nightly only. |
+| `negative/*.ch` + `test_negative_examples.py` | Programs that must be *rejected*. Each negative `.ch` declares its expected error kind in a `// chelis-expect-fail: <kind>` header. The harness runs `chelis check --json` and asserts the first error's kind matches. |
+| `test_octant_pairs.py` | `octant` is an external binary; we re-run `octant translate` and byte-compare against the committed `.ch`. |
+| `test_chelis_build.py` | `chelis build --target c` on a small subset; greps emitted C for `// span:` markers (audit-chain invariant). |
 
-If a check could be expressed as a `Std.Test.test_*` in a `.ch` file
-instead, **prefer that** and delete the Python equivalent.
-
-## Running locally
-
-```sh
-# Primary gate — Chelis-native:
-docker compose -f docker/docker-compose.yml run --rm hello-chelis \
-    chelis test examples/
-
-# Fallback orchestration:
-docker compose -f docker/docker-compose.yml run --rm hello-chelis \
-    python3 -m pytest tests/
-```
+Adding a negative example: drop a new `.ch` under `negative/` whose first
+line is `// chelis-expect-fail: <ErrorKind>`. The pytest parametrization
+picks it up automatically.

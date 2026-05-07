@@ -76,10 +76,10 @@ pair regeneration, audit-chain greps in emitted C). See
 python3 -m pytest tests/
 ```
 
-For a quick sanity sweep across check/eval/build without running tests:
+For a quick standalone check across the corpus:
 
 ```sh
-python3 scripts/run_examples.py --all
+chelis check examples/
 ```
 
 ## 5. Where to read next
