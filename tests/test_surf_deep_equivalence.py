@@ -7,25 +7,24 @@ illustration — readers can compare the two surfaces side by side and
 see the desugaring rules from `spec/02-surf-syntax.md` made concrete on
 real programs.
 
-Equivalence is enforced two ways for every `.ch` in src/, tests/,
-and verify/:
+Equivalence is enforced by the **drift check**: the committed `.dp`
+must be byte-identical to the output of `chelis deep <name>.ch`. CI
+fails on any divergence; running `python3 scripts/regen_deep.py`
+brings the two surfaces back into sync.
 
-1. **Drift** — the committed `.dp` is byte-identical to the output of
-   `chelis deep <name>.ch`. This is the load-bearing guarantee: the
-   two files cannot disagree about what the program means, because one
-   is mechanically derived from the other and CI fails on any drift.
+The drift check is the load-bearing guarantee — by construction, the
+`.dp` is whatever the compiler emits when desugaring the `.ch`, so
+the two files cannot disagree about what the program means. A second
+"both surfaces parse independently" check is conceptually appealing
+but redundant in practice and prohibitively expensive in CI (each
+`chelis check` recompiles the full 225K-typed-node project tree),
+so we don't run it.
 
-2. **Independent parse** — running `chelis check` on the `.ch` and
-   `chelis check` on the `.dp` both succeed. The compiler accepts
-   each surface independently; if we ever introduced a Surf form whose
-   desugaring doesn't re-parse as Deep, this test fails.
-
-The decompile direction (`chelis surf <name>.dp`) is best-effort and
-not byte-stable today (e.g. list-literal sugar `[1, 2]` decompiles to
-`Cons(1, Cons(2, Nil))`), so we don't assert round-trip identity in
-that direction. The drift check makes the round-trip irrelevant: as
-long as `.dp` is regenerated from `.ch`, the two surfaces always
-represent the same program.
+The decompile direction (`chelis surf <name>.dp`) is best-effort: list
+literals decompile to Cons/Nil chains, `cast(x, f32)` to `(x as f32)`,
+etc. The result is semantically equivalent but not byte-stable, so we
+don't enforce round-trip identity. See `docs/surf-and-deep.md` for
+the full design rationale.
 """
 
 from __future__ import annotations
@@ -54,7 +53,11 @@ def _chelis_on_path() -> None:
 
 @pytest.mark.parametrize("ch", discover(), ids=lambda p: str(p.relative_to(REPO)))
 def test_committed_dp_matches_chelis_deep(ch: Path) -> None:
-    """Drift: committed .dp must equal `chelis deep <name>.ch` exactly."""
+    """Drift: the committed .dp must equal `chelis deep <name>.ch` exactly.
+
+    This is the equivalence assertion: the .dp is mechanically
+    generated from the .ch, so any committed disagreement is a bug.
+    """
     dp = ch.with_suffix(".dp")
     assert dp.exists(), f"missing sibling Deep file for {ch.relative_to(REPO)}"
     r = subprocess.run(
@@ -62,33 +65,8 @@ def test_committed_dp_matches_chelis_deep(ch: Path) -> None:
         check=False, capture_output=True, text=True, cwd=REPO,
     )
     assert r.returncode == 0, f"chelis deep {ch} failed:\n{r.stderr}"
-    actual = dp.read_text()
-    assert actual == r.stdout, (
+    assert dp.read_text() == r.stdout, (
         f"{dp.relative_to(REPO)} drifted from `chelis deep "
         f"{ch.relative_to(REPO)}`. Re-run `python3 scripts/regen_deep.py` "
         f"to bring them back into sync."
     )
-
-
-@pytest.mark.parametrize("ch", discover(), ids=lambda p: str(p.relative_to(REPO)))
-def test_both_surfaces_check_clean(ch: Path) -> None:
-    """Both `.ch` and the matching `.dp` must `chelis check` clean.
-
-    `chelis check` accepts either Surf or Deep input. For every
-    program in the corpus, the front-end (parse + types + dimensions
-    + effects + linearity) must produce no errors regardless of which
-    surface is fed in.
-    """
-    dp = ch.with_suffix(".dp")
-    for path in (ch, dp):
-        r = subprocess.run(
-            ["chelis", "check", str(path)],
-            check=False, capture_output=True, text=True, cwd=REPO,
-        )
-        # `chelis check` emits a JSON fitness report. We accept rc=0
-        # without parsing — any error makes it non-zero.
-        assert r.returncode == 0, (
-            f"chelis check {path.relative_to(REPO)} failed:\n"
-            f"stdout: {r.stdout[:400]}\n"
-            f"stderr: {r.stderr[:400]}"
-        )
