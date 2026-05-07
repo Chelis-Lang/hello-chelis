@@ -5,18 +5,14 @@ on:
     - cron: "30 3 * * *"
   workflow_dispatch:
 
-# Nightly is the same surfaces as ci.yml but with the slower checks added:
-# valgrind on the C output, Surf<->Deep round-trip on every example.
-
 jobs:
   full-sweep:
-    name: chelis test + valgrind + round-trip
+    name: chelis test + valgrind
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 120
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: docker/setup-buildx-action@v3
 
       - name: Build image
@@ -29,26 +25,27 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: chelis test examples/   # primary gate
+      - name: chelis test tests/   # primary gate
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
-            chelis test examples/
+            chelis test tests/
 
-      - name: Negative examples, Octant pairs, audit chain
+      - name: pytest tests/   # negative + octant + audit chain
         run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
+            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
             python3 -m pytest -q tests/
+          '
 
       - name: Valgrind on built C output (subset)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
             set -e
-            for ex in examples/01_language_basics/01_hello_tensor.ch \
-                      examples/01_language_basics/08_grad_basic.ch; do
-              out_dir=$(mktemp -d)
-              chelis build --target c --out-dir "$out_dir" "$ex"
-              if [ -x "$out_dir/main" ]; then
-                valgrind --error-exitcode=1 --leak-check=full "$out_dir/main"
+            for ex in src/basics/hellotensor.ch src/basics/gradbasic.ch; do
+              out=$(mktemp)
+              chelis build --target c "$ex" -o "$out"
+              if [ -x "$out" ]; then
+                valgrind --error-exitcode=1 --leak-check=full "$out"
               fi
             done
           '

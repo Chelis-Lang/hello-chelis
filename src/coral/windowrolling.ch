@@ -1,0 +1,19 @@
+module Hello.Coral.WindowRolling
+
+import Coral.Window (rolling_mean, rolling_std, ewm)
+
+export (sample_series, mean3, std3, ewm_half)
+
+-- A 5-element sample series.
+def sample_series() -> tensor[5, f32] = {
+  to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32), cast(4.0, f32), cast(5.0, f32)])
+}
+
+-- 3-window rolling mean. First two outputs are NaN; remaining are 2.0, 3.0, 4.0.
+def mean3() -> tensor[5, f32] = sample_series() |> rolling_mean(cast(3, int64))
+
+-- 3-window rolling sample std (ddof=1).
+def std3() -> tensor[5, f32] = sample_series() |> rolling_std(cast(3, int64))
+
+-- Exponentially weighted mean with alpha=0.5.
+def ewm_half() -> tensor[5, f32] = sample_series() |> ewm(cast(0.5, f32))

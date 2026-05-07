@@ -1,9 +1,5 @@
 # Getting started
 
-Chelis is a young language. It is faster to get a working environment up
-inside Docker than to build the compiler from source, and that is the path
-this repo standardizes on.
-
 ## 1. Build the image
 
 ```sh
@@ -15,96 +11,86 @@ docker compose -f docker/docker-compose.yml build
 The image is `ubuntu:24.04` plus:
 
 - GCC, OpenBLAS, libgomp, valgrind (for the C backend)
-- Python 3 (for the test harness)
-- The `chelis` CLI from
-  [release v0.6.1](https://github.com/Chelis-Lang/chelis/releases/tag/v0.6.1)
-  (sha256 verified at build time)
-- The shells `coral` v0.6.1, `nautilus` v0.6.1, and `octant` v0.4.2,
-  installed via `chelis reef install`
+- Python 3 + pytest (for the fallback test harness)
+- Rust toolchain (we build chelis from source — the canonical-org GH
+  release tarball is the production install path with a `GITHUB_TOKEN`
+  in real CI; this image works in air-gapped environments without one)
+- The `chelis` and `octant` CLIs from the v0.6.1 / v0.4.2 source tags
+- The shells `chelis-std` 0.2.0, `coral` 0.6.1, `nautilus` 0.6.1, and
+  `octant` 0.4.2 published into the local Reef registry
 
-The build takes a few minutes (most of it is the apt-get layer). Subsequent
-builds reuse cached layers.
-
-## 2. Drop into the container
+## 2. Inside the container
 
 ```sh
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 ```
 
-Your repo checkout is mounted at `/workspace`. Everything you do inside the
-container is visible on the host.
+Your repo checkout is mounted at `/workspace`.
 
-## 3. Run your first example
+## 3. The primary gate: `chelis test`
+
+Chelis's native test runner discovers `def test_*() -> unit ! { Test }`
+functions in `tests/` and runs the `Std.Test.assert_*` assertions:
 
 ```sh
-chelis check examples/01_language_basics/01_hello_tensor.ch
+chelis test tests/                          # everything
+chelis test tests/basics/                   # one folder
+chelis test tests/basics/hellotensor.ch     # one file
+chelis test --filter add_vec tests/         # name filter
 ```
 
-You should see a JSON fitness report. `score` should be `1.0` and `errors`
-should be empty.
+## 4. Front-end + lint
 
 ```sh
-chelis eval examples/01_language_basics/01_hello_tensor.ch
+chelis check src/basics/hellotensor.ch     # one file (validates the
+                                           # whole project transitively)
+chelis lint --check .                      # nomenclature gate
 ```
 
-Runs the IR evaluator (interactive mode). For production-style execution:
+`chelis check` validates the entire project on any single-file invocation:
+all 200K+ typed nodes get re-loaded each call. There's no per-file mode.
+
+## 5. C backend
 
 ```sh
-chelis build examples/01_language_basics/01_hello_tensor.ch --target c --out-dir build/hello
-./build/hello/main
+chelis build --target c src/basics/hellotensor.ch -o /tmp/hello
+/tmp/hello
 ```
 
-## 4. Sweep all examples
+The emitted C carries `// span:` markers tying every line back to a Surf
+location — see `tests/test_chelis_build.py` for the audit-chain
+invariant check.
 
-Chelis has its own test runner. Every example here defines one or more
-`def test_*() -> unit ! { Test }` functions whose `Std.Test.assert_*`
-calls are the actual specification of correct behavior:
-
-```sh
-chelis test examples/
-```
-
-That's the primary gate. Anything that fails here is a real bug in the
-example or a regression in the compiler/shells.
-
-Python is fallback orchestration only — it covers the cases where the
-native runner doesn't apply (snippets that must be rejected, Octant
-pair regeneration, audit-chain greps in emitted C). See
-[`tests/README.md`](../tests/README.md) for the breakdown:
+## 6. Python harness (fallback only)
 
 ```sh
+pip install pytest
 python3 -m pytest tests/
 ```
 
-For a quick standalone check across the corpus:
+Covers the lanes `chelis test` doesn't — see [`tests/README.md`](../tests/README.md).
 
-```sh
-chelis check examples/
+## Caveats baked into v0.6.1
+
+- The IR evaluator (`chelis test`) doesn't yet implement runtime
+  lowering for: `relu`/`sigmoid`/`gelu`/`silu`/`max_elem`,
+  tensor-form `exp`/`log`, `cast` on tensors, `jit`. They DO
+  `chelis check` cleanly and DO compile via `chelis build --target c`.
+- `bf16` is not yet a supported cast target. f32, f64, int8/32/64,
+  bool work.
+- The chelis-lang shells are private during pre-launch — `chelis reef
+  install --from-github` requires `GITHUB_TOKEN`. The Docker image
+  side-steps this by cloning shell sources at the pinned tags.
+
+## Layout (recap)
+
+```text
+hello-chelis/
+├── reef.toml                 compiler + shell pins
+├── src/                      Hello.* modules — chelis check only here
+├── tests/                    chelis test discovers here
+├── octant/                   .tex + verified .ch/.dp from octant translate
+├── docker/                   Dockerfile + docker-compose.yml
+├── docs/                     this file + architecture + feature-matrix
+└── .github/workflows/        CI
 ```
-
-## 5. Where to read next
-
-- [`docs/architecture.md`](architecture.md) — how the directories map to the
-  primer's architecture diagram and what each example demonstrates.
-- [`docs/feature-matrix.md`](feature-matrix.md) — the full table of
-  primer-claimed features and which example exercises each one.
-- [`docs/shells/std.md`](shells/std.md), [`coral.md`](shells/coral.md),
-  [`nautilus.md`](shells/nautilus.md), [`octant.md`](shells/octant.md) —
-  one page per shell, with cross-links into the corpus.
-
-## Caveats
-
-- **Linux x86_64 + Docker is the only supported platform here.** The Chelis
-  v0.6.1 release also ships a `darwin-arm64` tarball, but this repo's CI
-  and tooling are pinned to the linux-x86_64 path. You can adapt the
-  Dockerfile by switching the tarball URL, but the existing image will not
-  run on Apple Silicon natively.
-- **Some primer features are designed but not yet shipped.** The compiler's
-  stable name surface is narrower than the primer suggests. Examples in
-  this repo stick to what `chelis check` accepts on v0.6.1 — see
-  [`docs/feature-matrix.md`](feature-matrix.md) for the deltas.
-- **Shells are installed via reef.** The Dockerfile runs `chelis reef
-  install` against this repo's `reef.toml`; reef looks each dependency up
-  in the compiler's `DEFAULT_BOOTSTRAP_LIST` (refreshed in lockstep with
-  every chelis release) and fetches the matching GitHub-Releases archive.
-  No glue script needed.

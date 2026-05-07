@@ -11,19 +11,17 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# The primary test gate is `chelis test examples/` — Chelis's native test
-# runner picks up every `def test_*() -> unit ! { Test }` and runs the
-# `Std.Test.assert_*` assertions in the IR evaluator. The Python harness
-# under tests/ is fallback orchestration: it parametrizes per-file, parses
-# the JSON fitness report, and covers a few things Chelis doesn't ship a
-# native runner for (negative-example rejection, Octant pair regeneration,
-# `// span:` greps in emitted C).
+# Primary gate: `chelis test tests/` runs every Std.Test.assert_*
+# inside the def test_*() functions in the .ch test files.
+# Secondary lanes: chelis lint, chelis check, pytest for the cases
+# Chelis-native doesn't cover (negative examples, octant pairs, audit
+# chain greps).
 
 jobs:
   chelis-native:
-    name: chelis test (native)
+    name: chelis lint + check + test
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v4
@@ -45,26 +43,24 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis lint --check .
 
-      - name: chelis check (front end gate, every .ch)
+      - name: chelis check (front-end gate)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis check examples/
+            chelis check src/basics/hellotensor.ch
 
-      - name: chelis test (the primary gate — runs every Std.Test.test_* via the IR evaluator)
+      - name: chelis test (the primary gate)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis test examples/
+            chelis test tests/
 
   fallback-orchestration:
-    name: pytest (fallback orchestration)
+    name: pytest (fallback)
     runs-on: ubuntu-24.04
     needs: chelis-native
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-
       - uses: docker/setup-buildx-action@v3
-
       - name: Reuse hello-chelis image
         uses: docker/build-push-action@v5
         with:
@@ -74,11 +70,11 @@ jobs:
           load: true
           cache-from: type=gha
 
-      # The pytest lanes here cover what `chelis test` doesn't:
-      #   - negative examples (snippets that must be REJECTED)
-      #   - Octant .tex<->.ch byte-equality regeneration
-      #   - `chelis build --target c` + `// span:` audit-chain greps
-      - name: Negative examples + Octant pairs + C-backend audit chain
+      # Negative examples + Octant pair regeneration + C-backend
+      # audit-chain greps. See tests/README.md.
+      - name: pytest tests/
         run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
+            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
             python3 -m pytest -q tests/
+          '
