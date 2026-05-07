@@ -71,6 +71,35 @@ Two reasons:
    yield 40 scores plus 40 typed-AST snapshots, which is the actual signal
    shape the substrate is engineered around.
 
+## Testing model
+
+**Chelis has its own native test runner**, and that's the primary gate.
+Every example in this repo defines one or more
+
+```chelis-surf
+def test_*() -> unit ! { Test } = ...
+```
+
+functions, with assertions written via `Std.Test.assert_*`. The
+`! { Test }` effect propagates to any caller — production entry points
+declared with `! {}` get a type error if a Test-effect call sneaks in,
+which is what makes the boundary load-bearing. `chelis test examples/`
+discovers and runs every `test_*` and exits non-zero if any assertion
+fails.
+
+Python under `tests/` is **fallback orchestration only**. It covers what
+the native runner doesn't:
+
+- Programs that must be *rejected* (negative examples for
+  use-after-consume, precision mismatch, dim mismatch).
+- `octant translate <tex>` regeneration matching the committed `.ch`.
+- `// span:` audit-chain markers in the C backend's emitted source.
+- Surf↔Deep round-trip identity (nightly only).
+
+If a check can be expressed as a Chelis-native test, it should be — Python
+is for the parts of the trust stack that require shelling out to a
+non-Chelis tool.
+
 ## How a single example is structured
 
 A typical example file:

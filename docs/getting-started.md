@@ -56,16 +56,30 @@ chelis build examples/01_language_basics/01_hello_tensor.ch --target c --out-dir
 
 ## 4. Sweep all examples
 
+Chelis has its own test runner. Every example here defines one or more
+`def test_*() -> unit ! { Test }` functions whose `Std.Test.assert_*`
+calls are the actual specification of correct behavior:
+
 ```sh
-python3 scripts/run_examples.py --all
+chelis test examples/
 ```
 
-Runs every `.ch` file under `examples/` through `chelis check`, then
-`chelis eval`, then `chelis build --target c`. Each example is also covered
-by a Python test under `tests/`. To run the test suite:
+That's the primary gate. Anything that fails here is a real bug in the
+example or a regression in the compiler/shells.
+
+Python is fallback orchestration only — it covers the cases where the
+native runner doesn't apply (snippets that must be rejected, Octant
+pair regeneration, audit-chain greps in emitted C). See
+[`tests/README.md`](../tests/README.md) for the breakdown:
 
 ```sh
 python3 -m pytest tests/
+```
+
+For a quick sanity sweep across check/eval/build without running tests:
+
+```sh
+python3 scripts/run_examples.py --all
 ```
 
 ## 5. Where to read next

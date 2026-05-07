@@ -35,11 +35,18 @@ chelis eval  examples/01_language_basics/01_hello_tensor.ch
 chelis build examples/01_language_basics/01_hello_tensor.ch --target c
 ```
 
-To run the full example sweep + Python test harness:
+To run the full test sweep:
 
 ```sh
+# Primary gate — Chelis's native test runner picks up every
+# `def test_*() -> unit ! { Test }` and runs the assertions.
 docker compose -f docker/docker-compose.yml run --rm hello-chelis \
-    python3 scripts/run_examples.py --all
+    chelis test examples/
+
+# Fallback orchestration (negative examples, Octant pair regeneration,
+# C-backend audit-chain greps) — see tests/README.md.
+docker compose -f docker/docker-compose.yml run --rm hello-chelis \
+    python3 -m pytest tests/
 ```
 
 See [`docs/getting-started.md`](docs/getting-started.md) for the long form.

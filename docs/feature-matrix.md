@@ -87,5 +87,6 @@ translate`. The harness asserts the pair stays in lockstep — running
 | Layer | Where it shows up |
 |---|---|
 | L1 type/dim/effect/linearity | every example (anything that compiles is L1-clean) |
+| Behavior assertions | `Std.Test.assert_*` inside every example, run by `chelis test examples/` |
 | Audit chain (span survival) | `tests/test_chelis_build.py` greps `// span:` from emitted C |
-| `chelis lint --check` | `tests/test_lint.py` enforces nomenclature on every commit |
+| `chelis lint --check` | `chelis lint --check .` runs as a CI step |

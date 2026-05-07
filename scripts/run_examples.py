@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
-"""Run every example under examples/ through `chelis check`, optionally also
-through `chelis eval` and `chelis build --target c`.
+"""Quick local sweep that runs every example through `chelis check`,
+optionally also through `chelis eval` and `chelis build --target c`.
+
+This is a developer convenience, not a test gate. The actual test gate
+is `chelis test examples/` (Chelis's native runner picks up every
+`def test_*() -> unit ! { Test }` and runs the `Std.Test.assert_*`
+calls). See tests/README.md for the full picture.
 
 Usage:
     python3 scripts/run_examples.py --check        # type-check only (default)
@@ -8,10 +13,6 @@ Usage:
     python3 scripts/run_examples.py --build        # also run the C backend
     python3 scripts/run_examples.py --all          # check + eval + build
     python3 scripts/run_examples.py --filter coral # only the coral examples
-
-Per-example expected outputs live in tests/expected/<relative-path>.json.
-The harness in tests/test_chelis_eval.py is the gating CI lane;
-this script is the fast local sweep.
 """
 
 from __future__ import annotations
