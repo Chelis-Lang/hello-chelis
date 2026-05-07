@@ -1,0 +1,2 @@
+xs = tensor(shape=[5], data=[-2.0, -0.5, 0.0, 0.5, 2.0])
+ys = tensor(shape=[5], data=[0.0, 0.0, 0.0, 0.5, 2.0])

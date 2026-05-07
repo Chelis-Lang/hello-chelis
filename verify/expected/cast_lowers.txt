@@ -1,0 +1,3 @@
+xs = tensor(shape=[3], data=[1.0, 2.0, 4.0])
+hi = tensor(shape=[3], data=[1.0, 2.0, 4.0])
+back = tensor(shape=[3], data=[1.0, 2.0, 4.0])

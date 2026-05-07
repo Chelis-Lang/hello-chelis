@@ -32,7 +32,10 @@ hello-chelis/
 ├── octant/                   .tex inputs + verified .ch/.dp outputs
 ├── docker/                   reproducible Ubuntu 24.04 image
 ├── docs/                     getting-started, architecture, feature matrix
-└── .github/workflows/        CI: chelis lint + chelis check + chelis test
+├── verify/                  C-backend lowering verification
+│   ├── *.ch                 self-contained programs that exercise grad/relu/...
+│   └── expected/*.txt       golden stdout per program
+└── .github/workflows/        CI: chelis lint + check + test + C-backend
 ```
 
 ## Quickstart
@@ -49,7 +52,15 @@ docker compose -f docker/docker-compose.yml run --rm hello-chelis
 chelis check src/basics/hellotensor.ch        # front-end gate (parse + types)
 chelis test  tests/                            # Chelis-native test runner
 chelis lint  --check .                         # nomenclature gate
+python3 -m pytest tests/test_c_backend.py      # full C-backend lowering
 ```
+
+The C-backend lane in `tests/test_c_backend.py` actually compiles
+`verify/*.ch` to C, links against `libchelis_runtime.a` + OpenBLAS,
+runs each binary, and diffs stdout against committed goldens. This is
+how `grad`, `relu`, `sigmoid`, `cast`, and `realize` get exercised —
+the in-process IR evaluator doesn't ship those on v0.6.1, the C
+backend does. See [`verify/README.md`](verify/README.md).
 
 ## Compiler version
 

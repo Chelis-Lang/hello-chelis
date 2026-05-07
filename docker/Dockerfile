@@ -48,6 +48,7 @@ RUN git clone --depth 1 --branch ${CHELIS_TAG} \
     && cd /tmp/chelis-src \
     && cargo build --release --bin chelis \
     && cp target/release/chelis /usr/local/bin/chelis \
+    && cp target/release/deps/libchelis_runtime-*.a /usr/local/lib/libchelis_runtime.a \
     && chelis --version
 
 # --- chelis-std into the local registry from the monorepo ------------------
@@ -86,7 +87,15 @@ RUN ln -sf /tmp/chelis-src /tmp/chelis \
 WORKDIR /workspace
 COPY . /workspace
 
-# Sanity check: the project must check clean against v0.6.1.
-RUN chelis check src/basics/hellotensor.ch
+# Sanity check: the project must check clean against v0.6.1, AND the
+# C backend must be able to lower a non-trivial program (grad over a
+# tensor reduction) and run it.
+RUN chelis check src/basics/hellotensor.ch \
+    && cp verify/grad_works.ch /tmp/grad_works.ch \
+    && chelis build /tmp/grad_works.ch --output /tmp/v_grad \
+    && cd /tmp/v_grad \
+    && gcc -O2 -fopenmp grad_works.c -L. -lchelis_runtime \
+        -lopenblas -lm -lpthread -ldl -o grad_works \
+    && diff <(./grad_works) /workspace/verify/expected/grad_works.txt
 
 CMD ["/bin/bash"]

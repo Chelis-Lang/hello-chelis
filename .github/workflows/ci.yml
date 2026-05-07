@@ -53,6 +53,18 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis test tests/
 
+      # The IR evaluator doesn't ship every primitive. The C backend does.
+      # This lane builds verify/*.ch through `chelis build`, links against
+      # libchelis_runtime + OpenBLAS, runs each binary, and diffs stdout
+      # against committed goldens. Demonstrates that grad/relu/sigmoid/
+      # cast/realize all lower to native C code that actually executes.
+      - name: chelis build (C-backend full lowering)
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
+            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
+            python3 -m pytest -q tests/test_c_backend.py
+          '
+
   fallback-orchestration:
     name: pytest (fallback)
     runs-on: ubuntu-24.04
