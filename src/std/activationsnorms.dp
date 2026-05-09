@@ -15,22 +15,24 @@
   (defsig {}
     relu_then_sigmoid
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     relu_then_sigmoid
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (pipe {} (var {} x) (var {} relu) (var {} sigmoid))))
   (defsig {}
     gelu_vec
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     gelu_vec
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {}
         (var {} to_tensor)
         (app {}
@@ -42,12 +44,13 @@
   (defsig {}
     silu_vec
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     silu_vec
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {}
         (var {} to_tensor)
         (app {}
@@ -62,12 +65,13 @@
   (defsig {}
     tanh_vec
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     tanh_vec
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {}
         (var {} to_tensor)
         (app {}
@@ -79,34 +83,36 @@
   (defsig {}
     gelu_then_relu
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     gelu_then_relu
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (pipe {} (var {} x) (var {} gelu_vec) (var {} relu))))
   (defsig {}
     sigmoid_then_tanh
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     sigmoid_then_tanh
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (pipe {} (var {} x) (var {} sigmoid) (var {} tanh_vec))))
   (defsig {}
     rms_normalize
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     rms_normalize
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (eps {type: (t-prim {} f32)}))
       (let {}
         (bind {}
@@ -123,14 +129,14 @@
   (defsig {}
     manual_layer_norm
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     manual_layer_norm
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (eps {type: (t-prim {} f32)}))
       (let {}
         (bind {}

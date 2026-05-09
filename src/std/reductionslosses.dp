@@ -16,13 +16,15 @@
   (defsig {}
     sum_axis0
     (t-fn {}
-      (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
       (t-tensor {} (d-var {} c) (t-prim {} f32))))
   (def {}
     sum_axis0
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32))}))
+        (x {type: (t-ref {}
+                     (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+           }))
       (app {}
         (var {} sum)
         (var {} x)
@@ -30,13 +32,15 @@
   (defsig {}
     mean_axis0
     (t-fn {}
-      (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
       (t-tensor {} (d-lit {} 4) (t-prim {} f32))))
   (def {}
     mean_axis0
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32))}))
+        (x {type: (t-ref {}
+                     (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
+           }))
       (app {}
         (var {} mean)
         (var {} x)
@@ -44,13 +48,15 @@
   (defsig {}
     prod_axis0
     (t-fn {}
-      (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
       (t-tensor {} (d-var {} c) (t-prim {} f32))))
   (def {}
     prod_axis0
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32))}))
+        (x {type: (t-ref {}
+                     (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+           }))
       (app {}
         (var {} prod)
         (var {} x)
@@ -58,41 +64,51 @@
   (defsig {}
     ce_loss
     (t-fn {}
-      (t-tensor {} (d-var {} b) (d-var {} c) (t-prim {} f32))
-      (t-tensor {} (d-var {} b) (d-var {} c) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} b) (d-var {} c) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} b) (d-var {} c) (t-prim {} f32)))
       (t-tensor {} (d-var {} b) (t-prim {} f32))))
   (def {}
     ce_loss
     (fn {}
       (params {}
-        (logits {type: (t-tensor {} (d-var {} b) (d-var {} c) (t-prim {} f32))})
-        (labels {type: (t-tensor {} (d-var {} b) (d-var {} c) (t-prim {} f32))}))
+        (logits {type: (t-ref {}
+                          (t-tensor {}
+                            (d-var {} b)
+                            (d-var {} c)
+                            (t-prim {} f32)))
+                })
+        (labels {type: (t-ref {}
+                          (t-tensor {}
+                            (d-var {} b)
+                            (d-var {} c)
+                            (t-prim {} f32)))
+                }))
       (app {} (var {} loss) (var {} logits) (var {} labels))))
   (defsig {}
     bce_loss
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     bce_loss
     (fn {}
       (params {}
-        (z {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (y {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (z {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
+        (y {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {} (var {} bce_with_logits) (var {} z) (var {} y))))
   (defsig {}
     kl_loss
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     kl_loss
     (fn {}
       (params {}
-        (p {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (q {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (p {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
+        (q {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {} (var {} kl_divergence) (var {} p) (var {} q))))
   (defsig {} ce_perplexity (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}

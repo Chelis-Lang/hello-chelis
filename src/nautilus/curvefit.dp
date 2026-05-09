@@ -75,16 +75,28 @@
                         (lit {type: (t-prim {} f32)} 0.2231302)
                         (t-prim {} f32))
                       (var {} Nil)))))))
-          (app {}
-            (var {} lm_scalar_1param)
-            (var {} exp_decay_model)
-            (var {} exp_decay_dmodel)
-            (var {} xs)
-            (var {} ys)
-            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} f32)} 0.01) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} int32)} 200) (t-prim {} int64)))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_0
+              (app {}
+                (var {} lm_scalar_1param)
+                (var {} exp_decay_model)
+                (var {} exp_decay_dmodel)
+                (var {} xs)
+                (var {} ys)
+                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.01) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} int32)} 200) (t-prim {} int64))))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} xs)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} ys)))
+                (var {} __borrow_migration_out_0))))))))
   (defsig {}
     lin_model
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
@@ -144,13 +156,27 @@
                         (lit {type: (t-prim {} f32)} 8.0)
                         (t-prim {} f32))
                       (var {} Nil)))))))
-          (app {}
-            (var {} lm_scalar_1param)
-            (var {} lin_model)
-            (var {} lin_dmodel)
-            (var {} xs)
-            (var {} ys)
-            (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} f32)} 0.01) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} f32)} 0.00000001) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64))))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_1
+              (app {}
+                (var {} lm_scalar_1param)
+                (var {} lin_model)
+                (var {} lin_dmodel)
+                (var {} xs)
+                (var {} ys)
+                (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.01) (t-prim {} f32))
+                (cast {}
+                  (lit {type: (t-prim {} f32)} 0.00000001)
+                  (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64))))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} xs)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} ys)))
+                (var {} __borrow_migration_out_1)))))))))

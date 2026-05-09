@@ -55,13 +55,29 @@
             (bind {}
               err_copy
               (copy {} (var {} err)))
-            (app {}
-              (var {} sum)
-              (app {}
-                (var {} sum)
-                (app {} (var {} mul) (var {} err) (var {} err_copy))
-                (lit {type: (t-prim {} int32)} 1))
-              (lit {type: (t-prim {} int32)} 0)))))))
+            (let {}
+              (bind {}
+                __borrow_migration_out_0
+                (app {}
+                  (var {} sum)
+                  (app {}
+                    (var {} sum)
+                    (app {} (var {} mul) (var {} err) (var {} err_copy))
+                    (lit {type: (t-prim {} int32)} 1))
+                  (lit {type: (t-prim {} int32)} 0)))
+              (let {}
+                (bind {}
+                  __chelis_tmp2
+                  (app {} (var {} drop) (var {} pred)))
+                (let {}
+                  (bind {}
+                    __chelis_tmp1
+                    (app {} (var {} drop) (var {} err)))
+                  (let {}
+                    (bind {}
+                      __chelis_tmp0
+                      (app {} (var {} drop) (var {} err_copy)))
+                    (var {} __borrow_migration_out_0))))))))))
   (defsig {}
     sgd_step
     (t-fn {}
@@ -135,4 +151,20 @@
                     (var {} sub)
                     (var {} b)
                     (app {} (var {} mul) (var {} lr_t) (var {} db))))
-                (tuple {} (var {} new_w) (var {} new_b))))))))))
+                (let {}
+                  (bind {}
+                    __borrow_migration_out_1
+                    (tuple {} (var {} new_w) (var {} new_b)))
+                  (let {}
+                    (bind {}
+                      __chelis_tmp2
+                      (app {} (var {} drop) (var {} dw)))
+                    (let {}
+                      (bind {}
+                        __chelis_tmp1
+                        (app {} (var {} drop) (var {} db)))
+                      (let {}
+                        (bind {}
+                          __chelis_tmp0
+                          (app {} (var {} drop) (var {} lr_t)))
+                        (var {} __borrow_migration_out_1)))))))))))))

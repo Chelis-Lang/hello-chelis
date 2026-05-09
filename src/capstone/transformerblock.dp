@@ -86,4 +86,36 @@
                               (var {} matmul)
                               (var {} __chelis_pipe)
                               (var {} ff2)))))
-                      (app {} (var {} add) (var {} resid1) (var {} ff_out)))))))))))))
+                      (let {}
+                        (bind {}
+                          __borrow_migration_out_0
+                          (app {} (var {} add) (var {} resid1) (var {} ff_out)))
+                        (let {}
+                          (bind {}
+                            __chelis_tmp6
+                            (app {} (var {} drop) (var {} q)))
+                          (let {}
+                            (bind {}
+                              __chelis_tmp5
+                              (app {} (var {} drop) (var {} k)))
+                            (let {}
+                              (bind {}
+                                __chelis_tmp4
+                                (app {} (var {} drop) (var {} v)))
+                              (let {}
+                                (bind {}
+                                  __chelis_tmp3
+                                  (app {} (var {} drop) (var {} scores)))
+                                (let {}
+                                  (bind {}
+                                    __chelis_tmp2
+                                    (app {} (var {} drop) (var {} probs)))
+                                  (let {}
+                                    (bind {}
+                                      __chelis_tmp1
+                                      (app {} (var {} drop) (var {} attn_out)))
+                                    (let {}
+                                      (bind {}
+                                        __chelis_tmp0
+                                        (app {} (var {} drop) (var {} resid1)))
+                                      (var {} __borrow_migration_out_0))))))))))))))))))))

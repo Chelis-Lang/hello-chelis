@@ -4,7 +4,7 @@ Typed dataframes for Chelis. Numeric columns are tensors, which means
 dataframe pipelines compose with the rest of the Chelis tensor DAG:
 `grad` flows through a `group_by`, AD flows through a join.
 
-Pinned to `0.6.1`. Reef declaration in our [`reef.toml`](../../reef.toml).
+Pinned to `0.7.0`. Reef declaration in our [`reef.toml`](../../reef.toml).
 
 ## What's here
 
@@ -24,7 +24,7 @@ Pinned to `0.6.1`. Reef declaration in our [`reef.toml`](../../reef.toml).
   `IntCol(to_tensor([...]))` directly.
 - **Float NaN** uses non-suffixed helpers (`fill_nan`, `drop_nan`); int NaN
   uses `_col` suffix helpers that take a `Frame` + column name.
-- **Parquet is upstream-blocked** as of v0.6.1. `import Std.Io.Parquet`
+- **Parquet is upstream-blocked** as of v0.7.0. `import Std.Io.Parquet`
   resolves at check time; runtime symbol is missing so link fails. Skip it
   in examples.
 
@@ -38,5 +38,5 @@ The headline example is
 which builds a `Frame` from a learnable tensor and demonstrates `grad`
 flowing through the column-construction path. The runtime exercise of
 `grad` itself lives in [`verify/grad_works.ch`](../../verify/grad_works.ch)
-(the IR evaluator at v0.6.1 doesn't lower `grad` over the `Frame` ADT
+(the IR evaluator at v0.7.0 doesn't lower `grad` over the `Frame` ADT
 yet — see [`docs/discrepancies.md`](../discrepancies.md)).

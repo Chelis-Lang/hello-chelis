@@ -85,9 +85,21 @@
                   (app {} (var {} add) (var {} acc) (var {} v)))
                 (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
                 (app {} (var {} to_list) (var {} normed))))
-            (app {}
-              (var {} assert_close)
-              (var {} total)
-              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-              (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
-              (lit {type: (t-prim {} string)} "layer_norm has zero mean"))))))))
+            (let {}
+              (bind {}
+                __borrow_migration_out_0
+                (app {}
+                  (var {} assert_close)
+                  (var {} total)
+                  (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                  (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
+                  (lit {type: (t-prim {} string)} "layer_norm has zero mean")))
+              (let {}
+                (bind {}
+                  __chelis_tmp1
+                  (app {} (var {} drop) (var {} x)))
+                (let {}
+                  (bind {}
+                    __chelis_tmp0
+                    (app {} (var {} drop) (var {} normed)))
+                  (var {} __borrow_migration_out_0))))))))))

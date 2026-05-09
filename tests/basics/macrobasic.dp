@@ -31,12 +31,24 @@
                   (var {} Cons)
                   (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
                   (var {} Nil)))))
-          (app {}
-            (var {} assert_close_tensor)
-            (app {} (var {} block) (var {} x))
-            (var {} expected)
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "block_doubles"))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_0
+              (app {}
+                (var {} assert_close_tensor)
+                (app {} (var {} block) (var {} x))
+                (var {} expected)
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "block_doubles")))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} expected)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} x)))
+                (var {} __borrow_migration_out_0))))))))
   (defsig {}
     test_with_residual
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -68,9 +80,21 @@
                   (var {} Cons)
                   (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
                   (var {} Nil)))))
-          (app {}
-            (var {} assert_close_tensor)
-            (app {} (var {} with_residual) (var {} x))
-            (var {} expected)
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "residual_macro")))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_1
+              (app {}
+                (var {} assert_close_tensor)
+                (app {} (var {} with_residual) (var {} x))
+                (var {} expected)
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "residual_macro")))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} expected)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} x)))
+                (var {} __borrow_migration_out_1)))))))))

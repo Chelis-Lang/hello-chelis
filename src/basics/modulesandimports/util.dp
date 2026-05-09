@@ -4,17 +4,14 @@
   (defsig {}
     double
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     double
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (pipe {}
-        (copy {} (var {} x))
-        (fn {}
-          (params {} __chelis_pipe)
-          (app {} (var {} add) (var {} __chelis_pipe) (var {} x))))))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
+      (app {} (var {} add) (var {} x) (var {} x))))
   (defsig {} ones3 (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     ones3

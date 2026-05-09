@@ -4,35 +4,25 @@
   (defsig {}
     residual
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     residual
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {} (var {} add) (copy {} (var {} x)) (var {} x))))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
+      (app {} (var {} add) (var {} x) (var {} x))))
   (defsig {}
     fan_out
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     fan_out
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (let {}
-        (bind {}
-          a
-          (copy {} (var {} x)))
-        (let {}
-          (bind {}
-            b
-            (copy {} (var {} x)))
-          (let {}
-            (bind {}
-              c
-              (var {} x))
-            (app {}
-              (var {} add)
-              (var {} a)
-              (app {} (var {} add) (var {} b) (var {} c)))))))))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
+      (app {}
+        (var {} add)
+        (var {} x)
+        (app {} (var {} add) (var {} x) (var {} x))))))

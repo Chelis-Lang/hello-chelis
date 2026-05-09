@@ -1,4 +1,4 @@
-# hello-chelis: Ubuntu 24.04 with the Chelis v0.6.1 toolchain and all
+# hello-chelis: Ubuntu 24.04 with the Chelis v0.7.0 toolchain and all
 # extant shells (chelis-std, coral, nautilus, octant) pre-installed.
 #
 # Build:
@@ -8,11 +8,11 @@
 #   docker compose -f docker/docker-compose.yml run --rm hello-chelis
 #
 # In CI on real GitHub Actions, switch to the `--from-github` install
-# path with a GITHUB_TOKEN and the prebuilt v0.6.1 release tarball
-# (https://github.com/Chelis-Lang/chelis/releases/tag/v0.6.1). The
+# path with a GITHUB_TOKEN and the prebuilt v0.7.0 release tarball
+# (https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.0). The
 # canonical-org shells are private during pre-launch, which is why this
 # Dockerfile builds chelis from source via a checkout of the public
-# Chelis-Lang/chelis repo at the v0.6.1 tag.
+# Chelis-Lang/chelis repo at the v0.7.0 tag.
 
 FROM ubuntu:24.04
 
@@ -41,8 +41,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
         -y --default-toolchain stable --profile minimal --component rustfmt clippy
 
-# --- Chelis compiler v0.6.1 from source ------------------------------------
-ARG CHELIS_TAG=v0.6.1
+# --- Chelis compiler v0.7.0 from source ------------------------------------
+ARG CHELIS_TAG=v0.7.0
 RUN git clone --depth 1 --branch ${CHELIS_TAG} \
         https://github.com/Chelis-Lang/chelis.git /tmp/chelis-src \
     && cd /tmp/chelis-src \
@@ -58,9 +58,9 @@ RUN chelis reef install --from-monorepo /tmp/chelis-src
 # Each shell is its own repo at a pinned tag. We clone, `chelis reef build`
 # (which auto-fetches transitive deps from the local registry), then
 # `chelis reef publish` to make it available to dependents.
-ARG CORAL_TAG=v0.6.1
-ARG NAUTILUS_TAG=v0.6.1
-ARG OCTANT_TAG=v0.4.2
+ARG CORAL_TAG=v0.7.0
+ARG NAUTILUS_TAG=v0.7.0
+ARG OCTANT_TAG=v0.4.3
 
 RUN git clone --depth 1 --branch ${NAUTILUS_TAG} \
         https://github.com/Chelis-Lang/nautilus.git /tmp/nautilus \
@@ -87,7 +87,7 @@ RUN ln -sf /tmp/chelis-src /tmp/chelis \
 WORKDIR /workspace
 COPY . /workspace
 
-# Sanity check: the project must check clean against v0.6.1, AND the
+# Sanity check: the project must check clean against v0.7.0, AND the
 # C backend must be able to lower a non-trivial program (grad over a
 # tensor reduction) and run it.
 RUN chelis check src/basics/hellotensor.ch \

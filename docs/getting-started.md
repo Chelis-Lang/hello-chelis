@@ -20,10 +20,10 @@ The image is `ubuntu:24.04` plus:
   GH release tarball is the production install path on real CI with
   a `GITHUB_TOKEN`; this image works in air-gapped environments
   without one)
-- The `chelis` and `octant` CLIs from the v0.6.1 / v0.4.2 source tags
+- The `chelis` and `octant` CLIs from the v0.7.0 / v0.4.3 source tags
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.2.0, `coral` 0.6.1, `nautilus` 0.6.1,
-  and `octant` 0.4.2 built and published into the local Reef
+- The shells `chelis-std` 0.2.0, `coral` 0.7.0, `nautilus` 0.7.0,
+  and `octant` 0.4.3 built and published into the local Reef
   registry
 
 First build takes ~5 minutes; rebuilds reuse the layer cache.
@@ -63,7 +63,7 @@ no per-file or directory mode.
 
 ## 5. C backend (full lowering)
 
-The IR evaluator at v0.6.1 doesn't run every primitive; the C backend
+The IR evaluator at v0.7.0 doesn't run every primitive; the C backend
 does. To exercise `grad`, `realize`, tensor `relu`/`sigmoid`/`cast`
 end-to-end:
 

@@ -21,12 +21,20 @@
                 (var {} Cons)
                 (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
                 (var {} Nil)))))
-        (app {}
-          (var {} assert_close)
-          (app {} (var {} vec_norm) (var {} v))
-          (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
-          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-          (lit {type: (t-prim {} string)} "||(3,4)|| = 5")))))
+        (let {}
+          (bind {}
+            __borrow_migration_out_0
+            (app {}
+              (var {} assert_close)
+              (app {} (var {} vec_norm) (var {} v))
+              (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "||(3,4)|| = 5")))
+          (let {}
+            (bind {}
+              __chelis_tmp0
+              (app {} (var {} drop) (var {} v)))
+            (var {} __borrow_migration_out_0))))))
   (defsig {}
     test_vec_dot_orthogonal
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -58,12 +66,24 @@
                   (var {} Cons)
                   (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
                   (var {} Nil)))))
-          (app {}
-            (var {} assert_close)
-            (app {} (var {} vec_dot) (var {} a) (var {} b))
-            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "e0 . e1 = 0"))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_1
+              (app {}
+                (var {} assert_close)
+                (app {} (var {} vec_dot) (var {} a) (var {} b))
+                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "e0 . e1 = 0")))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} a)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} b)))
+                (var {} __borrow_migration_out_1))))))))
   (defsig {}
     test_solve_diag_2x2
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -83,9 +103,17 @@
                 (var {} Cons)
                 (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
                 (var {} Nil)))))
-        (app {}
-          (var {} assert_close_tensor)
-          (app {} (var {} solve_diag_2x2))
-          (var {} expected)
-          (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
-          (lit {type: (t-prim {} string)} "solve diag 2x2"))))))
+        (let {}
+          (bind {}
+            __borrow_migration_out_0
+            (app {}
+              (var {} assert_close_tensor)
+              (app {} (var {} solve_diag_2x2))
+              (var {} expected)
+              (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+              (lit {type: (t-prim {} string)} "solve diag 2x2")))
+          (let {}
+            (bind {}
+              __chelis_tmp0
+              (app {} (var {} drop) (var {} expected)))
+            (var {} __borrow_migration_out_0)))))))

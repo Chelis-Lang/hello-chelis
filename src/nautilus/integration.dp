@@ -24,7 +24,7 @@
         (var {} sin_fn)
         (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
         (app {} (var {} pi_f))
-        (cast {} (lit {type: (t-prim {} int32)} 1000) (t-prim {} int64)))))
+        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64)))))
   (defsig {} sin_integral_simpson (t-fn {} (t-prim {} f32)))
   (def {}
     sin_integral_simpson

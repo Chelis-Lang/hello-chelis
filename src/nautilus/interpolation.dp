@@ -25,12 +25,20 @@
                     (var {} Cons)
                     (cast {} (lit {type: (t-prim {} f32)} 9.0) (t-prim {} f32))
                     (var {} Nil)))))))
-        (app {}
-          (var {} linear_interp_uniform)
-          (var {} ys)
-          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-          (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
-          (var {} x_q)))))
+        (let {}
+          (bind {}
+            __borrow_migration_out_0
+            (app {}
+              (var {} linear_interp_uniform)
+              (var {} ys)
+              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+              (var {} x_q)))
+          (let {}
+            (bind {}
+              __chelis_tmp0
+              (app {} (var {} drop) (var {} ys)))
+            (var {} __borrow_migration_out_0))))))
   (defsig {} hermite_unit_segment (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     hermite_unit_segment

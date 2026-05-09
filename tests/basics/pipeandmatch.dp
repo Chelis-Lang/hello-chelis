@@ -5,12 +5,13 @@
   (defsig {}
     shifted
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     shifted
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (pipe {}
         (var {} x)
         (var {} neg)
@@ -66,27 +67,39 @@
                     (var {} Cons)
                     (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
                     (var {} Nil))))))
-          (app {}
-            (var {} assert_close_tensor)
-            (app {} (var {} shifted) (var {} x))
-            (var {} expected)
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "pipe_neg_add"))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_0
+              (app {}
+                (var {} assert_close_tensor)
+                (app {} (var {} shifted) (var {} x))
+                (var {} expected)
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "pipe_neg_add")))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} x)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} expected)))
+                (var {} __borrow_migration_out_0))))))))
   (deftype {} Op () (variant {} Plus) (variant {} Minus))
   (defsig {}
     apply
     (t-fn {}
       (t-adt {} Op)
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     apply
     (fn {}
       (params {}
         (op {type: (t-adt {} Op)})
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (y {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
+        (y {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (match {}
         (var {} op)
         (arm {}
@@ -138,12 +151,30 @@
                     (var {} Cons)
                     (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
                     (var {} Nil)))))
-            (app {}
-              (var {} assert_close_tensor)
-              (app {} (var {} apply) (var {} Plus) (var {} a) (var {} b))
-              (var {} expected)
-              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-              (lit {type: (t-prim {} string)} "apply_plus")))))))
+            (let {}
+              (bind {}
+                __borrow_migration_out_0
+                (app {}
+                  (var {} assert_close_tensor)
+                  (app {} (var {} apply) (var {} Plus) (var {} a) (var {} b))
+                  (var {} expected)
+                  (cast {}
+                    (lit {type: (t-prim {} f32)} 0.000001)
+                    (t-prim {} f32))
+                  (lit {type: (t-prim {} string)} "apply_plus")))
+              (let {}
+                (bind {}
+                  __chelis_tmp2
+                  (app {} (var {} drop) (var {} a)))
+                (let {}
+                  (bind {}
+                    __chelis_tmp1
+                    (app {} (var {} drop) (var {} b)))
+                  (let {}
+                    (bind {}
+                      __chelis_tmp0
+                      (app {} (var {} drop) (var {} expected)))
+                    (var {} __borrow_migration_out_0))))))))))
   (defsig {} test_apply_minus (t-fn {eff: (effects {} test)} (t-prim {} unit)))
   (def {}
     test_apply_minus
@@ -185,9 +216,27 @@
                     (var {} Cons)
                     (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
                     (var {} Nil)))))
-            (app {}
-              (var {} assert_close_tensor)
-              (app {} (var {} apply) (var {} Minus) (var {} a) (var {} b))
-              (var {} expected)
-              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-              (lit {type: (t-prim {} string)} "apply_minus"))))))))
+            (let {}
+              (bind {}
+                __borrow_migration_out_1
+                (app {}
+                  (var {} assert_close_tensor)
+                  (app {} (var {} apply) (var {} Minus) (var {} a) (var {} b))
+                  (var {} expected)
+                  (cast {}
+                    (lit {type: (t-prim {} f32)} 0.000001)
+                    (t-prim {} f32))
+                  (lit {type: (t-prim {} string)} "apply_minus")))
+              (let {}
+                (bind {}
+                  __chelis_tmp2
+                  (app {} (var {} drop) (var {} a)))
+                (let {}
+                  (bind {}
+                    __chelis_tmp1
+                    (app {} (var {} drop) (var {} b)))
+                  (let {}
+                    (bind {}
+                      __chelis_tmp0
+                      (app {} (var {} drop) (var {} expected)))
+                    (var {} __borrow_migration_out_1)))))))))))

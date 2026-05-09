@@ -35,7 +35,22 @@
           (bind {}
             prod
             (app {} (var {} mul) (var {} err) (var {} x)))
-          (app {} (var {} sum) (var {} prod) (lit {type: (t-prim {} int32)} 0))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_0
+              (app {}
+                (var {} sum)
+                (var {} prod)
+                (lit {type: (t-prim {} int32)} 0)))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} err)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} prod)))
+                (var {} __borrow_migration_out_0))))))))
   (defsig {}
     dloss_dw
     (t-fn {}

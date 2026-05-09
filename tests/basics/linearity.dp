@@ -39,17 +39,29 @@
                     (var {} Cons)
                     (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
                     (var {} Nil))))))
-          (app {}
-            (var {} assert_close_tensor)
-            (app {source: (residual (var {} x))}
-              (var {source: (residual (var {} x))} add)
-              (var {source: (residual (var {} x))} x)
-              (app {source: (residual (var {} x))}
-                (var {source: (residual (var {} x))} f)
-                (var {source: (residual (var {} x))} x)))
-            (var {} expected)
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "residual_doubles"))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_0
+              (app {}
+                (var {} assert_close_tensor)
+                (app {source: (residual (var {} x))}
+                  (var {source: (residual (var {} x))} add)
+                  (var {source: (residual (var {} x))} x)
+                  (app {source: (residual (var {} x))}
+                    (var {source: (residual (var {} x))} f)
+                    (var {source: (residual (var {} x))} x)))
+                (var {} expected)
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "residual_doubles")))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} expected)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} x)))
+                (var {} __borrow_migration_out_0))))))))
   (defsig {}
     test_fan_out_triples
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -81,9 +93,21 @@
                   (var {} Cons)
                   (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
                   (var {} Nil)))))
-          (app {}
-            (var {} assert_close_tensor)
-            (app {} (var {} fan_out) (var {} x))
-            (var {} expected)
-            (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "fan_out_3x")))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_1
+              (app {}
+                (var {} assert_close_tensor)
+                (app {} (var {} fan_out) (var {} x))
+                (var {} expected)
+                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "fan_out_3x")))
+            (let {}
+              (bind {}
+                __chelis_tmp1
+                (app {} (var {} drop) (var {} expected)))
+              (let {}
+                (bind {}
+                  __chelis_tmp0
+                  (app {} (var {} drop) (var {} x)))
+                (var {} __borrow_migration_out_1)))))))))

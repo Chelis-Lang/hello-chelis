@@ -38,11 +38,23 @@
             (bind {}
               total
               (app {} (var {} total_cents) (var {} a) (var {} b)))
-            (app {}
-              (var {} assert_eq_string)
-              (app {} (var {} decimal_to_string) (var {} total))
-              (lit {type: (t-prim {} string)} "3.75")
-              (lit {type: (t-prim {} string)} "1.50+2.25=3.75")))))))
+            (let {}
+              (bind {}
+                __borrow_migration_out_0
+                (app {}
+                  (var {} assert_eq_string)
+                  (app {} (var {} decimal_to_string) (var {} total))
+                  (lit {type: (t-prim {} string)} "3.75")
+                  (lit {type: (t-prim {} string)} "1.50+2.25=3.75")))
+              (let {}
+                (bind {}
+                  __chelis_tmp1
+                  (app {} (var {} drop) (var {} a)))
+                (let {}
+                  (bind {}
+                    __chelis_tmp0
+                    (app {} (var {} drop) (var {} b)))
+                  (var {} __borrow_migration_out_0)))))))))
   (defsig {}
     test_format_total_with_discount
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))

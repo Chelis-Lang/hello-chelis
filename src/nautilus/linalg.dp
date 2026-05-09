@@ -4,37 +4,42 @@
   (export {} vec_norm vec_dot mat_apply_2x2 solve_diag_2x2)
   (defsig {}
     vec_norm
-    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-prim {} f32)))
   (def {}
     vec_norm
     (fn {}
-      (params {} (v {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {} (var {} l2_norm_vec) (var {} v))))
   (defsig {}
     vec_dot
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     vec_dot
     (fn {}
       (params {}
-        (a {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (b {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
+        (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {} (var {} inner_product) (var {} a) (var {} b))))
   (defsig {}
     mat_apply_2x2
     (t-fn {}
-      (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32))
-      (t-tensor {} (d-lit {} 2) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-lit {} 2) (t-prim {} f32)))
       (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
   (def {}
     mat_apply_2x2
     (fn {}
       (params {}
-        (m {type: (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32))})
-        (v {type: (t-tensor {} (d-lit {} 2) (t-prim {} f32))}))
+        (m {type: (t-ref {}
+                     (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32)))
+           })
+        (v {type: (t-ref {} (t-tensor {} (d-lit {} 2) (t-prim {} f32)))}))
       (app {} (var {} matvec) (var {} m) (var {} v))))
   (defsig {}
     solve_diag_2x2
@@ -129,4 +134,32 @@
                                 (lit {type: (t-prim {} f32)} 9.0)
                                 (t-prim {} f32))
                               (var {} Nil)))))
-                      (app {} (var {} solve_2x2) (var {} a) (var {} b)))))))))))))
+                      (let {}
+                        (bind {}
+                          __borrow_migration_out_0
+                          (app {} (var {} solve_2x2) (var {} a) (var {} b)))
+                        (let {}
+                          (bind {}
+                            __chelis_tmp5
+                            (app {} (var {} drop) (var {} a)))
+                          (let {}
+                            (bind {}
+                              __chelis_tmp4
+                              (app {} (var {} drop) (var {} b)))
+                            (let {}
+                              (bind {}
+                                __chelis_tmp3
+                                (app {} (var {} drop) (var {} e0)))
+                              (let {}
+                                (bind {}
+                                  __chelis_tmp2
+                                  (app {} (var {} drop) (var {} e1)))
+                                (let {}
+                                  (bind {}
+                                    __chelis_tmp1
+                                    (app {} (var {} drop) (var {} row0)))
+                                  (let {}
+                                    (bind {}
+                                      __chelis_tmp0
+                                      (app {} (var {} drop) (var {} row1)))
+                                    (var {} __borrow_migration_out_0)))))))))))))))))))

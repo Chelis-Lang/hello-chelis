@@ -1,7 +1,7 @@
 # hello-chelis
 
 A complete, runnable example project for the
-[Chelis](https://github.com/Chelis-Lang/chelis) language v0.6.1 and
+[Chelis](https://github.com/Chelis-Lang/chelis) language v0.7.0 and
 its four shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`).
 Designed as a self-education tool: clone, run, read.
 
@@ -119,7 +119,7 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 | Path | Command | Strengths | Limitations |
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
-| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Misses `grad`, `realize`, tensor activations on v0.6.1 |
+| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Misses `grad`, `realize`, tensor activations on v0.7.0 |
 | C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
 
 Each test in this corpus runs in the lane that supports it. Full
@@ -128,9 +128,9 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-Pinned to **chelis `0.6.1`** with **`chelis-std` 0.2.0**, **coral
-0.6.1**, **nautilus 0.6.1**, **octant 0.4.2**. The
-`compiler = "=0.6.1"` pin in `reef.toml` is hard — the language is
+Pinned to **chelis `0.7.0`** with **`chelis-std` 0.2.0**, **coral
+0.7.0**, **nautilus 0.7.0**, **octant 0.4.3**. The
+`compiler = "=0.7.0"` pin in `reef.toml` is hard — the language is
 pre-1.0 and breaking changes ship between minor versions.
 
 ## Test status
@@ -145,13 +145,13 @@ pre-1.0 and breaking changes ship between minor versions.
 | **Total verified outcomes** | **207** |
 
 All green on the Docker image built from
-[Chelis-Lang/chelis@v0.6.1](https://github.com/Chelis-Lang/chelis/releases/tag/v0.6.1)
+[Chelis-Lang/chelis@v0.7.0](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.0)
 sources.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) doesn't run every tensor primitive
-  at v0.6.1. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  at v0.7.0. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, `grad`, `realize` compile cleanly via `chelis check` and
   through the C backend, but aren't runnable in the in-process
   evaluator. The corpus uses the runtime-supported subset (`add`,

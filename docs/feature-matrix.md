@@ -120,7 +120,7 @@ output (modulo the absolute-path field in `.spans.json`).
 
 ## Not exercised in this corpus
 
-- L2 `@property` annotations — designed in the primer but not shipped on v0.6.1.
+- L2 `@property` annotations — designed in the primer but not shipped on v0.7.0.
 - Surf↔Deep round-trip identity — `chelis surf <dp>` is best-effort
   (list literals decompile to `Cons/Nil`, `cast(x, t)` to `(x as t)`).
   See [`docs/surf-and-deep.md`](surf-and-deep.md).

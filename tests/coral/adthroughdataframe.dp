@@ -76,14 +76,22 @@
                 (var {} Cons)
                 (cast {} (lit {type: (t-prim {} f32)} 14.0) (t-prim {} f32))
                 (var {} Nil))))
-          (app {}
-            (var {} assert_close_tensor)
-            (app {}
-              (var {} reshape_to_one)
-              (app {} (var {} simple_loss) (var {} w)))
-            (var {} expected)
-            (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
-            (lit {type: (t-prim {} string)} "loss == 14.0"))))))
+          (let {}
+            (bind {}
+              __borrow_migration_out_0
+              (app {}
+                (var {} assert_close_tensor)
+                (app {}
+                  (var {} reshape_to_one)
+                  (app {} (var {} simple_loss) (var {} w)))
+                (var {} expected)
+                (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
+                (lit {type: (t-prim {} string)} "loss == 14.0")))
+            (let {}
+              (bind {}
+                __chelis_tmp0
+                (app {} (var {} drop) (var {} expected)))
+              (var {} __borrow_migration_out_0)))))))
   (defsig {}
     test_dgrad_is_callable_in_typecheck
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))

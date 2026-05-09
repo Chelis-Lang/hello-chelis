@@ -4,26 +4,24 @@
   (defsig {}
     block
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     block
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (pipe {}
-        (copy {} (var {} x))
-        (fn {}
-          (params {} __chelis_pipe)
-          (app {} (var {} add) (var {} __chelis_pipe) (var {} x))))))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
+      (app {} (var {} add) (var {} x) (var {} x))))
   (defsig {}
     with_residual
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     with_residual
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (app {source: (residual (copy {} (var {} x)) (var {} block))}
         (var {source: (residual (copy {} (var {} x)) (var {} block))} add)
         (copy {source: (residual (copy {} (var {} x)) (var {} block))}
@@ -35,13 +33,11 @@
   (defsig {}
     doubled
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     doubled
     (fn {}
-      (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {}
-        (var {} add)
-        (copy {} (var {} x))
-        (app {} (var {} block) (var {} x))))))
+      (params {}
+        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
+      (app {} (var {} add) (var {} x) (app {} (var {} block) (var {} x))))))

@@ -35,7 +35,7 @@ effect / linearity) but diverge after lowering:
 - **`chelis check`** runs the front end and emits a JSON fitness
   report with structured errors. Most permissive lane.
 - **`chelis test`, `chelis eval`** run the IR evaluator in-process.
-  Fast iteration, but a narrower primitive set on v0.6.1.
+  Fast iteration, but a narrower primitive set on v0.7.0.
 - **`chelis build --target c`** lowers, generates C with `// span:`
   audit-chain comments, and links against `libchelis_runtime.a` +
   OpenBLAS + libgomp. Production path.
