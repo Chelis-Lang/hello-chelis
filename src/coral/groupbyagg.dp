@@ -8,52 +8,54 @@
     sales_frame
     (fn {}
       (params {})
-      (app {}
-        (var {} from_pairs)
-        (app {}
+      (app {span: "surf:241..398"}
+        (var {span: "surf:243..253"} from_pairs)
+        (app {span: "surf:254..395"}
           (var {} Cons)
-          (tuple {}
-            (lit {type: (t-prim {} string)} "city")
-            (app {}
-              (var {} StringCol)
-              (app {}
+          (tuple {span: "surf:255..296"}
+            (lit {span: "surf:256..262", type: (t-prim {} string)} "city")
+            (app {span: "surf:264..295"}
+              (var {span: "surf:264..273"} StringCol)
+              (app {span: "surf:274..294"}
                 (var {} Cons)
-                (lit {type: (t-prim {} string)} "a")
+                (lit {span: "surf:275..278", type: (t-prim {} string)} "a")
                 (app {}
                   (var {} Cons)
-                  (lit {type: (t-prim {} string)} "b")
+                  (lit {span: "surf:280..283", type: (t-prim {} string)} "b")
                   (app {}
                     (var {} Cons)
-                    (lit {type: (t-prim {} string)} "a")
+                    (lit {span: "surf:285..288", type: (t-prim {} string)} "a")
                     (app {}
                       (var {} Cons)
-                      (lit {type: (t-prim {} string)} "b")
+                      (lit {span: "surf:290..293", type: (t-prim {} string)} "b")
                       (var {} Nil)))))))
           (app {}
             (var {} Cons)
-            (tuple {}
-              (lit {type: (t-prim {} string)} "qty")
-              (app {}
-                (var {} FloatCol)
-                (app {}
-                  (var {} to_tensor)
-                  (app {}
+            (tuple {span: "surf:298..394"}
+              (lit {span: "surf:299..304", type: (t-prim {} string)} "qty")
+              (app {span: "surf:306..393"}
+                (var {span: "surf:306..314"} FloatCol)
+                (app {span: "surf:315..392"}
+                  (var {span: "surf:315..324"} to_tensor)
+                  (app {span: "surf:325..391"}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                    (cast {span: "surf:326..340"}
+                      (lit {span: "surf:331..334", type: (t-prim {} f32)} 1.0)
+                      (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {}
-                        (lit {type: (t-prim {} f32)} 10.0)
+                      (cast {span: "surf:342..357"}
+                        (lit {span: "surf:347..351", type: (t-prim {} f32)} 10.0)
                         (t-prim {} f32))
                       (app {}
                         (var {} Cons)
-                        (cast {}
-                          (lit {type: (t-prim {} f32)} 2.0)
+                        (cast {span: "surf:359..373"}
+                          (lit {span: "surf:364..367", type: (t-prim {} f32)} 2.0)
                           (t-prim {} f32))
                         (app {}
                           (var {} Cons)
-                          (cast {}
-                            (lit {type: (t-prim {} f32)} 20.0)
+                          (cast {span: "surf:375..390"}
+                            (lit {span: "surf:380..384", type: (t-prim {} f32)} 20.0)
                             (t-prim {} f32))
                           (var {} Nil))))))))
             (var {} Nil))))))
@@ -62,36 +64,36 @@
     total_per_city
     (fn {}
       (params {})
-      (pipe {}
-        (app {} (var {} sales_frame))
-        (fn {}
+      (pipe {span: "surf:434..489"}
+        (app {span: "surf:436..449"} (var {span: "surf:436..447"} sales_frame))
+        (fn {span: "surf:453..469"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} group_by)
-            (var {} __chelis_pipe)
-            (lit {type: (t-prim {} string)} "city")))
-        (fn {}
+          (app {span: "surf:453..469"}
+            (var {span: "surf:453..461"} group_by)
+            (var {span: "surf:453..469"} __chelis_pipe)
+            (lit {span: "surf:462..468", type: (t-prim {} string)} "city")))
+        (fn {span: "surf:473..487"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} agg_sum)
-            (var {} __chelis_pipe)
-            (lit {type: (t-prim {} string)} "qty"))))))
+          (app {span: "surf:473..487"}
+            (var {span: "surf:473..480"} agg_sum)
+            (var {span: "surf:473..487"} __chelis_pipe)
+            (lit {span: "surf:481..486", type: (t-prim {} string)} "qty"))))))
   (defsig {} mean_per_city (t-fn {} (t-adt {} Frame (t-var {} 2))))
   (def {}
     mean_per_city
     (fn {}
       (params {})
-      (pipe {}
-        (app {} (var {} sales_frame))
-        (fn {}
+      (pipe {span: "surf:524..580"}
+        (app {span: "surf:526..539"} (var {span: "surf:526..537"} sales_frame))
+        (fn {span: "surf:543..559"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} group_by)
-            (var {} __chelis_pipe)
-            (lit {type: (t-prim {} string)} "city")))
-        (fn {}
+          (app {span: "surf:543..559"}
+            (var {span: "surf:543..551"} group_by)
+            (var {span: "surf:543..559"} __chelis_pipe)
+            (lit {span: "surf:552..558", type: (t-prim {} string)} "city")))
+        (fn {span: "surf:563..578"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} agg_mean)
-            (var {} __chelis_pipe)
-            (lit {type: (t-prim {} string)} "qty")))))))
+          (app {span: "surf:563..578"}
+            (var {span: "surf:563..571"} agg_mean)
+            (var {span: "surf:563..578"} __chelis_pipe)
+            (lit {span: "surf:572..577", type: (t-prim {} string)} "qty")))))))

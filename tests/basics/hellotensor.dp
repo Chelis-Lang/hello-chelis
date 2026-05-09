@@ -7,74 +7,99 @@
     test_add_vec
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:158..550"}
+        (bind {span: "surf:158..550"}
           a
-          (app {}
-            (var {} to_tensor)
-            (app {}
+          (app {span: "surf:166..225"}
+            (var {span: "surf:166..175"} to_tensor)
+            (app {span: "surf:176..224"}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (cast {span: "surf:177..191"}
+                (lit {span: "surf:182..185", type: (t-prim {} f32)} 1.0)
+                (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (cast {span: "surf:193..207"}
+                  (lit {span: "surf:198..201", type: (t-prim {} f32)} 2.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (cast {span: "surf:209..223"}
+                    (lit {span: "surf:214..217", type: (t-prim {} f32)} 3.0)
+                    (t-prim {} f32))
                   (var {} Nil))))))
         (let {}
           (bind {}
             b
-            (app {}
-              (var {} to_tensor)
-              (app {}
+            (app {span: "surf:232..291"}
+              (var {span: "surf:232..241"} to_tensor)
+              (app {span: "surf:242..290"}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                (cast {span: "surf:243..257"}
+                  (lit {span: "surf:248..251", type: (t-prim {} f32)} 4.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (cast {span: "surf:259..273"}
+                    (lit {span: "surf:264..267", type: (t-prim {} f32)} 5.0)
+                    (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
+                    (cast {span: "surf:275..289"}
+                      (lit {span: "surf:280..283", type: (t-prim {} f32)} 6.0)
+                      (t-prim {} f32))
                     (var {} Nil))))))
           (let {}
             (bind {}
               expected
-              (app {}
-                (var {} to_tensor)
-                (app {}
+              (app {span: "surf:305..364"}
+                (var {span: "surf:305..314"} to_tensor)
+                (app {span: "surf:315..363"}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (cast {span: "surf:316..330"}
+                    (lit {span: "surf:321..324", type: (t-prim {} f32)} 5.0)
+                    (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
+                    (cast {span: "surf:332..346"}
+                      (lit {span: "surf:337..340", type: (t-prim {} f32)} 7.0)
+                      (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {}
-                        (lit {type: (t-prim {} f32)} 9.0)
+                      (cast {span: "surf:348..362"}
+                        (lit {span: "surf:353..356", type: (t-prim {} f32)} 9.0)
                         (t-prim {} f32))
                       (var {} Nil))))))
             (let {}
               (bind {}
                 __borrow_migration_out_0
-                (app {}
-                  (var {} assert_close_tensor)
-                  (app {} (var {} add_vec) (var {} a) (var {} b))
-                  (var {} expected)
-                  (cast {}
-                    (lit {type: (t-prim {} f32)} 0.000001)
+                (app {span: "surf:394..472"}
+                  (var {span: "surf:394..413"} assert_close_tensor)
+                  (app {span: "surf:414..427"}
+                    (var {span: "surf:414..421"} add_vec)
+                    (var {span: "surf:422..423"} a)
+                    (var {span: "surf:425..426"} b))
+                  (var {span: "surf:429..437"} expected)
+                  (cast {span: "surf:439..458"}
+                    (lit {span: "surf:444..452", type: (t-prim {} f32)} 0.000001)
                     (t-prim {} f32))
-                  (lit {type: (t-prim {} string)} "add_vec_3")))
+                  (lit {span: "surf:460..471", type: (t-prim {} string)} "add_vec_3")))
               (let {}
                 (bind {}
                   __chelis_tmp2
-                  (app {} (var {} drop) (var {} a)))
+                  (app {span: "surf:479..486"}
+                    (var {span: "surf:479..483"} drop)
+                    (var {span: "surf:484..485"} a)))
                 (let {}
                   (bind {}
                     __chelis_tmp1
-                    (app {} (var {} drop) (var {} b)))
+                    (app {span: "surf:493..500"}
+                      (var {span: "surf:493..497"} drop)
+                      (var {span: "surf:498..499"} b)))
                   (let {}
                     (bind {}
                       __chelis_tmp0
-                      (app {} (var {} drop) (var {} expected)))
-                    (var {} __borrow_migration_out_0)))))))))))
+                      (app {span: "surf:507..521"}
+                        (var {span: "surf:507..511"} drop)
+                        (var {span: "surf:512..520"} expected)))
+                    (var {span: "surf:524..548"} __borrow_migration_out_0)))))))))))

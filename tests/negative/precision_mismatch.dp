@@ -11,4 +11,7 @@
     (params {}
       (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
       (y {type: (t-tensor {} (d-var {} n) (t-prim {} f64))}))
-    (app {} (var {} add) (var {} x) (var {} y))))
+    (app {span: "surf:66..75"}
+      (var {span: "surf:66..69"} add)
+      (var {span: "surf:70..71"} x)
+      (var {span: "surf:73..74"} y))))

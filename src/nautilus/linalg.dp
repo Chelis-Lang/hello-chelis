@@ -12,7 +12,9 @@
     (fn {}
       (params {}
         (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} l2_norm_vec) (var {} v))))
+      (app {span: "surf:200..214"}
+        (var {span: "surf:200..211"} l2_norm_vec)
+        (var {span: "surf:212..213"} v))))
   (defsig {}
     vec_dot
     (t-fn {}
@@ -25,7 +27,10 @@
       (params {}
         (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} inner_product) (var {} a) (var {} b))))
+      (app {span: "surf:276..295"}
+        (var {span: "surf:276..289"} inner_product)
+        (var {span: "surf:290..291"} a)
+        (var {span: "surf:293..294"} b))))
   (defsig {}
     mat_apply_2x2
     (t-fn {}
@@ -40,7 +45,10 @@
                      (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32)))
            })
         (v {type: (t-ref {} (t-tensor {} (d-lit {} 2) (t-prim {} f32)))}))
-      (app {} (var {} matvec) (var {} m) (var {} v))))
+      (app {span: "surf:377..389"}
+        (var {span: "surf:377..383"} matvec)
+        (var {span: "surf:384..385"} m)
+        (var {span: "surf:387..388"} v))))
   (defsig {}
     solve_diag_2x2
     (t-fn {} (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
@@ -48,118 +56,150 @@
     solve_diag_2x2
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:431..944"}
+        (bind {span: "surf:431..944"}
           e0
-          (app {}
-            (var {} to_tensor)
-            (app {}
+          (app {span: "surf:440..483"}
+            (var {span: "surf:440..449"} to_tensor)
+            (app {span: "surf:450..482"}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (cast {span: "surf:451..465"}
+                (lit {span: "surf:456..459", type: (t-prim {} f32)} 1.0)
+                (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (cast {span: "surf:467..481"}
+                  (lit {span: "surf:472..475", type: (t-prim {} f32)} 0.0)
+                  (t-prim {} f32))
                 (var {} Nil)))))
         (let {}
           (bind {}
             e1
-            (app {}
-              (var {} to_tensor)
-              (app {}
+            (app {span: "surf:491..534"}
+              (var {span: "surf:491..500"} to_tensor)
+              (app {span: "surf:501..533"}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (cast {span: "surf:502..516"}
+                  (lit {span: "surf:507..510", type: (t-prim {} f32)} 0.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                  (cast {span: "surf:518..532"}
+                    (lit {span: "surf:523..526", type: (t-prim {} f32)} 1.0)
+                    (t-prim {} f32))
                   (var {} Nil)))))
           (let {}
             (bind {}
               row0
-              (app {}
-                (var {} to_tensor)
-                (app {}
+              (app {span: "surf:544..587"}
+                (var {span: "surf:544..553"} to_tensor)
+                (app {span: "surf:554..586"}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                  (cast {span: "surf:555..569"}
+                    (lit {span: "surf:560..563", type: (t-prim {} f32)} 2.0)
+                    (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                    (cast {span: "surf:571..585"}
+                      (lit {span: "surf:576..579", type: (t-prim {} f32)} 0.0)
+                      (t-prim {} f32))
                     (var {} Nil)))))
             (let {}
               (bind {}
                 row1
-                (app {}
-                  (var {} to_tensor)
-                  (app {}
+                (app {span: "surf:597..640"}
+                  (var {span: "surf:597..606"} to_tensor)
+                  (app {span: "surf:607..639"}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                    (cast {span: "surf:608..622"}
+                      (lit {span: "surf:613..616", type: (t-prim {} f32)} 0.0)
+                      (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {}
-                        (lit {type: (t-prim {} f32)} 3.0)
+                      (cast {span: "surf:624..638"}
+                        (lit {span: "surf:629..632", type: (t-prim {} f32)} 3.0)
                         (t-prim {} f32))
                       (var {} Nil)))))
               (let {}
                 (bind {}
                   m0
-                  (app {}
-                    (var {} einsum)
-                    (lit {type: (t-prim {} string)} "i,j->ij")
-                    (var {} e0)
-                    (var {} row0)))
+                  (app {span: "surf:648..675"}
+                    (var {span: "surf:648..654"} einsum)
+                    (lit {span: "surf:655..664", type: (t-prim {} string)} "i,j->ij")
+                    (var {span: "surf:666..668"} e0)
+                    (var {span: "surf:670..674"} row0)))
                 (let {}
                   (bind {}
                     m1
-                    (app {}
-                      (var {} einsum)
-                      (lit {type: (t-prim {} string)} "i,j->ij")
-                      (var {} e1)
-                      (var {} row1)))
+                    (app {span: "surf:683..710"}
+                      (var {span: "surf:683..689"} einsum)
+                      (lit {span: "surf:690..699", type: (t-prim {} string)} "i,j->ij")
+                      (var {span: "surf:701..703"} e1)
+                      (var {span: "surf:705..709"} row1)))
                   (let {}
                     (bind {}
                       a
-                      (app {} (var {} add) (var {} m0) (var {} m1)))
+                      (app {span: "surf:717..728"}
+                        (var {span: "surf:717..720"} add)
+                        (var {span: "surf:721..723"} m0)
+                        (var {span: "surf:725..727"} m1)))
                     (let {}
                       (bind {}
                         b
-                        (app {}
-                          (var {} to_tensor)
-                          (app {}
+                        (app {span: "surf:735..778"}
+                          (var {span: "surf:735..744"} to_tensor)
+                          (app {span: "surf:745..777"}
                             (var {} Cons)
-                            (cast {}
-                              (lit {type: (t-prim {} f32)} 4.0)
+                            (cast {span: "surf:746..760"}
+                              (lit {span: "surf:751..754", type: (t-prim {} f32)} 4.0)
                               (t-prim {} f32))
                             (app {}
                               (var {} Cons)
-                              (cast {}
-                                (lit {type: (t-prim {} f32)} 9.0)
+                              (cast {span: "surf:762..776"}
+                                (lit {span: "surf:767..770", type: (t-prim {} f32)} 9.0)
                                 (t-prim {} f32))
                               (var {} Nil)))))
                       (let {}
                         (bind {}
                           __borrow_migration_out_0
-                          (app {} (var {} solve_2x2) (var {} a) (var {} b)))
+                          (app {span: "surf:808..823"}
+                            (var {span: "surf:808..817"} solve_2x2)
+                            (var {span: "surf:818..819"} a)
+                            (var {span: "surf:821..822"} b)))
                         (let {}
                           (bind {}
                             __chelis_tmp5
-                            (app {} (var {} drop) (var {} a)))
+                            (app {span: "surf:830..837"}
+                              (var {span: "surf:830..834"} drop)
+                              (var {span: "surf:835..836"} a)))
                           (let {}
                             (bind {}
                               __chelis_tmp4
-                              (app {} (var {} drop) (var {} b)))
+                              (app {span: "surf:844..851"}
+                                (var {span: "surf:844..848"} drop)
+                                (var {span: "surf:849..850"} b)))
                             (let {}
                               (bind {}
                                 __chelis_tmp3
-                                (app {} (var {} drop) (var {} e0)))
+                                (app {span: "surf:858..866"}
+                                  (var {span: "surf:858..862"} drop)
+                                  (var {span: "surf:863..865"} e0)))
                               (let {}
                                 (bind {}
                                   __chelis_tmp2
-                                  (app {} (var {} drop) (var {} e1)))
+                                  (app {span: "surf:873..881"}
+                                    (var {span: "surf:873..877"} drop)
+                                    (var {span: "surf:878..880"} e1)))
                                 (let {}
                                   (bind {}
                                     __chelis_tmp1
-                                    (app {} (var {} drop) (var {} row0)))
+                                    (app {span: "surf:888..898"}
+                                      (var {span: "surf:888..892"} drop)
+                                      (var {span: "surf:893..897"} row0)))
                                   (let {}
                                     (bind {}
                                       __chelis_tmp0
-                                      (app {} (var {} drop) (var {} row1)))
-                                    (var {} __borrow_migration_out_0)))))))))))))))))))
+                                      (app {span: "surf:905..915"}
+                                        (var {span: "surf:905..909"} drop)
+                                        (var {span: "surf:910..914"} row1)))
+                                    (var {span: "surf:918..942"} __borrow_migration_out_0)))))))))))))))))))

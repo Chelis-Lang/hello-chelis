@@ -14,10 +14,20 @@
       (params {}
         (act {type: (t-adt {} Activation)})
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (match {}
-        (var {} act)
-        (arm {} (pat-ctor {} Relu) () (app {} (var {} relu) (var {} x)))
-        (arm {} (pat-ctor {} Sigmoid) () (app {} (var {} sigmoid) (var {} x))))))
+      (match {span: "surf:182..258"}
+        (var {span: "surf:192..195"} act)
+        (arm {}
+          (pat-ctor {} Relu)
+          ()
+          (app {span: "surf:217..224"}
+            (var {span: "surf:217..221"} relu)
+            (var {span: "surf:222..223"} x)))
+        (arm {}
+          (pat-ctor {} Sigmoid)
+          ()
+          (app {span: "surf:242..252"}
+            (var {span: "surf:242..249"} sigmoid)
+            (var {span: "surf:250..251"} x))))))
   (defsig {}
     pipeline
     (t-fn {}
@@ -28,4 +38,7 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {} (var {} x) (var {} relu) (var {} sigmoid)))))
+      (pipe {span: "surf:312..332"}
+        (var {span: "surf:312..313"} x)
+        (var {span: "surf:317..321"} relu)
+        (var {span: "surf:325..332"} sigmoid)))))

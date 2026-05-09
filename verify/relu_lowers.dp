@@ -2,26 +2,40 @@
   relulowers
   (def {}
     xs
-    (app {}
-      (var {} to_tensor)
-      (app {}
+    (app {span: "surf:23..116"}
+      (var {span: "surf:23..32"} to_tensor)
+      (app {span: "surf:33..115"}
         (var {} Cons)
-        (cast {}
-          (app {} (var {} neg) (lit {type: (t-prim {} f32)} 2.0))
+        (cast {span: "surf:34..49"}
+          (app {span: "surf:39..43"}
+            (var {} neg)
+            (lit {span: "surf:40..43", type: (t-prim {} f32)} 2.0))
           (t-prim {} f32))
         (app {}
           (var {} Cons)
-          (cast {}
-            (app {} (var {} neg) (lit {type: (t-prim {} f32)} 0.5))
+          (cast {span: "surf:51..66"}
+            (app {span: "surf:56..60"}
+              (var {} neg)
+              (lit {span: "surf:57..60", type: (t-prim {} f32)} 0.5))
             (t-prim {} f32))
           (app {}
             (var {} Cons)
-            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+            (cast {span: "surf:68..82"}
+              (lit {span: "surf:73..76", type: (t-prim {} f32)} 0.0)
+              (t-prim {} f32))
             (app {}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
+              (cast {span: "surf:84..98"}
+                (lit {span: "surf:89..92", type: (t-prim {} f32)} 0.5)
+                (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (cast {span: "surf:100..114"}
+                  (lit {span: "surf:105..108", type: (t-prim {} f32)} 2.0)
+                  (t-prim {} f32))
                 (var {} Nil))))))))
-  (def {} ys (app {} (var {} relu) (var {} xs))))
+  (def {}
+    ys
+    (app {span: "surf:122..130"}
+      (var {span: "surf:122..126"} relu)
+      (var {span: "surf:127..129"} xs))))

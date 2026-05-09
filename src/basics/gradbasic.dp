@@ -13,44 +13,57 @@
       (params {}
         (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (let {}
-        (bind {}
+      (let {span: "surf:128..336"}
+        (bind {span: "surf:128..336"}
           err
-          (app {}
-            (var {} sub)
-            (copy {} (var {} w))
-            (app {}
-              (var {} to_tensor)
-              (app {}
+          (app {span: "surf:138..211"}
+            (var {span: "surf:138..141"} sub)
+            (copy {span: "surf:142..149"} (var {span: "surf:147..148"} w))
+            (app {span: "surf:151..210"}
+              (var {span: "surf:151..160"} to_tensor)
+              (app {span: "surf:161..209"}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                (cast {span: "surf:162..176"}
+                  (lit {span: "surf:167..170", type: (t-prim {} f32)} 1.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                  (cast {span: "surf:178..192"}
+                    (lit {span: "surf:183..186", type: (t-prim {} f32)} 1.0)
+                    (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                    (cast {span: "surf:194..208"}
+                      (lit {span: "surf:199..202", type: (t-prim {} f32)} 1.0)
+                      (t-prim {} f32))
                     (var {} Nil)))))))
         (let {}
           (bind {}
             prod
-            (app {} (var {} mul) (var {} err) (var {} x)))
+            (app {span: "surf:221..232"}
+              (var {span: "surf:221..224"} mul)
+              (var {span: "surf:225..228"} err)
+              (var {span: "surf:230..231"} x)))
           (let {}
             (bind {}
               __borrow_migration_out_0
-              (app {}
-                (var {} sum)
-                (var {} prod)
-                (lit {type: (t-prim {} int32)} 0)))
+              (app {span: "surf:262..274"}
+                (var {span: "surf:262..265"} sum)
+                (var {span: "surf:266..270"} prod)
+                (lit {span: "surf:272..273", type: (t-prim {} int32)} 0)))
             (let {}
               (bind {}
                 __chelis_tmp1
-                (app {} (var {} drop) (var {} err)))
+                (app {span: "surf:281..290"}
+                  (var {span: "surf:281..285"} drop)
+                  (var {span: "surf:286..289"} err)))
               (let {}
                 (bind {}
                   __chelis_tmp0
-                  (app {} (var {} drop) (var {} prod)))
-                (var {} __borrow_migration_out_0))))))))
+                  (app {span: "surf:297..307"}
+                    (var {span: "surf:297..301"} drop)
+                    (var {span: "surf:302..306"} prod)))
+                (var {span: "surf:310..334"} __borrow_migration_out_0))))))))
   (defsig {}
     dloss_dw
     (t-fn {}
@@ -63,10 +76,12 @@
       (params {}
         (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {}
-        (grad {wrt: (var {} w)} (var {} loss) (lit {type: (t-prim {} int32)} 0))
-        (var {} w)
-        (var {} x))))
+      (app {span: "surf:408..431"}
+        (grad {span: "surf:408..425", wrt: (var {} w)}
+          (var {span: "surf:413..417"} loss)
+          (lit {type: (t-prim {} int32)} 0))
+        (var {span: "surf:426..427"} w)
+        (var {span: "surf:429..430"} x))))
   (defsig {}
     dloss_dx
     (t-fn {}
@@ -79,7 +94,9 @@
       (params {}
         (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {}
-        (grad {wrt: (var {} x)} (var {} loss) (lit {type: (t-prim {} int32)} 1))
-        (var {} w)
-        (var {} x)))))
+      (app {span: "surf:503..526"}
+        (grad {span: "surf:503..520", wrt: (var {} x)}
+          (var {span: "surf:508..512"} loss)
+          (lit {type: (t-prim {} int32)} 1))
+        (var {span: "surf:521..522"} w)
+        (var {span: "surf:524..525"} x)))))

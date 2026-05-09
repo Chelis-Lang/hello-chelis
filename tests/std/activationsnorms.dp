@@ -11,18 +11,24 @@
     test_sigmoid_scalar_zero
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:261..384"}
+        (bind {span: "surf:261..384"}
           result
-          (app {}
-            (var {} sigmoid_scalar)
-            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))
-        (app {}
-          (var {} assert_close)
-          (var {} result)
-          (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
-          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-          (lit {type: (t-prim {} string)} "sigmoid(0)=0.5")))))
+          (app {span: "surf:274..304"}
+            (var {span: "surf:274..288"} sigmoid_scalar)
+            (cast {span: "surf:289..303"}
+              (lit {span: "surf:294..297", type: (t-prim {} f32)} 0.0)
+              (t-prim {} f32))))
+        (app {span: "surf:307..382"}
+          (var {span: "surf:307..319"} assert_close)
+          (var {span: "surf:320..326"} result)
+          (cast {span: "surf:328..342"}
+            (lit {span: "surf:333..336", type: (t-prim {} f32)} 0.5)
+            (t-prim {} f32))
+          (cast {span: "surf:344..363"}
+            (lit {span: "surf:349..357", type: (t-prim {} f32)} 0.000001)
+            (t-prim {} f32))
+          (lit {span: "surf:365..381", type: (t-prim {} string)} "sigmoid(0)=0.5")))))
   (defsig {}
     test_gelu_scalar_zero
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -30,18 +36,24 @@
     test_gelu_scalar_zero
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:434..549"}
+        (bind {span: "surf:434..549"}
           result
-          (app {}
-            (var {} gelu_scalar)
-            (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))
-        (app {}
-          (var {} assert_close)
-          (var {} result)
-          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-          (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-          (lit {type: (t-prim {} string)} "gelu(0)=0")))))
+          (app {span: "surf:447..474"}
+            (var {span: "surf:447..458"} gelu_scalar)
+            (cast {span: "surf:459..473"}
+              (lit {span: "surf:464..467", type: (t-prim {} f32)} 0.0)
+              (t-prim {} f32))))
+        (app {span: "surf:477..547"}
+          (var {span: "surf:477..489"} assert_close)
+          (var {span: "surf:490..496"} result)
+          (cast {span: "surf:498..512"}
+            (lit {span: "surf:503..506", type: (t-prim {} f32)} 0.0)
+            (t-prim {} f32))
+          (cast {span: "surf:514..533"}
+            (lit {span: "surf:519..527", type: (t-prim {} f32)} 0.000001)
+            (t-prim {} f32))
+          (lit {span: "surf:535..546", type: (t-prim {} string)} "gelu(0)=0")))))
   (defsig {}
     test_manual_layer_norm_zero_mean
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -49,57 +61,80 @@
     test_manual_layer_norm_zero_mean
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:610..991"}
+        (bind {span: "surf:610..991"}
           x
-          (app {}
-            (var {} to_tensor)
-            (app {}
+          (app {span: "surf:618..678"}
+            (var {span: "surf:618..627"} to_tensor)
+            (app {span: "surf:628..677"}
               (var {} Cons)
-              (cast {}
-                (app {} (var {} neg) (lit {type: (t-prim {} f32)} 1.0))
+              (cast {span: "surf:629..644"}
+                (app {span: "surf:634..638"}
+                  (var {} neg)
+                  (lit {span: "surf:635..638", type: (t-prim {} f32)} 1.0))
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (cast {span: "surf:646..660"}
+                  (lit {span: "surf:651..654", type: (t-prim {} f32)} 0.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+                  (cast {span: "surf:662..676"}
+                    (lit {span: "surf:667..670", type: (t-prim {} f32)} 1.0)
+                    (t-prim {} f32))
                   (var {} Nil))))))
         (let {}
           (bind {}
             normed
-            (app {}
-              (var {} manual_layer_norm)
-              (var {} x)
-              (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))))
+            (app {span: "surf:690..731"}
+              (var {span: "surf:690..707"} manual_layer_norm)
+              (var {span: "surf:708..709"} x)
+              (cast {span: "surf:711..730"}
+                (lit {span: "surf:716..724", type: (t-prim {} f32)} 0.000001)
+                (t-prim {} f32))))
           (let {}
             (bind {}
               total
-              (app {}
-                (var {} fold)
-                (fn {}
+              (app {span: "surf:742..817"}
+                (var {span: "surf:742..746"} fold)
+                (fn {span: "surf:747..783"}
                   (params {}
                     (acc {type: (t-prim {} f32)})
                     (v {type: (t-prim {} f32)}))
-                  (app {} (var {} add) (var {} acc) (var {} v)))
-                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-                (app {} (var {} to_list) (var {} normed))))
+                  (app {span: "surf:772..783"}
+                    (var {span: "surf:772..775"} add)
+                    (var {span: "surf:776..779"} acc)
+                    (var {span: "surf:781..782"} v)))
+                (cast {span: "surf:785..799"}
+                  (lit {span: "surf:790..793", type: (t-prim {} f32)} 0.0)
+                  (t-prim {} f32))
+                (app {span: "surf:801..816"}
+                  (var {span: "surf:801..808"} to_list)
+                  (var {span: "surf:809..815"} normed))))
             (let {}
               (bind {}
                 __borrow_migration_out_0
-                (app {}
-                  (var {} assert_close)
-                  (var {} total)
-                  (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-                  (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
-                  (lit {type: (t-prim {} string)} "layer_norm has zero mean")))
+                (app {span: "surf:847..929"}
+                  (var {span: "surf:847..859"} assert_close)
+                  (var {span: "surf:860..865"} total)
+                  (cast {span: "surf:867..881"}
+                    (lit {span: "surf:872..875", type: (t-prim {} f32)} 0.0)
+                    (t-prim {} f32))
+                  (cast {span: "surf:883..900"}
+                    (lit {span: "surf:888..894", type: (t-prim {} f32)} 0.0001)
+                    (t-prim {} f32))
+                  (lit {span: "surf:902..928", type: (t-prim {} string)} "layer_norm has zero mean")))
               (let {}
                 (bind {}
                   __chelis_tmp1
-                  (app {} (var {} drop) (var {} x)))
+                  (app {span: "surf:936..943"}
+                    (var {span: "surf:936..940"} drop)
+                    (var {span: "surf:941..942"} x)))
                 (let {}
                   (bind {}
                     __chelis_tmp0
-                    (app {} (var {} drop) (var {} normed)))
-                  (var {} __borrow_migration_out_0))))))))))
+                    (app {span: "surf:950..962"}
+                      (var {span: "surf:950..954"} drop)
+                      (var {span: "surf:955..961"} normed)))
+                  (var {span: "surf:965..989"} __borrow_migration_out_0))))))))))

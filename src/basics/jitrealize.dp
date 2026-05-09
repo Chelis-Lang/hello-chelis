@@ -13,7 +13,10 @@
       (params {}
         (w {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} mul) (var {} w) (var {} x))))
+      (app {span: "surf:130..139"}
+        (var {span: "surf:130..133"} mul)
+        (var {span: "surf:134..135"} w)
+        (var {span: "surf:137..138"} x))))
   (defsig {}
     with_realize
     (t-fn {}
@@ -24,16 +27,25 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (let {}
-        (bind {}
+      (let {span: "surf:197..323"}
+        (bind {span: "surf:197..323"}
           doubled
-          (realize {} (app {} (var {} add) (var {} x) (var {} x))))
+          (realize {span: "surf:211..229"}
+            (app {span: "surf:219..228"}
+              (var {span: "surf:219..222"} add)
+              (var {span: "surf:223..224"} x)
+              (var {span: "surf:226..227"} x))))
         (let {}
           (bind {}
             __borrow_migration_out_0
-            (app {} (var {} add) (var {} doubled) (var {} x)))
+            (app {span: "surf:259..274"}
+              (var {span: "surf:259..262"} add)
+              (var {span: "surf:263..270"} doubled)
+              (var {span: "surf:272..273"} x)))
           (let {}
             (bind {}
               __chelis_tmp0
-              (app {} (var {} drop) (var {} doubled)))
-            (var {} __borrow_migration_out_0)))))))
+              (app {span: "surf:281..294"}
+                (var {span: "surf:281..285"} drop)
+                (var {span: "surf:286..293"} doubled)))
+            (var {span: "surf:297..321"} __borrow_migration_out_0)))))))

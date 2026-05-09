@@ -9,12 +9,17 @@
     test_fit_exp_decay_recovers_half
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {} (var {} fit_exp_decay))
-        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "y = exp(-theta*x) recovers theta = 0.5"))))
+      (app {span: "surf:202..307"}
+        (var {span: "surf:202..214"} assert_close)
+        (app {span: "surf:215..230"}
+          (var {span: "surf:215..228"} fit_exp_decay))
+        (cast {span: "surf:232..246"}
+          (lit {span: "surf:237..240", type: (t-prim {} f32)} 0.5)
+          (t-prim {} f32))
+        (cast {span: "surf:248..264"}
+          (lit {span: "surf:253..258", type: (t-prim {} f32)} 0.001)
+          (t-prim {} f32))
+        (lit {span: "surf:266..306", type: (t-prim {} string)} "y = exp(-theta*x) recovers theta = 0.5"))))
   (defsig {}
     test_fit_linear_recovers_two
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -22,9 +27,14 @@
     test_fit_linear_recovers_two
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {} (var {} fit_linear_through_origin))
-        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.0001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "y = theta*x recovers theta = 2")))))
+      (app {span: "surf:364..474"}
+        (var {span: "surf:364..376"} assert_close)
+        (app {span: "surf:377..404"}
+          (var {span: "surf:377..402"} fit_linear_through_origin))
+        (cast {span: "surf:406..420"}
+          (lit {span: "surf:411..414", type: (t-prim {} f32)} 2.0)
+          (t-prim {} f32))
+        (cast {span: "surf:422..439"}
+          (lit {span: "surf:427..433", type: (t-prim {} f32)} 0.0001)
+          (t-prim {} f32))
+        (lit {span: "surf:441..473", type: (t-prim {} string)} "y = theta*x recovers theta = 2")))))

@@ -2,17 +2,30 @@
   realizelowers
   (def {}
     xs
-    (app {}
-      (var {} to_tensor)
-      (app {}
+    (app {span: "surf:26..85"}
+      (var {span: "surf:26..35"} to_tensor)
+      (app {span: "surf:36..84"}
         (var {} Cons)
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+        (cast {span: "surf:37..51"}
+          (lit {span: "surf:42..45", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
         (app {}
           (var {} Cons)
-          (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+          (cast {span: "surf:53..67"}
+            (lit {span: "surf:58..61", type: (t-prim {} f32)} 2.0)
+            (t-prim {} f32))
           (app {}
             (var {} Cons)
-            (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+            (cast {span: "surf:69..83"}
+              (lit {span: "surf:74..77", type: (t-prim {} f32)} 3.0)
+              (t-prim {} f32))
             (var {} Nil))))))
-  (def {} deferred (app {} (var {} mul) (copy {} (var {} xs)) (var {} xs)))
-  (def {} materialized (realize {} (var {} deferred))))
+  (def {}
+    deferred
+    (app {span: "surf:97..114"}
+      (var {span: "surf:97..100"} mul)
+      (copy {span: "surf:101..109"} (var {span: "surf:106..108"} xs))
+      (var {span: "surf:111..113"} xs)))
+  (def {}
+    materialized
+    (realize {span: "surf:130..147"} (var {span: "surf:138..146"} deferred))))

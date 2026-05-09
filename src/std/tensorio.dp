@@ -14,11 +14,16 @@
       (params {}
         (path {type: (t-prim {} string)})
         (contents {type: (t-prim {} string)}))
-      (let {}
-        (bind {}
+      (let {span: "surf:201..255"}
+        (bind {span: "surf:201..255"}
           __chelis_tmp0
-          (app {} (var {} write_text) (var {} path) (var {} contents)))
-        (app {} (var {} read_text) (var {} path)))))
+          (app {span: "surf:209..235"}
+            (var {span: "surf:209..219"} write_text)
+            (var {span: "surf:220..224"} path)
+            (var {span: "surf:226..234"} contents)))
+        (app {span: "surf:238..253"}
+          (var {span: "surf:238..247"} read_text)
+          (var {span: "surf:248..252"} path)))))
   (defsig {}
     file_or_default
     (t-fn {eff: (effects {} io)}
@@ -31,10 +36,14 @@
       (params {}
         (path {type: (t-prim {} string)})
         (fallback {type: (t-prim {} string)}))
-      (if {}
-        (app {} (var {} exists) (var {} path))
-        (app {} (var {} read_text) (var {} path))
-        (var {} fallback))))
+      (if {span: "surf:329..383"}
+        (app {span: "surf:334..346"}
+          (var {span: "surf:334..340"} exists)
+          (var {span: "surf:341..345"} path))
+        (app {span: "surf:352..367"}
+          (var {span: "surf:352..361"} read_text)
+          (var {span: "surf:362..366"} path))
+        (var {span: "surf:373..381"} fallback))))
   (defsig {}
     save_message
     (t-fn {eff: (effects {} io)}
@@ -47,11 +56,14 @@
       (params {}
         (path {type: (t-prim {} string)})
         (message {type: (t-prim {} string)}))
-      (let {}
-        (bind {}
+      (let {span: "surf:453..534"}
+        (bind {span: "surf:453..534"}
           banner
-          (app {}
-            (var {} string_concat)
-            (lit {type: (t-prim {} string)} "[hello] ")
-            (var {} message)))
-        (app {} (var {} write_then_read) (var {} path) (var {} banner))))))
+          (app {span: "surf:466..500"}
+            (var {span: "surf:466..479"} string_concat)
+            (lit {span: "surf:480..490", type: (t-prim {} string)} "[hello] ")
+            (var {span: "surf:492..499"} message)))
+        (app {span: "surf:503..532"}
+          (var {span: "surf:503..518"} write_then_read)
+          (var {span: "surf:519..523"} path)
+          (var {span: "surf:525..531"} banner))))))

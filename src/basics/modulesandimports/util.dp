@@ -11,21 +11,30 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} add) (var {} x) (var {} x))))
+      (app {span: "surf:117..126"}
+        (var {span: "surf:117..120"} add)
+        (var {span: "surf:121..122"} x)
+        (var {span: "surf:124..125"} x))))
   (defsig {} ones3 (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     ones3
     (fn {}
       (params {})
-      (app {}
-        (var {} to_tensor)
-        (app {}
+      (app {span: "surf:159..218"}
+        (var {span: "surf:159..168"} to_tensor)
+        (app {span: "surf:169..217"}
           (var {} Cons)
-          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (cast {span: "surf:170..184"}
+            (lit {span: "surf:175..178", type: (t-prim {} f32)} 1.0)
+            (t-prim {} f32))
           (app {}
             (var {} Cons)
-            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (cast {span: "surf:186..200"}
+              (lit {span: "surf:191..194", type: (t-prim {} f32)} 1.0)
+              (t-prim {} f32))
             (app {}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (cast {span: "surf:202..216"}
+                (lit {span: "surf:207..210", type: (t-prim {} f32)} 1.0)
+                (t-prim {} f32))
               (var {} Nil))))))))

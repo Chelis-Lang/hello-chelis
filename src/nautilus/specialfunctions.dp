@@ -7,35 +7,48 @@
     erf_pipe
     (fn {}
       (params {} (x {type: (t-prim {} f32)}))
-      (pipe {} (var {} x) (var {} erf))))
+      (pipe {span: "surf:215..223"}
+        (var {span: "surf:215..216"} x)
+        (var {span: "surf:220..223"} erf))))
   (defsig {} erf_round_trip (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     erf_round_trip
     (fn {}
       (params {} (y {type: (t-prim {} f32)}))
-      (pipe {} (var {} y) (var {} erfinv) (var {} erf))))
+      (pipe {span: "surf:260..278"}
+        (var {span: "surf:260..261"} y)
+        (var {span: "surf:265..271"} erfinv)
+        (var {span: "surf:275..278"} erf))))
   (defsig {} log_gamma_one (t-fn {} (t-prim {} f32)))
   (def {}
     log_gamma_one
     (fn {}
       (params {})
-      (app {}
-        (var {} log_gamma)
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+      (app {span: "surf:308..333"}
+        (var {span: "surf:308..317"} log_gamma)
+        (cast {span: "surf:318..332"}
+          (lit {span: "surf:323..326", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32)))))
   (defsig {} complementary_erf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     complementary_erf
     (fn {}
       (params {} (x {type: (t-prim {} f32)}))
-      (app {}
-        (var {} add)
-        (app {} (var {} erf) (var {} x))
-        (app {} (var {} erfc) (var {} x)))))
+      (app {span: "surf:373..393"}
+        (var {span: "surf:373..376"} add)
+        (app {span: "surf:377..383"}
+          (var {span: "surf:377..380"} erf)
+          (var {span: "surf:381..382"} x))
+        (app {span: "surf:385..392"}
+          (var {span: "surf:385..389"} erfc)
+          (var {span: "surf:390..391"} x)))))
   (defsig {} j0_at_zero (t-fn {} (t-prim {} f32)))
   (def {}
     j0_at_zero
     (fn {}
       (params {})
-      (app {}
-        (var {} bessel_j0)
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))))))
+      (app {span: "surf:420..445"}
+        (var {span: "surf:420..429"} bessel_j0)
+        (cast {span: "surf:430..444"}
+          (lit {span: "surf:435..438", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))))))

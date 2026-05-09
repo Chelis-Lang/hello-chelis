@@ -11,14 +11,20 @@
     test_std_normal_pdf_at_zero
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {}
-          (var {} std_normal_pdf)
-          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32)))
-        (cast {} (lit {type: (t-prim {} f32)} 0.3989423) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "std_normal_pdf(0) = 1/sqrt(2pi)"))))
+      (app {span: "surf:237..358"}
+        (var {span: "surf:237..249"} assert_close)
+        (app {span: "surf:250..280"}
+          (var {span: "surf:250..264"} std_normal_pdf)
+          (cast {span: "surf:265..279"}
+            (lit {span: "surf:270..273", type: (t-prim {} f32)} 0.0)
+            (t-prim {} f32)))
+        (cast {span: "surf:282..302"}
+          (lit {span: "surf:287..296", type: (t-prim {} f32)} 0.3989423)
+          (t-prim {} f32))
+        (cast {span: "surf:304..322"}
+          (lit {span: "surf:309..316", type: (t-prim {} f32)} 0.00001)
+          (t-prim {} f32))
+        (lit {span: "surf:324..357", type: (t-prim {} string)} "std_normal_pdf(0) = 1/sqrt(2pi)"))))
   (defsig {}
     test_std_normal_cdf_at_zero
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -26,14 +32,20 @@
     test_std_normal_cdf_at_zero
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {}
-          (var {} std_normal_cdf)
-          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32)))
-        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "Phi(0) = 0.5"))))
+      (app {span: "surf:414..510"}
+        (var {span: "surf:414..426"} assert_close)
+        (app {span: "surf:427..457"}
+          (var {span: "surf:427..441"} std_normal_cdf)
+          (cast {span: "surf:442..456"}
+            (lit {span: "surf:447..450", type: (t-prim {} f32)} 0.0)
+            (t-prim {} f32)))
+        (cast {span: "surf:459..473"}
+          (lit {span: "surf:464..467", type: (t-prim {} f32)} 0.5)
+          (t-prim {} f32))
+        (cast {span: "surf:475..493"}
+          (lit {span: "surf:480..487", type: (t-prim {} f32)} 0.00001)
+          (t-prim {} f32))
+        (lit {span: "surf:495..509", type: (t-prim {} string)} "Phi(0) = 0.5"))))
   (defsig {}
     test_std_normal_quantile_half
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -41,14 +53,20 @@
     test_std_normal_quantile_half
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {}
-          (var {} std_normal_quantile)
-          (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32)))
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "Phi^-1(0.5) = 0"))))
+      (app {span: "surf:568..672"}
+        (var {span: "surf:568..580"} assert_close)
+        (app {span: "surf:581..616"}
+          (var {span: "surf:581..600"} std_normal_quantile)
+          (cast {span: "surf:601..615"}
+            (lit {span: "surf:606..609", type: (t-prim {} f32)} 0.5)
+            (t-prim {} f32)))
+        (cast {span: "surf:618..632"}
+          (lit {span: "surf:623..626", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (cast {span: "surf:634..652"}
+          (lit {span: "surf:639..646", type: (t-prim {} f32)} 0.00001)
+          (t-prim {} f32))
+        (lit {span: "surf:654..671", type: (t-prim {} string)} "Phi^-1(0.5) = 0"))))
   (defsig {}
     test_exp_cdf_half_life
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -56,9 +74,14 @@
     test_exp_cdf_half_life
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {} (var {} exp_cdf_half_life))
-        (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.00001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "exponential cdf at ln 2 = 0.5")))))
+      (app {span: "surf:723..825"}
+        (var {span: "surf:723..735"} assert_close)
+        (app {span: "surf:736..755"}
+          (var {span: "surf:736..753"} exp_cdf_half_life))
+        (cast {span: "surf:757..771"}
+          (lit {span: "surf:762..765", type: (t-prim {} f32)} 0.5)
+          (t-prim {} f32))
+        (cast {span: "surf:773..791"}
+          (lit {span: "surf:778..785", type: (t-prim {} f32)} 0.00001)
+          (t-prim {} f32))
+        (lit {span: "surf:793..824", type: (t-prim {} string)} "exponential cdf at ln 2 = 0.5")))))

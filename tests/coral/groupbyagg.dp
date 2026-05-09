@@ -8,7 +8,9 @@
     zero_i64
     (fn {}
       (params {})
-      (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))))
+      (cast {span: "surf:232..246"}
+        (lit {span: "surf:237..238", type: (t-prim {} int32)} 0)
+        (t-prim {} int64))))
   (defsig {}
     tensor_sum_f32
     (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
@@ -16,13 +18,20 @@
     tensor_sum_f32
     (fn {}
       (params {} (t {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {}
-        (var {} fold)
-        (fn {}
+      (app {span: "surf:297..371"}
+        (var {span: "surf:299..303"} fold)
+        (fn {span: "surf:304..340"}
           (params {} (acc {type: (t-prim {} f32)}) (v {type: (t-prim {} f32)}))
-          (app {} (var {} add) (var {} acc) (var {} v)))
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (app {} (var {} to_list) (var {} t)))))
+          (app {span: "surf:329..340"}
+            (var {span: "surf:329..332"} add)
+            (var {span: "surf:333..336"} acc)
+            (var {span: "surf:338..339"} v)))
+        (cast {span: "surf:342..356"}
+          (lit {span: "surf:347..350", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (app {span: "surf:358..368"}
+          (var {span: "surf:358..365"} to_list)
+          (var {span: "surf:366..367"} t)))))
   (defsig {}
     test_sales_frame_shape
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -30,23 +39,32 @@
     test_sales_frame_shape
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:422..576"}
+        (bind {span: "surf:422..576"}
           df
-          (app {} (var {} sales_frame)))
+          (app {span: "surf:431..444"}
+            (var {span: "surf:431..442"} sales_frame)))
         (let {}
           (bind {}
             __chelis_tmp0
-            (app {}
-              (var {} assert_eq_int)
-              (app {} (var {} nrows) (var {} df))
-              (cast {} (lit {type: (t-prim {} int32)} 4) (t-prim {} int64))
-              (lit {type: (t-prim {} string)} "sales nrows == 4")))
-          (app {}
-            (var {} assert_eq_int)
-            (app {} (var {} ncols) (var {} df))
-            (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
-            (lit {type: (t-prim {} string)} "sales ncols == 2"))))))
+            (app {span: "surf:451..511"}
+              (var {span: "surf:451..464"} assert_eq_int)
+              (app {span: "surf:465..474"}
+                (var {span: "surf:465..470"} nrows)
+                (var {span: "surf:471..473"} df))
+              (cast {span: "surf:476..490"}
+                (lit {span: "surf:481..482", type: (t-prim {} int32)} 4)
+                (t-prim {} int64))
+              (lit {span: "surf:492..510", type: (t-prim {} string)} "sales nrows == 4")))
+          (app {span: "surf:514..574"}
+            (var {span: "surf:514..527"} assert_eq_int)
+            (app {span: "surf:528..537"}
+              (var {span: "surf:528..533"} ncols)
+              (var {span: "surf:534..536"} df))
+            (cast {span: "surf:539..553"}
+              (lit {span: "surf:544..545", type: (t-prim {} int32)} 2)
+              (t-prim {} int64))
+            (lit {span: "surf:555..573", type: (t-prim {} string)} "sales ncols == 2"))))))
   (defsig {}
     test_agg_sum_per_city
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -54,41 +72,54 @@
     test_agg_sum_per_city
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:626..945"}
+        (bind {span: "surf:626..945"}
           result
-          (app {} (var {} total_per_city)))
+          (app {span: "surf:639..655"}
+            (var {span: "surf:639..653"} total_per_city)))
         (let {}
           (bind {}
             total
-            (app {}
-              (var {} tensor_sum_f32)
-              (app {}
-                (var {} get_float_col)
-                (var {} result)
-                (lit {type: (t-prim {} string)} "qty_sum"))))
+            (app {span: "surf:666..714"}
+              (var {span: "surf:666..680"} tensor_sum_f32)
+              (app {span: "surf:681..713"}
+                (var {span: "surf:681..694"} get_float_col)
+                (var {span: "surf:695..701"} result)
+                (lit {span: "surf:703..712", type: (t-prim {} string)} "qty_sum"))))
           (let {}
             (bind {}
               __chelis_tmp1
-              (app {}
-                (var {} assert_eq_int)
-                (app {} (var {} nrows) (var {} result))
-                (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
-                (lit {type: (t-prim {} string)} "two unique cities")))
+              (app {span: "surf:721..786"}
+                (var {span: "surf:721..734"} assert_eq_int)
+                (app {span: "surf:735..748"}
+                  (var {span: "surf:735..740"} nrows)
+                  (var {span: "surf:741..747"} result))
+                (cast {span: "surf:750..764"}
+                  (lit {span: "surf:755..756", type: (t-prim {} int32)} 2)
+                  (t-prim {} int64))
+                (lit {span: "surf:766..785", type: (t-prim {} string)} "two unique cities")))
             (let {}
               (bind {}
                 __chelis_tmp0
-                (app {}
-                  (var {} assert_eq_int)
-                  (app {} (var {} ncols) (var {} result))
-                  (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
-                  (lit {type: (t-prim {} string)} "key + qty_sum")))
-              (app {}
-                (var {} assert_close)
-                (var {} total)
-                (cast {} (lit {type: (t-prim {} f32)} 33.0) (t-prim {} f32))
-                (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
-                (lit {type: (t-prim {} string)} "sum of per-city totals == 33"))))))))
+                (app {span: "surf:793..854"}
+                  (var {span: "surf:793..806"} assert_eq_int)
+                  (app {span: "surf:807..820"}
+                    (var {span: "surf:807..812"} ncols)
+                    (var {span: "surf:813..819"} result))
+                  (cast {span: "surf:822..836"}
+                    (lit {span: "surf:827..828", type: (t-prim {} int32)} 2)
+                    (t-prim {} int64))
+                  (lit {span: "surf:838..853", type: (t-prim {} string)} "key + qty_sum")))
+              (app {span: "surf:857..943"}
+                (var {span: "surf:857..869"} assert_close)
+                (var {span: "surf:870..875"} total)
+                (cast {span: "surf:877..892"}
+                  (lit {span: "surf:882..886", type: (t-prim {} f32)} 33.0)
+                  (t-prim {} f32))
+                (cast {span: "surf:894..910"}
+                  (lit {span: "surf:899..904", type: (t-prim {} f32)} 0.001)
+                  (t-prim {} f32))
+                (lit {span: "surf:912..942", type: (t-prim {} string)} "sum of per-city totals == 33"))))))))
   (defsig {}
     test_agg_mean_per_city
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -96,30 +127,39 @@
     test_agg_mean_per_city
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:996..1248"}
+        (bind {span: "surf:996..1248"}
           result
-          (app {} (var {} mean_per_city)))
+          (app {span: "surf:1009..1024"}
+            (var {span: "surf:1009..1022"} mean_per_city)))
         (let {}
           (bind {}
             total
-            (app {}
-              (var {} tensor_sum_f32)
-              (app {}
-                (var {} get_float_col)
-                (var {} result)
-                (lit {type: (t-prim {} string)} "qty_mean"))))
+            (app {span: "surf:1035..1084"}
+              (var {span: "surf:1035..1049"} tensor_sum_f32)
+              (app {span: "surf:1050..1083"}
+                (var {span: "surf:1050..1063"} get_float_col)
+                (var {span: "surf:1064..1070"} result)
+                (lit {span: "surf:1072..1082", type: (t-prim {} string)} "qty_mean"))))
           (let {}
             (bind {}
               __chelis_tmp0
-              (app {}
-                (var {} assert_eq_int)
-                (app {} (var {} nrows) (var {} result))
-                (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
-                (lit {type: (t-prim {} string)} "two unique cities")))
-            (app {}
-              (var {} assert_close)
-              (var {} total)
-              (cast {} (lit {type: (t-prim {} f32)} 16.5) (t-prim {} f32))
-              (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
-              (lit {type: (t-prim {} string)} "sum of per-city means == 16.5"))))))))
+              (app {span: "surf:1091..1156"}
+                (var {span: "surf:1091..1104"} assert_eq_int)
+                (app {span: "surf:1105..1118"}
+                  (var {span: "surf:1105..1110"} nrows)
+                  (var {span: "surf:1111..1117"} result))
+                (cast {span: "surf:1120..1134"}
+                  (lit {span: "surf:1125..1126", type: (t-prim {} int32)} 2)
+                  (t-prim {} int64))
+                (lit {span: "surf:1136..1155", type: (t-prim {} string)} "two unique cities")))
+            (app {span: "surf:1159..1246"}
+              (var {span: "surf:1159..1171"} assert_close)
+              (var {span: "surf:1172..1177"} total)
+              (cast {span: "surf:1179..1194"}
+                (lit {span: "surf:1184..1188", type: (t-prim {} f32)} 16.5)
+                (t-prim {} f32))
+              (cast {span: "surf:1196..1212"}
+                (lit {span: "surf:1201..1206", type: (t-prim {} f32)} 0.001)
+                (t-prim {} f32))
+              (lit {span: "surf:1214..1245", type: (t-prim {} string)} "sum of per-city means == 16.5"))))))))

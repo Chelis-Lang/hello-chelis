@@ -19,7 +19,10 @@
       (params {}
         (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} euclidean) (var {} a) (var {} b))))
+      (app {span: "surf:248..263"}
+        (var {span: "surf:248..257"} euclidean)
+        (var {span: "surf:258..259"} a)
+        (var {span: "surf:261..262"} b))))
   (defsig {}
     manhattan_dist
     (t-fn {}
@@ -32,7 +35,10 @@
       (params {}
         (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} manhattan) (var {} a) (var {} b))))
+      (app {span: "surf:332..347"}
+        (var {span: "surf:332..341"} manhattan)
+        (var {span: "surf:342..343"} a)
+        (var {span: "surf:345..346"} b))))
   (defsig {}
     chebyshev_dist
     (t-fn {}
@@ -45,7 +51,10 @@
       (params {}
         (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} chebyshev) (var {} a) (var {} b))))
+      (app {span: "surf:416..431"}
+        (var {span: "surf:416..425"} chebyshev)
+        (var {span: "surf:426..427"} a)
+        (var {span: "surf:429..430"} b))))
   (defsig {}
     cosine_dist
     (t-fn {}
@@ -58,7 +67,10 @@
       (params {}
         (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} cosine_distance) (var {} a) (var {} b))))
+      (app {span: "surf:497..518"}
+        (var {span: "surf:497..512"} cosine_distance)
+        (var {span: "surf:513..514"} a)
+        (var {span: "surf:516..517"} b))))
   (defsig {}
     self_distance_zero
     (t-fn {}
@@ -69,4 +81,7 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} euclidean) (var {} x) (var {} x)))))
+      (app {span: "surf:571..586"}
+        (var {span: "surf:571..580"} euclidean)
+        (var {span: "surf:581..582"} x)
+        (var {span: "surf:584..585"} x)))))

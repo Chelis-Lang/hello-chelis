@@ -16,11 +16,15 @@
     sample_normal
     (fn {}
       (params {} (template {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {}
-        (var {} normal_like)
-        (var {} template)
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))))
+      (app {span: "surf:256..309"}
+        (var {span: "surf:256..267"} normal_like)
+        (var {span: "surf:268..276"} template)
+        (cast {span: "surf:278..292"}
+          (lit {span: "surf:283..286", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (cast {span: "surf:294..308"}
+          (lit {span: "surf:299..302", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32)))))
   (defsig {}
     deterministic_pair
     (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
@@ -28,19 +32,25 @@
     deterministic_pair
     (fn {}
       (params {})
-      (handle-effect {effect: random}
-        (lit {type: (t-prim {} int32)} 42)
-        (app {}
-          (var {} sample_normal)
-          (app {}
-            (var {} to_tensor)
-            (app {}
+      (handle-effect {effect: random, span: "surf:355..451"}
+        (lit {span: "surf:367..369", type: (t-prim {} int32)} 42)
+        (app {span: "surf:371..449"}
+          (var {span: "surf:373..386"} sample_normal)
+          (app {span: "surf:387..446"}
+            (var {span: "surf:387..396"} to_tensor)
+            (app {span: "surf:397..445"}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+              (cast {span: "surf:398..412"}
+                (lit {span: "surf:403..406", type: (t-prim {} f32)} 0.0)
+                (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                (cast {span: "surf:414..428"}
+                  (lit {span: "surf:419..422", type: (t-prim {} f32)} 0.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+                  (cast {span: "surf:430..444"}
+                    (lit {span: "surf:435..438", type: (t-prim {} f32)} 0.0)
+                    (t-prim {} f32))
                   (var {} Nil))))))))))

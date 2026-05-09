@@ -16,18 +16,22 @@
       (params {}
         (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (cities {type: (t-adt {} List (t-prim {} string))}))
-      (app {}
-        (var {} from_pairs)
-        (app {}
+      (app {span: "surf:300..370"}
+        (var {span: "surf:300..310"} from_pairs)
+        (app {span: "surf:311..369"}
           (var {} Cons)
-          (tuple {}
-            (lit {type: (t-prim {} string)} "price")
-            (app {} (var {} FloatCol) (var {} prices)))
+          (tuple {span: "surf:312..339"}
+            (lit {span: "surf:313..320", type: (t-prim {} string)} "price")
+            (app {span: "surf:322..338"}
+              (var {span: "surf:322..330"} FloatCol)
+              (var {span: "surf:331..337"} prices)))
           (app {}
             (var {} Cons)
-            (tuple {}
-              (lit {type: (t-prim {} string)} "city")
-              (app {} (var {} StringCol) (var {} cities)))
+            (tuple {span: "surf:341..368"}
+              (lit {span: "surf:342..348", type: (t-prim {} string)} "city")
+              (app {span: "surf:350..367"}
+                (var {span: "surf:350..359"} StringCol)
+                (var {span: "surf:360..366"} cities)))
             (var {} Nil))))))
   (defsig {}
     mean_grouped
@@ -41,21 +45,26 @@
       (params {}
         (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (cities {type: (t-adt {} List (t-prim {} string))}))
-      (let {}
-        (bind {}
+      (let {span: "surf:445..550"}
+        (bind {span: "surf:445..550"}
           df
-          (app {} (var {} build_frame) (var {} prices) (var {} cities)))
+          (app {span: "surf:454..481"}
+            (var {span: "surf:454..465"} build_frame)
+            (var {span: "surf:466..472"} prices)
+            (var {span: "surf:474..480"} cities)))
         (let {}
           (bind {}
             totals
-            (app {}
-              (var {} agg_mean)
-              (app {}
-                (var {} group_by)
-                (var {} df)
-                (lit {type: (t-prim {} string)} "city"))
-              (lit {type: (t-prim {} string)} "price")))
-          (app {} (var {} nrows) (var {} totals))))))
+            (app {span: "surf:493..532"}
+              (var {span: "surf:493..501"} agg_mean)
+              (app {span: "surf:502..522"}
+                (var {span: "surf:502..510"} group_by)
+                (var {span: "surf:511..513"} df)
+                (lit {span: "surf:515..521", type: (t-prim {} string)} "city"))
+              (lit {span: "surf:524..531", type: (t-prim {} string)} "price")))
+          (app {span: "surf:535..548"}
+            (var {span: "surf:535..540"} nrows)
+            (var {span: "surf:541..547"} totals))))))
   (defsig {}
     summary_stat
     (t-fn {}
@@ -68,21 +77,28 @@
       (params {}
         (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (cities {type: (t-adt {} List (t-prim {} string))}))
-      (let {}
-        (bind {}
+      (let {span: "surf:623..753"}
+        (bind {span: "surf:623..753"}
           df
-          (app {} (var {} build_frame) (var {} prices) (var {} cities)))
+          (app {span: "surf:632..659"}
+            (var {span: "surf:632..643"} build_frame)
+            (var {span: "surf:644..650"} prices)
+            (var {span: "surf:652..658"} cities)))
         (let {}
           (bind {}
             col
-            (app {}
-              (var {} get_float_col)
-              (var {} df)
-              (lit {type: (t-prim {} string)} "price")))
-          (app {}
-            (var {} add)
-            (app {} (var {} mean_vec) (copy {} (var {} col)))
-            (app {}
-              (var {} std_vec)
-              (var {} col)
-              (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64)))))))))
+            (app {span: "surf:668..694"}
+              (var {span: "surf:668..681"} get_float_col)
+              (var {span: "surf:682..684"} df)
+              (lit {span: "surf:686..693", type: (t-prim {} string)} "price")))
+          (app {span: "surf:697..751"}
+            (var {span: "surf:697..700"} add)
+            (app {span: "surf:701..720"}
+              (var {span: "surf:701..709"} mean_vec)
+              (copy {span: "surf:710..719"} (var {span: "surf:715..718"} col)))
+            (app {span: "surf:722..750"}
+              (var {span: "surf:722..729"} std_vec)
+              (var {span: "surf:730..733"} col)
+              (cast {span: "surf:735..749"}
+                (lit {span: "surf:740..741", type: (t-prim {} int32)} 1)
+                (t-prim {} int64)))))))))

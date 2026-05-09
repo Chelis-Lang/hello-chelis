@@ -7,60 +7,79 @@
     sample_series
     (fn {}
       (params {})
-      (app {}
-        (var {} to_tensor)
-        (app {}
+      (app {span: "surf:172..267"}
+        (var {span: "surf:174..183"} to_tensor)
+        (app {span: "surf:184..264"}
           (var {} Cons)
-          (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+          (cast {span: "surf:185..199"}
+            (lit {span: "surf:190..193", type: (t-prim {} f32)} 1.0)
+            (t-prim {} f32))
           (app {}
             (var {} Cons)
-            (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+            (cast {span: "surf:201..215"}
+              (lit {span: "surf:206..209", type: (t-prim {} f32)} 2.0)
+              (t-prim {} f32))
             (app {}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+              (cast {span: "surf:217..231"}
+                (lit {span: "surf:222..225", type: (t-prim {} f32)} 3.0)
+                (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                (cast {span: "surf:233..247"}
+                  (lit {span: "surf:238..241", type: (t-prim {} f32)} 4.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 5.0) (t-prim {} f32))
+                  (cast {span: "surf:249..263"}
+                    (lit {span: "surf:254..257", type: (t-prim {} f32)} 5.0)
+                    (t-prim {} f32))
                   (var {} Nil)))))))))
   (defsig {} mean3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     mean3
     (fn {}
       (params {})
-      (pipe {}
-        (app {} (var {} sample_series))
-        (fn {}
+      (pipe {span: "surf:300..347"}
+        (app {span: "surf:300..315"}
+          (var {span: "surf:300..313"} sample_series))
+        (fn {span: "surf:319..347"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} rolling_mean)
-            (var {} __chelis_pipe)
-            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64)))))))
+          (app {span: "surf:319..347"}
+            (var {span: "surf:319..331"} rolling_mean)
+            (var {span: "surf:319..347"} __chelis_pipe)
+            (cast {span: "surf:332..346"}
+              (lit {span: "surf:337..338", type: (t-prim {} int32)} 3)
+              (t-prim {} int64)))))))
   (defsig {} std3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     std3
     (fn {}
       (params {})
-      (pipe {}
-        (app {} (var {} sample_series))
-        (fn {}
+      (pipe {span: "surf:379..425"}
+        (app {span: "surf:379..394"}
+          (var {span: "surf:379..392"} sample_series))
+        (fn {span: "surf:398..425"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} rolling_std)
-            (var {} __chelis_pipe)
-            (cast {} (lit {type: (t-prim {} int32)} 3) (t-prim {} int64)))))))
+          (app {span: "surf:398..425"}
+            (var {span: "surf:398..409"} rolling_std)
+            (var {span: "surf:398..425"} __chelis_pipe)
+            (cast {span: "surf:410..424"}
+              (lit {span: "surf:415..416", type: (t-prim {} int32)} 3)
+              (t-prim {} int64)))))))
   (defsig {} ewm_half (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     ewm_half
     (fn {}
       (params {})
-      (pipe {}
-        (app {} (var {} sample_series))
-        (fn {}
+      (pipe {span: "surf:461..499"}
+        (app {span: "surf:461..476"}
+          (var {span: "surf:461..474"} sample_series))
+        (fn {span: "surf:480..499"}
           (params {} __chelis_pipe)
-          (app {}
-            (var {} ewm)
-            (var {} __chelis_pipe)
-            (cast {} (lit {type: (t-prim {} f32)} 0.5) (t-prim {} f32))))))))
+          (app {span: "surf:480..499"}
+            (var {span: "surf:480..483"} ewm)
+            (var {span: "surf:480..499"} __chelis_pipe)
+            (cast {span: "surf:484..498"}
+              (lit {span: "surf:489..492", type: (t-prim {} f32)} 0.5)
+              (t-prim {} f32))))))))

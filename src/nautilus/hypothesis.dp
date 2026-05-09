@@ -25,31 +25,41 @@
         (pop_mean {type: (t-prim {} f32)})
         (pop_std {type: (t-prim {} f32)})
         (n {type: (t-prim {} f32)}))
-      (app {}
-        (var {} z_statistic)
-        (var {} sample_mean)
-        (var {} pop_mean)
-        (var {} pop_std)
-        (var {} n))))
+      (app {span: "surf:282..328"}
+        (var {span: "surf:282..293"} z_statistic)
+        (var {span: "surf:294..305"} sample_mean)
+        (var {span: "surf:307..315"} pop_mean)
+        (var {span: "surf:317..324"} pop_std)
+        (var {span: "surf:326..327"} n))))
   (defsig {} z_score_at_mean (t-fn {} (t-prim {} f32)))
   (def {}
     z_score_at_mean
     (fn {}
       (params {})
-      (app {}
-        (var {} z_statistic)
-        (cast {} (lit {type: (t-prim {} f32)} 50.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 50.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 25.0) (t-prim {} f32)))))
+      (app {span: "surf:360..439"}
+        (var {span: "surf:360..371"} z_statistic)
+        (cast {span: "surf:372..387"}
+          (lit {span: "surf:377..381", type: (t-prim {} f32)} 50.0)
+          (t-prim {} f32))
+        (cast {span: "surf:389..404"}
+          (lit {span: "surf:394..398", type: (t-prim {} f32)} 50.0)
+          (t-prim {} f32))
+        (cast {span: "surf:406..421"}
+          (lit {span: "surf:411..415", type: (t-prim {} f32)} 10.0)
+          (t-prim {} f32))
+        (cast {span: "surf:423..438"}
+          (lit {span: "surf:428..432", type: (t-prim {} f32)} 25.0)
+          (t-prim {} f32)))))
   (defsig {} z_p_two_sided_zero (t-fn {} (t-prim {} f32)))
   (def {}
     z_p_two_sided_zero
     (fn {}
       (params {})
-      (app {}
-        (var {} z_p_value_two_sided)
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32)))))
+      (app {span: "surf:474..509"}
+        (var {span: "surf:474..493"} z_p_value_two_sided)
+        (cast {span: "surf:494..508"}
+          (lit {span: "surf:499..502", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32)))))
   (defsig {}
     t_one_sample
     (t-fn {}
@@ -66,20 +76,28 @@
         (sample_std {type: (t-prim {} f32)})
         (n {type: (t-prim {} f32)})
         (pop_mean {type: (t-prim {} f32)}))
-      (app {}
-        (var {} t_statistic_one_sample)
-        (var {} sample_mean)
-        (var {} sample_std)
-        (var {} n)
-        (var {} pop_mean))))
+      (app {span: "surf:594..654"}
+        (var {span: "surf:594..616"} t_statistic_one_sample)
+        (var {span: "surf:617..628"} sample_mean)
+        (var {span: "surf:630..640"} sample_std)
+        (var {span: "surf:642..643"} n)
+        (var {span: "surf:645..653"} pop_mean))))
   (defsig {} t_one_sample_at_mean (t-fn {} (t-prim {} f32)))
   (def {}
     t_one_sample_at_mean
     (fn {}
       (params {})
-      (app {}
-        (var {} t_statistic_one_sample)
-        (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 10.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 7.0) (t-prim {} f32))))))
+      (app {span: "surf:691..778"}
+        (var {span: "surf:691..713"} t_statistic_one_sample)
+        (cast {span: "surf:714..728"}
+          (lit {span: "surf:719..722", type: (t-prim {} f32)} 7.0)
+          (t-prim {} f32))
+        (cast {span: "surf:730..744"}
+          (lit {span: "surf:735..738", type: (t-prim {} f32)} 2.0)
+          (t-prim {} f32))
+        (cast {span: "surf:746..761"}
+          (lit {span: "surf:751..755", type: (t-prim {} f32)} 10.0)
+          (t-prim {} f32))
+        (cast {span: "surf:763..777"}
+          (lit {span: "surf:768..771", type: (t-prim {} f32)} 7.0)
+          (t-prim {} f32))))))

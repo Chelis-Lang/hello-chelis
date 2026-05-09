@@ -9,12 +9,17 @@
     test_em_one_step_decay
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {} (var {} em_one_step_decay))
-        (cast {} (lit {type: (t-prim {} f32)} 0.9) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "EM step decay y0=1 dt=0.1 -> 0.9"))))
+      (app {span: "surf:193..299"}
+        (var {span: "surf:193..205"} assert_close)
+        (app {span: "surf:206..225"}
+          (var {span: "surf:206..223"} em_one_step_decay))
+        (cast {span: "surf:227..241"}
+          (lit {span: "surf:232..235", type: (t-prim {} f32)} 0.9)
+          (t-prim {} f32))
+        (cast {span: "surf:243..262"}
+          (lit {span: "surf:248..256", type: (t-prim {} f32)} 0.000001)
+          (t-prim {} f32))
+        (lit {span: "surf:264..298", type: (t-prim {} string)} "EM step decay y0=1 dt=0.1 -> 0.9"))))
   (defsig {}
     test_gbm_zero_noise_close_to_exp
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -22,16 +27,21 @@
     test_gbm_zero_noise_close_to_exp
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:360..490"}
+        (bind {span: "surf:360..490"}
           y
-          (app {} (var {} gbm_path_zero_noise)))
-        (app {}
-          (var {} assert_close)
-          (var {} y)
-          (cast {} (lit {type: (t-prim {} f32)} 1.10462) (t-prim {} f32))
-          (cast {} (lit {type: (t-prim {} f32)} 0.001) (t-prim {} f32))
-          (lit {type: (t-prim {} string)} "GBM zero-noise approximates (1+mu*dt)^n")))))
+          (app {span: "surf:368..389"}
+            (var {span: "surf:368..387"} gbm_path_zero_noise)))
+        (app {span: "surf:392..488"}
+          (var {span: "surf:392..404"} assert_close)
+          (var {span: "surf:405..406"} y)
+          (cast {span: "surf:408..426"}
+            (lit {span: "surf:413..420", type: (t-prim {} f32)} 1.10462)
+            (t-prim {} f32))
+          (cast {span: "surf:428..444"}
+            (lit {span: "surf:433..438", type: (t-prim {} f32)} 0.001)
+            (t-prim {} f32))
+          (lit {span: "surf:446..487", type: (t-prim {} string)} "GBM zero-noise approximates (1+mu*dt)^n")))))
   (defsig {}
     test_gbm_zero_noise_finite_positive
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -39,14 +49,17 @@
     test_gbm_zero_noise_finite_positive
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:554..665"}
+        (bind {span: "surf:554..665"}
           y
-          (app {} (var {} gbm_path_zero_noise)))
-        (app {}
-          (var {} assert_true)
-          (app {}
-            (var {} gt)
-            (var {} y)
-            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32)))
-          (lit {type: (t-prim {} string)} "GBM zero-noise with positive drift > y0"))))))
+          (app {span: "surf:562..583"}
+            (var {span: "surf:562..581"} gbm_path_zero_noise)))
+        (app {span: "surf:586..663"}
+          (var {span: "surf:586..597"} assert_true)
+          (app {span: "surf:598..619"}
+            (var {span: "surf:598..600"} gt)
+            (var {span: "surf:601..602"} y)
+            (cast {span: "surf:604..618"}
+              (lit {span: "surf:609..612", type: (t-prim {} f32)} 1.0)
+              (t-prim {} f32)))
+          (lit {span: "surf:621..662", type: (t-prim {} string)} "GBM zero-noise with positive drift > y0"))))))

@@ -2,19 +2,33 @@
   reluthensigmoid
   (def {}
     xs
-    (app {}
-      (var {} to_tensor)
-      (app {}
+    (app {span: "surf:28..88"}
+      (var {span: "surf:28..37"} to_tensor)
+      (app {span: "surf:38..87"}
         (var {} Cons)
-        (cast {}
-          (app {} (var {} neg) (lit {type: (t-prim {} f32)} 1.0))
+        (cast {span: "surf:39..54"}
+          (app {span: "surf:44..48"}
+            (var {} neg)
+            (lit {span: "surf:45..48", type: (t-prim {} f32)} 1.0))
           (t-prim {} f32))
         (app {}
           (var {} Cons)
-          (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
+          (cast {span: "surf:56..70"}
+            (lit {span: "surf:61..64", type: (t-prim {} f32)} 0.0)
+            (t-prim {} f32))
           (app {}
             (var {} Cons)
-            (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+            (cast {span: "surf:72..86"}
+              (lit {span: "surf:77..80", type: (t-prim {} f32)} 1.0)
+              (t-prim {} f32))
             (var {} Nil))))))
-  (def {} relud (app {} (var {} relu) (var {} xs)))
-  (def {} out (app {} (var {} sigmoid) (var {} relud))))
+  (def {}
+    relud
+    (app {span: "surf:97..105"}
+      (var {span: "surf:97..101"} relu)
+      (var {span: "surf:102..104"} xs)))
+  (def {}
+    out
+    (app {span: "surf:112..126"}
+      (var {span: "surf:112..119"} sigmoid)
+      (var {span: "surf:120..125"} relud))))

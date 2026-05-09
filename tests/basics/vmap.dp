@@ -9,51 +9,71 @@
     test_process_doubles
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:167..482"}
+        (bind {span: "surf:167..482"}
           v
-          (app {}
-            (var {} to_tensor)
-            (app {}
+          (app {span: "surf:175..234"}
+            (var {span: "surf:175..184"} to_tensor)
+            (app {span: "surf:185..233"}
               (var {} Cons)
-              (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
+              (cast {span: "surf:186..200"}
+                (lit {span: "surf:191..194", type: (t-prim {} f32)} 1.0)
+                (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (cast {span: "surf:202..216"}
+                  (lit {span: "surf:207..210", type: (t-prim {} f32)} 2.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 3.0) (t-prim {} f32))
+                  (cast {span: "surf:218..232"}
+                    (lit {span: "surf:223..226", type: (t-prim {} f32)} 3.0)
+                    (t-prim {} f32))
                   (var {} Nil))))))
         (let {}
           (bind {}
             expected
-            (app {}
-              (var {} to_tensor)
-              (app {}
+            (app {span: "surf:248..307"}
+              (var {span: "surf:248..257"} to_tensor)
+              (app {span: "surf:258..306"}
                 (var {} Cons)
-                (cast {} (lit {type: (t-prim {} f32)} 2.0) (t-prim {} f32))
+                (cast {span: "surf:259..273"}
+                  (lit {span: "surf:264..267", type: (t-prim {} f32)} 2.0)
+                  (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {} (lit {type: (t-prim {} f32)} 4.0) (t-prim {} f32))
+                  (cast {span: "surf:275..289"}
+                    (lit {span: "surf:280..283", type: (t-prim {} f32)} 4.0)
+                    (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {} (lit {type: (t-prim {} f32)} 6.0) (t-prim {} f32))
+                    (cast {span: "surf:291..305"}
+                      (lit {span: "surf:296..299", type: (t-prim {} f32)} 6.0)
+                      (t-prim {} f32))
                     (var {} Nil))))))
           (let {}
             (bind {}
               __borrow_migration_out_0
-              (app {}
-                (var {} assert_close_tensor)
-                (app {} (var {} process) (var {} v))
-                (var {} expected)
-                (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-                (lit {type: (t-prim {} string)} "process_doubles")))
+              (app {span: "surf:337..418"}
+                (var {span: "surf:337..356"} assert_close_tensor)
+                (app {span: "surf:357..367"}
+                  (var {span: "surf:357..364"} process)
+                  (var {span: "surf:365..366"} v))
+                (var {span: "surf:369..377"} expected)
+                (cast {span: "surf:379..398"}
+                  (lit {span: "surf:384..392", type: (t-prim {} f32)} 0.000001)
+                  (t-prim {} f32))
+                (lit {span: "surf:400..417", type: (t-prim {} string)} "process_doubles")))
             (let {}
               (bind {}
                 __chelis_tmp1
-                (app {} (var {} drop) (var {} v)))
+                (app {span: "surf:425..432"}
+                  (var {span: "surf:425..429"} drop)
+                  (var {span: "surf:430..431"} v)))
               (let {}
                 (bind {}
                   __chelis_tmp0
-                  (app {} (var {} drop) (var {} expected)))
-                (var {} __borrow_migration_out_0)))))))))
+                  (app {span: "surf:439..453"}
+                    (var {span: "surf:439..443"} drop)
+                    (var {span: "surf:444..452"} expected)))
+                (var {span: "surf:456..480"} __borrow_migration_out_0)))))))))

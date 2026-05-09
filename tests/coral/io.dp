@@ -8,13 +8,17 @@
     zero_i64
     (fn {}
       (params {})
-      (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int64))))
+      (cast {span: "surf:221..235"}
+        (lit {span: "surf:226..227", type: (t-prim {} int32)} 0)
+        (t-prim {} int64))))
   (defsig {} one_i64 (t-fn {} (t-prim {} int64)))
   (def {}
     one_i64
     (fn {}
       (params {})
-      (cast {} (lit {type: (t-prim {} int32)} 1) (t-prim {} int64))))
+      (cast {span: "surf:261..275"}
+        (lit {span: "surf:266..267", type: (t-prim {} int32)} 1)
+        (t-prim {} int64))))
   (defsig {}
     test_csv_roundtrip_shape_and_values
     (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
@@ -22,78 +26,87 @@
     test_csv_roundtrip_shape_and_values
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:343..892"}
+        (bind {span: "surf:343..892"}
           back
-          (app {}
-            (var {} roundtrip_csv)
-            (lit {type: (t-prim {} string)} "/tmp/hello-coral.csv")))
+          (app {span: "surf:354..391"}
+            (var {span: "surf:354..367"} roundtrip_csv)
+            (lit {span: "surf:368..390", type: (t-prim {} string)} "/tmp/hello-coral.csv")))
         (let {}
           (bind {}
             prices
-            (app {}
-              (var {} to_list)
-              (app {}
-                (var {} get_float_col)
-                (var {} back)
-                (lit {type: (t-prim {} string)} "price"))))
+            (app {span: "surf:403..440"}
+              (var {span: "surf:403..410"} to_list)
+              (app {span: "surf:411..439"}
+                (var {span: "surf:411..424"} get_float_col)
+                (var {span: "surf:425..429"} back)
+                (lit {span: "surf:431..438", type: (t-prim {} string)} "price"))))
           (let {}
             (bind {}
               cities
-              (app {}
-                (var {} get_string_col)
-                (var {} back)
-                (lit {type: (t-prim {} string)} "city")))
+              (app {span: "surf:452..480"}
+                (var {span: "surf:452..466"} get_string_col)
+                (var {span: "surf:467..471"} back)
+                (lit {span: "surf:473..479", type: (t-prim {} string)} "city")))
             (let {}
               (bind {}
                 __chelis_tmp3
-                (app {}
-                  (var {} assert_eq_int)
-                  (app {} (var {} nrows) (var {} back))
-                  (cast {} (lit {type: (t-prim {} int32)} 2) (t-prim {} int64))
-                  (lit {type: (t-prim {} string)} "csv roundtrip nrows == 2")))
+                (app {span: "surf:487..557"}
+                  (var {span: "surf:487..500"} assert_eq_int)
+                  (app {span: "surf:501..512"}
+                    (var {span: "surf:501..506"} nrows)
+                    (var {span: "surf:507..511"} back))
+                  (cast {span: "surf:514..528"}
+                    (lit {span: "surf:519..520", type: (t-prim {} int32)} 2)
+                    (t-prim {} int64))
+                  (lit {span: "surf:530..556", type: (t-prim {} string)} "csv roundtrip nrows == 2")))
               (let {}
                 (bind {}
                   __chelis_tmp2
-                  (app {}
-                    (var {} assert_eq_int)
-                    (app {} (var {} ncols) (var {} back))
-                    (cast {}
-                      (lit {type: (t-prim {} int32)} 2)
+                  (app {span: "surf:564..634"}
+                    (var {span: "surf:564..577"} assert_eq_int)
+                    (app {span: "surf:578..589"}
+                      (var {span: "surf:578..583"} ncols)
+                      (var {span: "surf:584..588"} back))
+                    (cast {span: "surf:591..605"}
+                      (lit {span: "surf:596..597", type: (t-prim {} int32)} 2)
                       (t-prim {} int64))
-                    (lit {type: (t-prim {} string)} "csv roundtrip ncols == 2")))
+                    (lit {span: "surf:607..633", type: (t-prim {} string)} "csv roundtrip ncols == 2")))
                 (let {}
                   (bind {}
                     __chelis_tmp1
-                    (app {}
-                      (var {} assert_close)
-                      (app {}
-                        (var {} index)
-                        (var {} prices)
-                        (app {} (var {} zero_i64)))
-                      (cast {}
-                        (lit {type: (t-prim {} f32)} 10.5)
+                    (app {span: "surf:641..735"}
+                      (var {span: "surf:641..653"} assert_close)
+                      (app {span: "surf:654..679"}
+                        (var {span: "surf:654..659"} index)
+                        (var {span: "surf:660..666"} prices)
+                        (app {span: "surf:668..678"}
+                          (var {span: "surf:668..676"} zero_i64)))
+                      (cast {span: "surf:681..696"}
+                        (lit {span: "surf:686..690", type: (t-prim {} f32)} 10.5)
                         (t-prim {} f32))
-                      (cast {}
-                        (lit {type: (t-prim {} f32)} 0.001)
+                      (cast {span: "surf:698..714"}
+                        (lit {span: "surf:703..708", type: (t-prim {} f32)} 0.001)
                         (t-prim {} f32))
-                      (lit {type: (t-prim {} string)} "price[0] == 10.5")))
+                      (lit {span: "surf:716..734", type: (t-prim {} string)} "price[0] == 10.5")))
                   (let {}
                     (bind {}
                       __chelis_tmp0
-                      (app {}
-                        (var {} assert_eq_string)
-                        (app {}
-                          (var {} index)
-                          (var {} cities)
-                          (app {} (var {} zero_i64)))
-                        (lit {type: (t-prim {} string)} "paris")
-                        (lit {type: (t-prim {} string)} "city[0] == paris")))
-                    (app {}
-                      (var {} assert_eq_string)
-                      (app {}
-                        (var {} index)
-                        (var {} cities)
-                        (app {} (var {} one_i64)))
-                      (lit {type: (t-prim {} string)} "london")
-                      (lit {type: (t-prim {} string)} "city[1] == london"))))))))))))
+                      (app {span: "surf:742..814"}
+                        (var {span: "surf:742..758"} assert_eq_string)
+                        (app {span: "surf:759..784"}
+                          (var {span: "surf:759..764"} index)
+                          (var {span: "surf:765..771"} cities)
+                          (app {span: "surf:773..783"}
+                            (var {span: "surf:773..781"} zero_i64)))
+                        (lit {span: "surf:786..793", type: (t-prim {} string)} "paris")
+                        (lit {span: "surf:795..813", type: (t-prim {} string)} "city[0] == paris")))
+                    (app {span: "surf:817..890"}
+                      (var {span: "surf:817..833"} assert_eq_string)
+                      (app {span: "surf:834..858"}
+                        (var {span: "surf:834..839"} index)
+                        (var {span: "surf:840..846"} cities)
+                        (app {span: "surf:848..857"}
+                          (var {span: "surf:848..855"} one_i64)))
+                      (lit {span: "surf:860..868", type: (t-prim {} string)} "london")
+                      (lit {span: "surf:870..889", type: (t-prim {} string)} "city[1] == london"))))))))))))

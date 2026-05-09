@@ -25,10 +25,12 @@
         (x {type: (t-ref {}
                      (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
            }))
-      (app {}
-        (var {} sum)
-        (var {} x)
-        (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int32)))))
+      (app {span: "surf:364..386"}
+        (var {span: "surf:364..367"} sum)
+        (var {span: "surf:368..369"} x)
+        (cast {span: "surf:371..385"}
+          (lit {span: "surf:376..377", type: (t-prim {} int32)} 0)
+          (t-prim {} int32)))))
   (defsig {}
     mean_axis0
     (t-fn {}
@@ -41,10 +43,12 @@
         (x {type: (t-ref {}
                      (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
            }))
-      (app {}
-        (var {} mean)
-        (var {} x)
-        (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int32)))))
+      (app {span: "surf:445..468"}
+        (var {span: "surf:445..449"} mean)
+        (var {span: "surf:450..451"} x)
+        (cast {span: "surf:453..467"}
+          (lit {span: "surf:458..459", type: (t-prim {} int32)} 0)
+          (t-prim {} int32)))))
   (defsig {}
     prod_axis0
     (t-fn {}
@@ -57,10 +61,12 @@
         (x {type: (t-ref {}
                      (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
            }))
-      (app {}
-        (var {} prod)
-        (var {} x)
-        (cast {} (lit {type: (t-prim {} int32)} 0) (t-prim {} int32)))))
+      (app {span: "surf:533..556"}
+        (var {span: "surf:533..537"} prod)
+        (var {span: "surf:538..539"} x)
+        (cast {span: "surf:541..555"}
+          (lit {span: "surf:546..547", type: (t-prim {} int32)} 0)
+          (t-prim {} int32)))))
   (defsig {}
     ce_loss
     (t-fn {}
@@ -83,7 +89,10 @@
                             (d-var {} c)
                             (t-prim {} f32)))
                 }))
-      (app {} (var {} loss) (var {} logits) (var {} labels))))
+      (app {span: "surf:651..671"}
+        (var {span: "surf:651..655"} loss)
+        (var {span: "surf:656..662"} logits)
+        (var {span: "surf:664..670"} labels))))
   (defsig {}
     bce_loss
     (t-fn {}
@@ -96,7 +105,10 @@
       (params {}
         (z {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (y {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} bce_with_logits) (var {} z) (var {} y))))
+      (app {span: "surf:748..769"}
+        (var {span: "surf:748..763"} bce_with_logits)
+        (var {span: "surf:764..765"} z)
+        (var {span: "surf:767..768"} y))))
   (defsig {}
     kl_loss
     (t-fn {}
@@ -109,10 +121,15 @@
       (params {}
         (p {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (q {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} kl_divergence) (var {} p) (var {} q))))
+      (app {span: "surf:834..853"}
+        (var {span: "surf:834..847"} kl_divergence)
+        (var {span: "surf:848..849"} p)
+        (var {span: "surf:851..852"} q))))
   (defsig {} ce_perplexity (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     ce_perplexity
     (fn {}
       (params {} (scalar_loss {type: (t-prim {} f32)}))
-      (app {} (var {} perplexity) (var {} scalar_loss)))))
+      (app {span: "surf:899..922"}
+        (var {span: "surf:899..909"} perplexity)
+        (var {span: "surf:910..921"} scalar_loss)))))

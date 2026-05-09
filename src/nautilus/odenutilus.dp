@@ -7,46 +7,72 @@
     decay
     (fn {}
       (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
-      (app {} (var {} neg) (var {} y))))
+      (app {span: "surf:161..167"}
+        (var {span: "surf:161..164"} neg)
+        (var {span: "surf:165..166"} y))))
   (defsig {} growth (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
   (def {}
     growth
     (fn {}
       (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
-      (var {} y)))
+      (var {span: "surf:204..205"} y)))
   (defsig {} decay_rk4 (t-fn {} (t-prim {} f32)))
   (def {}
     decay_rk4
     (fn {}
       (params {})
-      (app {}
-        (var {} rk4_solve)
-        (var {} decay)
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64)))))
+      (app {span: "surf:231..313"}
+        (var {span: "surf:231..240"} rk4_solve)
+        (var {span: "surf:241..246"} decay)
+        (cast {span: "surf:248..262"}
+          (lit {span: "surf:253..256", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
+        (cast {span: "surf:264..278"}
+          (lit {span: "surf:269..272", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (cast {span: "surf:280..294"}
+          (lit {span: "surf:285..288", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
+        (cast {span: "surf:296..312"}
+          (lit {span: "surf:301..304", type: (t-prim {} int32)} 100)
+          (t-prim {} int64)))))
   (defsig {} decay_euler (t-fn {} (t-prim {} f32)))
   (def {}
     decay_euler
     (fn {}
       (params {})
-      (app {}
-        (var {} euler_solve)
-        (var {} decay)
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} int32)} 2000) (t-prim {} int64)))))
+      (app {span: "surf:341..426"}
+        (var {span: "surf:341..352"} euler_solve)
+        (var {span: "surf:353..358"} decay)
+        (cast {span: "surf:360..374"}
+          (lit {span: "surf:365..368", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
+        (cast {span: "surf:376..390"}
+          (lit {span: "surf:381..384", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (cast {span: "surf:392..406"}
+          (lit {span: "surf:397..400", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
+        (cast {span: "surf:408..425"}
+          (lit {span: "surf:413..417", type: (t-prim {} int32)} 2000)
+          (t-prim {} int64)))))
   (defsig {} exp_growth_rk4 (t-fn {} (t-prim {} f32)))
   (def {}
     exp_growth_rk4
     (fn {}
       (params {})
-      (app {}
-        (var {} rk4_solve)
-        (var {} growth)
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 1.0) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} int32)} 100) (t-prim {} int64))))))
+      (app {span: "surf:457..540"}
+        (var {span: "surf:457..466"} rk4_solve)
+        (var {span: "surf:467..473"} growth)
+        (cast {span: "surf:475..489"}
+          (lit {span: "surf:480..483", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
+        (cast {span: "surf:491..505"}
+          (lit {span: "surf:496..499", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (cast {span: "surf:507..521"}
+          (lit {span: "surf:512..515", type: (t-prim {} f32)} 1.0)
+          (t-prim {} f32))
+        (cast {span: "surf:523..539"}
+          (lit {span: "surf:528..531", type: (t-prim {} int32)} 100)
+          (t-prim {} int64))))))

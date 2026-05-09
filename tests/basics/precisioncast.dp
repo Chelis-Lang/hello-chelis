@@ -7,24 +7,36 @@
     test_round_15
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {}
-          (var {} round_scalar)
-          (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32)))
-        (cast {} (lit {type: (t-prim {} f32)} 1.5) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.000000001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "round_1p5"))))
+      (app {span: "surf:161..256"}
+        (var {span: "surf:161..173"} assert_close)
+        (app {span: "surf:174..202"}
+          (var {span: "surf:174..186"} round_scalar)
+          (cast {span: "surf:187..201"}
+            (lit {span: "surf:192..195", type: (t-prim {} f32)} 1.5)
+            (t-prim {} f32)))
+        (cast {span: "surf:204..218"}
+          (lit {span: "surf:209..212", type: (t-prim {} f32)} 1.5)
+          (t-prim {} f32))
+        (cast {span: "surf:220..242"}
+          (lit {span: "surf:225..236", type: (t-prim {} f32)} 0.000000001)
+          (t-prim {} f32))
+        (lit {span: "surf:244..255", type: (t-prim {} string)} "round_1p5"))))
   (defsig {} test_round_pi (t-fn {eff: (effects {} test)} (t-prim {} unit)))
   (def {}
     test_round_pi
     (fn {}
       (params {})
-      (app {}
-        (var {} assert_close)
-        (app {}
-          (var {} round_scalar)
-          (cast {} (lit {type: (t-prim {} f32)} 3.14159) (t-prim {} f32)))
-        (cast {} (lit {type: (t-prim {} f32)} 3.14159) (t-prim {} f32))
-        (cast {} (lit {type: (t-prim {} f32)} 0.000001) (t-prim {} f32))
-        (lit {type: (t-prim {} string)} "round_pi")))))
+      (app {span: "surf:298..397"}
+        (var {span: "surf:298..310"} assert_close)
+        (app {span: "surf:311..343"}
+          (var {span: "surf:311..323"} round_scalar)
+          (cast {span: "surf:324..342"}
+            (lit {span: "surf:329..336", type: (t-prim {} f32)} 3.14159)
+            (t-prim {} f32)))
+        (cast {span: "surf:345..363"}
+          (lit {span: "surf:350..357", type: (t-prim {} f32)} 3.14159)
+          (t-prim {} f32))
+        (cast {span: "surf:365..384"}
+          (lit {span: "surf:370..378", type: (t-prim {} f32)} 0.000001)
+          (t-prim {} f32))
+        (lit {span: "surf:386..396", type: (t-prim {} string)} "round_pi")))))

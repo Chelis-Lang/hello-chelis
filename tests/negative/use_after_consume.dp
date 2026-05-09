@@ -8,8 +8,13 @@
   bad
   (fn {}
     (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-    (let {}
-      (bind {}
+    (let {span: "surf:47..76"}
+      (bind {span: "surf:47..76"}
         y
-        (app {} (var {} relu) (var {} x)))
-      (app {} (var {} add) (var {} x) (var {} y)))))
+        (app {span: "surf:55..62"}
+          (var {span: "surf:55..59"} relu)
+          (var {span: "surf:60..61"} x)))
+      (app {span: "surf:65..74"}
+        (var {span: "surf:65..68"} add)
+        (var {span: "surf:69..70"} x)
+        (var {span: "surf:72..73"} y)))))

@@ -9,18 +9,18 @@
     test_write_then_read
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:194..343"}
+        (bind {span: "surf:194..343"}
           result
-          (app {}
-            (var {} write_then_read)
-            (lit {type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-test.txt")
-            (lit {type: (t-prim {} string)} "round-trip!")))
-        (app {}
-          (var {} assert_eq_string)
-          (var {} result)
-          (lit {type: (t-prim {} string)} "round-trip!")
-          (lit {type: (t-prim {} string)} "round-trip text I/O")))))
+          (app {span: "surf:207..276"}
+            (var {span: "surf:207..222"} write_then_read)
+            (lit {span: "surf:223..260", type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-test.txt")
+            (lit {span: "surf:262..275", type: (t-prim {} string)} "round-trip!")))
+        (app {span: "surf:279..341"}
+          (var {span: "surf:279..295"} assert_eq_string)
+          (var {span: "surf:296..302"} result)
+          (lit {span: "surf:304..317", type: (t-prim {} string)} "round-trip!")
+          (lit {span: "surf:319..340", type: (t-prim {} string)} "round-trip text I/O")))))
   (defsig {}
     test_file_or_default_missing
     (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
@@ -28,18 +28,18 @@
     test_file_or_default_missing
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:404..555"}
+        (bind {span: "surf:404..555"}
           fallback
-          (app {}
-            (var {} file_or_default)
-            (lit {type: (t-prim {} string)} "/tmp/hello-chelis-does-not-exist.txt")
-            (lit {type: (t-prim {} string)} "default")))
-        (app {}
-          (var {} assert_eq_string)
-          (var {} fallback)
-          (lit {type: (t-prim {} string)} "default")
-          (lit {type: (t-prim {} string)} "missing path -> fallback")))))
+          (app {span: "surf:419..485"}
+            (var {span: "surf:419..434"} file_or_default)
+            (lit {span: "surf:435..473", type: (t-prim {} string)} "/tmp/hello-chelis-does-not-exist.txt")
+            (lit {span: "surf:475..484", type: (t-prim {} string)} "default")))
+        (app {span: "surf:488..553"}
+          (var {span: "surf:488..504"} assert_eq_string)
+          (var {span: "surf:505..513"} fallback)
+          (lit {span: "surf:515..524", type: (t-prim {} string)} "default")
+          (lit {span: "surf:526..552", type: (t-prim {} string)} "missing path -> fallback")))))
   (defsig {}
     test_save_message
     (t-fn {eff: (effects {} test io)} (t-prim {} unit)))
@@ -47,15 +47,15 @@
     test_save_message
     (fn {}
       (params {})
-      (let {}
-        (bind {}
+      (let {span: "surf:605..743"}
+        (bind {span: "surf:605..743"}
           out
-          (app {}
-            (var {} save_message)
-            (lit {type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-msg.txt")
-            (lit {type: (t-prim {} string)} "hi")))
-        (app {}
-          (var {} assert_eq_string)
-          (var {} out)
-          (lit {type: (t-prim {} string)} "[hello] hi")
-          (lit {type: (t-prim {} string)} "save_message persists banner"))))))
+          (app {span: "surf:615..671"}
+            (var {span: "surf:615..627"} save_message)
+            (lit {span: "surf:628..664", type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-msg.txt")
+            (lit {span: "surf:666..670", type: (t-prim {} string)} "hi")))
+        (app {span: "surf:674..741"}
+          (var {span: "surf:674..690"} assert_eq_string)
+          (var {span: "surf:691..694"} out)
+          (lit {span: "surf:696..708", type: (t-prim {} string)} "[hello] hi")
+          (lit {span: "surf:710..740", type: (t-prim {} string)} "save_message persists banner"))))))

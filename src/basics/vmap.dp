@@ -11,7 +11,10 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-name {} features) (t-prim {} f32)))}))
-      (app {} (var {} add) (var {} x) (var {} x))))
+      (app {span: "surf:123..132"}
+        (var {span: "surf:123..126"} add)
+        (var {span: "surf:127..128"} x)
+        (var {span: "surf:130..131"} x))))
   (defsig {}
     batch_process
     (t-fn {}
@@ -28,6 +31,8 @@
                         (d-name {} features)
                         (t-prim {} f32)))
             }))
-      (pipe {}
-        (var {} xs)
-        (vmap {} (var {} process) (lit {type: (t-prim {} int32)} 0))))))
+      (pipe {span: "surf:220..247"}
+        (var {span: "surf:220..222"} xs)
+        (vmap {span: "surf:226..247"}
+          (var {span: "surf:231..238"} process)
+          (lit {type: (t-prim {} int32)} 0))))))

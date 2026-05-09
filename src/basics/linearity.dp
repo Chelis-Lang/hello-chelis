@@ -11,7 +11,10 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {} (var {} add) (var {} x) (var {} x))))
+      (app {span: "surf:110..119"}
+        (var {span: "surf:110..113"} add)
+        (var {span: "surf:114..115"} x)
+        (var {span: "surf:117..118"} x))))
   (defsig {}
     fan_out
     (t-fn {}
@@ -22,7 +25,10 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {}
-        (var {} add)
-        (var {} x)
-        (app {} (var {} add) (var {} x) (var {} x))))))
+      (app {span: "surf:172..189"}
+        (var {span: "surf:172..175"} add)
+        (var {span: "surf:176..177"} x)
+        (app {span: "surf:179..188"}
+          (var {span: "surf:179..182"} add)
+          (var {span: "surf:183..184"} x)
+          (var {span: "surf:186..187"} x))))))
