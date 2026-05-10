@@ -72,21 +72,42 @@ ARG CORAL_TAG=v0.7.0
 ARG NAUTILUS_TAG=v0.7.0
 ARG OCTANT_TAG=v0.4.3
 
-RUN git clone --depth 1 --branch ${NAUTILUS_TAG} \
-        https://github.com/Chelis-Lang/nautilus.git /tmp/nautilus \
+RUN --mount=type=secret,id=github_token \
+    token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
+    && if [ -n "$token" ]; then \
+        git clone --depth 1 --branch ${NAUTILUS_TAG} \
+          "https://x-access-token:${token}@github.com/Chelis-Lang/nautilus.git" /tmp/nautilus; \
+      else \
+        git clone --depth 1 --branch ${NAUTILUS_TAG} \
+          https://github.com/Chelis-Lang/nautilus.git /tmp/nautilus; \
+      fi \
     && cd /tmp/nautilus \
     && chelis reef build \
     && chelis reef publish
 
-RUN git clone --depth 1 --branch ${CORAL_TAG} \
-        https://github.com/Chelis-Lang/coral.git /tmp/coral \
+RUN --mount=type=secret,id=github_token \
+    token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
+    && if [ -n "$token" ]; then \
+        git clone --depth 1 --branch ${CORAL_TAG} \
+          "https://x-access-token:${token}@github.com/Chelis-Lang/coral.git" /tmp/coral; \
+      else \
+        git clone --depth 1 --branch ${CORAL_TAG} \
+          https://github.com/Chelis-Lang/coral.git /tmp/coral; \
+      fi \
     && cd /tmp/coral \
     && chelis reef build \
     && chelis reef publish
 
-RUN ln -sf /tmp/chelis-src /tmp/chelis \
-    && git clone --depth 1 --branch ${OCTANT_TAG} \
-        https://github.com/Chelis-Lang/octant.git /tmp/octant \
+RUN --mount=type=secret,id=github_token \
+    ln -sf /tmp/chelis-src /tmp/chelis \
+    && token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
+    && if [ -n "$token" ]; then \
+        git clone --depth 1 --branch ${OCTANT_TAG} \
+          "https://x-access-token:${token}@github.com/Chelis-Lang/octant.git" /tmp/octant; \
+      else \
+        git clone --depth 1 --branch ${OCTANT_TAG} \
+          https://github.com/Chelis-Lang/octant.git /tmp/octant; \
+      fi \
     && cd /tmp/octant \
     && cargo build --release --bin octant \
     && cp target/release/octant /usr/local/bin/octant \
