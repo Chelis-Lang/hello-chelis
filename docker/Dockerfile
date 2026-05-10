@@ -39,7 +39,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # --- Rust toolchain (needed because we build chelis from source) ----------
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-        -y --default-toolchain stable --profile minimal --component rustfmt clippy
+        -y --default-toolchain stable --profile minimal \
+        --component rustfmt --component clippy
 
 # --- Chelis compiler v0.7.0 from source ------------------------------------
 ARG CHELIS_TAG=v0.7.0
