@@ -47,6 +47,8 @@ jobs:
           file: docker/Dockerfile
           tags: hello-chelis:lint
           load: true
+          secrets: |
+            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           cache-from: type=gha
 
       - name: chelis lint --check

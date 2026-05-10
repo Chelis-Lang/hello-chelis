@@ -14,6 +14,8 @@
 # Dockerfile builds chelis from source via a checkout of the public
 # Chelis-Lang/chelis repo at the v0.7.0 tag.
 
+# syntax=docker/dockerfile:1.7
+
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -44,8 +46,15 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
 
 # --- Chelis compiler v0.7.0 from source ------------------------------------
 ARG CHELIS_TAG=v0.7.0
-RUN git clone --depth 1 --branch ${CHELIS_TAG} \
-        https://github.com/Chelis-Lang/chelis.git /tmp/chelis-src \
+RUN --mount=type=secret,id=github_token \
+    token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
+    && if [ -n "$token" ]; then \
+        git clone --depth 1 --branch ${CHELIS_TAG} \
+          "https://x-access-token:${token}@github.com/Chelis-Lang/chelis.git" /tmp/chelis-src; \
+      else \
+        git clone --depth 1 --branch ${CHELIS_TAG} \
+          https://github.com/Chelis-Lang/chelis.git /tmp/chelis-src; \
+      fi \
     && cd /tmp/chelis-src \
     && cargo build --release --bin chelis \
     && cp target/release/chelis /usr/local/bin/chelis \

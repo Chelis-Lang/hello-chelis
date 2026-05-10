@@ -22,6 +22,8 @@ jobs:
           file: docker/Dockerfile
           tags: hello-chelis:nightly
           load: true
+          secrets: |
+            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
