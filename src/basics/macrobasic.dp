@@ -31,10 +31,10 @@
                        (var {span: "surf:199..204"} block))
            }
         (var {source: (residual (copy {span: "surf:190..197"} (var {span: "surf:195..196"} x)) (var {span: "surf:199..204"} block))} add)
-        (copy {source: (residual,
+        (copy {source: (residual
                           (copy {span: "surf:190..197"}
                             (var {span: "surf:195..196"} x))
-                          (var {span: "surf:199..204"} block))
+                          (var {span: "surf:199..204"} block)),
                 span: "surf:190..197"
               }
           (var {source: (residual (copy {span: "surf:190..197"} (var {span: "surf:195..196"} x)) (var {span: "surf:199..204"} block)), span: "surf:195..196"} x))
@@ -44,10 +44,10 @@
                          (var {span: "surf:199..204"} block))
              }
           (var {source: (residual (copy {span: "surf:190..197"} (var {span: "surf:195..196"} x)) (var {span: "surf:199..204"} block)), span: "surf:199..204"} block)
-          (copy {source: (residual,
+          (copy {source: (residual
                             (copy {span: "surf:190..197"}
                               (var {span: "surf:195..196"} x))
-                            (var {span: "surf:199..204"} block))
+                            (var {span: "surf:199..204"} block)),
                   span: "surf:190..197"
                 }
             (var {source: (residual (copy {span: "surf:190..197"} (var {span: "surf:195..196"} x)) (var {span: "surf:199..204"} block)), span: "surf:195..196"} x))))))

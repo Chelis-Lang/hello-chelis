@@ -18,7 +18,7 @@ The image is `ubuntu:24.04` plus:
 - Python 3 + pytest (for the fallback test harness)
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.3.0, `coral` 0.7.0, `nautilus` 0.7.0,
+- The shells `chelis-std` 0.3.0, `coral` 0.7.3, `nautilus` 0.7.3,
   and `octant` 0.4.4 installed into the local Reef registry from
   GitHub release assets
 
@@ -46,9 +46,12 @@ chelis check src/basics/hellotensor.ch     # parse + types + dim
 invocation: all 200K+ typed nodes get re-loaded each call. There's
 no per-file or directory mode.
 
-The native IR evaluator has documented v0.7.0 gaps for pipe-stage
-lowering and some primitives, so `chelis test tests/` is not a
-blocking lane for this pinned corpus.
+The native IR evaluator still has documented primitive gaps, but the
+pinned native-test corpus is a blocking lane:
+
+```sh
+chelis test tests/
+```
 
 ## 4. Lint Inventory
 
@@ -58,7 +61,7 @@ chelis lint .                              # nomenclature inventory
 
 ## 5. C backend (full lowering)
 
-The IR evaluator at v0.7.0 doesn't run every primitive; the C backend
+The IR evaluator at v0.7.3 doesn't run every primitive; the C backend
 does. To exercise `grad`, `realize`, tensor `relu`/`sigmoid`/`cast`
 end-to-end:
 

@@ -20,7 +20,7 @@ that exercises it, plus the test lane that proves it works.
 |---|---|---|
 | Module + 3 import forms | [`src/basics/modulesandimports/`](../src/basics/modulesandimports/) | `chelis test tests/basics/modulesandimports.ch` |
 | ADTs + exhaustive match | [`src/basics/pipeandmatch.ch`](../src/basics/pipeandmatch.ch) | `chelis test tests/basics/pipeandmatch.ch` |
-| Pipe operator `\|>` | [`src/basics/pipeandmatch.ch`](../src/basics/pipeandmatch.ch) | same |
+| Explicit nested call chains | [`src/basics/pipeandmatch.ch`](../src/basics/pipeandmatch.ch) | same |
 | Named dimensions, no broadcasting | [`src/basics/hellotensor.ch`](../src/basics/hellotensor.ch), [`src/basics/dimpoly.ch`](../src/basics/dimpoly.ch) | corresponding tests |
 | Dimension polymorphism `[a, b]` | [`src/basics/dimpoly.ch`](../src/basics/dimpoly.ch) | `tests/basics/dimpoly.ch` |
 | No implicit precision promotion | [`src/basics/precisioncast.ch`](../src/basics/precisioncast.ch) | `tests/basics/precisioncast.ch` |

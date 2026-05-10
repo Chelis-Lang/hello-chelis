@@ -12,7 +12,7 @@ under [`tests/basics/`](../../tests/basics/).
 | Step | File | What it teaches |
 |---|---|---|
 | 1 | [`hellotensor.ch`](hellotensor.ch) | named dimensions, no implicit broadcasting, primitive `add` |
-| 2 | [`pipeandmatch.ch`](pipeandmatch.ch) | the `\|>` pipe operator, ADT declaration, exhaustive `match` |
+| 2 | [`pipeandmatch.ch`](pipeandmatch.ch) | ADT declaration, exhaustive `match`, explicit nested call chains |
 | 3 | [`modulesandimports/main.ch`](modulesandimports/main.ch) | multi-file modules, the three import forms (qualified, selective, glob) |
 | 4 | [`dimpoly.ch`](dimpoly.ch) | bracketed dim parameters `[a, b]` for dim-polymorphic functions |
 | 5 | [`precisioncast.ch`](precisioncast.ch) | no implicit precision promotion, `cast` as the explicit fix |

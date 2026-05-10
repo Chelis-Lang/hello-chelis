@@ -4,7 +4,7 @@ Tour of [Nautilus](https://github.com/Chelis-Lang/nautilus), the
 scipy-equivalent shell. Pure Chelis (no C FFI), so AD flows through
 every numerical method via tensor-op composition.
 
-Pinned to `nautilus` v0.6.1. f32-only; 6–7 significant digits of
+Pinned to `nautilus` v0.7.3. f32-only; 6–7 significant digits of
 precision.
 
 ## Files

@@ -4,8 +4,9 @@ committed golden under verify/expected/<name>.txt.
 
 This is the lane that demonstrates *full lowering* — `grad`, `relu`,
 `sigmoid`, `cast`, and `realize` all compile to C, link, and run
-end-to-end. The IR evaluator (`chelis test`) doesn't lower these on
-v0.6.1; the production C backend does.
+end-to-end. The IR evaluator (`chelis test`) still has a narrower
+primitive set on v0.7.3; the production C backend covers these
+lowering examples.
 
 Each verify/<name>.ch is a self-contained module (no `Hello.*` prefix)
 because `chelis build` rejects projects that contain `with seed(...)`

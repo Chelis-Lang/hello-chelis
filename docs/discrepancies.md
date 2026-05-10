@@ -1,4 +1,4 @@
-# Compiler vs Interpreter Discrepancies (v0.7.0)
+# Compiler vs Interpreter Discrepancies (v0.7.3)
 
 Catalogued during the porting work. The compiler ships three distinct
 execution paths that don't all share the same primitive set:
@@ -7,7 +7,7 @@ execution paths that don't all share the same primitive set:
   checking. The most permissive: accepts every Surf form the spec
   describes.
 - **IR evaluator (host runtime)** — `chelis eval`, `chelis test`.
-  Interactive in-process execution. Limited primitive set on v0.7.0.
+  Interactive in-process execution. Limited primitive set on v0.7.3.
 - **C backend** — `chelis build --target c`. Production code path.
   Different (and on some primitives complementary) limitations.
 
@@ -108,7 +108,7 @@ through the C backend.
 > rank 2. Hit in `src/capstone/linreg.ch::predict`. The same shape
 > appears in upstream's own `examples/linreg.ch` (in the chelis
 > source repo, separate from this corpus) so the issue is general to
-> v0.7.0.
+> v0.7.3.
 
 ### `to_tensor` doesn't accept 2D Python-style literals
 > ```

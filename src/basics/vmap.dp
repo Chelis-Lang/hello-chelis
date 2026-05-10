@@ -31,8 +31,8 @@
                         (d-name {} features)
                         (t-prim {} f32)))
             }))
-      (pipe {span: "surf:220..247"}
-        (var {span: "surf:220..222"} xs)
-        (vmap {span: "surf:226..247"}
-          (var {span: "surf:231..238"} process)
-          (lit {type: (t-prim {} int32)} 0))))))
+      (app {span: "surf:220..245"}
+        (vmap {span: "surf:220..241"}
+          (var {span: "surf:225..232"} process)
+          (lit {type: (t-prim {} int32)} 0))
+        (var {span: "surf:242..244"} xs)))))

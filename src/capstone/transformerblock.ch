@@ -8,7 +8,7 @@ def block(x: tensor[seq, 256, f32], wq: tensor[256, 64, f32], wk: tensor[256, 64
   probs = softmax(scores, 1)
   attn_out = matmul(matmul(probs, v), wo)
   resid1 = add(x, attn_out)
-  ff_out = matmul(copy(resid1), ff1) |> matmul(ff2)
+  ff_out = matmul(matmul(copy(resid1), ff1), ff2)
   __borrow_migration_out_0 = add(resid1, ff_out)
   _ = drop(q)
   _ = drop(k)
@@ -17,5 +17,6 @@ def block(x: tensor[seq, 256, f32], wq: tensor[256, 64, f32], wk: tensor[256, 64
   _ = drop(probs)
   _ = drop(attn_out)
   _ = drop(resid1)
+  _ = drop(ff_out)
   __borrow_migration_out_0
 }

@@ -124,7 +124,7 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 | Path | Command | Strengths | Limitations |
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
-| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented pipe-stage and primitive gaps on v0.7.0 |
+| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on v0.7.3 |
 | C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
 
 Each test in this corpus runs in the lane that supports it. Full
@@ -133,12 +133,12 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.7.0`** with
-**`chelis-std` 0.3.0**, **coral 0.7.0**, **nautilus 0.7.0**, and
+The runnable in-repo corpus is pinned to **chelis `0.7.3`** with
+**`chelis-std` 0.3.0**, **coral 0.7.3**, **nautilus 0.7.3**, and
 **octant 0.4.4**. The c-earchin requirements-bridge demo is an
 external release artifact at **c-earchin 0.2.1** and needs Chelis
-0.7.2 for EARS-line failure diagnostics. The
-`compiler = "=0.7.0"` pin in `reef.toml` is hard — the language is
+0.7.2 or newer for EARS-line failure diagnostics. The
+`compiler = "=0.7.3"` pin in `reef.toml` is hard — the language is
 pre-1.0 and breaking changes ship between minor versions.
 
 ## Test status
@@ -149,21 +149,23 @@ pre-1.0 and breaking changes ship between minor versions.
 | `pytest tests/test_c_backend.py` (lowering + golden) | 6 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject) | 3 |
-| **Blocking CI outcomes** | **102** |
+| `chelis test tests/` (native runtime assertions) | all checked-in `test_*` |
+| **Blocking CI outcomes** | **includes native tests, drift, C backend, Octant, and negative checks** |
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.7.0](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.0)
+[Chelis-Lang/chelis@v0.7.3](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.3)
 release artifacts.
 
 ## Caveats
 
-- The IR evaluator (`chelis test`) has pipe-stage lowering and
-  primitive gaps at v0.7.0. `relu`, `sigmoid`, `gelu`, `silu`,
-  tensor-form `exp` / `log`, `grad`, `realize`, and several piped test
-  forms compile cleanly via `chelis check` and through the C backend,
-  but aren't reliable in the in-process evaluator. The blocking CI
-  lanes therefore use `chelis check`, Deep drift checks, negative
-  checks, Octant round-trips, and C-backend execution.
+- The IR evaluator (`chelis test`) still has primitive gaps at
+  v0.7.3. `relu`, `sigmoid`, `gelu`, `silu`,
+  tensor-form `exp` / `log`, `grad`, `realize`, and some higher-order
+  transform forms compile cleanly via `chelis check` and through the C
+  backend, but are not all available in the in-process evaluator. Blocking CI
+  runs `chelis test tests/` on the supported native-test corpus and
+  covers the remaining examples with `chelis check`, Deep drift checks,
+  negative checks, Octant round-trips, and C-backend execution.
 - The canonical Chelis-Lang shells are private during pre-launch, so
   `chelis reef install --from-github` requires `GITHUB_TOKEN`. The
   Docker image uses that canonical install path and passes the token as

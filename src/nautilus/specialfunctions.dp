@@ -7,48 +7,49 @@
     erf_pipe
     (fn {}
       (params {} (x {type: (t-prim {} f32)}))
-      (pipe {span: "surf:215..223"}
-        (var {span: "surf:215..216"} x)
-        (var {span: "surf:220..223"} erf))))
+      (app {span: "surf:215..221"}
+        (var {span: "surf:215..218"} erf)
+        (var {span: "surf:219..220"} x))))
   (defsig {} erf_round_trip (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     erf_round_trip
     (fn {}
       (params {} (y {type: (t-prim {} f32)}))
-      (pipe {span: "surf:260..278"}
-        (var {span: "surf:260..261"} y)
-        (var {span: "surf:265..271"} erfinv)
-        (var {span: "surf:275..278"} erf))))
+      (app {span: "surf:258..272"}
+        (var {span: "surf:258..261"} erf)
+        (app {span: "surf:262..271"}
+          (var {span: "surf:262..268"} erfinv)
+          (var {span: "surf:269..270"} y)))))
   (defsig {} log_gamma_one (t-fn {} (t-prim {} f32)))
   (def {}
     log_gamma_one
     (fn {}
       (params {})
-      (app {span: "surf:308..333"}
-        (var {span: "surf:308..317"} log_gamma)
-        (cast {span: "surf:318..332"}
-          (lit {span: "surf:323..326", type: (t-prim {} f32)} 1.0)
+      (app {span: "surf:302..327"}
+        (var {span: "surf:302..311"} log_gamma)
+        (cast {span: "surf:312..326"}
+          (lit {span: "surf:317..320", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32)))))
   (defsig {} complementary_erf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     complementary_erf
     (fn {}
       (params {} (x {type: (t-prim {} f32)}))
-      (app {span: "surf:373..393"}
-        (var {span: "surf:373..376"} add)
-        (app {span: "surf:377..383"}
-          (var {span: "surf:377..380"} erf)
-          (var {span: "surf:381..382"} x))
-        (app {span: "surf:385..392"}
-          (var {span: "surf:385..389"} erfc)
-          (var {span: "surf:390..391"} x)))))
+      (app {span: "surf:367..387"}
+        (var {span: "surf:367..370"} add)
+        (app {span: "surf:371..377"}
+          (var {span: "surf:371..374"} erf)
+          (var {span: "surf:375..376"} x))
+        (app {span: "surf:379..386"}
+          (var {span: "surf:379..383"} erfc)
+          (var {span: "surf:384..385"} x)))))
   (defsig {} j0_at_zero (t-fn {} (t-prim {} f32)))
   (def {}
     j0_at_zero
     (fn {}
       (params {})
-      (app {span: "surf:420..445"}
-        (var {span: "surf:420..429"} bessel_j0)
-        (cast {span: "surf:430..444"}
-          (lit {span: "surf:435..438", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:414..439"}
+        (var {span: "surf:414..423"} bessel_j0)
+        (cast {span: "surf:424..438"}
+          (lit {span: "surf:429..432", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))))))

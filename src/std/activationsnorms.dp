@@ -22,10 +22,11 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {span: "surf:338..358"}
-        (var {span: "surf:338..339"} x)
-        (var {span: "surf:343..347"} relu)
-        (var {span: "surf:351..358"} sigmoid))))
+      (app {span: "surf:338..354"}
+        (var {span: "surf:338..345"} sigmoid)
+        (app {span: "surf:346..353"}
+          (var {span: "surf:346..350"} relu)
+          (var {span: "surf:351..352"} x)))))
   (defsig {}
     gelu_vec
     (t-fn {}
@@ -36,18 +37,18 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:412..469"}
-        (var {span: "surf:412..421"} to_tensor)
-        (app {span: "surf:422..468"}
-          (var {span: "surf:422..425"} map)
-          (fn {span: "surf:426..455"}
+      (app {span: "surf:408..465"}
+        (var {span: "surf:408..417"} to_tensor)
+        (app {span: "surf:418..464"}
+          (var {span: "surf:418..421"} map)
+          (fn {span: "surf:422..451"}
             (params {} (v {type: (t-prim {} f32)}))
-            (app {span: "surf:441..455"}
-              (var {span: "surf:441..452"} gelu_scalar)
-              (var {span: "surf:453..454"} v)))
-          (app {span: "surf:457..467"}
-            (var {span: "surf:457..464"} to_list)
-            (var {span: "surf:465..466"} x))))))
+            (app {span: "surf:437..451"}
+              (var {span: "surf:437..448"} gelu_scalar)
+              (var {span: "surf:449..450"} v)))
+          (app {span: "surf:453..463"}
+            (var {span: "surf:453..460"} to_list)
+            (var {span: "surf:461..462"} x))))))
   (defsig {}
     silu_vec
     (t-fn {}
@@ -58,21 +59,21 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:523..591"}
-        (var {span: "surf:523..532"} to_tensor)
-        (app {span: "surf:533..590"}
-          (var {span: "surf:533..536"} map)
-          (fn {span: "surf:537..577"}
+      (app {span: "surf:519..587"}
+        (var {span: "surf:519..528"} to_tensor)
+        (app {span: "surf:529..586"}
+          (var {span: "surf:529..532"} map)
+          (fn {span: "surf:533..573"}
             (params {} (v {type: (t-prim {} f32)}))
-            (app {span: "surf:552..577"}
-              (var {span: "surf:552..555"} mul)
-              (var {span: "surf:556..557"} v)
-              (app {span: "surf:559..576"}
-                (var {span: "surf:559..573"} sigmoid_scalar)
-                (var {span: "surf:574..575"} v))))
-          (app {span: "surf:579..589"}
-            (var {span: "surf:579..586"} to_list)
-            (var {span: "surf:587..588"} x))))))
+            (app {span: "surf:548..573"}
+              (var {span: "surf:548..551"} mul)
+              (var {span: "surf:552..553"} v)
+              (app {span: "surf:555..572"}
+                (var {span: "surf:555..569"} sigmoid_scalar)
+                (var {span: "surf:570..571"} v))))
+          (app {span: "surf:575..585"}
+            (var {span: "surf:575..582"} to_list)
+            (var {span: "surf:583..584"} x))))))
   (defsig {}
     tanh_vec
     (t-fn {}
@@ -83,18 +84,18 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:645..702"}
-        (var {span: "surf:645..654"} to_tensor)
-        (app {span: "surf:655..701"}
-          (var {span: "surf:655..658"} map)
-          (fn {span: "surf:659..688"}
+      (app {span: "surf:641..698"}
+        (var {span: "surf:641..650"} to_tensor)
+        (app {span: "surf:651..697"}
+          (var {span: "surf:651..654"} map)
+          (fn {span: "surf:655..684"}
             (params {} (v {type: (t-prim {} f32)}))
-            (app {span: "surf:674..688"}
-              (var {span: "surf:674..685"} tanh_scalar)
-              (var {span: "surf:686..687"} v)))
-          (app {span: "surf:690..700"}
-            (var {span: "surf:690..697"} to_list)
-            (var {span: "surf:698..699"} x))))))
+            (app {span: "surf:670..684"}
+              (var {span: "surf:670..681"} tanh_scalar)
+              (var {span: "surf:682..683"} v)))
+          (app {span: "surf:686..696"}
+            (var {span: "surf:686..693"} to_list)
+            (var {span: "surf:694..695"} x))))))
   (defsig {}
     gelu_then_relu
     (t-fn {}
@@ -105,10 +106,11 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {span: "surf:762..783"}
-        (var {span: "surf:762..763"} x)
-        (var {span: "surf:767..775"} gelu_vec)
-        (var {span: "surf:779..783"} relu))))
+      (app {span: "surf:758..775"}
+        (var {span: "surf:758..762"} relu)
+        (app {span: "surf:763..774"}
+          (var {span: "surf:763..771"} gelu_vec)
+          (var {span: "surf:772..773"} x)))))
   (defsig {}
     sigmoid_then_tanh
     (t-fn {}
@@ -119,10 +121,11 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {span: "surf:846..870"}
-        (var {span: "surf:846..847"} x)
-        (var {span: "surf:851..858"} sigmoid)
-        (var {span: "surf:862..870"} tanh_vec))))
+      (app {span: "surf:838..858"}
+        (var {span: "surf:838..846"} tanh_vec)
+        (app {span: "surf:847..857"}
+          (var {span: "surf:847..854"} sigmoid)
+          (var {span: "surf:855..856"} x)))))
   (defsig {}
     rms_normalize
     (t-fn {}
@@ -135,26 +138,26 @@
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (eps {type: (t-prim {} f32)}))
-      (let {span: "surf:939..1035"}
-        (bind {span: "surf:939..1035"}
+      (let {span: "surf:927..1023"}
+        (bind {span: "surf:927..1023"}
           scale
-          (app {span: "surf:951..974"}
-            (var {span: "surf:951..960"} rms_scale)
-            (copy {span: "surf:961..968"} (var {span: "surf:966..967"} x))
-            (var {span: "surf:970..973"} eps)))
-        (app {span: "surf:977..1033"}
-          (var {span: "surf:977..986"} to_tensor)
-          (app {span: "surf:987..1032"}
-            (var {span: "surf:987..990"} map)
-            (fn {span: "surf:991..1019"}
+          (app {span: "surf:939..962"}
+            (var {span: "surf:939..948"} rms_scale)
+            (copy {span: "surf:949..956"} (var {span: "surf:954..955"} x))
+            (var {span: "surf:958..961"} eps)))
+        (app {span: "surf:965..1021"}
+          (var {span: "surf:965..974"} to_tensor)
+          (app {span: "surf:975..1020"}
+            (var {span: "surf:975..978"} map)
+            (fn {span: "surf:979..1007"}
               (params {} (v {type: (t-prim {} f32)}))
-              (app {span: "surf:1006..1019"}
-                (var {span: "surf:1006..1009"} mul)
-                (var {span: "surf:1010..1011"} v)
-                (var {span: "surf:1013..1018"} scale)))
-            (app {span: "surf:1021..1031"}
-              (var {span: "surf:1021..1028"} to_list)
-              (var {span: "surf:1029..1030"} x)))))))
+              (app {span: "surf:994..1007"}
+                (var {span: "surf:994..997"} mul)
+                (var {span: "surf:998..999"} v)
+                (var {span: "surf:1001..1006"} scale)))
+            (app {span: "surf:1009..1019"}
+              (var {span: "surf:1009..1016"} to_list)
+              (var {span: "surf:1017..1018"} x)))))))
   (defsig {}
     manual_layer_norm
     (t-fn {}
@@ -167,107 +170,107 @@
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (eps {type: (t-prim {} f32)}))
-      (let {span: "surf:1108..1555"}
-        (bind {span: "surf:1108..1555"}
+      (let {span: "surf:1096..1543"}
+        (bind {span: "surf:1096..1543"}
           xs
-          (app {span: "surf:1117..1133"}
-            (var {span: "surf:1117..1124"} to_list)
-            (copy {span: "surf:1125..1132"} (var {span: "surf:1130..1131"} x))))
+          (app {span: "surf:1105..1121"}
+            (var {span: "surf:1105..1112"} to_list)
+            (copy {span: "surf:1113..1120"} (var {span: "surf:1118..1119"} x))))
         (let {}
           (bind {}
             count
-            (cast {span: "surf:1144..1162"}
-              (app {span: "surf:1149..1156"}
-                (var {span: "surf:1149..1152"} len)
-                (var {span: "surf:1153..1155"} xs))
+            (cast {span: "surf:1132..1150"}
+              (app {span: "surf:1137..1144"}
+                (var {span: "surf:1137..1140"} len)
+                (var {span: "surf:1141..1143"} xs))
               (t-prim {} f32)))
           (let {}
             (bind {}
               total
-              (app {span: "surf:1173..1235"}
-                (var {span: "surf:1173..1177"} fold)
-                (fn {span: "surf:1178..1214"}
+              (app {span: "surf:1161..1223"}
+                (var {span: "surf:1161..1165"} fold)
+                (fn {span: "surf:1166..1202"}
                   (params {}
                     (acc {type: (t-prim {} f32)})
                     (v {type: (t-prim {} f32)}))
-                  (app {span: "surf:1203..1214"}
-                    (var {span: "surf:1203..1206"} add)
-                    (var {span: "surf:1207..1210"} acc)
-                    (var {span: "surf:1212..1213"} v)))
-                (cast {span: "surf:1216..1230"}
-                  (lit {span: "surf:1221..1224", type: (t-prim {} f32)} 0.0)
+                  (app {span: "surf:1191..1202"}
+                    (var {span: "surf:1191..1194"} add)
+                    (var {span: "surf:1195..1198"} acc)
+                    (var {span: "surf:1200..1201"} v)))
+                (cast {span: "surf:1204..1218"}
+                  (lit {span: "surf:1209..1212", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
-                (var {span: "surf:1232..1234"} xs)))
+                (var {span: "surf:1220..1222"} xs)))
             (let {}
               (bind {}
                 mu
-                (app {span: "surf:1243..1260"}
-                  (var {span: "surf:1243..1246"} div)
-                  (var {span: "surf:1247..1252"} total)
-                  (var {span: "surf:1254..1259"} count)))
+                (app {span: "surf:1231..1248"}
+                  (var {span: "surf:1231..1234"} div)
+                  (var {span: "surf:1235..1240"} total)
+                  (var {span: "surf:1242..1247"} count)))
               (let {}
                 (bind {}
                   centered
-                  (app {span: "surf:1274..1316"}
-                    (var {span: "surf:1274..1277"} map)
-                    (fn {span: "surf:1278..1303"}
+                  (app {span: "surf:1262..1304"}
+                    (var {span: "surf:1262..1265"} map)
+                    (fn {span: "surf:1266..1291"}
                       (params {} (v {type: (t-prim {} f32)}))
-                      (app {span: "surf:1293..1303"}
-                        (var {span: "surf:1293..1296"} sub)
-                        (var {span: "surf:1297..1298"} v)
-                        (var {span: "surf:1300..1302"} mu)))
-                    (app {span: "surf:1305..1315"}
-                      (var {span: "surf:1305..1312"} to_list)
-                      (var {span: "surf:1313..1314"} x))))
+                      (app {span: "surf:1281..1291"}
+                        (var {span: "surf:1281..1284"} sub)
+                        (var {span: "surf:1285..1286"} v)
+                        (var {span: "surf:1288..1290"} mu)))
+                    (app {span: "surf:1293..1303"}
+                      (var {span: "surf:1293..1300"} to_list)
+                      (var {span: "surf:1301..1302"} x))))
                 (let {}
                   (bind {}
                     sq_sum
-                    (app {span: "surf:1328..1404"}
-                      (var {span: "surf:1328..1332"} fold)
-                      (fn {span: "surf:1333..1377"}
+                    (app {span: "surf:1316..1392"}
+                      (var {span: "surf:1316..1320"} fold)
+                      (fn {span: "surf:1321..1365"}
                         (params {}
                           (acc {type: (t-prim {} f32)})
                           (v {type: (t-prim {} f32)}))
-                        (app {span: "surf:1358..1377"}
-                          (var {span: "surf:1358..1361"} add)
-                          (var {span: "surf:1362..1365"} acc)
-                          (app {span: "surf:1367..1376"}
-                            (var {span: "surf:1367..1370"} mul)
-                            (var {span: "surf:1371..1372"} v)
-                            (var {span: "surf:1374..1375"} v))))
-                      (cast {span: "surf:1379..1393"}
-                        (lit {span: "surf:1384..1387", type: (t-prim {} f32)} 0.0)
+                        (app {span: "surf:1346..1365"}
+                          (var {span: "surf:1346..1349"} add)
+                          (var {span: "surf:1350..1353"} acc)
+                          (app {span: "surf:1355..1364"}
+                            (var {span: "surf:1355..1358"} mul)
+                            (var {span: "surf:1359..1360"} v)
+                            (var {span: "surf:1362..1363"} v))))
+                      (cast {span: "surf:1367..1381"}
+                        (lit {span: "surf:1372..1375", type: (t-prim {} f32)} 0.0)
                         (t-prim {} f32))
-                      (var {span: "surf:1395..1403"} centered)))
+                      (var {span: "surf:1383..1391"} centered)))
                   (let {}
                     (bind {}
                       variance
-                      (app {span: "surf:1418..1436"}
-                        (var {span: "surf:1418..1421"} div)
-                        (var {span: "surf:1422..1428"} sq_sum)
-                        (var {span: "surf:1430..1435"} count)))
+                      (app {span: "surf:1406..1424"}
+                        (var {span: "surf:1406..1409"} div)
+                        (var {span: "surf:1410..1416"} sq_sum)
+                        (var {span: "surf:1418..1423"} count)))
                     (let {}
                       (bind {}
                         inv_std
-                        (app {span: "surf:1449..1494"}
-                          (var {span: "surf:1449..1452"} div)
-                          (cast {span: "surf:1453..1467"}
-                            (lit {span: "surf:1458..1461", type: (t-prim {} f32)} 1.0)
+                        (app {span: "surf:1437..1482"}
+                          (var {span: "surf:1437..1440"} div)
+                          (cast {span: "surf:1441..1455"}
+                            (lit {span: "surf:1446..1449", type: (t-prim {} f32)} 1.0)
                             (t-prim {} f32))
-                          (app {span: "surf:1469..1493"}
-                            (var {span: "surf:1469..1473"} sqrt)
-                            (app {span: "surf:1474..1492"}
-                              (var {span: "surf:1474..1477"} add)
-                              (var {span: "surf:1478..1486"} variance)
-                              (var {span: "surf:1488..1491"} eps)))))
-                      (app {span: "surf:1497..1553"}
-                        (var {span: "surf:1497..1506"} to_tensor)
-                        (app {span: "surf:1507..1552"}
-                          (var {span: "surf:1507..1510"} map)
-                          (fn {span: "surf:1511..1541"}
+                          (app {span: "surf:1457..1481"}
+                            (var {span: "surf:1457..1461"} sqrt)
+                            (app {span: "surf:1462..1480"}
+                              (var {span: "surf:1462..1465"} add)
+                              (var {span: "surf:1466..1474"} variance)
+                              (var {span: "surf:1476..1479"} eps)))))
+                      (app {span: "surf:1485..1541"}
+                        (var {span: "surf:1485..1494"} to_tensor)
+                        (app {span: "surf:1495..1540"}
+                          (var {span: "surf:1495..1498"} map)
+                          (fn {span: "surf:1499..1529"}
                             (params {} (v {type: (t-prim {} f32)}))
-                            (app {span: "surf:1526..1541"}
-                              (var {span: "surf:1526..1529"} mul)
-                              (var {span: "surf:1530..1531"} v)
-                              (var {span: "surf:1533..1540"} inv_std)))
-                          (var {span: "surf:1543..1551"} centered))))))))))))))
+                            (app {span: "surf:1514..1529"}
+                              (var {span: "surf:1514..1517"} mul)
+                              (var {span: "surf:1518..1519"} v)
+                              (var {span: "surf:1521..1528"} inv_std)))
+                          (var {span: "surf:1531..1539"} centered))))))))))))))

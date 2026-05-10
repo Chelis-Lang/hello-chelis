@@ -11,10 +11,8 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Primary gate: the released Chelis toolchain must check the corpus, regenerate
-# Deep sidecars byte-for-byte, and lower the C-backend examples. The native IR
-# evaluator currently has documented upstream gaps for pipe-stage lowering, so
-# `chelis test tests/` is not a blocking CI lane for this pinned toolchain.
+# Primary gate: the released Chelis toolchain must check and test the corpus,
+# regenerate Deep sidecars byte-for-byte, and lower the C-backend examples.
 
 jobs:
   chelis-native:
@@ -48,6 +46,11 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis check src/basics/hellotensor.ch
+
+      - name: chelis test tests/
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            chelis test tests/
 
       - name: Deep s-expression drift check (every .ch must match its .dp)
         run: |

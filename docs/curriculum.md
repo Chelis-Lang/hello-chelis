@@ -34,8 +34,9 @@ and self-contained:
 1. [`hellotensor.ch`](../src/basics/hellotensor.ch) — named
    dimensions, no implicit broadcasting. Compare the Surf to the
    sibling `.dp` to see how `tensor[n, f32]` desugars.
-2. [`pipeandmatch.ch`](../src/basics/pipeandmatch.ch) — `|>` is the
-   lowest-precedence operator; ADTs are exhaustively matched.
+2. [`pipeandmatch.ch`](../src/basics/pipeandmatch.ch) — ADTs are
+   exhaustively matched and explicit nested call chains replace
+   illustrative pipe syntax in the executable corpus.
 3. [`modulesandimports/`](../src/basics/modulesandimports/) — the
    three import forms (qualified, selective, glob).
 4. [`dimpoly.ch`](../src/basics/dimpoly.ch) — bracketed dim
@@ -155,7 +156,7 @@ desugaring on your own examples.
 
 For the proper compiler-vs-runtime gap inventory, end with
 [`discrepancies.md`](discrepancies.md). The deltas there are the
-real edges of the v0.7.0 surface.
+real edges of the v0.7.3 surface.
 
 ## Where to look for the source-of-truth specs upstream
 

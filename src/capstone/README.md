@@ -23,7 +23,7 @@ and the relevant shells.
 
 ## Why some capstone tests are smoke-only
 
-The IR evaluator at v0.6.1 doesn't yet lower `grad` for the host
+The IR evaluator at v0.7.3 doesn't yet lower `grad` for the host
 runtime, so test files like `tests/capstone/blackscholes.ch` exercise
 `call_price` (which doesn't use `grad`) but not `delta` / `vega`
 (which do). The `chelis check` pass validates the full grad

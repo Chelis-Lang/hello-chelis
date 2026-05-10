@@ -38,7 +38,8 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {span: "surf:312..332"}
-        (var {span: "surf:312..313"} x)
-        (var {span: "surf:317..321"} relu)
-        (var {span: "surf:325..332"} sigmoid)))))
+      (app {span: "surf:312..328"}
+        (var {span: "surf:312..319"} sigmoid)
+        (app {span: "surf:320..327"}
+          (var {span: "surf:320..324"} relu)
+          (var {span: "surf:325..326"} x))))))

@@ -7,7 +7,8 @@
     boost
     (fn {}
       (params {})
-      (pipe {span: "surf:138..165"}
-        (app {span: "surf:138..145"} (var {span: "surf:138..143"} ones3))
-        (var {span: "surf:149..155"} double)
-        (var {span: "surf:159..165"} double)))))
+      (app {span: "surf:138..161"}
+        (var {span: "surf:138..144"} double)
+        (app {span: "surf:145..160"}
+          (var {span: "surf:145..151"} double)
+          (app {span: "surf:152..159"} (var {span: "surf:152..157"} ones3)))))))

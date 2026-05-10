@@ -3,8 +3,7 @@
 The standard library. Always available, no extra `[dependencies]` line
 needed beyond the implicit one in `reef.toml`.
 
-Pinned to `0.2.0` (renamed from `0.1.0` in chelis v0.6.0 — `Std.IO` became
-`Std.Io`).
+Pinned to `0.3.0`.
 
 ## What's here
 
