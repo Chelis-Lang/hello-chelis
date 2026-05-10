@@ -195,8 +195,10 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 > ```
 > Status: the public release-asset URL doesn't serve bytes for
 > chelis-lang's private repos during pre-launch.
-> The Dockerfile sidesteps by cloning + `chelis reef build` +
-> `chelis reef publish` per shell.
+> The Dockerfile uses the canonical release path with a BuildKit
+> `github_token` secret: `chelis reef install --from-github` downloads
+> each prebuilt shell package instead of cloning and rebuilding shell
+> repos.
 
 ## Where each gap shows up in this corpus
 

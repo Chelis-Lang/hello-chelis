@@ -3,6 +3,8 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      secrets:
+        - github_token
     image: hello-chelis:0.7.0
     working_dir: /workspace
     volumes:
@@ -10,3 +12,7 @@ services:
     stdin_open: true
     tty: true
     command: /bin/bash
+
+secrets:
+  github_token:
+    environment: GITHUB_TOKEN

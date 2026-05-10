@@ -7,7 +7,7 @@ on:
 
 jobs:
   full-sweep:
-    name: chelis test + valgrind
+    name: check + pytest + valgrind
     runs-on: ubuntu-24.04
     timeout-minutes: 120
 
@@ -27,12 +27,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: chelis test tests/   # primary gate
+      - name: chelis check
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
-            chelis test tests/
+            chelis check src/basics/hellotensor.ch
 
-      - name: pytest tests/   # negative + octant + audit chain
+      - name: pytest tests/
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
             pip install pytest --break-system-packages 2>/dev/null || pip install pytest

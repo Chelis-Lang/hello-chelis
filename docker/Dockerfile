@@ -1,5 +1,5 @@
-# hello-chelis: Ubuntu 24.04 with the Chelis v0.7.0 toolchain and all
-# extant shells (chelis-std, coral, nautilus, octant) pre-installed.
+# hello-chelis: Ubuntu 24.04 with the released Chelis toolchain and
+# the extant shell releases pre-installed.
 #
 # Build:
 #   docker compose -f docker/docker-compose.yml build
@@ -7,12 +7,9 @@
 # Run an interactive shell at /workspace:
 #   docker compose -f docker/docker-compose.yml run --rm hello-chelis
 #
-# In CI on real GitHub Actions, switch to the `--from-github` install
-# path with a GITHUB_TOKEN and the prebuilt v0.7.0 release tarball
-# (https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.0). The
-# canonical-org shells are private during pre-launch, which is why this
-# Dockerfile builds chelis from source via a checkout of the public
-# Chelis-Lang/chelis repo at the v0.7.0 tag.
+# Canonical-org repos are private during pre-launch. CI passes a
+# GitHub token as a BuildKit secret so this image can consume release
+# assets directly rather than cloning and compiling source repos.
 
 # syntax=docker/dockerfile:1.7
 
@@ -21,7 +18,9 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
-    PATH=/usr/local/bin:/usr/bin:/bin:/root/.cargo/bin
+    PATH=/usr/local/bin:/usr/bin:/bin
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -39,86 +38,74 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         jq \
     && rm -rf /var/lib/apt/lists/*
 
-# --- Rust toolchain (needed because we build chelis from source) ----------
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-        -y --default-toolchain stable --profile minimal \
-        --component rustfmt --component clippy
+# --- Helper for private GitHub release assets -----------------------------
+COPY <<'EOF' /usr/local/bin/download-github-release-asset
+#!/usr/bin/env bash
+set -euo pipefail
 
-# --- Chelis compiler v0.7.0 from source ------------------------------------
-ARG CHELIS_TAG=v0.7.0
+repo="$1"
+tag="$2"
+asset="$3"
+out="$4"
+token="${GITHUB_TOKEN:-}"
+auth_args=()
+if [[ -n "$token" ]]; then
+  auth_args=(-H "Authorization: Bearer ${token}")
+fi
+
+api="$(curl -fsSL "${auth_args[@]}" "https://api.github.com/repos/${repo}/releases/tags/${tag}")"
+url="$(jq -r --arg name "$asset" '.assets[] | select(.name == $name) | .url' <<<"$api")"
+if [[ -z "$url" || "$url" == "null" ]]; then
+  echo "release asset not found: ${repo}@${tag} ${asset}" >&2
+  exit 1
+fi
+curl -fL "${auth_args[@]}" -H "Accept: application/octet-stream" "$url" -o "$out"
+EOF
+RUN chmod +x /usr/local/bin/download-github-release-asset
+
+# --- Chelis compiler from release tarball ---------------------------------
+ARG CHELIS_VERSION=0.7.0
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
-    && if [ -n "$token" ]; then \
-        git clone --depth 1 --branch ${CHELIS_TAG} \
-          "https://x-access-token:${token}@github.com/Chelis-Lang/chelis.git" /tmp/chelis-src; \
-      else \
-        git clone --depth 1 --branch ${CHELIS_TAG} \
-          https://github.com/Chelis-Lang/chelis.git /tmp/chelis-src; \
-      fi \
-    && cd /tmp/chelis-src \
-    && cargo build --release --bin chelis \
-    && cp target/release/chelis /usr/local/bin/chelis \
-    && cp target/release/deps/libchelis_runtime-*.a /usr/local/lib/libchelis_runtime.a \
+    && export GITHUB_TOKEN="$token" \
+    && asset="chelis-v${CHELIS_VERSION}-linux-x86_64.tar.gz" \
+    && download-github-release-asset Chelis-Lang/chelis "v${CHELIS_VERSION}" "$asset" "/tmp/${asset}" \
+    && mkdir -p /tmp/chelis-toolchain \
+    && tar -xzf "/tmp/${asset}" -C /tmp/chelis-toolchain --strip-components=1 \
+    && cp /tmp/chelis-toolchain/bin/chelis /usr/local/bin/chelis \
+    && cp /tmp/chelis-toolchain/lib/libchelis_runtime.a /usr/local/lib/libchelis_runtime.a \
+    && mkdir -p /usr/local/include \
+    && cp /tmp/chelis-toolchain/include/*.h /usr/local/include/ \
     && chelis --version
 
-# --- chelis-std into the local registry from the monorepo ------------------
-RUN chelis reef install --from-monorepo /tmp/chelis-src
-
-# --- Build + publish coral, nautilus, octant -------------------------------
-# Each shell is its own repo at a pinned tag. We clone, `chelis reef build`
-# (which auto-fetches transitive deps from the local registry), then
-# `chelis reef publish` to make it available to dependents.
-ARG CORAL_TAG=v0.7.0
-ARG NAUTILUS_TAG=v0.7.0
-ARG OCTANT_TAG=v0.4.3
+# --- Install shell releases into Reef registry ----------------------------
+ARG CORAL_VERSION=0.7.0
+ARG NAUTILUS_VERSION=0.7.0
+ARG OCTANT_VERSION=0.4.4
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
-    && if [ -n "$token" ]; then \
-        git clone --depth 1 --branch ${NAUTILUS_TAG} \
-          "https://x-access-token:${token}@github.com/Chelis-Lang/nautilus.git" /tmp/nautilus; \
-      else \
-        git clone --depth 1 --branch ${NAUTILUS_TAG} \
-          https://github.com/Chelis-Lang/nautilus.git /tmp/nautilus; \
-      fi \
-    && cd /tmp/nautilus \
-    && chelis reef build \
-    && chelis reef publish
+    && export GITHUB_TOKEN="$token" \
+    && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
+    && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
+    && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}"
 
+# --- Octant CLI from release tarball --------------------------------------
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
-    && if [ -n "$token" ]; then \
-        git clone --depth 1 --branch ${CORAL_TAG} \
-          "https://x-access-token:${token}@github.com/Chelis-Lang/coral.git" /tmp/coral; \
-      else \
-        git clone --depth 1 --branch ${CORAL_TAG} \
-          https://github.com/Chelis-Lang/coral.git /tmp/coral; \
-      fi \
-    && cd /tmp/coral \
-    && chelis reef build \
-    && chelis reef publish
-
-RUN --mount=type=secret,id=github_token \
-    ln -sf /tmp/chelis-src /tmp/chelis \
-    && token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
-    && if [ -n "$token" ]; then \
-        git clone --depth 1 --branch ${OCTANT_TAG} \
-          "https://x-access-token:${token}@github.com/Chelis-Lang/octant.git" /tmp/octant; \
-      else \
-        git clone --depth 1 --branch ${OCTANT_TAG} \
-          https://github.com/Chelis-Lang/octant.git /tmp/octant; \
-      fi \
-    && cd /tmp/octant \
-    && cargo build --release --bin octant \
-    && cp target/release/octant /usr/local/bin/octant \
-    && chelis reef build \
-    && chelis reef publish
+    && export GITHUB_TOKEN="$token" \
+    && asset="octant-v${OCTANT_VERSION}-linux-x86_64.tar.gz" \
+    && download-github-release-asset Chelis-Lang/octant "v${OCTANT_VERSION}" "$asset" "/tmp/${asset}" \
+    && mkdir -p /tmp/octant-toolchain \
+    && tar -xzf "/tmp/${asset}" -C /tmp/octant-toolchain --strip-components=1 \
+    && cp /tmp/octant-toolchain/bin/octant /usr/local/bin/octant \
+    && octant version
 
 # --- Workspace -------------------------------------------------------------
 WORKDIR /workspace
 COPY . /workspace
 
-# Sanity check: the project must check clean against v0.7.0, AND the
+# Sanity check: the project must check clean against the pinned Chelis, AND the
 # C backend must be able to lower a non-trivial program (grad over a
 # tensor reduction) and run it.
 RUN chelis check src/basics/hellotensor.ch \
@@ -127,6 +114,7 @@ RUN chelis check src/basics/hellotensor.ch \
     && cd /tmp/v_grad \
     && gcc -O2 -fopenmp grad_works.c -L. -lchelis_runtime \
         -lopenblas -lm -lpthread -ldl -o grad_works \
-    && diff <(./grad_works) /workspace/verify/expected/grad_works.txt
+    && ./grad_works > /tmp/grad_works.out \
+    && diff /tmp/grad_works.out /workspace/verify/expected/grad_works.txt
 
 CMD ["/bin/bash"]

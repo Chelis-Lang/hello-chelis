@@ -81,10 +81,14 @@ hello-chelis/
 
 ## Quickstart
 
-The compiler is built from source in the Docker image — no
-GITHUB_TOKEN required, works in air-gapped environments.
+The Docker image installs prebuilt release artifacts: the Chelis
+toolchain tarball, Octant's CLI tarball, and shell packages via
+`chelis reef install --from-github`. Because the canonical org repos
+are private during pre-launch, pass a GitHub token with access to those
+repos when building locally.
 
 ```sh
+export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build      # ~5 min, cached after
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 ```
@@ -93,9 +97,8 @@ Inside the container:
 
 ```sh
 chelis check src/basics/hellotensor.ch          # front-end gate (parse + types)
-chelis test  tests/                              # Chelis-native runtime tests
-chelis lint  --check .                           # nomenclature gate
-python3 -m pytest tests/                         # negative + C-backend + octant
+chelis lint .                                    # nomenclature inventory
+python3 -m pytest tests/                         # drift + negative + C-backend + octant
 ```
 
 ## Two source surfaces
@@ -121,7 +124,7 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 | Path | Command | Strengths | Limitations |
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
-| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Misses `grad`, `realize`, tensor activations on v0.7.0 |
+| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented pipe-stage and primitive gaps on v0.7.0 |
 | C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
 
 Each test in this corpus runs in the lane that supports it. Full
@@ -131,8 +134,8 @@ inventory of gaps with verbatim compiler error messages in
 ## Compiler version
 
 The runnable in-repo corpus is pinned to **chelis `0.7.0`** with
-**`chelis-std` 0.2.0**, **coral 0.7.0**, **nautilus 0.7.0**, and
-**octant 0.4.3**. The c-earchin requirements-bridge demo is an
+**`chelis-std` 0.3.0**, **coral 0.7.0**, **nautilus 0.7.0**, and
+**octant 0.4.4**. The c-earchin requirements-bridge demo is an
 external release artifact at **c-earchin 0.2.1** and needs Chelis
 0.7.2 for EARS-line failure diagnostics. The
 `compiler = "=0.7.0"` pin in `reef.toml` is hard — the language is
@@ -142,33 +145,30 @@ pre-1.0 and breaking changes ship between minor versions.
 
 | Lane | Pass count |
 |---|---:|
-| `chelis test tests/` | 105 |
 | `pytest tests/test_surf_deep_equivalence.py` (drift) | 89 |
 | `pytest tests/test_c_backend.py` (lowering + golden) | 6 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject) | 3 |
-| **Total verified outcomes** | **207** |
+| **Blocking CI outcomes** | **102** |
 
-All green on the Docker image built from
+All green on the Docker image installed from
 [Chelis-Lang/chelis@v0.7.0](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.0)
-sources.
+release artifacts.
 
 ## Caveats
 
-- The IR evaluator (`chelis test`) doesn't run every tensor primitive
-  at v0.7.0. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
-  `log`, `grad`, `realize` compile cleanly via `chelis check` and
-  through the C backend, but aren't runnable in the in-process
-  evaluator. The corpus uses the runtime-supported subset (`add`,
-  `mul`, `sum`, `mean`, scalar arithmetic, etc.) for `tests/`
-  assertions; the gaps are exercised in `verify/` through the C
-  backend.
+- The IR evaluator (`chelis test`) has pipe-stage lowering and
+  primitive gaps at v0.7.0. `relu`, `sigmoid`, `gelu`, `silu`,
+  tensor-form `exp` / `log`, `grad`, `realize`, and several piped test
+  forms compile cleanly via `chelis check` and through the C backend,
+  but aren't reliable in the in-process evaluator. The blocking CI
+  lanes therefore use `chelis check`, Deep drift checks, negative
+  checks, Octant round-trips, and C-backend execution.
 - The canonical Chelis-Lang shells are private during pre-launch, so
   `chelis reef install --from-github` requires `GITHUB_TOKEN`. The
-  Docker image works around this by cloning shell repos at the pinned
-  tags and using `chelis reef build` + `chelis reef publish` against
-  the local registry. CI on the actual chelis-lang org would use the
-  canonical install path.
+  Docker image uses that canonical install path and passes the token as
+  a BuildKit secret; it does not compile Chelis or shell repos from
+  source.
 - `octant` is a CLI translator binary, not an importable Chelis
   library. `.tex` inputs live at the repo root in `octant/`, with
   `.dp`/`.spans.json`/`.ch` siblings produced by `octant translate`

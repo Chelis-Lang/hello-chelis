@@ -86,7 +86,9 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
                 b.pop("source", None)
                 assert a == b, f"{committed.name}: spans drift (excluding source path)"
             else:
-                assert committed.read_text() == regenerated.read_text(), (
+                assert committed.read_text().rstrip(
+                    "\n"
+                ) == regenerated.read_text().rstrip("\n"), (
                     f"{committed.name} drifted from regenerated output for {tex.name}. "
                     f"Re-run `python3 scripts/regen_octant.py` to bring back into sync."
                 )

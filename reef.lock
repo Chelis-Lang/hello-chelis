@@ -17,19 +17,21 @@ compiler_version = "0.7.0"
 name = "coral"
 version = "0.7.0"
 compiler = "=0.7.0"
-archive_sha256 = "ab39ca51fd0ed1945eee5b1dd3bb0da846fd2434c46c5c31a07b1359465374a3"
-shell_sha256 = "f66afe8c8885b7ee6ffe955dcb7cdefe022535d80ec7366dd04a95e861b62bc8"
+archive_sha256 = "1369df3cb69740d190587f97c5044968b2a857e478e03cad41e6e289ea4d9315"
+shell_sha256 = "8742c58b129f144e3faadd188886e828271aab0a16c423f2fe858d3b5bb2d53c"
 
 [dependencies.source]
 kind = "local_registry"
+remote_origin = "github://Chelis-Lang/coral@v0.7.0"
 
 [[dependencies]]
 name = "nautilus"
 version = "0.7.0"
 compiler = "=0.7.0"
-archive_sha256 = "0456cedffdc09719365bc3aa48cc8013c5ead76a829b2e532df0ef1fc610d6a9"
-shell_sha256 = "bec59616b54777ded930705cbd882f76b8ff96e203c09857bc97d8aea4d064ec"
+archive_sha256 = "54f3ebb61858eb748b610c3d6b0db4d305cc11ca636b31e74e9a19291ce52f18"
+shell_sha256 = "a81fdcbc02a24af7a0595b6f6f6ad1e570c7d6abea282a34264a42f4277cbb79"
 
 [dependencies.source]
 kind = "local_registry"
+remote_origin = "github://Chelis-Lang/nautilus@v0.7.0"
 

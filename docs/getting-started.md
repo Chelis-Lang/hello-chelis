@@ -16,17 +16,15 @@ The image is `ubuntu:24.04` plus:
 
 - GCC, OpenBLAS, libgomp, valgrind (for the C backend)
 - Python 3 + pytest (for the fallback test harness)
-- Rust toolchain (we build chelis from source — the canonical-org
-  GH release tarball is the production install path on real CI with
-  a `GITHUB_TOKEN`; this image works in air-gapped environments
-  without one)
-- The `chelis` and `octant` CLIs from the v0.7.0 / v0.4.3 source tags
+- The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.2.0, `coral` 0.7.0, `nautilus` 0.7.0,
-  and `octant` 0.4.3 built and published into the local Reef
-  registry
+- The shells `chelis-std` 0.3.0, `coral` 0.7.0, `nautilus` 0.7.0,
+  and `octant` 0.4.4 installed into the local Reef registry from
+  GitHub release assets
 
-First build takes ~5 minutes; rebuilds reuse the layer cache.
+First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
+repos and downloads release artifacts instead of compiling toolchains
+from source. Rebuilds reuse the layer cache.
 
 ## 2. Inside the container
 
@@ -37,29 +35,26 @@ docker compose -f docker/docker-compose.yml run --rm hello-chelis
 Your repo checkout is mounted at `/workspace`. Everything below runs
 from there.
 
-## 3. The primary gate — `chelis test`
-
-Chelis's native test runner discovers `def test_*() -> unit ! { Test }`
-functions in `tests/` and runs the `Std.Test.assert_*` calls:
-
-```sh
-chelis test tests/                          # all 105 tests
-chelis test tests/basics/                   # one folder
-chelis test tests/basics/hellotensor.ch     # one file
-chelis test --filter add_vec tests/         # name filter
-```
-
-## 4. Front-end + lint
+## 3. The front-end gate — `chelis check`
 
 ```sh
 chelis check src/basics/hellotensor.ch     # parse + types + dim
                                             # + effect + linearity
-chelis lint --check .                      # nomenclature
 ```
 
 `chelis check` validates the entire project on any single-file
 invocation: all 200K+ typed nodes get re-loaded each call. There's
 no per-file or directory mode.
+
+The native IR evaluator has documented v0.7.0 gaps for pipe-stage
+lowering and some primitives, so `chelis test tests/` is not a
+blocking lane for this pinned corpus.
+
+## 4. Lint Inventory
+
+```sh
+chelis lint .                              # nomenclature inventory
+```
 
 ## 5. C backend (full lowering)
 

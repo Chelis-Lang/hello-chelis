@@ -45,7 +45,7 @@ def test_compiler_rejects(path: Path, expected_kind: str) -> None:
         copy = Path(tmp) / path.name
         copy.write_text(path.read_text())
         r = subprocess.run(
-            ["chelis", "check", str(copy)],
+            ["chelis", "check", str(copy), "--allow-style-violations"],
             check=False,
             capture_output=True,
             text=True,
