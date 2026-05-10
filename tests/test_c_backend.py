@@ -55,7 +55,9 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
 
         r = subprocess.run(
             ["chelis", "build", str(ch_copy), "--output", str(out_dir)],
-            check=False, capture_output=True, text=True,
+            check=False,
+            capture_output=True,
+            text=True,
         )
         assert r.returncode == 0, f"chelis build failed:\n{r.stdout}\n{r.stderr}"
 
@@ -65,18 +67,29 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         bin_path = out_dir / source.stem
         link = subprocess.run(
             [
-                "gcc", "-O2", "-march=native", "-fopenmp",
+                "gcc",
+                "-O2",
+                "-march=native",
+                "-fopenmp",
                 str(c_file),
-                f"-L{out_dir}", "-lchelis_runtime",
+                f"-L{out_dir}",
+                "-lchelis_runtime",
                 *link_flags(),
-                "-o", str(bin_path),
+                "-o",
+                str(bin_path),
             ],
-            check=False, capture_output=True, text=True,
+            check=False,
+            capture_output=True,
+            text=True,
         )
         assert link.returncode == 0, f"gcc failed:\n{link.stdout}\n{link.stderr}"
 
-        run = subprocess.run([str(bin_path)], check=False, capture_output=True, text=True)
-        assert run.returncode == 0, f"binary exited {run.returncode}:\n{run.stdout}\n{run.stderr}"
+        run = subprocess.run(
+            [str(bin_path)], check=False, capture_output=True, text=True
+        )
+        assert (
+            run.returncode == 0
+        ), f"binary exited {run.returncode}:\n{run.stdout}\n{run.stderr}"
 
         actual = run.stdout.strip()
         expected = golden.read_text().strip()

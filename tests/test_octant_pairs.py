@@ -49,14 +49,26 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
         rch = Path(tmpdir) / ch.name
 
         r = subprocess.run(
-            ["octant", "translate", str(tex), "--output", str(rdp), "--spans", str(rspans)],
-            check=False, capture_output=True, text=True,
+            [
+                "octant",
+                "translate",
+                str(tex),
+                "--output",
+                str(rdp),
+                "--spans",
+                str(rspans),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
         )
         assert r.returncode == 0, f"octant translate failed for {tex.name}:\n{r.stderr}"
 
         s = subprocess.run(
             ["chelis", "surf", str(rdp)],
-            check=False, capture_output=True, text=True,
+            check=False,
+            capture_output=True,
+            text=True,
         )
         assert s.returncode == 0, f"chelis surf failed for {tex.stem}.dp:\n{s.stderr}"
         rch.write_text(s.stdout)
@@ -67,6 +79,7 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
             # filter that one field before comparing.
             if committed.suffix == ".json":
                 import json
+
                 a = json.loads(committed.read_text())
                 b = json.loads(regenerated.read_text())
                 a.pop("source", None)

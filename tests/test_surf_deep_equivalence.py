@@ -62,7 +62,10 @@ def test_committed_dp_matches_chelis_deep(ch: Path) -> None:
     assert dp.exists(), f"missing sibling Deep file for {ch.relative_to(REPO)}"
     r = subprocess.run(
         ["chelis", "deep", str(ch)],
-        check=False, capture_output=True, text=True, cwd=REPO,
+        check=False,
+        capture_output=True,
+        text=True,
+        cwd=REPO,
     )
     assert r.returncode == 0, f"chelis deep {ch} failed:\n{r.stderr}"
     assert dp.read_text() == r.stdout, (

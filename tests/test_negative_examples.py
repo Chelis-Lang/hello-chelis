@@ -28,12 +28,16 @@ def discover() -> list[tuple[Path, str]]:
     for p in sorted(NEGATIVE_DIR.glob("*.ch")):
         m = HEADER_RE.search(p.read_text())
         if not m:
-            raise AssertionError(f"{p.name} missing `-- chelis-expect-fail: <kind>` header")
+            raise AssertionError(
+                f"{p.name} missing `-- chelis-expect-fail: <kind>` header"
+            )
         out.append((p, m.group(1)))
     return out
 
 
-@pytest.mark.parametrize("path,expected_kind", discover(), ids=lambda v: v.name if isinstance(v, Path) else v)
+@pytest.mark.parametrize(
+    "path,expected_kind", discover(), ids=lambda v: v.name if isinstance(v, Path) else v
+)
 def test_compiler_rejects(path: Path, expected_kind: str) -> None:
     if shutil.which("chelis") is None:
         pytest.skip("chelis not on PATH")
@@ -42,16 +46,20 @@ def test_compiler_rejects(path: Path, expected_kind: str) -> None:
         copy.write_text(path.read_text())
         r = subprocess.run(
             ["chelis", "check", str(copy)],
-            check=False, capture_output=True, text=True,
+            check=False,
+            capture_output=True,
+            text=True,
             cwd=tmp,
         )
         try:
             report = json.loads(r.stdout)
         except json.JSONDecodeError:
-            assert r.returncode != 0, f"{path.name}: expected failure, got rc=0\n{r.stdout}\n{r.stderr}"
+            assert (
+                r.returncode != 0
+            ), f"{path.name}: expected failure, got rc=0\n{r.stdout}\n{r.stderr}"
             return
         errors = report.get("errors", [])
         assert errors, f"{path.name}: expected at least one error, got none"
-        assert errors[0].get("kind") == expected_kind, (
-            f"{path.name}: expected {expected_kind}, got {errors[0].get('kind')}"
-        )
+        assert (
+            errors[0].get("kind") == expected_kind
+        ), f"{path.name}: expected {expected_kind}, got {errors[0].get('kind')}"
