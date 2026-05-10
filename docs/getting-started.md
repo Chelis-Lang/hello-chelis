@@ -46,11 +46,11 @@ chelis check src/basics/hellotensor.ch     # parse + types + dim
 invocation: all 200K+ typed nodes get re-loaded each call. There's
 no per-file or directory mode.
 
-The native IR evaluator still has documented primitive gaps, but the
-pinned native-test corpus is a blocking lane:
+The native IR evaluator still has documented primitive gaps, but a
+bounded native smoke test is a blocking lane:
 
 ```sh
-chelis test tests/
+chelis test tests/basics/pipeandmatch.ch
 ```
 
 ## 4. Lint Inventory

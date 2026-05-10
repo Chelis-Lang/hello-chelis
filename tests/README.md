@@ -1,12 +1,12 @@
 # `tests/` — both Chelis-native and Python harnesses
 
-The repo's primary test surface is **Chelis-native**: every test
-function under `tests/<area>/<name>.ch` is a
-`def test_*() -> unit ! { Test }` whose `Std.Test.assert_*` calls
-verify behavior. Run them all with:
+The repo keeps Chelis-native tests under `tests/<area>/<name>.ch`.
+The released v0.7.3 native runner is currently used as a bounded
+smoke lane; broader behavior coverage comes from the Python drift,
+negative, Octant, and C-backend harnesses below. Run the smoke with:
 
 ```sh
-chelis test tests/
+chelis test tests/basics/pipeandmatch.ch
 ```
 
 Python under `tests/` covers the lanes the native runner doesn't

@@ -181,6 +181,16 @@ through the C backend.
 > Status: only resolvable from the project root (where `reef.toml`
 > lives). Run via `cd <repo> && chelis test ...`.
 
+### `chelis test` timeout does not stop a macro-heavy test child
+> ```
+> chelis __test_file tests/basics/macrobasic.ch --timeout 30
+> ```
+> Status: on v0.7.3 this child can spin indefinitely while burning
+> CPU instead of respecting the timeout. CI therefore runs a bounded
+> native smoke file and covers full-corpus behavior through drift,
+> negative, Octant, and C-backend lanes until the runner timeout is
+> fixed upstream.
+
 ### `chelis surf` decompile is best-effort
 List literals decompile to `Cons/Nil` chains, `cast(x, f32)` to
 `(x as f32)`, etc. Re-deepifying the decompiled Surf produces a
@@ -207,6 +217,7 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 | `grad` not in host runtime | `tests/capstone/blackscholes.ch` | `verify/grad_works.ch` exercises C backend |
 | `realize` not in host runtime | (would-be `tests/basics/jitrealize.ch`) | `verify/realize_lowers.ch` exercises C backend |
 | Tensor activations not in host runtime | `tests/basics/pipeandmatch.ch` | Test file uses `neg`/`add` chain instead of `relu`/`sigmoid` |
+| `chelis test` timeout ineffective on macro-heavy test | `tests/basics/macrobasic.ch` | CI runs bounded native smoke; pytest lanes cover corpus |
 | `expand` shape divergence | `src/capstone/linreg.ch` | check-only; build-only via verify |
 | `with seed` blocks `chelis build` | `src/basics/effectsrandom.ch` | Project-wide build limited; verify/ programs are bare modules |
 | `cast(t, bf16)` rejected | `src/basics/precisioncast.ch` | Test uses f32→f64→f32 round trip |

@@ -120,8 +120,10 @@ The pattern: source modules in `src/`, test modules in `tests/`,
 `! { Test }` effect propagates to callers, so any production entry
 point declared `! {}` rejects test-effect calls at compile time.
 
-`chelis test tests/` discovers every `test_*` function and runs the
-`Std.Test.assert_*` calls. Exits non-zero if any assertion fails.
+`chelis test tests/basics/pipeandmatch.ch` runs a bounded native
+runtime smoke test. Full-corpus behavioral coverage is currently
+provided by the Deep drift, negative, Octant, and C-backend pytest
+lanes.
 
 ## How equivalence is enforced
 
@@ -143,7 +145,7 @@ runs the `--check` mode and fails on any divergence. See
 |---|---|---|
 | `chelis lint --check .` | nomenclature gate per `spec/01-nomenclature.md` | every `.ch` |
 | `chelis check src/<file>.ch` | front-end (parse/type/dim/effect/linearity) | per file |
-| `chelis test tests/` | runtime assertions via the IR evaluator | every `def test_*` |
+| `chelis test tests/basics/pipeandmatch.ch` | runtime assertions via the IR evaluator | bounded smoke |
 | `pytest tests/test_surf_deep_equivalence.py` | `.dp` matches `chelis deep <ch>` | every Surf file |
 | `pytest tests/test_c_backend.py` | `chelis build` + link + run + golden-diff | `verify/*.ch` |
 | `pytest tests/test_octant_pairs.py` | LaTeX → Deep → Surf round-trip | every `octant/*.tex` |

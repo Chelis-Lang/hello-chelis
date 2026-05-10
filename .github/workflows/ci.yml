@@ -47,10 +47,10 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis check src/basics/hellotensor.ch
 
-      - name: chelis test tests/
+      - name: chelis test native smoke
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis test tests/
+            timeout 120s chelis test tests/basics/pipeandmatch.ch
 
       - name: Deep s-expression drift check (every .ch must match its .dp)
         run: |

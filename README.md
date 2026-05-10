@@ -98,6 +98,7 @@ Inside the container:
 ```sh
 chelis check src/basics/hellotensor.ch          # front-end gate (parse + types)
 chelis lint .                                    # nomenclature inventory
+chelis test tests/basics/pipeandmatch.ch        # native runtime smoke
 python3 -m pytest tests/                         # drift + negative + C-backend + octant
 ```
 
@@ -149,8 +150,8 @@ pre-1.0 and breaking changes ship between minor versions.
 | `pytest tests/test_c_backend.py` (lowering + golden) | 6 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject) | 3 |
-| `chelis test tests/` (native runtime assertions) | all checked-in `test_*` |
-| **Blocking CI outcomes** | **includes native tests, drift, C backend, Octant, and negative checks** |
+| `chelis test tests/basics/pipeandmatch.ch` (native runtime smoke) | 3 |
+| **Blocking CI outcomes** | **includes native smoke, drift, C backend, Octant, and negative checks** |
 
 All green on the Docker image installed from
 [Chelis-Lang/chelis@v0.7.3](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.3)
@@ -163,7 +164,7 @@ release artifacts.
   tensor-form `exp` / `log`, `grad`, `realize`, and some higher-order
   transform forms compile cleanly via `chelis check` and through the C
   backend, but are not all available in the in-process evaluator. Blocking CI
-  runs `chelis test tests/` on the supported native-test corpus and
+  runs a bounded `chelis test` smoke on the native-test corpus and
   covers the remaining examples with `chelis check`, Deep drift checks,
   negative checks, Octant round-trips, and C-backend execution.
 - The canonical Chelis-Lang shells are private during pre-launch, so

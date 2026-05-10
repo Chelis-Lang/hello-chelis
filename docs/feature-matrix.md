@@ -112,7 +112,7 @@ output (modulo the absolute-path field in `.spans.json`).
 | Layer | Where it shows up |
 |---|---|
 | L1: type / dim / effect / linearity | every `.ch` (anything that `chelis check`s clean is L1-clean) |
-| Behavior assertions | `Std.Test.assert_*` inside `tests/`, run by `chelis test tests/` |
+| Behavior assertions | `Std.Test.assert_*` smoke via `chelis test tests/basics/pipeandmatch.ch` |
 | Surf-Deep equivalence | `python3 -m pytest tests/test_surf_deep_equivalence.py` |
 | C backend lowering | `python3 -m pytest tests/test_c_backend.py` — builds, links, runs, golden-diffs |
 | Octant pipeline round-trip | `python3 -m pytest tests/test_octant_pairs.py` |
