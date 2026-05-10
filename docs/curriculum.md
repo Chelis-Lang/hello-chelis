@@ -107,6 +107,13 @@ Surf quadruple. Read [`octant/README.md`](../octant/README.md) for
 the catalog. The notable property: `chelis surf <file>.dp` decompiles
 the translated Deep back into readable Chelis.
 
+### c-earchin — EARS requirements bridge
+
+[`docs/shells/c-earchin.md`](shells/c-earchin.md) points to the
+finance-options demo in the c-earchin repo. It shows natural-language EARS
+requirements translated to Deep property witnesses, proven by `chelis prove`,
+with failure diagnostics resolving back to the EARS line.
+
 ## 5. Capstones (45 min)
 
 [`src/capstone/`](../src/capstone/) — multi-shell integrations:

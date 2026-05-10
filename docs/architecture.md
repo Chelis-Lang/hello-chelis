@@ -66,7 +66,7 @@ octant/                                          .tex + machine-generated triple
 The `src/` split mirrors the dependency graph: each directory only
 imports from its left-hand neighbors plus `chelis-std`. `coral`
 imports `Std.*` and `Coral.*`. `nautilus` is independent of `coral`.
-The capstones in `src/capstone/` import across all four shells.
+The capstones in `src/capstone/` import across the code-import shells.
 
 `octant/` lives at the repo root because Octant is a CLI translator,
 not an importable Chelis library — its outputs aren't `Hello.*`

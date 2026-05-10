@@ -1,8 +1,9 @@
 # hello-chelis
 
 A complete, runnable example project for the
-[Chelis](https://github.com/Chelis-Lang/chelis) language v0.7.0 and
-its four shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`).
+[Chelis](https://github.com/Chelis-Lang/chelis) language v0.7.x and
+its shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`,
+`c-earchin`).
 Designed as a self-education tool: clone, run, read.
 
 If you've never seen Chelis before, start with
@@ -18,7 +19,8 @@ through the corpus.
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O, AD through frame ops |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
 | `octant` (LaTeX bridge) | [`octant/`](octant/) | `.tex` inputs translated to canonical Deep + provenance + decompiled Surf |
-| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes Greeks via `grad`, linear regression with SGD, transformer block, end-to-end ML pipeline across all four shells |
+| `c-earchin` (requirements bridge) | [`docs/shells/c-earchin.md`](docs/shells/c-earchin.md) | finance-flavored EARS requirements translated to Chelis property witnesses, proven with span diagnostics back to the EARS line |
+| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes Greeks via `grad`, linear regression with SGD, transformer block, end-to-end ML pipeline across the code-import shells |
 
 ## Layout
 
@@ -128,8 +130,11 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-Pinned to **chelis `0.7.0`** with **`chelis-std` 0.2.0**, **coral
-0.7.0**, **nautilus 0.7.0**, **octant 0.4.3**. The
+The runnable in-repo corpus is pinned to **chelis `0.7.0`** with
+**`chelis-std` 0.2.0**, **coral 0.7.0**, **nautilus 0.7.0**, and
+**octant 0.4.3**. The c-earchin requirements-bridge demo is an
+external release artifact at **c-earchin 0.2.1** and needs Chelis
+0.7.2 for EARS-line failure diagnostics. The
 `compiler = "=0.7.0"` pin in `reef.toml` is hard — the language is
 pre-1.0 and breaking changes ship between minor versions.
 
