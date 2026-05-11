@@ -1,4 +1,4 @@
-# Compiler vs Interpreter Discrepancies (v0.7.3)
+# Compiler vs Interpreter Discrepancies (v0.7.6)
 
 Catalogued during the porting work. The compiler ships three distinct
 execution paths that don't all share the same primitive set:
@@ -7,7 +7,7 @@ execution paths that don't all share the same primitive set:
   checking. The most permissive: accepts every Surf form the spec
   describes.
 - **IR evaluator (host runtime)** — `chelis eval`, `chelis test`.
-  Interactive in-process execution. Limited primitive set on v0.7.3.
+  Interactive in-process execution. Limited primitive set on v0.7.6.
 - **C backend** — `chelis build --target c`. Production code path.
   Different (and on some primitives complementary) limitations.
 
@@ -108,7 +108,7 @@ through the C backend.
 > rank 2. Hit in `src/capstone/linreg.ch::predict`. The same shape
 > appears in upstream's own `examples/linreg.ch` (in the chelis
 > source repo, separate from this corpus) so the issue is general to
-> v0.7.3.
+> v0.7.6.
 
 ### `to_tensor` doesn't accept 2D Python-style literals
 > ```
@@ -118,16 +118,17 @@ through the C backend.
 > Workaround: `pad_sequences([[...], [...]], 0.0)` per upstream's
 > `tensor_structural_ops.ch`.
 
-### Polymorphic dims leak as undeclared C variables
+### Symbolic dims can panic C codegen
 > ```
-> grad_quadratic.c:104:55: error: 'd36' undeclared
->     chelis_tensor *t2 = chelis_alloc_view(1, (int[]){ d36 }, ...)
+> internal compiler error: symbolic dim `_anon_dim_3_0` is referenced
+> by a non-Load node ... but no Load input declares it
 > ```
-> Status: when a `tensor[n, f32]` with dim-poly `n` is bound at
-> top level outside a function parameter, the C codegen emits a
-> reference to the dim variable's runtime extent without declaring
-> it. Workaround: bind concrete sizes (`tensor[3, f32]` instead of
-> `tensor[n, f32]`).
+> Status: v0.7.6 rejects several verify fixtures during C lowering
+> before emitting invalid C. `tests/test_c_backend.py` locks this as
+> an expected compiler failure for `grad_works.ch`, `relu_lowers.ch`,
+> `relu_then_sigmoid.ch`, and `sigmoid_lowers.ch`. Workaround: keep
+> C-backend smoke fixtures on concrete tensor shapes that lower cleanly,
+> such as `verify/grad_quadratic.ch`.
 
 ### Higher-order f32 wrappers fail in C codegen
 > ```
@@ -181,15 +182,13 @@ through the C backend.
 > Status: only resolvable from the project root (where `reef.toml`
 > lives). Run via `cd <repo> && chelis test ...`.
 
-### `chelis test` timeout does not stop a macro-heavy test child
+### `chelis test --jobs auto` is the native default
 > ```
-> chelis __test_file tests/basics/macrobasic.ch --timeout 30
+> chelis test tests/ --jobs auto
 > ```
-> Status: on v0.7.3 this child can spin indefinitely while burning
-> CPU instead of respecting the timeout. CI therefore runs a bounded
-> native smoke file and covers full-corpus behavior through drift,
-> negative, Octant, and C-backend lanes until the runner timeout is
-> fixed upstream.
+> Status: on v0.7.6 the full native tree passes under node-local
+> concurrency. Use `chelis test tests/ --jobs 1` only as a serial
+> fallback for debugging output.
 
 ### `chelis surf` decompile is best-effort
 List literals decompile to `Cons/Nil` chains, `cast(x, f32)` to
@@ -214,10 +213,10 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 
 | Gap | Affected file(s) | Workaround |
 |---|---|---|
-| `grad` not in host runtime | `tests/capstone/blackscholes.ch` | `verify/grad_works.ch` exercises C backend |
+| `grad` not in host runtime | `tests/capstone/blackscholes.ch` | `verify/grad_quadratic.ch` exercises C backend |
 | `realize` not in host runtime | (would-be `tests/basics/jitrealize.ch`) | `verify/realize_lowers.ch` exercises C backend |
 | Tensor activations not in host runtime | `tests/basics/pipeandmatch.ch` | Test file uses `neg`/`add` chain instead of `relu`/`sigmoid` |
-| `chelis test` timeout ineffective on macro-heavy test | `tests/basics/macrobasic.ch` | CI runs bounded native smoke; pytest lanes cover corpus |
+| Symbolic-dim C-codegen panic | `verify/grad_works.ch`, activation verify fixtures | Locked as expected failures in `tests/test_c_backend.py` |
 | `expand` shape divergence | `src/capstone/linreg.ch` | check-only; build-only via verify |
 | `with seed` blocks `chelis build` | `src/basics/effectsrandom.ch` | Project-wide build limited; verify/ programs are bare modules |
 | `cast(t, bf16)` rejected | `src/basics/precisioncast.ch` | Test uses f32→f64→f32 round trip |

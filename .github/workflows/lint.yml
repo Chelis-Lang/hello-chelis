@@ -51,7 +51,7 @@ jobs:
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           cache-from: type=gha
 
-      - name: chelis lint inventory
+      - name: chelis lint inventory (non-blocking)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:lint \
             chelis lint .

@@ -64,7 +64,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.7.3
+ARG CHELIS_VERSION=0.7.6
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -79,16 +79,18 @@ RUN --mount=type=secret,id=github_token \
     && chelis --version
 
 # --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.3
-ARG NAUTILUS_VERSION=0.7.3
-ARG OCTANT_VERSION=0.4.4
+ARG CORAL_VERSION=0.7.6
+ARG NAUTILUS_VERSION=0.7.6
+ARG OCTANT_VERSION=0.4.5
+ARG C_EARCHIN_VERSION=0.2.2
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}"
+    && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}" \
+    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}"
 
 # --- Octant CLI from release tarball --------------------------------------
 RUN --mount=type=secret,id=github_token \
@@ -107,14 +109,14 @@ COPY . /workspace
 
 # Sanity check: the project must check clean against the pinned Chelis, AND the
 # C backend must be able to lower a non-trivial program (grad over a
-# tensor reduction) and run it.
+# concrete tensor reduction) and run it.
 RUN chelis check src/basics/hellotensor.ch \
-    && cp verify/grad_works.ch /tmp/grad_works.ch \
-    && chelis build /tmp/grad_works.ch --output /tmp/v_grad \
+    && cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch \
+    && chelis build /tmp/grad_quadratic.ch --output /tmp/v_grad \
     && cd /tmp/v_grad \
-    && gcc -O2 -fopenmp grad_works.c -L. -lchelis_runtime \
-        -lopenblas -lm -lpthread -ldl -o grad_works \
-    && ./grad_works > /tmp/grad_works.out \
-    && diff /tmp/grad_works.out /workspace/verify/expected/grad_works.txt
+    && gcc -O2 -fopenmp grad_quadratic.c -L. -lchelis_runtime \
+        -lopenblas -lm -lpthread -ldl -o grad_quadratic \
+    && ./grad_quadratic > /tmp/grad_quadratic.out \
+    && diff /tmp/grad_quadratic.out /workspace/verify/expected/grad_quadratic.txt
 
 CMD ["/bin/bash"]

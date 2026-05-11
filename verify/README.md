@@ -1,10 +1,10 @@
 # `verify/` — full-lowering verification via the C backend
 
 The IR evaluator that backs `chelis test` doesn't ship every primitive
-on v0.6.1. `grad`, `realize`, tensor `relu`/`sigmoid`, and tensor `cast`
-all lower correctly through the **C backend** (`chelis build --target
-c`) and execute against the chelis runtime — and that's the production
-path anyway.
+on v0.7.6. Some examples lower correctly through the **C backend**
+(`chelis build --target c`) and execute against the chelis runtime;
+others currently hit a v0.7.6 symbolic-dimension codegen panic. The
+test harness locks both outcomes so regressions are explicit.
 
 This directory holds small, project-free Chelis programs that exercise
 exactly the features the host runtime can't. Each one is built, linked
@@ -13,11 +13,17 @@ diffed against a golden in `expected/`.
 
 | Feature | Source | Golden |
 |---|---|---|
-| `grad` over a tensor scalar reduction | [`grad_works.ch`](grad_works.ch) | [`expected/grad_works.txt`](expected/grad_works.txt) |
-| Tensor `relu` activation | [`relu_lowers.ch`](relu_lowers.ch) | [`expected/relu_lowers.txt`](expected/relu_lowers.txt) |
-| Tensor `sigmoid` activation | [`sigmoid_lowers.ch`](sigmoid_lowers.ch) | [`expected/sigmoid_lowers.txt`](expected/sigmoid_lowers.txt) |
+| `grad` over a concrete tensor scalar reduction | [`grad_quadratic.ch`](grad_quadratic.ch) | [`expected/grad_quadratic.txt`](expected/grad_quadratic.txt) |
 | `cast` between precisions | [`cast_lowers.ch`](cast_lowers.ch) | [`expected/cast_lowers.txt`](expected/cast_lowers.txt) |
 | `realize` forced evaluation | [`realize_lowers.ch`](realize_lowers.ch) | [`expected/realize_lowers.txt`](expected/realize_lowers.txt) |
+
+Known v0.7.6 symbolic-dimension codegen panics, asserted by
+[`tests/test_c_backend.py`](../tests/test_c_backend.py):
+
+- [`grad_works.ch`](grad_works.ch)
+- [`relu_lowers.ch`](relu_lowers.ch)
+- [`relu_then_sigmoid.ch`](relu_then_sigmoid.ch)
+- [`sigmoid_lowers.ch`](sigmoid_lowers.ch)
 
 ## Run them
 
@@ -27,7 +33,7 @@ The harness is [`tests/test_c_backend.py`](../tests/test_c_backend.py):
 python3 -m pytest -q tests/test_c_backend.py
 ```
 
-Each test:
+Each supported-lowering test:
 
 1. Copies `verify/<name>.ch` to a temp dir (so `chelis build` doesn't
    pull in the rest of the project — Reef projects with `with seed(...)`
@@ -36,6 +42,10 @@ Each test:
 3. Links the emitted C with `gcc -fopenmp <name>.c -L<tmp>/<name>
    -lchelis_runtime -lopenblas -lm -lpthread -ldl`.
 4. Runs the binary and diffs stdout against `expected/<name>.txt`.
+
+The known-panic tests stop at `chelis build` and assert the compiler
+reports the symbolic-dimension internal error instead of silently
+emitting invalid C.
 
 ## Add a new verification
 

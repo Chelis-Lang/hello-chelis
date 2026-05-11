@@ -1,0 +1,206 @@
+(module {c_earchin_module: "CEarchin.Generated.OptionsRules"}
+  cearchin.generated.optionsrules
+  (defsig {} is_non_negative (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    is_non_negative
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {} (var {} gte) (var {} x) (lit {type: (t-prim {} f32)} 0.0))))
+  (defsig {} is_positive (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    is_positive
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {} (var {} cmplt) (lit {type: (t-prim {} f32)} 0.0) (var {} x))))
+  (defsig {}
+    within_tolerance
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    within_tolerance
+    (fn {}
+      (params {}
+        (x {type: (t-prim {} f32)})
+        (y {type: (t-prim {} f32)})
+        (tol {type: (t-prim {} f32)}))
+      (app {}
+        (var {} and)
+        (app {}
+          (var {} lte)
+          (app {} (var {} sub) (var {} x) (var {} y))
+          (var {} tol))
+        (app {}
+          (var {} lte)
+          (app {} (var {} sub) (var {} y) (var {} x))
+          (var {} tol)))))
+  (defsig {}
+    is_monotone_increasing
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} bool)))
+  (def {}
+    is_monotone_increasing
+    (fn {}
+      (params {}
+        (x {type: (t-prim {} f32)})
+        (x_prime {type: (t-prim {} f32)})
+        (fx {type: (t-prim {} f32)})
+        (fx_prime {type: (t-prim {} f32)}))
+      (if {}
+        (app {} (var {} cmplt) (var {} x) (var {} x_prime))
+        (app {} (var {} gte) (var {} fx_prime) (var {} fx))
+        (lit {type: (t-prim {} bool)} true))))
+  (defsig {}
+    is_bounded_above
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    is_bounded_above
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (bound {type: (t-prim {} f32)}))
+      (app {} (var {} lte) (var {} x) (var {} bound))))
+  (defsig {}
+    is_bounded_below
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    is_bounded_below
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (bound {type: (t-prim {} f32)}))
+      (app {} (var {} gte) (var {} x) (var {} bound))))
+  (defsig {}
+    is_equal
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    is_equal
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (y {type: (t-prim {} f32)}))
+      (app {} (var {} eq) (var {} x) (var {} y))))
+  (defsig {}
+    converges_to
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32) (t-prim {} bool)))
+  (def {}
+    converges_to
+    (fn {}
+      (params {}
+        (x {type: (t-prim {} f32)})
+        (target {type: (t-prim {} f32)})
+        (tol {type: (t-prim {} f32)}))
+      (app {} (var {} within_tolerance) (var {} x) (var {} target) (var {} tol))))
+  (defsig {} is_error_rejection (t-fn {} (t-prim {} bool)))
+  (def {}
+    is_error_rejection
+    (fn {}
+      (params {})
+      (lit {type: (t-prim {} bool)} true)))
+  (def {c_earchin_clause_spans: "system:option pricer|response:produce non-negative call prices",
+         c_earchin_ears_id: "FIN-001",
+         c_earchin_ears_pattern: "ubiquitous",
+         c_earchin_role: "property_witness",
+         c_earchin_vocabulary_target: "is_non_negative",
+         chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {}),
+         property_source_id: "FIN-001",
+         property_source_kind: "bridge:c-earchin",
+         span: "req:FIN-001"
+       }
+    req_FIN_001
+    (fn {}
+      (params {})
+      (app {} (var {} is_non_negative) (lit {type: (t-prim {} f32)} 0.0))))
+  (def {c_earchin_clause_spans: "trigger:market data arrives|system:implied-volatility surface|response:be within tolerance",
+         c_earchin_ears_id: "FIN-002",
+         c_earchin_ears_pattern: "event_driven",
+         c_earchin_role: "property_witness",
+         c_earchin_vocabulary_target: "within_tolerance",
+         chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {}),
+         property_source_id: "FIN-002",
+         property_source_kind: "bridge:c-earchin",
+         span: "req:FIN-002"
+       }
+    req_FIN_002
+    (fn {}
+      (params {})
+      (app {}
+        (var {} within_tolerance)
+        (lit {type: (t-prim {} f32)} 1.0)
+        (lit {type: (t-prim {} f32)} 1.0)
+        (lit {type: (t-prim {} f32)} 0.001))))
+  (def {c_earchin_clause_spans: "state:the exchange is open|system:portfolio delta|response:be at most the limit",
+         c_earchin_ears_id: "FIN-003",
+         c_earchin_ears_pattern: "state_driven",
+         c_earchin_role: "property_witness",
+         c_earchin_vocabulary_target: "is_bounded_above",
+         chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {}),
+         property_source_id: "FIN-003",
+         property_source_kind: "bridge:c-earchin",
+         span: "req:FIN-003"
+       }
+    req_FIN_003
+    (fn {}
+      (params {})
+      (app {}
+        (var {} is_bounded_above)
+        (lit {type: (t-prim {} f32)} 2.0)
+        (lit {type: (t-prim {} f32)} 1.0))))
+  (def {c_earchin_clause_spans: "condition:an order breaches the position limit|system:order gateway|response:reject the order",
+         c_earchin_ears_id: "FIN-004",
+         c_earchin_ears_pattern: "unwanted",
+         c_earchin_role: "property_witness",
+         c_earchin_vocabulary_target: "is_error_rejection",
+         chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {}),
+         property_source_id: "FIN-004",
+         property_source_kind: "bridge:c-earchin",
+         span: "req:FIN-004"
+       }
+    req_FIN_004
+    (fn {}
+      (params {})
+      (lit {type: (t-prim {} bool)} true)))
+  (def {c_earchin_clause_spans: "feature:same-day settlement is enabled|system:settlement clock|response:be bounded by the window",
+         c_earchin_ears_id: "FIN-005",
+         c_earchin_ears_pattern: "optional",
+         c_earchin_role: "property_witness",
+         c_earchin_vocabulary_target: "is_bounded_above",
+         chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {}),
+         property_source_id: "FIN-005",
+         property_source_kind: "bridge:c-earchin",
+         span: "req:FIN-005"
+       }
+    req_FIN_005
+    (fn {}
+      (params {})
+      (app {}
+        (var {} is_bounded_above)
+        (lit {type: (t-prim {} f32)} 0.0)
+        (lit {type: (t-prim {} f32)} 1.0))))
+  (def {c_earchin_clause_spans: "state:the exchange is open|trigger:a quote changes|condition:the quote is firm|system:call price curve|response:be monotone-increasing",
+         c_earchin_ears_id: "FIN-006",
+         c_earchin_ears_pattern: "complex",
+         c_earchin_role: "property_witness",
+         c_earchin_vocabulary_target: "is_monotone_increasing",
+         chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {}),
+         property_source_id: "FIN-006",
+         property_source_kind: "bridge:c-earchin",
+         span: "req:FIN-006"
+       }
+    req_FIN_006
+    (fn {}
+      (params {})
+      (app {}
+        (var {} is_monotone_increasing)
+        (lit {type: (t-prim {} f32)} 0.0)
+        (lit {type: (t-prim {} f32)} 1.0)
+        (lit {type: (t-prim {} f32)} 0.0)
+        (lit {type: (t-prim {} f32)} 1.0)))))

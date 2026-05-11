@@ -76,7 +76,7 @@ hello-chelis/
 ├── **/*.dp                    canonical Deep s-expressions, machine-generated.
 │                              Never hand-edited. CI fails on drift.
 │
-└── .github/workflows/         CI: chelis lint + check + test + C-backend
+└── .github/workflows/         CI: lint inventory + check + test + C-backend
 ```
 
 ## Quickstart
@@ -97,9 +97,10 @@ Inside the container:
 
 ```sh
 chelis check src/basics/hellotensor.ch          # front-end gate (parse + types)
-chelis lint .                                    # nomenclature inventory
-chelis test tests/basics/pipeandmatch.ch        # native runtime smoke
-python3 -m pytest tests/                         # drift + negative + C-backend + octant
+chelis lint .                                    # non-blocking nomenclature inventory
+chelis test tests/ --jobs auto                   # native runtime suite
+chelis test tests/ --jobs 1                      # serial fallback for debugging
+python3 -m pytest tests/                         # drift + negative + C-backend + octant + c-earchin
 ```
 
 ## Two source surfaces
@@ -125,7 +126,7 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 | Path | Command | Strengths | Limitations |
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
-| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on v0.7.3 |
+| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on v0.7.6 |
 | C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
 
 Each test in this corpus runs in the lane that supports it. Full
@@ -134,39 +135,47 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.7.3`** with
-**`chelis-std` 0.3.0**, **coral 0.7.3**, **nautilus 0.7.3**, and
-**octant 0.4.4**. The c-earchin requirements-bridge demo is an
-external release artifact at **c-earchin 0.2.1** and needs Chelis
-0.7.2 or newer for EARS-line failure diagnostics. The
-`compiler = "=0.7.3"` pin in `reef.toml` is hard — the language is
-pre-1.0 and breaking changes ship between minor versions.
+The runnable in-repo corpus is pinned to **chelis `0.7.6`** with
+**`chelis-std` 0.3.0**, **coral 0.7.6**, **nautilus 0.7.6**, and
+**octant 0.4.5**. The c-earchin requirements-bridge fixtures are
+generated from the **c-earchin 0.2.2** release and proven in the
+Python harness. The `compiler = "=0.7.6"` pin in `reef.toml` is hard:
+the language is pre-1.0 and breaking changes ship between minor versions.
 
 ## Test status
 
 | Lane | Pass count |
 |---|---:|
 | `pytest tests/test_surf_deep_equivalence.py` (drift) | 89 |
-| `pytest tests/test_c_backend.py` (lowering + golden) | 6 |
+| `pytest tests/test_c_backend.py` (C lowering + known codegen panics) | 7 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject) | 3 |
-| `chelis test tests/basics/pipeandmatch.ch` (native runtime smoke) | 3 |
-| **Blocking CI outcomes** | **includes native smoke, drift, C backend, Octant, and negative checks** |
+| `pytest tests/test_c_earchin_artifacts.py` (EARS proof bridge) | 2 |
+| `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
+| **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
+
+`chelis lint .` is currently run as a non-blocking inventory because
+the historical corpus has strict style diagnostics. New or touched
+Chelis examples should still be formatted and linted before they are
+added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.7.3](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.3)
+[Chelis-Lang/chelis@v0.7.6](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.6)
 release artifacts.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.7.3. `relu`, `sigmoid`, `gelu`, `silu`,
-  tensor-form `exp` / `log`, `grad`, `realize`, and some higher-order
-  transform forms compile cleanly via `chelis check` and through the C
-  backend, but are not all available in the in-process evaluator. Blocking CI
-  runs a bounded `chelis test` smoke on the native-test corpus and
-  covers the remaining examples with `chelis check`, Deep drift checks,
-  negative checks, Octant round-trips, and C-backend execution.
+  v0.7.6. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  `log`, some `grad`/activation shapes, `realize`, and some
+  higher-order transform forms compile cleanly via `chelis check` and
+  through the C backend, but are not all available in the in-process
+  evaluator. Some v0.7.6 C-backend symbolic-dimension panics are
+  locked as expected failures in `tests/test_c_backend.py` until they
+  are fixed upstream. Blocking CI
+  runs the full native `chelis test tests/ --jobs auto` suite and covers
+  the remaining examples with `chelis check`, Deep drift checks, negative
+  checks, Octant round-trips, c-earchin proof checks, and C-backend execution.
 - The canonical Chelis-Lang shells are private during pre-launch, so
   `chelis reef install --from-github` requires `GITHUB_TOKEN`. The
   Docker image uses that canonical install path and passes the token as

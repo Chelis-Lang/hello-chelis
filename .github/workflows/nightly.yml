@@ -32,6 +32,11 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
             chelis check src/basics/hellotensor.ch
 
+      - name: chelis test native suite
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
+            chelis test tests/ --jobs auto
+
       - name: pytest tests/
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '

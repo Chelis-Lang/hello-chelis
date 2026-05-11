@@ -1,0 +1,355 @@
+{
+  "source": "references/finance_options/options_rules.ears",
+  "source_hash": "sha256:6beb9e3f2cdf8ffe8318fa4ae3861779e89ce5fa3456e8c0363973b883f149ea",
+  "spans": [
+    {
+      "deep_node_id": "req_FIN_001",
+      "deep_path": "module.def[0]",
+      "ears_id": "FIN-001",
+      "ears_file": "references/finance_options/options_rules.ears",
+      "ears_text": "The option pricer shall produce non-negative call prices.",
+      "ears": {
+        "start_byte": 0,
+        "end_byte": 66,
+        "start_line": 1,
+        "start_column": 1,
+        "end_line": 1,
+        "end_column": 66
+      },
+      "clauses": [
+        {
+          "kind": "system",
+          "ears_text": "option pricer",
+          "deep_path": "module.def[0].system",
+          "ears": {
+            "start_byte": 0,
+            "end_byte": 66,
+            "start_line": 1,
+            "start_column": 1,
+            "end_line": 1,
+            "end_column": 66
+          }
+        },
+        {
+          "kind": "response",
+          "ears_text": "produce non-negative call prices",
+          "deep_path": "module.def[0].response",
+          "ears": {
+            "start_byte": 0,
+            "end_byte": 66,
+            "start_line": 1,
+            "start_column": 1,
+            "end_line": 1,
+            "end_column": 66
+          }
+        }
+      ]
+    },
+    {
+      "deep_node_id": "req_FIN_002",
+      "deep_path": "module.def[1]",
+      "ears_id": "FIN-002",
+      "ears_file": "references/finance_options/options_rules.ears",
+      "ears_text": "WHEN market data arrives, the implied-volatility surface shall be within tolerance.",
+      "ears": {
+        "start_byte": 67,
+        "end_byte": 159,
+        "start_line": 2,
+        "start_column": 1,
+        "end_line": 2,
+        "end_column": 92
+      },
+      "clauses": [
+        {
+          "kind": "trigger",
+          "ears_text": "market data arrives",
+          "deep_path": "module.def[1].trigger",
+          "ears": {
+            "start_byte": 67,
+            "end_byte": 159,
+            "start_line": 2,
+            "start_column": 1,
+            "end_line": 2,
+            "end_column": 92
+          }
+        },
+        {
+          "kind": "system",
+          "ears_text": "implied-volatility surface",
+          "deep_path": "module.def[1].system",
+          "ears": {
+            "start_byte": 67,
+            "end_byte": 159,
+            "start_line": 2,
+            "start_column": 1,
+            "end_line": 2,
+            "end_column": 92
+          }
+        },
+        {
+          "kind": "response",
+          "ears_text": "be within tolerance",
+          "deep_path": "module.def[1].response",
+          "ears": {
+            "start_byte": 67,
+            "end_byte": 159,
+            "start_line": 2,
+            "start_column": 1,
+            "end_line": 2,
+            "end_column": 92
+          }
+        }
+      ]
+    },
+    {
+      "deep_node_id": "req_FIN_003",
+      "deep_path": "module.def[2]",
+      "ears_id": "FIN-003",
+      "ears_file": "references/finance_options/options_rules.ears",
+      "ears_text": "WHILE the exchange is open, the portfolio delta shall be at most the limit.",
+      "ears": {
+        "start_byte": 160,
+        "end_byte": 244,
+        "start_line": 3,
+        "start_column": 1,
+        "end_line": 3,
+        "end_column": 84
+      },
+      "clauses": [
+        {
+          "kind": "state",
+          "ears_text": "the exchange is open",
+          "deep_path": "module.def[2].state",
+          "ears": {
+            "start_byte": 160,
+            "end_byte": 244,
+            "start_line": 3,
+            "start_column": 1,
+            "end_line": 3,
+            "end_column": 84
+          }
+        },
+        {
+          "kind": "system",
+          "ears_text": "portfolio delta",
+          "deep_path": "module.def[2].system",
+          "ears": {
+            "start_byte": 160,
+            "end_byte": 244,
+            "start_line": 3,
+            "start_column": 1,
+            "end_line": 3,
+            "end_column": 84
+          }
+        },
+        {
+          "kind": "response",
+          "ears_text": "be at most the limit",
+          "deep_path": "module.def[2].response",
+          "ears": {
+            "start_byte": 160,
+            "end_byte": 244,
+            "start_line": 3,
+            "start_column": 1,
+            "end_line": 3,
+            "end_column": 84
+          }
+        }
+      ]
+    },
+    {
+      "deep_node_id": "req_FIN_004",
+      "deep_path": "module.def[3]",
+      "ears_id": "FIN-004",
+      "ears_file": "references/finance_options/options_rules.ears",
+      "ears_text": "IF an order breaches the position limit, THEN the order gateway shall reject the order.",
+      "ears": {
+        "start_byte": 245,
+        "end_byte": 341,
+        "start_line": 4,
+        "start_column": 1,
+        "end_line": 4,
+        "end_column": 96
+      },
+      "clauses": [
+        {
+          "kind": "condition",
+          "ears_text": "an order breaches the position limit",
+          "deep_path": "module.def[3].condition",
+          "ears": {
+            "start_byte": 245,
+            "end_byte": 341,
+            "start_line": 4,
+            "start_column": 1,
+            "end_line": 4,
+            "end_column": 96
+          }
+        },
+        {
+          "kind": "system",
+          "ears_text": "order gateway",
+          "deep_path": "module.def[3].system",
+          "ears": {
+            "start_byte": 245,
+            "end_byte": 341,
+            "start_line": 4,
+            "start_column": 1,
+            "end_line": 4,
+            "end_column": 96
+          }
+        },
+        {
+          "kind": "response",
+          "ears_text": "reject the order",
+          "deep_path": "module.def[3].response",
+          "ears": {
+            "start_byte": 245,
+            "end_byte": 341,
+            "start_line": 4,
+            "start_column": 1,
+            "end_line": 4,
+            "end_column": 96
+          }
+        }
+      ]
+    },
+    {
+      "deep_node_id": "req_FIN_005",
+      "deep_path": "module.def[4]",
+      "ears_id": "FIN-005",
+      "ears_file": "references/finance_options/options_rules.ears",
+      "ears_text": "WHERE same-day settlement is enabled, the settlement clock shall be bounded by the window.",
+      "ears": {
+        "start_byte": 342,
+        "end_byte": 441,
+        "start_line": 5,
+        "start_column": 1,
+        "end_line": 5,
+        "end_column": 99
+      },
+      "clauses": [
+        {
+          "kind": "feature",
+          "ears_text": "same-day settlement is enabled",
+          "deep_path": "module.def[4].feature",
+          "ears": {
+            "start_byte": 342,
+            "end_byte": 441,
+            "start_line": 5,
+            "start_column": 1,
+            "end_line": 5,
+            "end_column": 99
+          }
+        },
+        {
+          "kind": "system",
+          "ears_text": "settlement clock",
+          "deep_path": "module.def[4].system",
+          "ears": {
+            "start_byte": 342,
+            "end_byte": 441,
+            "start_line": 5,
+            "start_column": 1,
+            "end_line": 5,
+            "end_column": 99
+          }
+        },
+        {
+          "kind": "response",
+          "ears_text": "be bounded by the window",
+          "deep_path": "module.def[4].response",
+          "ears": {
+            "start_byte": 342,
+            "end_byte": 441,
+            "start_line": 5,
+            "start_column": 1,
+            "end_line": 5,
+            "end_column": 99
+          }
+        }
+      ]
+    },
+    {
+      "deep_node_id": "req_FIN_006",
+      "deep_path": "module.def[5]",
+      "ears_id": "FIN-006",
+      "ears_file": "references/finance_options/options_rules.ears",
+      "ears_text": "WHILE the exchange is open, WHEN a quote changes, IF the quote is firm, THEN the call price curve shall be monotone-increasing.",
+      "ears": {
+        "start_byte": 442,
+        "end_byte": 578,
+        "start_line": 6,
+        "start_column": 1,
+        "end_line": 6,
+        "end_column": 136
+      },
+      "clauses": [
+        {
+          "kind": "state",
+          "ears_text": "the exchange is open",
+          "deep_path": "module.def[5].state",
+          "ears": {
+            "start_byte": 442,
+            "end_byte": 578,
+            "start_line": 6,
+            "start_column": 1,
+            "end_line": 6,
+            "end_column": 136
+          }
+        },
+        {
+          "kind": "trigger",
+          "ears_text": "a quote changes",
+          "deep_path": "module.def[5].trigger",
+          "ears": {
+            "start_byte": 442,
+            "end_byte": 578,
+            "start_line": 6,
+            "start_column": 1,
+            "end_line": 6,
+            "end_column": 136
+          }
+        },
+        {
+          "kind": "condition",
+          "ears_text": "the quote is firm",
+          "deep_path": "module.def[5].condition",
+          "ears": {
+            "start_byte": 442,
+            "end_byte": 578,
+            "start_line": 6,
+            "start_column": 1,
+            "end_line": 6,
+            "end_column": 136
+          }
+        },
+        {
+          "kind": "system",
+          "ears_text": "call price curve",
+          "deep_path": "module.def[5].system",
+          "ears": {
+            "start_byte": 442,
+            "end_byte": 578,
+            "start_line": 6,
+            "start_column": 1,
+            "end_line": 6,
+            "end_column": 136
+          }
+        },
+        {
+          "kind": "response",
+          "ears_text": "be monotone-increasing",
+          "deep_path": "module.def[5].response",
+          "ears": {
+            "start_byte": 442,
+            "end_byte": 578,
+            "start_line": 6,
+            "start_column": 1,
+            "end_line": 6,
+            "end_column": 136
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,32 +1,37 @@
 # c-earchin — EARS Requirements Bridge
 
 `c-earchin` translates EARS-style requirements into Chelis Deep property
-witnesses. The v0.2.1 demo is intentionally finance-flavored so a stakeholder
+witnesses. The v0.2.2 demo is intentionally finance-flavored so a stakeholder
 can read the input in under a minute and see the value:
 
 - a single `.ears` source covering ubiquitous, `WHEN`, `WHILE`,
   `IF ... THEN`, `WHERE`, and one Complex requirement;
 - generated `.dp` witnesses with Chelis property metadata;
 - `.spans.json` provenance back to the original EARS lines;
-- captured `chelis prove` output for both pass and fail cases.
+- `chelis prove` coverage for both pass and fail cases.
 
-The canonical demo lives in the c-earchin release repo:
+The Docker image installs the released c-earchin package:
 
 ```sh
-git clone git@github.com:Chelis-Lang/c-earchin.git
-cd c-earchin
-git checkout v0.2.1
+chelis reef install --from-github Chelis-Lang/c-earchin@v0.2.2
+```
 
-chelis prove references/finance_options/options_rules.dp \
-  --spans references/finance_options/options_rules.spans.json \
+This repo commits the finance-options proof fixtures under
+[`c-earchin/finance_options/`](../../c-earchin/finance_options/) so CI
+does not need to clone or build c-earchin from source. From this repo
+root, use:
+
+```sh
+chelis prove c-earchin/finance_options/options_rules.dp \
+  --spans c-earchin/finance_options/options_rules.spans.json \
   --json
 ```
 
 The failure fixture deliberately mutates the portfolio-delta rule:
 
 ```sh
-chelis prove references/finance_options/options_rules_fail.dp \
-  --spans references/finance_options/options_rules.spans.json
+chelis prove c-earchin/finance_options/options_rules_fail.dp \
+  --spans c-earchin/finance_options/options_rules.spans.json
 ```
 
 The important part is the diagnostic, which resolves the Deep property back to
@@ -45,5 +50,5 @@ full EARS corpus, but unresolved vocabulary in non-strict mode is marked
 `recorded_only` and is not emitted as a Chelis proof property. Use
 `c-earchin translate --strict` for artifacts you intend to verify.
 
-For the exact stakeholder contract, read
-`docs/verification-scope.md` in the c-earchin repo.
+For the exact stakeholder contract, read `docs/verification-scope.md`
+in the c-earchin v0.2.2 release source.

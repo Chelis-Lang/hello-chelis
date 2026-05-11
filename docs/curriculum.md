@@ -46,7 +46,7 @@ and self-contained:
 6. [`effectsrandom.ch`](../src/basics/effectsrandom.ch) — `! { Random
    }` effect rows; `with seed(...)` algebraic handler.
 7. [`linearity.ch`](../src/basics/linearity.ch) — consume-by-default,
-   `copy(x)` for fan-out, `&borrow` for read-only.
+   explicit `copy(x)` compatibility, and `&borrow` for read-only use.
 8. [`gradbasic.ch`](../src/basics/gradbasic.ch) — `grad(f, wrt=w)`
    reverse-mode AD on a scalar loss.
 9. [`vmap.ch`](../src/basics/vmap.ch) — per-example function batched
@@ -128,8 +128,8 @@ with failure diagnostics resolving back to the EARS line.
   → features → loss → statistics across `chelis-std` + `coral` +
   `nautilus`.
 - [`transformerblock.ch`](../src/capstone/transformerblock.ch): the
-  primer's transformer block, with the explicit `copy(x)` at every
-  fan-out that's required by the linearity checker.
+  primer's transformer block, with explicit `copy(x)` at fan-out sites
+  retained as migration-compatible style.
 
 ## 6. Verifying full lowering (20 min)
 
@@ -156,7 +156,7 @@ desugaring on your own examples.
 
 For the proper compiler-vs-runtime gap inventory, end with
 [`discrepancies.md`](discrepancies.md). The deltas there are the
-real edges of the v0.7.3 surface.
+real edges of the v0.7.6 surface.
 
 ## Where to look for the source-of-truth specs upstream
 

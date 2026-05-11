@@ -5,7 +5,7 @@ pandas-equivalent shell. Numeric columns are tensor-backed, which is
 why dataframe pipelines compose with the rest of the Chelis tensor
 DAG — `grad` flows through `group_by`, AD flows through joins, etc.
 
-Pinned to `coral` v0.7.3.
+Pinned to `coral` v0.7.6.
 
 ## Files
 
@@ -30,7 +30,7 @@ live in [`docs/shells/coral.md`](../../docs/shells/coral.md).
 | `chelis test tests/coral/` | 18 runtime assertions across 7 modules |
 
 The autodiff-through-dataframe example uses a structural shape rather
-than calling `grad` at runtime — the IR evaluator at v0.7.3 doesn't
+than calling `grad` at runtime — the IR evaluator at v0.7.6 doesn't
 yet lower `grad` over the `Frame` ADT. The `chelis check` verifies the
 gradient definition; the runtime exercise lives in
 [`verify/grad_works.ch`](../../verify/grad_works.ch).

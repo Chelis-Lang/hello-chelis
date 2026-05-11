@@ -17,7 +17,7 @@ under [`tests/basics/`](../../tests/basics/).
 | 4 | [`dimpoly.ch`](dimpoly.ch) | bracketed dim parameters `[a, b]` for dim-polymorphic functions |
 | 5 | [`precisioncast.ch`](precisioncast.ch) | no implicit precision promotion, `cast` as the explicit fix |
 | 6 | [`effectsrandom.ch`](effectsrandom.ch) | `! { Random }` effect rows, `with seed(...)` algebraic handler |
-| 7 | [`linearity.ch`](linearity.ch) | consume-by-default, `copy(x)` for fan-out, `&borrow` for read-only use |
+| 7 | [`linearity.ch`](linearity.ch) | consume-by-default, explicit `copy(x)` compatibility, `&borrow` for read-only use |
 | 8 | [`gradbasic.ch`](gradbasic.ch) | `grad(loss, wrt=w)` reverse-mode AD on a scalar loss |
 | 9 | [`vmap.ch`](vmap.ch) | per-example function lifted to batched function via `vmap` |
 | 10 | [`jitrealize.ch`](jitrealize.ch) | `jit` build-target lifting, `realize` forced eval |

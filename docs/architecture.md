@@ -35,7 +35,7 @@ effect / linearity) but diverge after lowering:
 - **`chelis check`** runs the front end and emits a JSON fitness
   report with structured errors. Most permissive lane.
 - **`chelis test`, `chelis eval`** run the IR evaluator in-process.
-  Fast iteration, but a narrower primitive set on v0.7.3.
+  Fast iteration, but a narrower primitive set on v0.7.6.
 - **`chelis build --target c`** lowers, generates C with `// span:`
   audit-chain comments, and links against `libchelis_runtime.a` +
   OpenBLAS + libgomp. Production path.
@@ -120,10 +120,11 @@ The pattern: source modules in `src/`, test modules in `tests/`,
 `! { Test }` effect propagates to callers, so any production entry
 point declared `! {}` rejects test-effect calls at compile time.
 
-`chelis test tests/basics/pipeandmatch.ch` runs a bounded native
-runtime smoke test. Full-corpus behavioral coverage is currently
-provided by the Deep drift, negative, Octant, and C-backend pytest
-lanes.
+`chelis test tests/ --jobs auto` runs the native runtime suite with
+node-local concurrency. Use `chelis test tests/ --jobs 1` when a serial
+debugging run is easier to read. Full-corpus behavioral coverage is
+completed by the Deep drift, negative, Octant, c-earchin, and C-backend
+pytest lanes.
 
 ## How equivalence is enforced
 
@@ -143,12 +144,13 @@ runs the `--check` mode and fails on any divergence. See
 
 | Lane | What it runs | Surface |
 |---|---|---|
-| `chelis lint --check .` | nomenclature gate per `spec/01-nomenclature.md` | every `.ch` |
+| `chelis lint .` | non-blocking nomenclature inventory per `spec/01-nomenclature.md` | every `.ch` |
 | `chelis check src/<file>.ch` | front-end (parse/type/dim/effect/linearity) | per file |
-| `chelis test tests/basics/pipeandmatch.ch` | runtime assertions via the IR evaluator | bounded smoke |
+| `chelis test tests/ --jobs auto` | runtime assertions via the IR evaluator | full native suite |
 | `pytest tests/test_surf_deep_equivalence.py` | `.dp` matches `chelis deep <ch>` | every Surf file |
 | `pytest tests/test_c_backend.py` | `chelis build` + link + run + golden-diff | `verify/*.ch` |
 | `pytest tests/test_octant_pairs.py` | LaTeX → Deep → Surf round-trip | every `octant/*.tex` |
+| `pytest tests/test_c_earchin_artifacts.py` | EARS → Deep property witnesses prove with span diagnostics | finance-options fixtures |
 | `pytest tests/test_negative_examples.py` | programs that must be rejected | `tests/negative/*.ch` |
 
 Each is non-overlapping and gates on a different invariant.
