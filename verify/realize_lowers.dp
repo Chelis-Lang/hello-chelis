@@ -22,10 +22,10 @@
             (var {} Nil))))))
   (def {}
     deferred
-    (app {span: "surf:97..114"}
+    (app {span: "surf:97..108"}
       (var {span: "surf:97..100"} mul)
-      (copy {span: "surf:101..109"} (var {span: "surf:106..108"} xs))
-      (var {span: "surf:111..113"} xs)))
+      (var {span: "surf:101..103"} xs)
+      (var {span: "surf:105..107"} xs)))
   (def {}
     materialized
-    (realize {span: "surf:130..147"} (var {span: "surf:138..146"} deferred))))
+    (realize {span: "surf:124..141"} (var {span: "surf:132..140"} deferred))))

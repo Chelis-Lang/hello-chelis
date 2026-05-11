@@ -1,5 +1,5 @@
 module GradQuadratic
-def sumsq(theta: tensor[3, f32]) -> f32 = tensor_to_scalar(sum(mul(copy(theta), theta), 0))
+def sumsq(theta: tensor[3, f32]) -> f32 = tensor_to_scalar(sum(mul(theta, theta), 0))
 def grad_sumsq(model: tensor[3, f32] -> f32, theta: tensor[3, f32]) -> tensor[3, f32] = {
   target = fn (theta_local: tensor[3, f32]) -> model(theta_local)
   grad(target, wrt=theta_local)(theta)

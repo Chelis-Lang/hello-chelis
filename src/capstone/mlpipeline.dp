@@ -77,8 +77,8 @@
       (params {}
         (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (cities {type: (t-adt {} List (t-prim {} string))}))
-      (let {span: "surf:623..753"}
-        (bind {span: "surf:623..753"}
+      (let {span: "surf:623..747"}
+        (bind {span: "surf:623..747"}
           df
           (app {span: "surf:632..659"}
             (var {span: "surf:632..643"} build_frame)
@@ -91,14 +91,14 @@
               (var {span: "surf:668..681"} get_float_col)
               (var {span: "surf:682..684"} df)
               (lit {span: "surf:686..693", type: (t-prim {} string)} "price")))
-          (app {span: "surf:697..751"}
+          (app {span: "surf:697..745"}
             (var {span: "surf:697..700"} add)
-            (app {span: "surf:701..720"}
+            (app {span: "surf:701..714"}
               (var {span: "surf:701..709"} mean_vec)
-              (copy {span: "surf:710..719"} (var {span: "surf:715..718"} col)))
-            (app {span: "surf:722..750"}
-              (var {span: "surf:722..729"} std_vec)
-              (var {span: "surf:730..733"} col)
-              (cast {span: "surf:735..749"}
-                (lit {span: "surf:740..741", type: (t-prim {} int32)} 1)
+              (var {span: "surf:710..713"} col))
+            (app {span: "surf:716..744"}
+              (var {span: "surf:716..723"} std_vec)
+              (var {span: "surf:724..727"} col)
+              (cast {span: "surf:729..743"}
+                (lit {span: "surf:734..735", type: (t-prim {} int32)} 1)
                 (t-prim {} int64)))))))))

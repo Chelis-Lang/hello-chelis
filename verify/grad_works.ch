@@ -1,7 +1,7 @@
 module GradWorks
 def loss_fn[n](w: tensor[n, f32], x: tensor[n, f32]) -> f32 = {
   one_vec = to_tensor([cast(1.0, f32), cast(1.0, f32), cast(1.0, f32)])
-  err = sub(copy(w), one_vec)
+  err = sub(w, one_vec)
   prod = mul(err, x)
   __borrow_migration_out_0 = tensor_to_scalar(sum(prod, 0))
   _ = drop(one_vec)

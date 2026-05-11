@@ -12,5 +12,5 @@ def mean_grouped(prices: tensor[n, f32], cities: List[string]) -> int64 = {
 def summary_stat(prices: tensor[n, f32], cities: List[string]) -> f32 = {
   df = build_frame(prices, cities)
   col = get_float_col(df, "price")
-  add(mean_vec(copy(col)), std_vec(col, cast(1, int64)))
+  add(mean_vec(col), std_vec(col, cast(1, int64)))
 }
