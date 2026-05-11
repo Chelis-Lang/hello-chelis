@@ -154,10 +154,37 @@ the language is pre-1.0 and breaking changes ship between minor versions.
 | `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 
-`chelis lint .` is currently run as a non-blocking inventory because
-the historical corpus has strict style diagnostics. New or touched
-Chelis examples should still be formatted and linted before they are
-added.
+`chelis lint .` is currently run as a non-blocking inventory. The
+corpus has been migrated to implicit linearity, so the advisory
+`redundant-linearity-call` rule is near-zero for `.ch` sources;
+remaining occurrences are cross-statement consume-fan-out sites
+(`src/capstone/linreg.ch`, `src/capstone/transformerblock.ch`,
+`src/basics/dimpoly.ch`) where chelis 0.7.6 still requires explicit
+`copy()` because the implicit-copy inserter does not handle them yet.
+
+The lint job is **not** error-blocking because the corpus carries
+upstream-side diagnostics that this repo cannot fix locally:
+
+- `deep-user-symbol-charset (§11.1)` fires on every `.dp` file
+  because `chelis deep` emits `t-ref` (with a hyphen) for the borrow
+  type marker, which the same lint rule then rejects.
+- `module-pascal-components (§6.3)` flags `Capstone`, `Coral`, and
+  `Nautilus` as multi-word compounds without internal capitals.
+- `doc-filename-convention (§8.3)` flags `docs/*.md` filenames that
+  use kebab-case where the rule expects snake_case.
+- `prefer-pipe-operator (§3.6)` is currently the only blocker on
+  rewriting nested first-arg call chains to `|>`: the IR evaluator
+  does not yet support pipe stages (`chelis test` rejects them with
+  "pipe stage is not supported by IR evaluation yet; use
+  `chelis build --target c` instead"), so the canonical demo cannot
+  adopt pipes without breaking its own test gate.
+
+Once those four upstream issues land, `chelis lint --check` can be
+flipped to blocking and the remaining `prefer-pipe-operator` and
+`redundant-linearity-call` advisories can be eliminated.
+
+New or touched Chelis examples should still be formatted and linted
+before they are added.
 
 All green on the Docker image installed from
 [Chelis-Lang/chelis@v0.7.6](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.6)
