@@ -15,12 +15,12 @@ docker compose -f docker/docker-compose.yml build
 The image is `ubuntu:24.04` plus:
 
 - GCC, OpenBLAS, libgomp, valgrind (for the C backend)
-- Python 3 + pytest (for the fallback test harness)
+- Python 3 + pip (CI installs pytest before running the fallback harness)
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.3.0, `coral` 0.7.3, `nautilus` 0.7.3,
-  and `octant` 0.4.4 installed into the local Reef registry from
-  GitHub release assets
+- The shells `chelis-std` 0.3.0, `coral` 0.7.6, `nautilus` 0.7.6,
+  `octant` 0.4.5, and `c-earchin` 0.2.2 installed into the local Reef
+  registry from GitHub release assets
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
 repos and downloads release artifacts instead of compiling toolchains
@@ -46,43 +46,49 @@ chelis check src/basics/hellotensor.ch     # parse + types + dim
 invocation: all 200K+ typed nodes get re-loaded each call. There's
 no per-file or directory mode.
 
-The native IR evaluator still has documented primitive gaps, but a
-bounded native smoke test is a blocking lane:
+The native IR evaluator still has documented primitive gaps, but the
+full native test tree is a blocking lane:
 
 ```sh
-chelis test tests/basics/pipeandmatch.ch
+chelis test tests/ --jobs auto
+chelis test tests/ --jobs 1   # serial fallback for debugging
 ```
 
 ## 4. Lint Inventory
 
 ```sh
-chelis lint .                              # nomenclature inventory
+chelis lint .                              # non-blocking nomenclature inventory
 ```
+
+The strict `chelis lint --check .` gate is not enabled for this
+historical corpus yet because existing committed examples still carry
+style diagnostics. Treat new or edited examples as style-clean.
 
 ## 5. C backend (full lowering)
 
-The IR evaluator at v0.7.3 doesn't run every primitive; the C backend
-does. To exercise `grad`, `realize`, tensor `relu`/`sigmoid`/`cast`
-end-to-end:
+The IR evaluator at v0.7.6 doesn't run every primitive. The C-backend
+harness exercises supported native lowerings end-to-end and locks known
+v0.7.6 symbolic-dimension codegen panics as expected failures:
 
 ```sh
 python3 -m pytest -q tests/test_c_backend.py
 ```
 
-This builds every program under `verify/`, links against
-`libchelis_runtime.a` + OpenBLAS, runs the binary, and diffs stdout
-against the committed golden in `verify/expected/<name>.txt`.
+This builds supported programs under `verify/`, links against
+`libchelis_runtime.a` + OpenBLAS, runs the binary, diffs stdout against
+the committed golden in `verify/expected/<name>.txt`, and separately
+asserts the known compiler panics still fail with the expected reason.
 
 To do it by hand for one program:
 
 ```sh
-cp verify/grad_works.ch /tmp/grad_works.ch
-chelis build /tmp/grad_works.ch --output /tmp/grad_works
-cd /tmp/grad_works
-gcc -O2 -fopenmp grad_works.c -L. -lchelis_runtime \
-    -lopenblas -lm -lpthread -ldl -o grad_works
-./grad_works
-# dw = tensor(shape=[3], data=[1.0, 2.0, 3.0])
+cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch
+chelis build /tmp/grad_quadratic.ch --output /tmp/grad_quadratic
+cd /tmp/grad_quadratic
+gcc -O2 -fopenmp grad_quadratic.c -L. -lchelis_runtime \
+    -lopenblas -lm -lpthread -ldl -o grad_quadratic
+./grad_quadratic
+# dsumsq = tensor(shape=[3], data=[2.0, 4.0, 6.0])
 ```
 
 (Note: `chelis build`'s auto-link command misses `-lopenblas`. The
@@ -106,8 +112,9 @@ python3 -m pytest tests/
 ```
 
 Covers what `chelis test` doesn't: programs that must be rejected,
-Octant pipeline round-trips, C-backend lowering goldens, Surf-Deep
-drift. See [`tests/README.md`](../tests/README.md) for the breakdown.
+Octant pipeline round-trips, c-earchin proof diagnostics, C-backend
+lowering goldens, and Surf-Deep drift. See
+[`tests/README.md`](../tests/README.md) for the breakdown.
 
 ## What to read next
 
@@ -143,5 +150,5 @@ hello-chelis/
 ├── docs/                    this file + the rest
 ├── scripts/                 regen_deep.py, regen_octant.py
 ├── docker/                  Dockerfile + docker-compose.yml
-└── .github/workflows/       CI: chelis lint + check + test + C-backend + drift
+└── .github/workflows/       CI: lint inventory + check + test + C-backend + drift
 ```

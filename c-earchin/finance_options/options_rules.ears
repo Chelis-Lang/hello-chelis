@@ -1,0 +1,6 @@
+FIN-001  The option pricer shall produce non-negative call prices.
+FIN-002  WHEN market data arrives, the implied-volatility surface shall be within tolerance.
+FIN-003  WHILE the exchange is open, the portfolio delta shall be at most the limit.
+FIN-004  IF an order breaches the position limit, THEN the order gateway shall reject the order.
+FIN-005  WHERE same-day settlement is enabled, the settlement clock shall be bounded by the window.
+FIN-006  WHILE the exchange is open, WHEN a quote changes, IF the quote is firm, THEN the call price curve shall be monotone-increasing.

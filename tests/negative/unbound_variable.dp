@@ -1,0 +1,13 @@
+(defsig {}
+  bad
+  (t-fn {}
+    (t-tensor {} (d-var {} n) (t-prim {} f32))
+    (t-tensor {} (d-var {} n) (t-prim {} f32))))
+
+(def {}
+  bad
+  (fn {}
+    (params {} (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+    (app {span: "surf:86..96"}
+      (var {span: "surf:86..93"} missing)
+      (var {span: "surf:94..95"} x))))

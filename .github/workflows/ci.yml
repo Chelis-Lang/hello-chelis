@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   chelis-native:
-    name: chelis lint + check + test
+    name: chelis inventory + check + test
     runs-on: ubuntu-24.04
     timeout-minutes: 45
 
@@ -37,7 +37,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: chelis lint inventory
+      - name: chelis lint inventory (non-blocking)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis lint .
@@ -47,22 +47,21 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis check src/basics/hellotensor.ch
 
-      - name: chelis test native smoke
+      - name: chelis test native suite
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            timeout 120s chelis test tests/basics/pipeandmatch.ch
+            timeout 180s chelis test tests/ --jobs auto
 
       - name: Deep s-expression drift check (every .ch must match its .dp)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             python3 scripts/regen_deep.py --check
 
-      # The IR evaluator doesn't ship every primitive. The C backend does.
-      # This lane builds verify/*.ch through `chelis build`, links against
-      # libchelis_runtime + OpenBLAS, runs each binary, and diffs stdout
-      # against committed goldens. Demonstrates that grad/relu/sigmoid/
-      # cast/realize all lower to native C code that actually executes.
-      - name: chelis build (C-backend full lowering)
+      # The IR evaluator doesn't ship every primitive. This lane builds
+      # supported verify/*.ch files through `chelis build`, links against
+      # libchelis_runtime + OpenBLAS, and locks known v0.7.6 codegen panics
+      # as expected failures until upstream fixes them.
+      - name: chelis build (C-backend coverage)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
             pip install pytest --break-system-packages 2>/dev/null || pip install pytest

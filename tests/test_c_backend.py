@@ -1,12 +1,12 @@
-"""Build each verify/*.ch via `chelis build --target c`, link with the
-chelis runtime + OpenBLAS, run the binary, and assert stdout matches a
-committed golden under verify/expected/<name>.txt.
+"""Build supported verify/*.ch via `chelis build --target c`, link with
+the chelis runtime + OpenBLAS, run the binary, and assert stdout
+matches a committed golden under verify/expected/<name>.txt.
 
-This is the lane that demonstrates *full lowering* — `grad`, `relu`,
-`sigmoid`, `cast`, and `realize` all compile to C, link, and run
-end-to-end. The IR evaluator (`chelis test`) still has a narrower
-primitive set on v0.7.3; the production C backend covers these
-lowering examples.
+This is the lane that demonstrates native C lowering where v0.7.6
+supports it, and locks known v0.7.6 symbolic-dimension codegen panics
+as expected failures until upstream fixes them. The IR evaluator
+(`chelis test`) still has a narrower primitive set on v0.7.6; the C
+backend covers the supported lowering examples.
 
 Each verify/<name>.ch is a self-contained module (no `Hello.*` prefix)
 because `chelis build` rejects projects that contain `with seed(...)`
@@ -25,6 +25,12 @@ import pytest
 REPO = Path(__file__).resolve().parent.parent
 VERIFY = REPO / "verify"
 EXPECTED = VERIFY / "expected"
+KNOWN_C_CODEGEN_PANICS = {
+    "grad_works",
+    "relu_lowers",
+    "relu_then_sigmoid",
+    "sigmoid_lowers",
+}
 
 
 def discover() -> list[tuple[Path, Path]]:
@@ -36,11 +42,27 @@ def discover() -> list[tuple[Path, Path]]:
     return out
 
 
+def supported_cases() -> list[tuple[Path, Path]]:
+    return [
+        (source, golden)
+        for source, golden in discover()
+        if source.stem not in KNOWN_C_CODEGEN_PANICS
+    ]
+
+
+def known_codegen_panic_cases() -> list[Path]:
+    return [
+        source
+        for source, _golden in discover()
+        if source.stem in KNOWN_C_CODEGEN_PANICS
+    ]
+
+
 def link_flags() -> list[str]:
     return ["-lopenblas", "-lm", "-lpthread", "-ldl", "-fopenmp"]
 
 
-@pytest.mark.parametrize("source,golden", discover(), ids=lambda p: p.stem)
+@pytest.mark.parametrize("source,golden", supported_cases(), ids=lambda p: p.stem)
 def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> None:
     if shutil.which("chelis") is None:
         pytest.skip("chelis not on PATH")
@@ -99,3 +121,24 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
             f"--- expected ---\n{expected}\n"
             f"--- actual ---\n{actual}"
         )
+
+
+@pytest.mark.parametrize("source", known_codegen_panic_cases(), ids=lambda p: p.stem)
+def test_c_backend_known_symbolic_dim_codegen_panic(source: Path) -> None:
+    if shutil.which("chelis") is None:
+        pytest.skip("chelis not on PATH")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        ch_copy = Path(tmp) / source.name
+        ch_copy.write_text(source.read_text())
+        out_dir = Path(tmp) / source.stem
+
+        result = subprocess.run(
+            ["chelis", "build", str(ch_copy), "--output", str(out_dir)],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert result.returncode != 0
+        assert "internal compiler error: symbolic dim" in result.stderr
+        assert "no Load input declares it" in result.stderr
