@@ -56,8 +56,8 @@
     solve_diag_2x2
     (fn {}
       (params {})
-      (let {span: "surf:431..852"}
-        (bind {span: "surf:431..852"}
+      (let {span: "surf:431..798"}
+        (bind {span: "surf:431..798"}
           e0
           (app {span: "surf:440..483"}
             (var {span: "surf:440..449"} to_tensor)
@@ -159,11 +159,7 @@
                                 (lit {span: "surf:767..770", type: (t-prim {} f32)} 9.0)
                                 (t-prim {} f32))
                               (var {} Nil)))))
-                      (let {}
-                        (bind {}
-                          __borrow_migration_out_0
-                          (app {span: "surf:808..823"}
-                            (var {span: "surf:808..817"} solve_2x2)
-                            (var {span: "surf:818..819"} a)
-                            (var {span: "surf:821..822"} b)))
-                        (var {span: "surf:826..850"} __borrow_migration_out_0)))))))))))))
+                      (app {span: "surf:781..796"}
+                        (var {span: "surf:781..790"} solve_2x2)
+                        (var {span: "surf:791..792"} a)
+                        (var {span: "surf:794..795"} b)))))))))))))

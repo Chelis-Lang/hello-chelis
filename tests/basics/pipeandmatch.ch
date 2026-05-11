@@ -5,8 +5,7 @@ def shifted(x: &tensor[n, f32]) -> tensor[n, f32] = add(neg(x), to_tensor([cast(
 def test_pipe_neg_add() -> unit ! { Test } = {
   x = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])
   expected = to_tensor([cast(0.0, f32), cast(0.0, f32), cast(0.0, f32)])
-  __borrow_migration_out_0 = assert_close_tensor(shifted(x), expected, cast(0.000001, f32), "pipe_neg_add")
-  __borrow_migration_out_0
+  assert_close_tensor(shifted(x), expected, cast(0.000001, f32), "pipe_neg_add")
 }
 type Op =
   | Plus
@@ -19,13 +18,11 @@ def test_apply_plus() -> unit ! { Test } = {
   a = to_tensor([cast(1.0, f32), cast(2.0, f32)])
   b = to_tensor([cast(3.0, f32), cast(4.0, f32)])
   expected = to_tensor([cast(4.0, f32), cast(6.0, f32)])
-  __borrow_migration_out_0 = assert_close_tensor(apply(Plus, a, b), expected, cast(0.000001, f32), "apply_plus")
-  __borrow_migration_out_0
+  assert_close_tensor(apply(Plus, a, b), expected, cast(0.000001, f32), "apply_plus")
 }
 def test_apply_minus() -> unit ! { Test } = {
   a = to_tensor([cast(5.0, f32), cast(7.0, f32)])
   b = to_tensor([cast(3.0, f32), cast(4.0, f32)])
   expected = to_tensor([cast(2.0, f32), cast(3.0, f32)])
-  __borrow_migration_out_1 = assert_close_tensor(apply(Minus, a, b), expected, cast(0.000001, f32), "apply_minus")
-  __borrow_migration_out_1
+  assert_close_tensor(apply(Minus, a, b), expected, cast(0.000001, f32), "apply_minus")
 }

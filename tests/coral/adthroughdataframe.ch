@@ -9,8 +9,7 @@ def test_frame_shape_from_tensor() -> unit ! { Test } = {
 def test_simple_loss_value() -> unit ! { Test } = {
   w = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])
   expected = to_tensor([cast(14.0, f32)])
-  __borrow_migration_out_0 = assert_close_tensor(reshape_to_one(simple_loss(w)), expected, cast(0.00001, f32), "loss == 14.0")
-  __borrow_migration_out_0
+  assert_close_tensor(reshape_to_one(simple_loss(w)), expected, cast(0.00001, f32), "loss == 14.0")
 }
 def test_dgrad_is_callable_in_typecheck() -> unit ! { Test } = {
   w = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])

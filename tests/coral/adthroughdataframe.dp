@@ -62,8 +62,8 @@
     test_simple_loss_value
     (fn {}
       (params {})
-      (let {span: "surf:506..771"}
-        (bind {span: "surf:506..771"}
+      (let {span: "surf:506..717"}
+        (bind {span: "surf:506..717"}
           w
           (app {span: "surf:514..573"}
             (var {span: "surf:514..523"} to_tensor)
@@ -94,22 +94,18 @@
                   (lit {span: "surf:603..607", type: (t-prim {} f32)} 14.0)
                   (t-prim {} f32))
                 (var {} Nil))))
-          (let {}
-            (bind {}
-              __borrow_migration_out_0
-              (app {span: "surf:645..742"}
-                (var {span: "surf:645..664"} assert_close_tensor)
-                (app {span: "surf:665..695"}
-                  (var {span: "surf:665..679"} reshape_to_one)
-                  (app {span: "surf:680..694"}
-                    (var {span: "surf:680..691"} simple_loss)
-                    (var {span: "surf:692..693"} w)))
-                (var {span: "surf:697..705"} expected)
-                (cast {span: "surf:707..725"}
-                  (lit {span: "surf:712..719", type: (t-prim {} f32)} 0.00001)
-                  (t-prim {} f32))
-                (lit {span: "surf:727..741", type: (t-prim {} string)} "loss == 14.0")))
-            (var {span: "surf:745..769"} __borrow_migration_out_0))))))
+          (app {span: "surf:618..715"}
+            (var {span: "surf:618..637"} assert_close_tensor)
+            (app {span: "surf:638..668"}
+              (var {span: "surf:638..652"} reshape_to_one)
+              (app {span: "surf:653..667"}
+                (var {span: "surf:653..664"} simple_loss)
+                (var {span: "surf:665..666"} w)))
+            (var {span: "surf:670..678"} expected)
+            (cast {span: "surf:680..698"}
+              (lit {span: "surf:685..692", type: (t-prim {} f32)} 0.00001)
+              (t-prim {} f32))
+            (lit {span: "surf:700..714", type: (t-prim {} string)} "loss == 14.0"))))))
   (defsig {}
     test_dgrad_is_callable_in_typecheck
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -117,33 +113,33 @@
     test_dgrad_is_callable_in_typecheck
     (fn {}
       (params {})
-      (let {span: "surf:835..984"}
-        (bind {span: "surf:835..984"}
+      (let {span: "surf:781..930"}
+        (bind {span: "surf:781..930"}
           w
-          (app {span: "surf:843..902"}
-            (var {span: "surf:843..852"} to_tensor)
-            (app {span: "surf:853..901"}
+          (app {span: "surf:789..848"}
+            (var {span: "surf:789..798"} to_tensor)
+            (app {span: "surf:799..847"}
               (var {} Cons)
-              (cast {span: "surf:854..868"}
-                (lit {span: "surf:859..862", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:800..814"}
+                (lit {span: "surf:805..808", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:870..884"}
-                  (lit {span: "surf:875..878", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:816..830"}
+                  (lit {span: "surf:821..824", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:886..900"}
-                    (lit {span: "surf:891..894", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:832..846"}
+                    (lit {span: "surf:837..840", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (var {} Nil))))))
-        (app {span: "surf:905..982"}
-          (var {span: "surf:905..918"} assert_eq_int)
-          (app {span: "surf:919..939"}
-            (var {span: "surf:919..936"} frame_shape_check)
-            (var {span: "surf:937..938"} w))
-          (cast {span: "surf:941..955"}
-            (lit {span: "surf:946..947", type: (t-prim {} int32)} 3)
+        (app {span: "surf:851..928"}
+          (var {span: "surf:851..864"} assert_eq_int)
+          (app {span: "surf:865..885"}
+            (var {span: "surf:865..882"} frame_shape_check)
+            (var {span: "surf:883..884"} w))
+          (cast {span: "surf:887..901"}
+            (lit {span: "surf:892..893", type: (t-prim {} int32)} 3)
             (t-prim {} int64))
-          (lit {span: "surf:957..981", type: (t-prim {} string)} "grad input has shape 3"))))))
+          (lit {span: "surf:903..927", type: (t-prim {} string)} "grad input has shape 3"))))))

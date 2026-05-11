@@ -7,8 +7,8 @@
     test_eager
     (fn {}
       (params {})
-      (let {span: "surf:152..446"}
-        (bind {span: "surf:152..446"}
+      (let {span: "surf:152..392"}
+        (bind {span: "surf:152..392"}
           w
           (app {span: "surf:160..203"}
             (var {span: "surf:160..169"} to_tensor)
@@ -55,18 +55,14 @@
                       (lit {span: "surf:299..303", type: (t-prim {} f32)} 15.0)
                       (t-prim {} f32))
                     (var {} Nil)))))
-            (let {}
-              (bind {}
-                __borrow_migration_out_0
-                (app {span: "surf:341..417"}
-                  (var {span: "surf:341..360"} assert_close_tensor)
-                  (app {span: "surf:361..372"}
-                    (var {span: "surf:361..366"} eager)
-                    (var {span: "surf:367..368"} w)
-                    (var {span: "surf:370..371"} x))
-                  (var {span: "surf:374..382"} expected)
-                  (cast {span: "surf:384..403"}
-                    (lit {span: "surf:389..397", type: (t-prim {} f32)} 0.000001)
-                    (t-prim {} f32))
-                  (lit {span: "surf:405..416", type: (t-prim {} string)} "eager_mul")))
-              (var {span: "surf:420..444"} __borrow_migration_out_0))))))))
+            (app {span: "surf:314..390"}
+              (var {span: "surf:314..333"} assert_close_tensor)
+              (app {span: "surf:334..345"}
+                (var {span: "surf:334..339"} eager)
+                (var {span: "surf:340..341"} w)
+                (var {span: "surf:343..344"} x))
+              (var {span: "surf:347..355"} expected)
+              (cast {span: "surf:357..376"}
+                (lit {span: "surf:362..370", type: (t-prim {} f32)} 0.000001)
+                (t-prim {} f32))
+              (lit {span: "surf:378..389", type: (t-prim {} string)} "eager_mul"))))))))

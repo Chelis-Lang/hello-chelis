@@ -61,8 +61,8 @@
     test_manual_layer_norm_zero_mean
     (fn {}
       (params {})
-      (let {span: "surf:610..958"}
-        (bind {span: "surf:610..958"}
+      (let {span: "surf:610..904"}
+        (bind {span: "surf:610..904"}
           x
           (app {span: "surf:618..678"}
             (var {span: "surf:618..627"} to_tensor)
@@ -112,17 +112,13 @@
                 (app {span: "surf:801..816"}
                   (var {span: "surf:801..808"} to_list)
                   (var {span: "surf:809..815"} normed))))
-            (let {}
-              (bind {}
-                __borrow_migration_out_0
-                (app {span: "surf:847..929"}
-                  (var {span: "surf:847..859"} assert_close)
-                  (var {span: "surf:860..865"} total)
-                  (cast {span: "surf:867..881"}
-                    (lit {span: "surf:872..875", type: (t-prim {} f32)} 0.0)
-                    (t-prim {} f32))
-                  (cast {span: "surf:883..900"}
-                    (lit {span: "surf:888..894", type: (t-prim {} f32)} 0.0001)
-                    (t-prim {} f32))
-                  (lit {span: "surf:902..928", type: (t-prim {} string)} "layer_norm has zero mean")))
-              (var {span: "surf:932..956"} __borrow_migration_out_0))))))))
+            (app {span: "surf:820..902"}
+              (var {span: "surf:820..832"} assert_close)
+              (var {span: "surf:833..838"} total)
+              (cast {span: "surf:840..854"}
+                (lit {span: "surf:845..848", type: (t-prim {} f32)} 0.0)
+                (t-prim {} f32))
+              (cast {span: "surf:856..873"}
+                (lit {span: "surf:861..867", type: (t-prim {} f32)} 0.0001)
+                (t-prim {} f32))
+              (lit {span: "surf:875..901", type: (t-prim {} string)} "layer_norm has zero mean"))))))))

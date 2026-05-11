@@ -9,8 +9,8 @@
     test_process_doubles
     (fn {}
       (params {})
-      (let {span: "surf:167..447"}
-        (bind {span: "surf:167..447"}
+      (let {span: "surf:167..393"}
+        (bind {span: "surf:167..393"}
           v
           (app {span: "surf:175..234"}
             (var {span: "surf:175..184"} to_tensor)
@@ -51,17 +51,13 @@
                       (lit {span: "surf:296..299", type: (t-prim {} f32)} 6.0)
                       (t-prim {} f32))
                     (var {} Nil))))))
-          (let {}
-            (bind {}
-              __borrow_migration_out_0
-              (app {span: "surf:337..418"}
-                (var {span: "surf:337..356"} assert_close_tensor)
-                (app {span: "surf:357..367"}
-                  (var {span: "surf:357..364"} process)
-                  (var {span: "surf:365..366"} v))
-                (var {span: "surf:369..377"} expected)
-                (cast {span: "surf:379..398"}
-                  (lit {span: "surf:384..392", type: (t-prim {} f32)} 0.000001)
-                  (t-prim {} f32))
-                (lit {span: "surf:400..417", type: (t-prim {} string)} "process_doubles")))
-            (var {span: "surf:421..445"} __borrow_migration_out_0)))))))
+          (app {span: "surf:310..391"}
+            (var {span: "surf:310..329"} assert_close_tensor)
+            (app {span: "surf:330..340"}
+              (var {span: "surf:330..337"} process)
+              (var {span: "surf:338..339"} v))
+            (var {span: "surf:342..350"} expected)
+            (cast {span: "surf:352..371"}
+              (lit {span: "surf:357..365", type: (t-prim {} f32)} 0.000001)
+              (t-prim {} f32))
+            (lit {span: "surf:373..390", type: (t-prim {} string)} "process_doubles")))))))

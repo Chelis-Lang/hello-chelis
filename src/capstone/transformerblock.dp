@@ -31,8 +31,8 @@
                        (d-lit {} 256)
                        (t-prim {} f32))
              }))
-      (let {span: "surf:279..624"}
-        (bind {span: "surf:279..624"}
+      (let {span: "surf:279..570"}
+        (bind {span: "surf:279..570"}
           q
           (app {span: "surf:287..306"}
             (var {span: "surf:287..293"} matmul)
@@ -98,11 +98,7 @@
                               (var {span: "surf:527..533"} resid1))
                             (var {span: "surf:536..539"} ff1))
                           (var {span: "surf:542..545"} ff2)))
-                      (let {}
-                        (bind {}
-                          __borrow_migration_out_0
-                          (app {span: "surf:576..595"}
-                            (var {span: "surf:576..579"} add)
-                            (var {span: "surf:580..586"} resid1)
-                            (var {span: "surf:588..594"} ff_out)))
-                        (var {span: "surf:598..622"} __borrow_migration_out_0)))))))))))))
+                      (app {span: "surf:549..568"}
+                        (var {span: "surf:549..552"} add)
+                        (var {span: "surf:553..559"} resid1)
+                        (var {span: "surf:561..567"} ff_out)))))))))))))

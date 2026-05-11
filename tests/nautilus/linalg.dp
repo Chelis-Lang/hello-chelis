@@ -9,8 +9,8 @@
     test_vec_norm_3_4_5
     (fn {}
       (params {})
-      (let {span: "surf:199..388"}
-        (bind {span: "surf:199..388"}
+      (let {span: "surf:199..334"}
+        (bind {span: "surf:199..334"}
           v
           (app {span: "surf:207..250"}
             (var {span: "surf:207..216"} to_tensor)
@@ -25,22 +25,18 @@
                   (lit {span: "surf:239..242", type: (t-prim {} f32)} 4.0)
                   (t-prim {} f32))
                 (var {} Nil)))))
-        (let {}
-          (bind {}
-            __borrow_migration_out_0
-            (app {span: "surf:280..359"}
-              (var {span: "surf:280..292"} assert_close)
-              (app {span: "surf:293..304"}
-                (var {span: "surf:293..301"} vec_norm)
-                (var {span: "surf:302..303"} v))
-              (cast {span: "surf:306..320"}
-                (lit {span: "surf:311..314", type: (t-prim {} f32)} 5.0)
-                (t-prim {} f32))
-              (cast {span: "surf:322..341"}
-                (lit {span: "surf:327..335", type: (t-prim {} f32)} 0.000001)
-                (t-prim {} f32))
-              (lit {span: "surf:343..358", type: (t-prim {} string)} "||(3,4)|| = 5")))
-          (var {span: "surf:362..386"} __borrow_migration_out_0)))))
+        (app {span: "surf:253..332"}
+          (var {span: "surf:253..265"} assert_close)
+          (app {span: "surf:266..277"}
+            (var {span: "surf:266..274"} vec_norm)
+            (var {span: "surf:275..276"} v))
+          (cast {span: "surf:279..293"}
+            (lit {span: "surf:284..287", type: (t-prim {} f32)} 5.0)
+            (t-prim {} f32))
+          (cast {span: "surf:295..314"}
+            (lit {span: "surf:300..308", type: (t-prim {} f32)} 0.000001)
+            (t-prim {} f32))
+          (lit {span: "surf:316..331", type: (t-prim {} string)} "||(3,4)|| = 5")))))
   (defsig {}
     test_vec_dot_orthogonal
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -48,55 +44,51 @@
     test_vec_dot_orthogonal
     (fn {}
       (params {})
-      (let {span: "surf:440..679"}
-        (bind {span: "surf:440..679"}
+      (let {span: "surf:386..571"}
+        (bind {span: "surf:386..571"}
           a
-          (app {span: "surf:448..491"}
-            (var {span: "surf:448..457"} to_tensor)
-            (app {span: "surf:458..490"}
+          (app {span: "surf:394..437"}
+            (var {span: "surf:394..403"} to_tensor)
+            (app {span: "surf:404..436"}
               (var {} Cons)
-              (cast {span: "surf:459..473"}
-                (lit {span: "surf:464..467", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:405..419"}
+                (lit {span: "surf:410..413", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:475..489"}
-                  (lit {span: "surf:480..483", type: (t-prim {} f32)} 0.0)
+                (cast {span: "surf:421..435"}
+                  (lit {span: "surf:426..429", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (var {} Nil)))))
         (let {}
           (bind {}
             b
-            (app {span: "surf:498..541"}
-              (var {span: "surf:498..507"} to_tensor)
-              (app {span: "surf:508..540"}
+            (app {span: "surf:444..487"}
+              (var {span: "surf:444..453"} to_tensor)
+              (app {span: "surf:454..486"}
                 (var {} Cons)
-                (cast {span: "surf:509..523"}
-                  (lit {span: "surf:514..517", type: (t-prim {} f32)} 0.0)
+                (cast {span: "surf:455..469"}
+                  (lit {span: "surf:460..463", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:525..539"}
-                    (lit {span: "surf:530..533", type: (t-prim {} f32)} 1.0)
+                  (cast {span: "surf:471..485"}
+                    (lit {span: "surf:476..479", type: (t-prim {} f32)} 1.0)
                     (t-prim {} f32))
                   (var {} Nil)))))
-          (let {}
-            (bind {}
-              __borrow_migration_out_1
-              (app {span: "surf:571..650"}
-                (var {span: "surf:571..583"} assert_close)
-                (app {span: "surf:584..597"}
-                  (var {span: "surf:584..591"} vec_dot)
-                  (var {span: "surf:592..593"} a)
-                  (var {span: "surf:595..596"} b))
-                (cast {span: "surf:599..613"}
-                  (lit {span: "surf:604..607", type: (t-prim {} f32)} 0.0)
-                  (t-prim {} f32))
-                (cast {span: "surf:615..634"}
-                  (lit {span: "surf:620..628", type: (t-prim {} f32)} 0.000001)
-                  (t-prim {} f32))
-                (lit {span: "surf:636..649", type: (t-prim {} string)} "e0 . e1 = 0")))
-            (var {span: "surf:653..677"} __borrow_migration_out_1))))))
+          (app {span: "surf:490..569"}
+            (var {span: "surf:490..502"} assert_close)
+            (app {span: "surf:503..516"}
+              (var {span: "surf:503..510"} vec_dot)
+              (var {span: "surf:511..512"} a)
+              (var {span: "surf:514..515"} b))
+            (cast {span: "surf:518..532"}
+              (lit {span: "surf:523..526", type: (t-prim {} f32)} 0.0)
+              (t-prim {} f32))
+            (cast {span: "surf:534..553"}
+              (lit {span: "surf:539..547", type: (t-prim {} f32)} 0.000001)
+              (t-prim {} f32))
+            (lit {span: "surf:555..568", type: (t-prim {} string)} "e0 . e1 = 0"))))))
   (defsig {}
     test_solve_diag_2x2
     (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -104,32 +96,28 @@
     test_solve_diag_2x2
     (fn {}
       (params {})
-      (let {span: "surf:727..929"}
-        (bind {span: "surf:727..929"}
+      (let {span: "surf:619..767"}
+        (bind {span: "surf:619..767"}
           expected
-          (app {span: "surf:742..785"}
-            (var {span: "surf:742..751"} to_tensor)
-            (app {span: "surf:752..784"}
+          (app {span: "surf:634..677"}
+            (var {span: "surf:634..643"} to_tensor)
+            (app {span: "surf:644..676"}
               (var {} Cons)
-              (cast {span: "surf:753..767"}
-                (lit {span: "surf:758..761", type: (t-prim {} f32)} 2.0)
+              (cast {span: "surf:645..659"}
+                (lit {span: "surf:650..653", type: (t-prim {} f32)} 2.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:769..783"}
-                  (lit {span: "surf:774..777", type: (t-prim {} f32)} 3.0)
+                (cast {span: "surf:661..675"}
+                  (lit {span: "surf:666..669", type: (t-prim {} f32)} 3.0)
                   (t-prim {} f32))
                 (var {} Nil)))))
-        (let {}
-          (bind {}
-            __borrow_migration_out_0
-            (app {span: "surf:815..900"}
-              (var {span: "surf:815..834"} assert_close_tensor)
-              (app {span: "surf:835..851"}
-                (var {span: "surf:835..849"} solve_diag_2x2))
-              (var {span: "surf:853..861"} expected)
-              (cast {span: "surf:863..881"}
-                (lit {span: "surf:868..875", type: (t-prim {} f32)} 0.00001)
-                (t-prim {} f32))
-              (lit {span: "surf:883..899", type: (t-prim {} string)} "solve diag 2x2")))
-          (var {span: "surf:903..927"} __borrow_migration_out_0))))))
+        (app {span: "surf:680..765"}
+          (var {span: "surf:680..699"} assert_close_tensor)
+          (app {span: "surf:700..716"}
+            (var {span: "surf:700..714"} solve_diag_2x2))
+          (var {span: "surf:718..726"} expected)
+          (cast {span: "surf:728..746"}
+            (lit {span: "surf:733..740", type: (t-prim {} f32)} 0.00001)
+            (t-prim {} f32))
+          (lit {span: "surf:748..764", type: (t-prim {} string)} "solve diag 2x2"))))))

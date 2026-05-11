@@ -46,8 +46,8 @@
     fit_exp_decay
     (fn {}
       (params {})
-      (let {span: "surf:328..703"}
-        (bind {span: "surf:328..703"}
+      (let {span: "surf:328..649"}
+        (bind {span: "surf:328..649"}
           xs
           (app {span: "surf:337..412"}
             (var {span: "surf:337..346"} to_tensor)
@@ -98,28 +98,24 @@
                         (lit {span: "surf:496..505", type: (t-prim {} f32)} 0.2231302)
                         (t-prim {} f32))
                       (var {} Nil)))))))
-          (let {}
-            (bind {}
-              __borrow_migration_out_0
-              (app {span: "surf:543..674"}
-                (var {span: "surf:543..559"} lm_scalar_1param)
-                (var {span: "surf:560..575"} exp_decay_model)
-                (var {span: "surf:577..593"} exp_decay_dmodel)
-                (var {span: "surf:595..597"} xs)
-                (var {span: "surf:599..601"} ys)
-                (cast {span: "surf:603..617"}
-                  (lit {span: "surf:608..611", type: (t-prim {} f32)} 1.0)
-                  (t-prim {} f32))
-                (cast {span: "surf:619..634"}
-                  (lit {span: "surf:624..628", type: (t-prim {} f32)} 0.01)
-                  (t-prim {} f32))
-                (cast {span: "surf:636..655"}
-                  (lit {span: "surf:641..649", type: (t-prim {} f32)} 0.000001)
-                  (t-prim {} f32))
-                (cast {span: "surf:657..673"}
-                  (lit {span: "surf:662..665", type: (t-prim {} int32)} 200)
-                  (t-prim {} int64))))
-            (var {span: "surf:677..701"} __borrow_migration_out_0))))))
+          (app {span: "surf:516..647"}
+            (var {span: "surf:516..532"} lm_scalar_1param)
+            (var {span: "surf:533..548"} exp_decay_model)
+            (var {span: "surf:550..566"} exp_decay_dmodel)
+            (var {span: "surf:568..570"} xs)
+            (var {span: "surf:572..574"} ys)
+            (cast {span: "surf:576..590"}
+              (lit {span: "surf:581..584", type: (t-prim {} f32)} 1.0)
+              (t-prim {} f32))
+            (cast {span: "surf:592..607"}
+              (lit {span: "surf:597..601", type: (t-prim {} f32)} 0.01)
+              (t-prim {} f32))
+            (cast {span: "surf:609..628"}
+              (lit {span: "surf:614..622", type: (t-prim {} f32)} 0.000001)
+              (t-prim {} f32))
+            (cast {span: "surf:630..646"}
+              (lit {span: "surf:635..638", type: (t-prim {} int32)} 200)
+              (t-prim {} int64)))))))
   (defsig {}
     lin_model
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
@@ -127,10 +123,10 @@
     lin_model
     (fn {}
       (params {} (x {type: (t-prim {} f32)}) (theta {type: (t-prim {} f32)}))
-      (app {span: "surf:747..760"}
-        (var {span: "surf:747..750"} mul)
-        (var {span: "surf:751..756"} theta)
-        (var {span: "surf:758..759"} x))))
+      (app {span: "surf:693..706"}
+        (var {span: "surf:693..696"} mul)
+        (var {span: "surf:697..702"} theta)
+        (var {span: "surf:704..705"} x))))
   (defsig {}
     lin_dmodel
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
@@ -138,83 +134,79 @@
     lin_dmodel
     (fn {}
       (params {} (x {type: (t-prim {} f32)}) (theta {type: (t-prim {} f32)}))
-      (var {span: "surf:805..806"} x)))
+      (var {span: "surf:751..752"} x)))
   (defsig {} fit_linear_through_origin (t-fn {} (t-prim {} f32)))
   (def {}
     fit_linear_through_origin
     (fn {}
       (params {})
-      (let {span: "surf:848..1195"}
-        (bind {span: "surf:848..1195"}
+      (let {span: "surf:794..1087"}
+        (bind {span: "surf:794..1087"}
           xs
-          (app {span: "surf:857..932"}
-            (var {span: "surf:857..866"} to_tensor)
-            (app {span: "surf:867..931"}
+          (app {span: "surf:803..878"}
+            (var {span: "surf:803..812"} to_tensor)
+            (app {span: "surf:813..877"}
               (var {} Cons)
-              (cast {span: "surf:868..882"}
-                (lit {span: "surf:873..876", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:814..828"}
+                (lit {span: "surf:819..822", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:884..898"}
-                  (lit {span: "surf:889..892", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:830..844"}
+                  (lit {span: "surf:835..838", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:900..914"}
-                    (lit {span: "surf:905..908", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:846..860"}
+                    (lit {span: "surf:851..854", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {span: "surf:916..930"}
-                      (lit {span: "surf:921..924", type: (t-prim {} f32)} 4.0)
+                    (cast {span: "surf:862..876"}
+                      (lit {span: "surf:867..870", type: (t-prim {} f32)} 4.0)
                       (t-prim {} f32))
                     (var {} Nil)))))))
         (let {}
           (bind {}
             ys
-            (app {span: "surf:940..1015"}
-              (var {span: "surf:940..949"} to_tensor)
-              (app {span: "surf:950..1014"}
+            (app {span: "surf:886..961"}
+              (var {span: "surf:886..895"} to_tensor)
+              (app {span: "surf:896..960"}
                 (var {} Cons)
-                (cast {span: "surf:951..965"}
-                  (lit {span: "surf:956..959", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:897..911"}
+                  (lit {span: "surf:902..905", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:967..981"}
-                    (lit {span: "surf:972..975", type: (t-prim {} f32)} 4.0)
+                  (cast {span: "surf:913..927"}
+                    (lit {span: "surf:918..921", type: (t-prim {} f32)} 4.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {span: "surf:983..997"}
-                      (lit {span: "surf:988..991", type: (t-prim {} f32)} 6.0)
+                    (cast {span: "surf:929..943"}
+                      (lit {span: "surf:934..937", type: (t-prim {} f32)} 6.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {span: "surf:999..1013"}
-                        (lit {span: "surf:1004..1007", type: (t-prim {} f32)} 8.0)
+                      (cast {span: "surf:945..959"}
+                        (lit {span: "surf:950..953", type: (t-prim {} f32)} 8.0)
                         (t-prim {} f32))
                       (var {} Nil)))))))
-          (let {}
-            (bind {}
-              __borrow_migration_out_1
-              (app {span: "surf:1045..1166"}
-                (var {span: "surf:1045..1061"} lm_scalar_1param)
-                (var {span: "surf:1062..1071"} lin_model)
-                (var {span: "surf:1073..1083"} lin_dmodel)
-                (var {span: "surf:1085..1087"} xs)
-                (var {span: "surf:1089..1091"} ys)
-                (cast {span: "surf:1093..1107"}
-                  (lit {span: "surf:1098..1101", type: (t-prim {} f32)} 0.5)
-                  (t-prim {} f32))
-                (cast {span: "surf:1109..1124"}
-                  (lit {span: "surf:1114..1118", type: (t-prim {} f32)} 0.01)
-                  (t-prim {} f32))
-                (cast {span: "surf:1126..1147"}
-                  (lit {span: "surf:1131..1141", type: (t-prim {} f32)} 0.00000001)
-                  (t-prim {} f32))
-                (cast {span: "surf:1149..1165"}
-                  (lit {span: "surf:1154..1157", type: (t-prim {} int32)} 100)
-                  (t-prim {} int64))))
-            (var {span: "surf:1169..1193"} __borrow_migration_out_1)))))))
+          (app {span: "surf:964..1085"}
+            (var {span: "surf:964..980"} lm_scalar_1param)
+            (var {span: "surf:981..990"} lin_model)
+            (var {span: "surf:992..1002"} lin_dmodel)
+            (var {span: "surf:1004..1006"} xs)
+            (var {span: "surf:1008..1010"} ys)
+            (cast {span: "surf:1012..1026"}
+              (lit {span: "surf:1017..1020", type: (t-prim {} f32)} 0.5)
+              (t-prim {} f32))
+            (cast {span: "surf:1028..1043"}
+              (lit {span: "surf:1033..1037", type: (t-prim {} f32)} 0.01)
+              (t-prim {} f32))
+            (cast {span: "surf:1045..1066"}
+              (lit {span: "surf:1050..1060", type: (t-prim {} f32)} 0.00000001)
+              (t-prim {} f32))
+            (cast {span: "surf:1068..1084"}
+              (lit {span: "surf:1073..1076", type: (t-prim {} int32)} 100)
+              (t-prim {} int64))))))))

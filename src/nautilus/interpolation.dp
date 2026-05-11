@@ -7,8 +7,8 @@
     linear_at_query
     (fn {}
       (params {} (x_q {type: (t-prim {} f32)}))
-      (let {span: "surf:209..414"}
-        (bind {span: "surf:209..414"}
+      (let {span: "surf:209..360"}
+        (bind {span: "surf:209..360"}
           ys
           (app {span: "surf:218..293"}
             (var {span: "surf:218..227"} to_tensor)
@@ -33,71 +33,67 @@
                       (lit {span: "surf:282..285", type: (t-prim {} f32)} 9.0)
                       (t-prim {} f32))
                     (var {} Nil)))))))
-        (let {}
-          (bind {}
-            __borrow_migration_out_0
-            (app {span: "surf:323..385"}
-              (var {span: "surf:323..344"} linear_interp_uniform)
-              (var {span: "surf:345..347"} ys)
-              (cast {span: "surf:349..363"}
-                (lit {span: "surf:354..357", type: (t-prim {} f32)} 0.0)
-                (t-prim {} f32))
-              (cast {span: "surf:365..379"}
-                (lit {span: "surf:370..373", type: (t-prim {} f32)} 3.0)
-                (t-prim {} f32))
-              (var {span: "surf:381..384"} x_q)))
-          (var {span: "surf:388..412"} __borrow_migration_out_0)))))
+        (app {span: "surf:296..358"}
+          (var {span: "surf:296..317"} linear_interp_uniform)
+          (var {span: "surf:318..320"} ys)
+          (cast {span: "surf:322..336"}
+            (lit {span: "surf:327..330", type: (t-prim {} f32)} 0.0)
+            (t-prim {} f32))
+          (cast {span: "surf:338..352"}
+            (lit {span: "surf:343..346", type: (t-prim {} f32)} 3.0)
+            (t-prim {} f32))
+          (var {span: "surf:354..357"} x_q)))))
   (defsig {} hermite_unit_segment (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
     hermite_unit_segment
     (fn {}
       (params {} (x_q {type: (t-prim {} f32)}))
-      (app {span: "surf:459..573"}
-        (var {span: "surf:459..472"} cubic_hermite)
-        (cast {span: "surf:473..487"}
-          (lit {span: "surf:478..481", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:405..519"}
+        (var {span: "surf:405..418"} cubic_hermite)
+        (cast {span: "surf:419..433"}
+          (lit {span: "surf:424..427", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:489..503"}
-          (lit {span: "surf:494..497", type: (t-prim {} f32)} 1.0)
+        (cast {span: "surf:435..449"}
+          (lit {span: "surf:440..443", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:505..519"}
-          (lit {span: "surf:510..513", type: (t-prim {} f32)} 0.0)
+        (cast {span: "surf:451..465"}
+          (lit {span: "surf:456..459", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:521..535"}
-          (lit {span: "surf:526..529", type: (t-prim {} f32)} 1.0)
+        (cast {span: "surf:467..481"}
+          (lit {span: "surf:472..475", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:537..551"}
-          (lit {span: "surf:542..545", type: (t-prim {} f32)} 0.0)
+        (cast {span: "surf:483..497"}
+          (lit {span: "surf:488..491", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:553..567"}
-          (lit {span: "surf:558..561", type: (t-prim {} f32)} 0.0)
+        (cast {span: "surf:499..513"}
+          (lit {span: "surf:504..507", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (var {span: "surf:569..572"} x_q))))
+        (var {span: "surf:515..518"} x_q))))
   (defsig {} hermite_endpoint (t-fn {} (t-prim {} f32)))
   (def {}
     hermite_endpoint
     (fn {}
       (params {})
-      (app {span: "surf:606..731"}
-        (var {span: "surf:606..619"} cubic_hermite)
-        (cast {span: "surf:620..634"}
-          (lit {span: "surf:625..628", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:552..677"}
+        (var {span: "surf:552..565"} cubic_hermite)
+        (cast {span: "surf:566..580"}
+          (lit {span: "surf:571..574", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:636..650"}
-          (lit {span: "surf:641..644", type: (t-prim {} f32)} 2.0)
+        (cast {span: "surf:582..596"}
+          (lit {span: "surf:587..590", type: (t-prim {} f32)} 2.0)
           (t-prim {} f32))
-        (cast {span: "surf:652..666"}
-          (lit {span: "surf:657..660", type: (t-prim {} f32)} 3.0)
+        (cast {span: "surf:598..612"}
+          (lit {span: "surf:603..606", type: (t-prim {} f32)} 3.0)
           (t-prim {} f32))
-        (cast {span: "surf:668..682"}
-          (lit {span: "surf:673..676", type: (t-prim {} f32)} 7.0)
+        (cast {span: "surf:614..628"}
+          (lit {span: "surf:619..622", type: (t-prim {} f32)} 7.0)
           (t-prim {} f32))
-        (cast {span: "surf:684..698"}
-          (lit {span: "surf:689..692", type: (t-prim {} f32)} 0.5)
+        (cast {span: "surf:630..644"}
+          (lit {span: "surf:635..638", type: (t-prim {} f32)} 0.5)
           (t-prim {} f32))
-        (cast {span: "surf:700..714"}
-          (lit {span: "surf:705..708", type: (t-prim {} f32)} 0.5)
+        (cast {span: "surf:646..660"}
+          (lit {span: "surf:651..654", type: (t-prim {} f32)} 0.5)
           (t-prim {} f32))
-        (cast {span: "surf:716..730"}
-          (lit {span: "surf:721..724", type: (t-prim {} f32)} 2.0)
+        (cast {span: "surf:662..676"}
+          (lit {span: "surf:667..670", type: (t-prim {} f32)} 2.0)
           (t-prim {} f32))))))

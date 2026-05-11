@@ -13,6 +13,5 @@ def solve_diag_2x2() -> tensor[2, f32] = {
   m1 = einsum("i,j->ij", e1, row1)
   a = add(m0, m1)
   b = to_tensor([cast(4.0, f32), cast(9.0, f32)])
-  __borrow_migration_out_0 = solve_2x2(a, b)
-  __borrow_migration_out_0
+  solve_2x2(a, b)
 }

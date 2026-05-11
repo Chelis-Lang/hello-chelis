@@ -15,6 +15,5 @@ def test_manual_layer_norm_zero_mean() -> unit ! { Test } = {
   x = to_tensor([cast(-1.0, f32), cast(0.0, f32), cast(1.0, f32)])
   normed = manual_layer_norm(x, cast(0.000001, f32))
   total = fold(fn (acc: f32, v: f32) -> add(acc, v), cast(0.0, f32), to_list(normed))
-  __borrow_migration_out_0 = assert_close(total, cast(0.0, f32), cast(0.0001, f32), "layer_norm has zero mean")
-  __borrow_migration_out_0
+  assert_close(total, cast(0.0, f32), cast(0.0001, f32), "layer_norm has zero mean")
 }
