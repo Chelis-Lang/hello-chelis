@@ -6,9 +6,6 @@ def mse_loss(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32
   err = sub(pred, y)
   err_copy = copy(err)
   __borrow_migration_out_0 = sum(sum(mul(err, err_copy), 1), 0)
-  _ = drop(pred)
-  _ = drop(err)
-  _ = drop(err_copy)
   __borrow_migration_out_0
 }
 def sgd_step(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32], b: tensor[1, f32], lr: f32) -> (tensor[64, 1, f32], tensor[1, f32]) = {
@@ -18,8 +15,5 @@ def sgd_step(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32
   new_w = sub(w, mul(expand(expand(copy(lr_t), 0, 64), 1, 1), dw))
   new_b = sub(b, mul(lr_t, db))
   __borrow_migration_out_1 = (new_w, new_b)
-  _ = drop(dw)
-  _ = drop(db)
-  _ = drop(lr_t)
   __borrow_migration_out_1
 }

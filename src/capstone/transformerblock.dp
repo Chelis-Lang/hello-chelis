@@ -31,8 +31,8 @@
                        (d-lit {} 256)
                        (t-prim {} f32))
              }))
-      (let {span: "surf:279..762"}
-        (bind {span: "surf:279..762"}
+      (let {span: "surf:279..624"}
+        (bind {span: "surf:279..624"}
           q
           (app {span: "surf:287..306"}
             (var {span: "surf:287..293"} matmul)
@@ -105,52 +105,4 @@
                             (var {span: "surf:576..579"} add)
                             (var {span: "surf:580..586"} resid1)
                             (var {span: "surf:588..594"} ff_out)))
-                        (let {}
-                          (bind {}
-                            __chelis_tmp7
-                            (app {span: "surf:602..609"}
-                              (var {span: "surf:602..606"} drop)
-                              (var {span: "surf:607..608"} q)))
-                          (let {}
-                            (bind {}
-                              __chelis_tmp6
-                              (app {span: "surf:616..623"}
-                                (var {span: "surf:616..620"} drop)
-                                (var {span: "surf:621..622"} k)))
-                            (let {}
-                              (bind {}
-                                __chelis_tmp5
-                                (app {span: "surf:630..637"}
-                                  (var {span: "surf:630..634"} drop)
-                                  (var {span: "surf:635..636"} v)))
-                              (let {}
-                                (bind {}
-                                  __chelis_tmp4
-                                  (app {span: "surf:644..656"}
-                                    (var {span: "surf:644..648"} drop)
-                                    (var {span: "surf:649..655"} scores)))
-                                (let {}
-                                  (bind {}
-                                    __chelis_tmp3
-                                    (app {span: "surf:663..674"}
-                                      (var {span: "surf:663..667"} drop)
-                                      (var {span: "surf:668..673"} probs)))
-                                  (let {}
-                                    (bind {}
-                                      __chelis_tmp2
-                                      (app {span: "surf:681..695"}
-                                        (var {span: "surf:681..685"} drop)
-                                        (var {span: "surf:686..694"} attn_out)))
-                                    (let {}
-                                      (bind {}
-                                        __chelis_tmp1
-                                        (app {span: "surf:702..714"}
-                                          (var {span: "surf:702..706"} drop)
-                                          (var {span: "surf:707..713"} resid1)))
-                                      (let {}
-                                        (bind {}
-                                          __chelis_tmp0
-                                          (app {span: "surf:721..733"}
-                                            (var {span: "surf:721..725"} drop)
-                                            (var {span: "surf:726..732"} ff_out)))
-                                        (var {span: "surf:736..760"} __borrow_migration_out_0)))))))))))))))))))))
+                        (var {span: "surf:598..622"} __borrow_migration_out_0)))))))))))))

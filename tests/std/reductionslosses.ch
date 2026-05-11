@@ -6,8 +6,6 @@ def test_kl_loss_self_is_zero() -> unit ! { Test } = {
   q = to_tensor([cast(0.5, f32), cast(0.5, f32)])
   result = kl_loss(p, q)
   __borrow_migration_out_0 = assert_close(result, cast(0.0, f32), cast(0.000001, f32), "KL(p||p)=0")
-  _ = drop(q)
-  _ = drop(p)
   __borrow_migration_out_0
 }
 def test_perplexity_zero_loss_is_one() -> unit ! { Test } = {

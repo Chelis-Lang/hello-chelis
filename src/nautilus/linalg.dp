@@ -56,8 +56,8 @@
     solve_diag_2x2
     (fn {}
       (params {})
-      (let {span: "surf:431..944"}
-        (bind {span: "surf:431..944"}
+      (let {span: "surf:431..852"}
+        (bind {span: "surf:431..852"}
           e0
           (app {span: "surf:440..483"}
             (var {span: "surf:440..449"} to_tensor)
@@ -166,40 +166,4 @@
                             (var {span: "surf:808..817"} solve_2x2)
                             (var {span: "surf:818..819"} a)
                             (var {span: "surf:821..822"} b)))
-                        (let {}
-                          (bind {}
-                            __chelis_tmp5
-                            (app {span: "surf:830..837"}
-                              (var {span: "surf:830..834"} drop)
-                              (var {span: "surf:835..836"} a)))
-                          (let {}
-                            (bind {}
-                              __chelis_tmp4
-                              (app {span: "surf:844..851"}
-                                (var {span: "surf:844..848"} drop)
-                                (var {span: "surf:849..850"} b)))
-                            (let {}
-                              (bind {}
-                                __chelis_tmp3
-                                (app {span: "surf:858..866"}
-                                  (var {span: "surf:858..862"} drop)
-                                  (var {span: "surf:863..865"} e0)))
-                              (let {}
-                                (bind {}
-                                  __chelis_tmp2
-                                  (app {span: "surf:873..881"}
-                                    (var {span: "surf:873..877"} drop)
-                                    (var {span: "surf:878..880"} e1)))
-                                (let {}
-                                  (bind {}
-                                    __chelis_tmp1
-                                    (app {span: "surf:888..898"}
-                                      (var {span: "surf:888..892"} drop)
-                                      (var {span: "surf:893..897"} row0)))
-                                  (let {}
-                                    (bind {}
-                                      __chelis_tmp0
-                                      (app {span: "surf:905..915"}
-                                        (var {span: "surf:905..909"} drop)
-                                        (var {span: "surf:910..914"} row1)))
-                                    (var {span: "surf:918..942"} __borrow_migration_out_0)))))))))))))))))))
+                        (var {span: "surf:826..850"} __borrow_migration_out_0)))))))))))))

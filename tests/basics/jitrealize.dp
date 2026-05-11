@@ -7,8 +7,8 @@
     test_eager
     (fn {}
       (params {})
-      (let {span: "surf:152..495"}
-        (bind {span: "surf:152..495"}
+      (let {span: "surf:152..446"}
+        (bind {span: "surf:152..446"}
           w
           (app {span: "surf:160..203"}
             (var {span: "surf:160..169"} to_tensor)
@@ -69,22 +69,4 @@
                     (lit {span: "surf:389..397", type: (t-prim {} f32)} 0.000001)
                     (t-prim {} f32))
                   (lit {span: "surf:405..416", type: (t-prim {} string)} "eager_mul")))
-              (let {}
-                (bind {}
-                  __chelis_tmp2
-                  (app {span: "surf:424..438"}
-                    (var {span: "surf:424..428"} drop)
-                    (var {span: "surf:429..437"} expected)))
-                (let {}
-                  (bind {}
-                    __chelis_tmp1
-                    (app {span: "surf:445..452"}
-                      (var {span: "surf:445..449"} drop)
-                      (var {span: "surf:450..451"} w)))
-                  (let {}
-                    (bind {}
-                      __chelis_tmp0
-                      (app {span: "surf:459..466"}
-                        (var {span: "surf:459..463"} drop)
-                        (var {span: "surf:464..465"} x)))
-                    (var {span: "surf:469..493"} __borrow_migration_out_0)))))))))))
+              (var {span: "surf:420..444"} __borrow_migration_out_0))))))))

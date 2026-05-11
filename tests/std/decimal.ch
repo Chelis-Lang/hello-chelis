@@ -11,8 +11,6 @@ def test_total_cents_sum() -> unit ! { Test } = {
   b = decimal("2.25")
   total = total_cents(a, b)
   __borrow_migration_out_0 = assert_eq_string(decimal_to_string(total), "3.75", "1.50+2.25=3.75")
-  _ = drop(a)
-  _ = drop(b)
   __borrow_migration_out_0
 }
 def test_format_total_with_discount() -> unit ! { Test } = {

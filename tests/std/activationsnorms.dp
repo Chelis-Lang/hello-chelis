@@ -61,8 +61,8 @@
     test_manual_layer_norm_zero_mean
     (fn {}
       (params {})
-      (let {span: "surf:610..991"}
-        (bind {span: "surf:610..991"}
+      (let {span: "surf:610..958"}
+        (bind {span: "surf:610..958"}
           x
           (app {span: "surf:618..678"}
             (var {span: "surf:618..627"} to_tensor)
@@ -125,16 +125,4 @@
                     (lit {span: "surf:888..894", type: (t-prim {} f32)} 0.0001)
                     (t-prim {} f32))
                   (lit {span: "surf:902..928", type: (t-prim {} string)} "layer_norm has zero mean")))
-              (let {}
-                (bind {}
-                  __chelis_tmp1
-                  (app {span: "surf:936..943"}
-                    (var {span: "surf:936..940"} drop)
-                    (var {span: "surf:941..942"} x)))
-                (let {}
-                  (bind {}
-                    __chelis_tmp0
-                    (app {span: "surf:950..962"}
-                      (var {span: "surf:950..954"} drop)
-                      (var {span: "surf:955..961"} normed)))
-                  (var {span: "surf:965..989"} __borrow_migration_out_0))))))))))
+              (var {span: "surf:932..956"} __borrow_migration_out_0))))))))

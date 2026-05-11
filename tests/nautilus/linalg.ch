@@ -4,20 +4,16 @@ import Std.Test (assert_close, assert_close_tensor)
 def test_vec_norm_3_4_5() -> unit ! { Test } = {
   v = to_tensor([cast(3.0, f32), cast(4.0, f32)])
   __borrow_migration_out_0 = assert_close(vec_norm(v), cast(5.0, f32), cast(0.000001, f32), "||(3,4)|| = 5")
-  _ = drop(v)
   __borrow_migration_out_0
 }
 def test_vec_dot_orthogonal() -> unit ! { Test } = {
   a = to_tensor([cast(1.0, f32), cast(0.0, f32)])
   b = to_tensor([cast(0.0, f32), cast(1.0, f32)])
   __borrow_migration_out_1 = assert_close(vec_dot(a, b), cast(0.0, f32), cast(0.000001, f32), "e0 . e1 = 0")
-  _ = drop(a)
-  _ = drop(b)
   __borrow_migration_out_1
 }
 def test_solve_diag_2x2() -> unit ! { Test } = {
   expected = to_tensor([cast(2.0, f32), cast(3.0, f32)])
   __borrow_migration_out_0 = assert_close_tensor(solve_diag_2x2(), expected, cast(0.00001, f32), "solve diag 2x2")
-  _ = drop(expected)
   __borrow_migration_out_0
 }

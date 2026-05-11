@@ -42,8 +42,8 @@
         (y {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
-      (let {span: "surf:323..559"}
-        (bind {span: "surf:323..559"}
+      (let {span: "surf:323..505"}
+        (bind {span: "surf:323..505"}
           pred
           (app {span: "surf:334..368"}
             (var {span: "surf:334..341"} predict)
@@ -74,25 +74,7 @@
                       (var {span: "surf:459..467"} err_copy))
                     (lit {span: "surf:470..471", type: (t-prim {} int32)} 1))
                   (lit {span: "surf:474..475", type: (t-prim {} int32)} 0)))
-              (let {}
-                (bind {}
-                  __chelis_tmp2
-                  (app {span: "surf:483..493"}
-                    (var {span: "surf:483..487"} drop)
-                    (var {span: "surf:488..492"} pred)))
-                (let {}
-                  (bind {}
-                    __chelis_tmp1
-                    (app {span: "surf:500..509"}
-                      (var {span: "surf:500..504"} drop)
-                      (var {span: "surf:505..508"} err)))
-                  (let {}
-                    (bind {}
-                      __chelis_tmp0
-                      (app {span: "surf:516..530"}
-                        (var {span: "surf:516..520"} drop)
-                        (var {span: "surf:521..529"} err_copy)))
-                    (var {span: "surf:533..557"} __borrow_migration_out_0))))))))))
+              (var {span: "surf:479..503"} __borrow_migration_out_0)))))))
   (defsig {}
     sgd_step
     (t-fn {}
@@ -113,88 +95,70 @@
         (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))})
         (lr {type: (t-prim {} f32)}))
-      (let {span: "surf:713..1076"}
-        (bind {span: "surf:713..1076"}
+      (let {span: "surf:659..975"}
+        (bind {span: "surf:659..975"}
           dw
-          (app {span: "surf:722..779"}
-            (grad {span: "surf:722..743", wrt: (var {} w)}
-              (var {span: "surf:727..735"} mse_loss)
+          (app {span: "surf:668..725"}
+            (grad {span: "surf:668..689", wrt: (var {} w)}
+              (var {span: "surf:673..681"} mse_loss)
               (lit {type: (t-prim {} int32)} 2))
-            (copy {span: "surf:744..751"} (var {span: "surf:749..750"} x))
-            (copy {span: "surf:753..760"} (var {span: "surf:758..759"} y))
-            (copy {span: "surf:762..769"} (var {span: "surf:767..768"} w))
-            (copy {span: "surf:771..778"} (var {span: "surf:776..777"} b))))
+            (copy {span: "surf:690..697"} (var {span: "surf:695..696"} x))
+            (copy {span: "surf:699..706"} (var {span: "surf:704..705"} y))
+            (copy {span: "surf:708..715"} (var {span: "surf:713..714"} w))
+            (copy {span: "surf:717..724"} (var {span: "surf:722..723"} b))))
         (let {}
           (bind {}
             db
-            (app {span: "surf:787..832"}
-              (grad {span: "surf:787..808", wrt: (var {} b)}
-                (var {span: "surf:792..800"} mse_loss)
+            (app {span: "surf:733..778"}
+              (grad {span: "surf:733..754", wrt: (var {} b)}
+                (var {span: "surf:738..746"} mse_loss)
                 (lit {type: (t-prim {} int32)} 3))
-              (var {span: "surf:809..810"} x)
-              (var {span: "surf:812..813"} y)
-              (copy {span: "surf:815..822"} (var {span: "surf:820..821"} w))
-              (copy {span: "surf:824..831"} (var {span: "surf:829..830"} b))))
+              (var {span: "surf:755..756"} x)
+              (var {span: "surf:758..759"} y)
+              (copy {span: "surf:761..768"} (var {span: "surf:766..767"} w))
+              (copy {span: "surf:770..777"} (var {span: "surf:775..776"} b))))
           (let {}
             (bind {}
               lr_t
-              (app {span: "surf:842..857"}
-                (var {span: "surf:842..851"} to_tensor)
-                (app {span: "surf:852..856"}
+              (app {span: "surf:788..803"}
+                (var {span: "surf:788..797"} to_tensor)
+                (app {span: "surf:798..802"}
                   (var {} Cons)
-                  (var {span: "surf:853..855"} lr)
+                  (var {span: "surf:799..801"} lr)
                   (var {} Nil))))
             (let {}
               (bind {}
                 new_w
-                (app {span: "surf:868..924"}
-                  (var {span: "surf:868..871"} sub)
-                  (var {span: "surf:872..873"} w)
-                  (app {span: "surf:875..923"}
-                    (var {span: "surf:875..878"} mul)
-                    (app {span: "surf:879..918"}
-                      (var {span: "surf:879..885"} expand)
-                      (app {span: "surf:886..911"}
-                        (var {span: "surf:886..892"} expand)
-                        (copy {span: "surf:893..903"}
-                          (var {span: "surf:898..902"} lr_t))
-                        (lit {span: "surf:905..906", type: (t-prim {} int32)} 0)
-                        (lit {span: "surf:908..910", type: (t-prim {} int32)} 64))
-                      (lit {span: "surf:913..914", type: (t-prim {} int32)} 1)
-                      (lit {span: "surf:916..917", type: (t-prim {} int32)} 1))
-                    (var {span: "surf:920..922"} dw))))
+                (app {span: "surf:814..870"}
+                  (var {span: "surf:814..817"} sub)
+                  (var {span: "surf:818..819"} w)
+                  (app {span: "surf:821..869"}
+                    (var {span: "surf:821..824"} mul)
+                    (app {span: "surf:825..864"}
+                      (var {span: "surf:825..831"} expand)
+                      (app {span: "surf:832..857"}
+                        (var {span: "surf:832..838"} expand)
+                        (copy {span: "surf:839..849"}
+                          (var {span: "surf:844..848"} lr_t))
+                        (lit {span: "surf:851..852", type: (t-prim {} int32)} 0)
+                        (lit {span: "surf:854..856", type: (t-prim {} int32)} 64))
+                      (lit {span: "surf:859..860", type: (t-prim {} int32)} 1)
+                      (lit {span: "surf:862..863", type: (t-prim {} int32)} 1))
+                    (var {span: "surf:866..868"} dw))))
               (let {}
                 (bind {}
                   new_b
-                  (app {span: "surf:935..956"}
-                    (var {span: "surf:935..938"} sub)
-                    (var {span: "surf:939..940"} b)
-                    (app {span: "surf:942..955"}
-                      (var {span: "surf:942..945"} mul)
-                      (var {span: "surf:946..950"} lr_t)
-                      (var {span: "surf:952..954"} db))))
+                  (app {span: "surf:881..902"}
+                    (var {span: "surf:881..884"} sub)
+                    (var {span: "surf:885..886"} b)
+                    (app {span: "surf:888..901"}
+                      (var {span: "surf:888..891"} mul)
+                      (var {span: "surf:892..896"} lr_t)
+                      (var {span: "surf:898..900"} db))))
                 (let {}
                   (bind {}
                     __borrow_migration_out_1
-                    (tuple {span: "surf:986..1000"}
-                      (var {span: "surf:987..992"} new_w)
-                      (var {span: "surf:994..999"} new_b)))
-                  (let {}
-                    (bind {}
-                      __chelis_tmp2
-                      (app {span: "surf:1007..1015"}
-                        (var {span: "surf:1007..1011"} drop)
-                        (var {span: "surf:1012..1014"} dw)))
-                    (let {}
-                      (bind {}
-                        __chelis_tmp1
-                        (app {span: "surf:1022..1030"}
-                          (var {span: "surf:1022..1026"} drop)
-                          (var {span: "surf:1027..1029"} db)))
-                      (let {}
-                        (bind {}
-                          __chelis_tmp0
-                          (app {span: "surf:1037..1047"}
-                            (var {span: "surf:1037..1041"} drop)
-                            (var {span: "surf:1042..1046"} lr_t)))
-                        (var {span: "surf:1050..1074"} __borrow_migration_out_1)))))))))))))
+                    (tuple {span: "surf:932..946"}
+                      (var {span: "surf:933..938"} new_w)
+                      (var {span: "surf:940..945"} new_b)))
+                  (var {span: "surf:949..973"} __borrow_migration_out_1))))))))))

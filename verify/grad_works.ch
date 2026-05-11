@@ -4,9 +4,6 @@ def loss_fn[n](w: tensor[n, f32], x: tensor[n, f32]) -> f32 = {
   err = sub(w, one_vec)
   prod = mul(err, x)
   __borrow_migration_out_0 = tensor_to_scalar(sum(prod, 0))
-  _ = drop(one_vec)
-  _ = drop(err)
-  _ = drop(prod)
   __borrow_migration_out_0
 }
 def dloss_dw[n](model: tensor[n, f32] -> tensor[n, f32] -> f32, w: tensor[n, f32], x: tensor[n, f32]) -> tensor[n, f32] = {

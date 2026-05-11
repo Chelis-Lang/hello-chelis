@@ -9,8 +9,8 @@
     test_process_doubles
     (fn {}
       (params {})
-      (let {span: "surf:167..482"}
-        (bind {span: "surf:167..482"}
+      (let {span: "surf:167..447"}
+        (bind {span: "surf:167..447"}
           v
           (app {span: "surf:175..234"}
             (var {span: "surf:175..184"} to_tensor)
@@ -64,16 +64,4 @@
                   (lit {span: "surf:384..392", type: (t-prim {} f32)} 0.000001)
                   (t-prim {} f32))
                 (lit {span: "surf:400..417", type: (t-prim {} string)} "process_doubles")))
-            (let {}
-              (bind {}
-                __chelis_tmp1
-                (app {span: "surf:425..432"}
-                  (var {span: "surf:425..429"} drop)
-                  (var {span: "surf:430..431"} v)))
-              (let {}
-                (bind {}
-                  __chelis_tmp0
-                  (app {span: "surf:439..453"}
-                    (var {span: "surf:439..443"} drop)
-                    (var {span: "surf:444..452"} expected)))
-                (var {span: "surf:456..480"} __borrow_migration_out_0)))))))))
+            (var {span: "surf:421..445"} __borrow_migration_out_0)))))))

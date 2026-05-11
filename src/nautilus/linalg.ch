@@ -14,11 +14,5 @@ def solve_diag_2x2() -> tensor[2, f32] = {
   a = add(m0, m1)
   b = to_tensor([cast(4.0, f32), cast(9.0, f32)])
   __borrow_migration_out_0 = solve_2x2(a, b)
-  _ = drop(a)
-  _ = drop(b)
-  _ = drop(e0)
-  _ = drop(e1)
-  _ = drop(row0)
-  _ = drop(row1)
   __borrow_migration_out_0
 }

@@ -7,8 +7,8 @@
     test_add_vec
     (fn {}
       (params {})
-      (let {span: "surf:158..550"}
-        (bind {span: "surf:158..550"}
+      (let {span: "surf:158..501"}
+        (bind {span: "surf:158..501"}
           a
           (app {span: "surf:166..225"}
             (var {span: "surf:166..175"} to_tensor)
@@ -84,22 +84,4 @@
                     (lit {span: "surf:444..452", type: (t-prim {} f32)} 0.000001)
                     (t-prim {} f32))
                   (lit {span: "surf:460..471", type: (t-prim {} string)} "add_vec_3")))
-              (let {}
-                (bind {}
-                  __chelis_tmp2
-                  (app {span: "surf:479..486"}
-                    (var {span: "surf:479..483"} drop)
-                    (var {span: "surf:484..485"} a)))
-                (let {}
-                  (bind {}
-                    __chelis_tmp1
-                    (app {span: "surf:493..500"}
-                      (var {span: "surf:493..497"} drop)
-                      (var {span: "surf:498..499"} b)))
-                  (let {}
-                    (bind {}
-                      __chelis_tmp0
-                      (app {span: "surf:507..521"}
-                        (var {span: "surf:507..511"} drop)
-                        (var {span: "surf:512..520"} expected)))
-                    (var {span: "surf:524..548"} __borrow_migration_out_0)))))))))))
+              (var {span: "surf:475..499"} __borrow_migration_out_0))))))))

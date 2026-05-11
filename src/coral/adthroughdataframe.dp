@@ -34,8 +34,8 @@
     simple_loss
     (fn {}
       (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (let {span: "surf:309..417"}
-        (bind {span: "surf:309..417"}
+      (let {span: "surf:309..400"}
+        (bind {span: "surf:309..400"}
           prod
           (app {span: "surf:320..329"}
             (var {span: "surf:320..323"} mul)
@@ -48,13 +48,7 @@
               (var {span: "surf:359..362"} sum)
               (var {span: "surf:363..367"} prod)
               (lit {span: "surf:369..370", type: (t-prim {} int32)} 0)))
-          (let {}
-            (bind {}
-              __chelis_tmp0
-              (app {span: "surf:378..388"}
-                (var {span: "surf:378..382"} drop)
-                (var {span: "surf:383..387"} prod)))
-            (var {span: "surf:391..415"} __borrow_migration_out_0))))))
+          (var {span: "surf:374..398"} __borrow_migration_out_0)))))
   (defsig {}
     dsimple_loss_dw
     (t-fn {}
@@ -64,8 +58,8 @@
     dsimple_loss_dw
     (fn {}
       (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {span: "surf:477..504"}
-        (grad {span: "surf:477..501", wrt: (var {} w)}
-          (var {span: "surf:482..493"} simple_loss)
+      (app {span: "surf:460..487"}
+        (grad {span: "surf:460..484", wrt: (var {} w)}
+          (var {span: "surf:465..476"} simple_loss)
           (lit {type: (t-prim {} int32)} 0))
-        (var {span: "surf:502..503"} w)))))
+        (var {span: "surf:485..486"} w)))))

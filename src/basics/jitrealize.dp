@@ -27,8 +27,8 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (let {span: "surf:197..323"}
-        (bind {span: "surf:197..323"}
+      (let {span: "surf:197..303"}
+        (bind {span: "surf:197..303"}
           doubled
           (realize {span: "surf:211..229"}
             (app {span: "surf:219..228"}
@@ -42,10 +42,4 @@
               (var {span: "surf:259..262"} add)
               (var {span: "surf:263..270"} doubled)
               (var {span: "surf:272..273"} x)))
-          (let {}
-            (bind {}
-              __chelis_tmp0
-              (app {span: "surf:281..294"}
-                (var {span: "surf:281..285"} drop)
-                (var {span: "surf:286..293"} doubled)))
-            (var {span: "surf:297..321"} __borrow_migration_out_0)))))))
+          (var {span: "surf:277..301"} __borrow_migration_out_0))))))
