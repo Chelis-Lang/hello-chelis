@@ -3,7 +3,7 @@ def loss_fn[n](w: tensor[n, f32], x: tensor[n, f32]) -> f32 = {
   one_vec = to_tensor([cast(1.0, f32), cast(1.0, f32), cast(1.0, f32)])
   err = sub(w, one_vec)
   prod = mul(err, x)
-  tensor_to_scalar(sum(prod, 0))
+  prod |> sum(0) |> tensor_to_scalar
 }
 def dloss_dw[n](model: tensor[n, f32] -> tensor[n, f32] -> f32, w: tensor[n, f32], x: tensor[n, f32]) -> tensor[n, f32] = {
   target = fn (w_local: tensor[n, f32]) -> model(w_local, x)

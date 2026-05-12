@@ -43,8 +43,7 @@
                      (t-tensor {} (d-var {} a) (t-prim {} f32)))
            })
         (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
-      (app {span: "surf:302..309"}
-        (var {span: "surf:302..303"} f)
-        (app {span: "surf:304..308"}
-          (var {span: "surf:304..305"} f)
-          (var {span: "surf:306..307"} x))))))
+      (pipe {span: "surf:302..313"}
+        (var {span: "surf:302..303"} x)
+        (var {span: "surf:307..308"} f)
+        (var {span: "surf:312..313"} f)))))

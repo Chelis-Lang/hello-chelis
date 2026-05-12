@@ -16,39 +16,46 @@
     sum_evens
     (fn {}
       (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
-      (let {span: "surf:210..367"}
-        (bind {span: "surf:210..367"}
+      (let {span: "surf:210..371"}
+        (bind {span: "surf:210..371"}
           evens
-          (app {span: "surf:222..293"}
+          (app {span: "surf:222..297"}
             (var {span: "surf:222..228"} filter)
-            (fn {span: "surf:229..288"}
+            (fn {span: "surf:229..292"}
               (params {} (x {type: (t-prim {} int64)}))
-              (app {span: "surf:246..288"}
-                (var {span: "surf:246..248"} eq)
-                (app {span: "surf:249..271"}
-                  (var {span: "surf:249..252"} mod)
-                  (var {span: "surf:253..254"} x)
-                  (cast {span: "surf:256..270"}
-                    (lit {span: "surf:261..262", type: (t-prim {} int32)} 2)
-                    (t-prim {} int64)))
-                (cast {span: "surf:273..287"}
-                  (lit {span: "surf:278..279", type: (t-prim {} int32)} 0)
-                  (t-prim {} int64))))
-            (var {span: "surf:290..292"} xs)))
-        (app {span: "surf:296..365"}
-          (var {span: "surf:296..300"} fold)
-          (fn {span: "surf:301..341"}
+              (pipe {span: "surf:246..292"}
+                (var {span: "surf:246..247"} x)
+                (fn {span: "surf:251..270"}
+                  (params {} __chelis_pipe)
+                  (app {span: "surf:251..270"}
+                    (var {span: "surf:251..254"} mod)
+                    (var {span: "surf:251..270"} __chelis_pipe)
+                    (cast {span: "surf:255..269"}
+                      (lit {span: "surf:260..261", type: (t-prim {} int32)} 2)
+                      (t-prim {} int64))))
+                (fn {span: "surf:274..292"}
+                  (params {} __chelis_pipe)
+                  (app {span: "surf:274..292"}
+                    (var {span: "surf:274..276"} eq)
+                    (var {span: "surf:274..292"} __chelis_pipe)
+                    (cast {span: "surf:277..291"}
+                      (lit {span: "surf:282..283", type: (t-prim {} int32)} 0)
+                      (t-prim {} int64))))))
+            (var {span: "surf:294..296"} xs)))
+        (app {span: "surf:300..369"}
+          (var {span: "surf:300..304"} fold)
+          (fn {span: "surf:305..345"}
             (params {}
               (acc {type: (t-prim {} int64)})
               (x {type: (t-prim {} int64)}))
-            (app {span: "surf:330..341"}
-              (var {span: "surf:330..333"} add)
-              (var {span: "surf:334..337"} acc)
-              (var {span: "surf:339..340"} x)))
-          (cast {span: "surf:343..357"}
-            (lit {span: "surf:348..349", type: (t-prim {} int32)} 0)
+            (app {span: "surf:334..345"}
+              (var {span: "surf:334..337"} add)
+              (var {span: "surf:338..341"} acc)
+              (var {span: "surf:343..344"} x)))
+          (cast {span: "surf:347..361"}
+            (lit {span: "surf:352..353", type: (t-prim {} int32)} 0)
             (t-prim {} int64))
-          (var {span: "surf:359..364"} evens)))))
+          (var {span: "surf:363..368"} evens)))))
   (defsig {}
     running_sums
     (t-fn {}
@@ -58,20 +65,20 @@
     running_sums
     (fn {}
       (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
-      (app {span: "surf:419..485"}
-        (var {span: "surf:419..423"} scan)
-        (fn {span: "surf:424..464"}
+      (app {span: "surf:423..489"}
+        (var {span: "surf:423..427"} scan)
+        (fn {span: "surf:428..468"}
           (params {}
             (acc {type: (t-prim {} int64)})
             (x {type: (t-prim {} int64)}))
-          (app {span: "surf:453..464"}
-            (var {span: "surf:453..456"} add)
-            (var {span: "surf:457..460"} acc)
-            (var {span: "surf:462..463"} x)))
-        (cast {span: "surf:466..480"}
-          (lit {span: "surf:471..472", type: (t-prim {} int32)} 0)
+          (app {span: "surf:457..468"}
+            (var {span: "surf:457..460"} add)
+            (var {span: "surf:461..464"} acc)
+            (var {span: "surf:466..467"} x)))
+        (cast {span: "surf:470..484"}
+          (lit {span: "surf:475..476", type: (t-prim {} int32)} 0)
           (t-prim {} int64))
-        (var {span: "surf:482..484"} xs))))
+        (var {span: "surf:486..488"} xs))))
   (defsig {}
     build_vocab
     (t-fn {}
@@ -84,12 +91,15 @@
       (params {}
         (keys {type: (t-adt {} List (t-prim {} string))})
         (ids {type: (t-adt {} List (t-prim {} int64))}))
-      (app {span: "surf:565..588"}
-        (var {span: "surf:565..572"} dict_of)
-        (app {span: "surf:573..587"}
-          (var {span: "surf:573..576"} zip)
-          (var {span: "surf:577..581"} keys)
-          (var {span: "surf:583..586"} ids)))))
+      (pipe {span: "surf:569..596"}
+        (var {span: "surf:569..573"} keys)
+        (fn {span: "surf:577..585"}
+          (params {} __chelis_pipe)
+          (app {span: "surf:577..585"}
+            (var {span: "surf:577..580"} zip)
+            (var {span: "surf:577..585"} __chelis_pipe)
+            (var {span: "surf:581..584"} ids)))
+        (var {span: "surf:589..596"} dict_of))))
   (defsig {}
     lookup_or_default
     (t-fn {}
@@ -104,16 +114,16 @@
         (d {type: (t-adt {} Dict (t-prim {} string) (t-prim {} int64))})
         (k {type: (t-prim {} string)})
         (fallback {type: (t-prim {} int64)}))
-      (match {span: "surf:674..753"}
-        (app {span: "surf:682..696"}
-          (var {span: "surf:682..690"} dict_get)
-          (var {span: "surf:691..692"} d)
-          (var {span: "surf:694..695"} k))
+      (match {span: "surf:682..761"}
+        (app {span: "surf:690..704"}
+          (var {span: "surf:690..698"} dict_get)
+          (var {span: "surf:699..700"} d)
+          (var {span: "surf:702..703"} k))
         (arm {}
           (pat-ctor {} Some (pat-var {} value))
           ()
-          (var {span: "surf:723..728"} value))
-        (arm {} (pat-ctor {} None) () (var {span: "surf:741..749"} fallback)))))
+          (var {span: "surf:731..736"} value))
+        (arm {} (pat-ctor {} None) () (var {span: "surf:749..757"} fallback)))))
   (defsig {}
     increments
     (t-fn {}
@@ -123,17 +133,17 @@
     increments
     (fn {}
       (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
-      (app {span: "surf:803..851"}
-        (var {span: "surf:803..806"} map)
-        (fn {span: "surf:807..846"}
+      (app {span: "surf:811..859"}
+        (var {span: "surf:811..814"} map)
+        (fn {span: "surf:815..854"}
           (params {} (x {type: (t-prim {} int64)}))
-          (app {span: "surf:824..846"}
-            (var {span: "surf:824..827"} add)
-            (var {span: "surf:828..829"} x)
-            (cast {span: "surf:831..845"}
-              (lit {span: "surf:836..837", type: (t-prim {} int32)} 1)
+          (app {span: "surf:832..854"}
+            (var {span: "surf:832..835"} add)
+            (var {span: "surf:836..837"} x)
+            (cast {span: "surf:839..853"}
+              (lit {span: "surf:844..845", type: (t-prim {} int32)} 1)
               (t-prim {} int64))))
-        (var {span: "surf:848..850"} xs))))
+        (var {span: "surf:856..858"} xs))))
   (defsig {}
     take_first_three
     (t-fn {}
@@ -143,11 +153,11 @@
     take_first_three
     (fn {}
       (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
-      (app {span: "surf:907..931"}
-        (var {span: "surf:907..911"} take)
-        (var {span: "surf:912..914"} xs)
-        (cast {span: "surf:916..930"}
-          (lit {span: "surf:921..922", type: (t-prim {} int32)} 3)
+      (app {span: "surf:915..939"}
+        (var {span: "surf:915..919"} take)
+        (var {span: "surf:920..922"} xs)
+        (cast {span: "surf:924..938"}
+          (lit {span: "surf:929..930", type: (t-prim {} int32)} 3)
           (t-prim {} int64)))))
   (defsig {}
     double_then_pairs
@@ -158,23 +168,23 @@
     double_then_pairs
     (fn {}
       (params {} (xs {type: (t-adt {} List (t-prim {} int64))}))
-      (app {span: "surf:988..1046"}
-        (var {span: "surf:988..996"} flat_map)
-        (fn {span: "surf:997..1041"}
+      (app {span: "surf:996..1054"}
+        (var {span: "surf:996..1004"} flat_map)
+        (fn {span: "surf:1005..1049"}
           (params {} (x {type: (t-prim {} int64)}))
-          (app {span: "surf:1014..1041"}
+          (app {span: "surf:1022..1049"}
             (var {} Cons)
-            (var {span: "surf:1015..1016"} x)
+            (var {span: "surf:1023..1024"} x)
             (app {}
               (var {} Cons)
-              (app {span: "surf:1018..1040"}
-                (var {span: "surf:1018..1021"} mul)
-                (var {span: "surf:1022..1023"} x)
-                (cast {span: "surf:1025..1039"}
-                  (lit {span: "surf:1030..1031", type: (t-prim {} int32)} 2)
+              (app {span: "surf:1026..1048"}
+                (var {span: "surf:1026..1029"} mul)
+                (var {span: "surf:1030..1031"} x)
+                (cast {span: "surf:1033..1047"}
+                  (lit {span: "surf:1038..1039", type: (t-prim {} int32)} 2)
                   (t-prim {} int64)))
               (var {} Nil))))
-        (var {span: "surf:1043..1045"} xs))))
+        (var {span: "surf:1051..1053"} xs))))
   (defsig {}
     partition_threshold
     (t-fn {} (t-adt {} List (t-prim {} int64)) (t-prim {} int64) (t-var {} _)))
@@ -184,12 +194,12 @@
       (params {}
         (xs {type: (t-adt {} List (t-prim {} int64))})
         (threshold {type: (t-prim {} int64)}))
-      (app {span: "surf:1108..1156"}
-        (var {span: "surf:1108..1117"} partition)
-        (fn {span: "surf:1118..1151"}
+      (app {span: "surf:1116..1164"}
+        (var {span: "surf:1116..1125"} partition)
+        (fn {span: "surf:1126..1159"}
           (params {} (x {type: (t-prim {} int64)}))
-          (app {span: "surf:1135..1151"}
-            (var {span: "surf:1135..1137"} gt)
-            (var {span: "surf:1138..1139"} x)
-            (var {span: "surf:1141..1150"} threshold)))
-        (var {span: "surf:1153..1155"} xs)))))
+          (app {span: "surf:1143..1159"}
+            (var {span: "surf:1143..1145"} gt)
+            (var {span: "surf:1146..1147"} x)
+            (var {span: "surf:1149..1158"} threshold)))
+        (var {span: "surf:1161..1163"} xs)))))

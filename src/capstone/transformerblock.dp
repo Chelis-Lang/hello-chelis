@@ -31,74 +31,80 @@
                        (d-lit {} 256)
                        (t-prim {} f32))
              }))
-      (let {span: "surf:279..570"}
-        (bind {span: "surf:279..570"}
+      (let {span: "surf:279..550"}
+        (bind {span: "surf:279..550"}
           q
-          (app {span: "surf:287..306"}
+          (app {span: "surf:287..300"}
             (var {span: "surf:287..293"} matmul)
-            (copy {span: "surf:294..301"} (var {span: "surf:299..300"} x))
-            (var {span: "surf:303..305"} wq)))
+            (var {span: "surf:294..295"} x)
+            (var {span: "surf:297..299"} wq)))
         (let {}
           (bind {}
             k
-            (app {span: "surf:313..332"}
-              (var {span: "surf:313..319"} matmul)
-              (copy {span: "surf:320..327"} (var {span: "surf:325..326"} x))
-              (var {span: "surf:329..331"} wk)))
+            (app {span: "surf:307..320"}
+              (var {span: "surf:307..313"} matmul)
+              (var {span: "surf:314..315"} x)
+              (var {span: "surf:317..319"} wk)))
           (let {}
             (bind {}
               v
-              (app {span: "surf:339..358"}
-                (var {span: "surf:339..345"} matmul)
-                (copy {span: "surf:346..353"} (var {span: "surf:351..352"} x))
-                (var {span: "surf:355..357"} wv)))
+              (app {span: "surf:327..340"}
+                (var {span: "surf:327..333"} matmul)
+                (var {span: "surf:334..335"} x)
+                (var {span: "surf:337..339"} wv)))
             (let {}
               (bind {}
                 scores
-                (app {span: "surf:370..397"}
-                  (var {span: "surf:370..376"} matmul)
-                  (var {span: "surf:377..378"} q)
-                  (app {span: "surf:380..396"}
-                    (var {span: "surf:380..387"} permute)
-                    (var {span: "surf:388..389"} k)
-                    (lit {span: "surf:391..392", type: (t-prim {} int32)} 1)
-                    (lit {span: "surf:394..395", type: (t-prim {} int32)} 0))))
+                (app {span: "surf:352..379"}
+                  (var {span: "surf:352..358"} matmul)
+                  (var {span: "surf:359..360"} q)
+                  (app {span: "surf:362..378"}
+                    (var {span: "surf:362..369"} permute)
+                    (var {span: "surf:370..371"} k)
+                    (lit {span: "surf:373..374", type: (t-prim {} int32)} 1)
+                    (lit {span: "surf:376..377", type: (t-prim {} int32)} 0))))
               (let {}
                 (bind {}
                   probs
-                  (app {span: "surf:408..426"}
-                    (var {span: "surf:408..415"} softmax)
-                    (var {span: "surf:416..422"} scores)
-                    (lit {span: "surf:424..425", type: (t-prim {} int32)} 1)))
+                  (app {span: "surf:390..408"}
+                    (var {span: "surf:390..397"} softmax)
+                    (var {span: "surf:398..404"} scores)
+                    (lit {span: "surf:406..407", type: (t-prim {} int32)} 1)))
                 (let {}
                   (bind {}
                     attn_out
-                    (app {span: "surf:440..468"}
-                      (var {span: "surf:440..446"} matmul)
-                      (app {span: "surf:447..463"}
-                        (var {span: "surf:447..453"} matmul)
-                        (var {span: "surf:454..459"} probs)
-                        (var {span: "surf:461..462"} v))
-                      (var {span: "surf:465..467"} wo)))
+                    (pipe {span: "surf:422..454"}
+                      (var {span: "surf:422..427"} probs)
+                      (fn {span: "surf:431..440"}
+                        (params {} __chelis_pipe)
+                        (app {span: "surf:431..440"}
+                          (var {span: "surf:431..437"} matmul)
+                          (var {span: "surf:431..440"} __chelis_pipe)
+                          (var {span: "surf:438..439"} v)))
+                      (fn {span: "surf:444..454"}
+                        (params {} __chelis_pipe)
+                        (app {span: "surf:444..454"}
+                          (var {span: "surf:444..450"} matmul)
+                          (var {span: "surf:444..454"} __chelis_pipe)
+                          (var {span: "surf:451..453"} wo)))))
                   (let {}
                     (bind {}
                       resid1
-                      (app {span: "surf:480..496"}
-                        (var {span: "surf:480..483"} add)
-                        (var {span: "surf:484..485"} x)
-                        (var {span: "surf:487..495"} attn_out)))
+                      (app {span: "surf:466..482"}
+                        (var {span: "surf:466..469"} add)
+                        (var {span: "surf:470..471"} x)
+                        (var {span: "surf:473..481"} attn_out)))
                     (let {}
                       (bind {}
                         ff_out
-                        (app {span: "surf:508..546"}
-                          (var {span: "surf:508..514"} matmul)
-                          (app {span: "surf:515..540"}
-                            (var {span: "surf:515..521"} matmul)
-                            (copy {span: "surf:522..534"}
-                              (var {span: "surf:527..533"} resid1))
-                            (var {span: "surf:536..539"} ff1))
-                          (var {span: "surf:542..545"} ff2)))
-                      (app {span: "surf:549..568"}
-                        (var {span: "surf:549..552"} add)
-                        (var {span: "surf:553..559"} resid1)
-                        (var {span: "surf:561..567"} ff_out)))))))))))))
+                        (app {span: "surf:494..526"}
+                          (var {span: "surf:494..500"} matmul)
+                          (app {span: "surf:501..520"}
+                            (var {span: "surf:501..507"} matmul)
+                            (var {span: "surf:508..514"} resid1)
+                            (var {span: "surf:516..519"} ff1))
+                          (var {span: "surf:522..525"} ff2)))
+                      (app {span: "surf:529..548"}
+                        (var {span: "surf:529..532"} add)
+                        (var {span: "surf:533..539"} resid1)
+                        (var {span: "surf:541..547"} ff_out)))))))))))))

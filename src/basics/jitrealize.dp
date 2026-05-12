@@ -27,15 +27,22 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (let {span: "surf:197..249"}
-        (bind {span: "surf:197..249"}
+      (let {span: "surf:197..253"}
+        (bind {span: "surf:197..253"}
           doubled
-          (realize {span: "surf:211..229"}
-            (app {span: "surf:219..228"}
-              (var {span: "surf:219..222"} add)
-              (var {span: "surf:223..224"} x)
-              (var {span: "surf:226..227"} x))))
-        (app {span: "surf:232..247"}
-          (var {span: "surf:232..235"} add)
-          (var {span: "surf:236..243"} doubled)
-          (var {span: "surf:245..246"} x))))))
+          (pipe {span: "surf:211..233"}
+            (var {span: "surf:211..212"} x)
+            (fn {span: "surf:216..222"}
+              (params {} __chelis_pipe)
+              (app {span: "surf:216..222"}
+                (var {span: "surf:216..219"} add)
+                (var {span: "surf:216..222"} __chelis_pipe)
+                (var {span: "surf:220..221"} x)))
+            (fn {span: "surf:226..233"}
+              (params {} __chelis_pipe)
+              (realize {span: "surf:226..233"}
+                (var {span: "surf:226..233"} __chelis_pipe)))))
+        (app {span: "surf:236..251"}
+          (var {span: "surf:236..239"} add)
+          (var {span: "surf:240..247"} doubled)
+          (var {span: "surf:249..250"} x))))))

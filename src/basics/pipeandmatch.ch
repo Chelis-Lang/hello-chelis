@@ -9,4 +9,4 @@ def activate(act: Activation, x: &tensor[n, f32]) -> tensor[n, f32] = {
     | Sigmoid => sigmoid(x)
   }
 }
-def pipeline(x: &tensor[n, f32]) -> tensor[n, f32] = sigmoid(relu(x))
+def pipeline(x: &tensor[n, f32]) -> tensor[n, f32] = x |> relu |> sigmoid
