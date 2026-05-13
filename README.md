@@ -19,7 +19,7 @@ through the corpus.
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O, AD through frame ops |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
 | `octant` (LaTeX bridge) | [`octant/`](octant/) | `.tex` inputs translated to canonical Deep + provenance + decompiled Surf |
-| `c-earchin` (requirements bridge) | [`docs/shells/c-earchin.md`](docs/shells/c-earchin.md) | finance-flavored EARS requirements translated to Chelis property witnesses, proven with span diagnostics back to the EARS line |
+| `c-earchin` (requirements bridge) | [`docs/shells/c_earchin.md`](docs/shells/c_earchin.md) | finance-flavored EARS requirements translated to Chelis property witnesses, proven with span diagnostics back to the EARS line |
 | Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes Greeks via `grad`, linear regression with SGD, transformer block, end-to-end ML pipeline across the code-import shells |
 
 ## Layout
@@ -58,10 +58,10 @@ hello-chelis/
 │
 ├── docs/
 │   ├── curriculum.md          ← guided reading path
-│   ├── getting-started.md     install + first commands
+│   ├── getting_started.md     install + first commands
 │   ├── architecture.md        compile pipeline; how the corpus maps onto it
-│   ├── feature-matrix.md      every primer-claimed feature → where exercised
-│   ├── surf-and-deep.md       why every program ships in both forms
+│   ├── feature_matrix.md      every primer-claimed feature → where exercised
+│   ├── surf_and_deep.md       why every program ships in both forms
 │   ├── discrepancies.md       compiler vs interpreter gaps with verbatim errors
 │   └── shells/                per-shell reference: std, coral, nautilus, octant
 │
@@ -97,7 +97,7 @@ Inside the container:
 
 ```sh
 chelis check src/basics/hellotensor.ch          # front-end gate (parse + types)
-chelis lint .                                    # non-blocking nomenclature inventory
+chelis lint --check .                            # blocking nomenclature gate
 chelis test tests/ --jobs auto                   # native runtime suite
 chelis test tests/ --jobs 1                      # serial fallback for debugging
 python3 -m pytest tests/                         # drift + negative + C-backend + octant + c-earchin
@@ -117,7 +117,7 @@ python3 scripts/regen_deep.py --check    # CI drift assertion
 
 Walk the corpus and you can see, for every Surf program, exactly what
 the compiler's desugaring rules produce. Full design rationale in
-[`docs/surf-and-deep.md`](docs/surf-and-deep.md).
+[`docs/surf_and_deep.md`](docs/surf_and_deep.md).
 
 ## Three execution paths
 
@@ -154,34 +154,31 @@ the language is pre-1.0 and breaking changes ship between minor versions.
 | `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 
-`chelis lint .` is currently run as a non-blocking inventory. The
-corpus has been migrated to implicit linearity, so the advisory
-`redundant-linearity-call` rule is near-zero for `.ch` sources;
-remaining occurrences are cross-statement consume-fan-out sites
-(`src/capstone/linreg.ch`, `src/capstone/transformerblock.ch`,
-`src/basics/dimpoly.ch`) where chelis 0.7.6 still requires explicit
-`copy()` because the implicit-copy inserter does not handle them yet.
+`chelis lint --check .` is now a blocking CI gate. The corpus reports
+zero error-severity findings and zero advisory warnings under chelis
+0.7.8. Every upstream rule that previously blocked this gate landed
+in chelis 0.7.8:
 
-The lint job is **not** error-blocking because the corpus carries
-upstream-side diagnostics that this repo cannot fix locally:
+- The `module-pascal-components` allowlist now recognizes `Linearity`,
+  `Hypothesis`, `Integration`, and `Optimize` as legitimate
+  single-word identifiers (§6.3, chelis 0.7.8 PR #92).
+- `deep-user-symbol-charset` no longer fires on `chelis deep`'s own
+  `t-ref` output (§11.1 CLOSED_TAGS allowlist, chelis 0.7.7 PR #25).
+- `prefix-namespace` recognises model/algorithm sub-namespace
+  prefixes (`exp_`, `lin_`, `sin_`, `std_`, `gelu_`, `ce_`, …) without
+  requiring per-module documentation (§7.1, chelis 0.7.8 PR #92).
+- `no-em-dash-in-public-strings` excludes docstring contexts (§8.6,
+  chelis 0.7.8 PR #92).
+- `redundant-linearity-call` auto-fix covers the cross-statement
+  consume fan-out cases that previously needed explicit `copy()`
+  (implicit-copy v3, chelis 0.7.8 PR #91 + PR #95).
+- `prefer-pipe-operator` auto-rewrites are sound: the IR evaluator
+  accepts every `|>` form (#80 zero-arg fn-call, #83 typed
+  `ConsumeKind` discrimination + alias-consume forwarding).
 
-- `deep-user-symbol-charset (§11.1)` fires on every `.dp` file
-  because `chelis deep` emits `t-ref` (with a hyphen) for the borrow
-  type marker, which the same lint rule then rejects.
-- `module-pascal-components (§6.3)` flags `Capstone`, `Coral`, and
-  `Nautilus` as multi-word compounds without internal capitals.
-- `doc-filename-convention (§8.3)` flags `docs/*.md` filenames that
-  use kebab-case where the rule expects snake_case.
-- `prefer-pipe-operator (§3.6)` is currently the only blocker on
-  rewriting nested first-arg call chains to `|>`: the IR evaluator
-  does not yet support pipe stages (`chelis test` rejects them with
-  "pipe stage is not supported by IR evaluation yet; use
-  `chelis build --target c` instead"), so the canonical demo cannot
-  adopt pipes without breaking its own test gate.
-
-Once those four upstream issues land, `chelis lint --check` can be
-flipped to blocking and the remaining `prefer-pipe-operator` and
-`redundant-linearity-call` advisories can be eliminated.
+The remaining `doc-filename-convention` (§8.3) findings were resolved
+by renaming `docs/feature-matrix.md`, `docs/getting-started.md`,
+`docs/surf-and-deep.md`, and `docs/shells/c-earchin.md` to snake_case.
 
 New or touched Chelis examples should still be formatted and linted
 before they are added.

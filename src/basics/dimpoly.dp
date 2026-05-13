@@ -11,7 +11,7 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
-      (copy {span: "surf:132..139"} (var {span: "surf:137..138"} x))))
+      (var {span: "surf:132..133"} x)))
   (defsig {}
     scaled
     (t-fn {}
@@ -22,10 +22,10 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
-      (app {span: "surf:194..203"}
-        (var {span: "surf:194..197"} add)
-        (var {span: "surf:198..199"} x)
-        (var {span: "surf:201..202"} x))))
+      (app {span: "surf:188..197"}
+        (var {span: "surf:188..191"} add)
+        (var {span: "surf:192..193"} x)
+        (var {span: "surf:195..196"} x))))
   (defsig {}
     double_apply
     (t-fn {}
@@ -43,7 +43,7 @@
                      (t-tensor {} (d-var {} a) (t-prim {} f32)))
            })
         (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
-      (pipe {span: "surf:302..313"}
-        (var {span: "surf:302..303"} x)
-        (var {span: "surf:307..308"} f)
-        (var {span: "surf:312..313"} f)))))
+      (pipe {span: "surf:296..307"}
+        (var {span: "surf:296..297"} x)
+        (var {span: "surf:301..302"} f)
+        (var {span: "surf:306..307"} f)))))

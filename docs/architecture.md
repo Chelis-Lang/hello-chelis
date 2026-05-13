@@ -138,7 +138,7 @@ python3 scripts/regen_deep.py --check    # CI drift assertion
 
 CI's [`tests/test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py)
 runs the `--check` mode and fails on any divergence. See
-[`surf-and-deep.md`](surf-and-deep.md) for the design rationale.
+[`surf_and_deep.md`](surf_and_deep.md) for the design rationale.
 
 ## Testing model summary
 

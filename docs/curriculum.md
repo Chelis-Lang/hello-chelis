@@ -6,13 +6,13 @@ JAX / Flax) but has never seen Chelis before. Each step references
 the file(s) you should open and what they teach.
 
 If you'd rather just run things, see
-[`getting-started.md`](getting-started.md). Architecture-level
+[`getting_started.md`](getting_started.md). Architecture-level
 context lives in [`architecture.md`](architecture.md).
 
 ## 0. Mental model (5 min)
 
 Read the [README](../README.md) `## What this is` section. Then read
-[`surf-and-deep.md`](surf-and-deep.md). Two source surfaces over the
+[`surf_and_deep.md`](surf_and_deep.md). Two source surfaces over the
 same AST is the language's most distinctive shape decision. Every
 program in this repo ships in both forms.
 
@@ -110,7 +110,7 @@ the translated Deep back into readable Chelis.
 
 ### c-earchin — EARS requirements bridge
 
-[`docs/shells/c-earchin.md`](shells/c-earchin.md) points to the
+[`docs/shells/c_earchin.md`](shells/c_earchin.md) points to the
 finance-options demo in the c-earchin repo. It shows natural-language EARS
 requirements translated to Deep property witnesses, proven by `chelis prove`,
 with failure diagnostics resolving back to the EARS line.
@@ -149,7 +149,7 @@ and OpenBLAS, runs, and diffs stdout against the committed golden in
 
 ## 7. Why the dual format (final 5 min)
 
-Re-read [`surf-and-deep.md`](surf-and-deep.md) once you've seen 50+
+Re-read [`surf_and_deep.md`](surf_and_deep.md) once you've seen 50+
 Surf programs and their Deep counterparts in the wild. The
 illustrative payoff lands harder once you've internalized the
 desugaring on your own examples.

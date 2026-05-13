@@ -122,9 +122,9 @@ lowering goldens, and Surf-Deep drift. See
   corpus
 - [`architecture.md`](architecture.md) — how the directories map to
   the compiler pipeline
-- [`feature-matrix.md`](feature-matrix.md) — every primer-claimed
+- [`feature_matrix.md`](feature_matrix.md) — every primer-claimed
   feature → the file that exercises it
-- [`surf-and-deep.md`](surf-and-deep.md) — why every program ships
+- [`surf_and_deep.md`](surf_and_deep.md) — why every program ships
   in both forms
 - [`discrepancies.md`](discrepancies.md) — verbatim compiler error
   messages for every IR-evaluator-vs-C-backend gap

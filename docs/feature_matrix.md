@@ -126,7 +126,7 @@ output (modulo the absolute-path field in `.spans.json`).
   bridge-emitted Deep property witnesses through `chelis prove`.
 - Surf↔Deep round-trip identity — `chelis surf <dp>` is best-effort
   (list literals decompile to `Cons/Nil`, `cast(x, t)` to `(x as t)`).
-  See [`docs/surf-and-deep.md`](surf-and-deep.md).
+  See [`docs/surf_and_deep.md`](surf_and_deep.md).
 - HIP / Metal backends — no GPU on the CI runners; the C backend is
   the only target wired up.
 - Audit-chain `// span:` greps in emitted C — were briefly part of
