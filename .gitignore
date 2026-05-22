@@ -4,9 +4,11 @@ build/
 *.dp.out
 *.spans.json.tmp
 
-# Reef cache
+# Reef cache + build artifacts
 .reef-cache/
 target/
+dist/
+*.chb
 
 # Python harness
 __pycache__/
