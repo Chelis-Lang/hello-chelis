@@ -19,7 +19,7 @@
           (lit {span: "surf:266..269", type: (t-prim {} f32)} 3.0)
           (t-prim {} f32))
         (cast {span: "surf:277..294"}
-          (lit {span: "surf:282..288", type: (t-prim {} f32)} 0.0001)
+          (lit {span: "surf:282..288", type: (t-prim {} f32)} 0.0005)
           (t-prim {} f32))
         (lit {span: "surf:296..331", type: (t-prim {} string)} "golden-section min of (x-3)^2 + 7"))))
   (defsig {}
@@ -37,7 +37,7 @@
           (lit {span: "surf:432..435", type: (t-prim {} f32)} 3.0)
           (t-prim {} f32))
         (cast {span: "surf:443..460"}
-          (lit {span: "surf:448..454", type: (t-prim {} f32)} 0.0001)
+          (lit {span: "surf:448..454", type: (t-prim {} f32)} 0.0005)
           (t-prim {} f32))
         (lit {span: "surf:462..488", type: (t-prim {} string)} "brent min of (x-3)^2 + 7"))))
   (defsig {}
