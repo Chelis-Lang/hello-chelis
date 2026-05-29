@@ -156,7 +156,7 @@ desugaring on your own examples.
 
 For the proper compiler-vs-runtime gap inventory, end with
 [`discrepancies.md`](discrepancies.md). The deltas there are the
-real edges of the v0.7.6 surface.
+real edges of the pinned toolchain surface.
 
 ## Where to look for the source-of-truth specs upstream
 

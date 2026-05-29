@@ -126,7 +126,7 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 | Path | Command | Strengths | Limitations |
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
-| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on v0.7.6 |
+| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on the pinned toolchain |
 | C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
 
 Each test in this corpus runs in the lane that supports it. Full
@@ -135,11 +135,11 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.7.6`** with
-**`chelis-std` 0.3.0**, **coral 0.7.6**, **nautilus 0.7.6**, and
-**octant 0.4.5**. The c-earchin requirements-bridge fixtures are
-generated from the **c-earchin 0.2.2** release and proven in the
-Python harness. The `compiler = "=0.7.6"` pin in `reef.toml` is hard:
+The runnable in-repo corpus is pinned to **chelis `0.7.20`** with
+**`chelis-std` 0.3.0**, **coral 0.7.18**, **nautilus 0.7.19**, and
+**octant 0.4.6**. The c-earchin requirements-bridge fixtures are
+generated from the **c-earchin 0.2.5** release and proven in the
+Python harness. The `compiler = "=0.7.20"` pin in `reef.toml` is hard:
 the language is pre-1.0 and breaking changes ship between minor versions.
 
 ## Test status
@@ -147,7 +147,7 @@ the language is pre-1.0 and breaking changes ship between minor versions.
 | Lane | Pass count |
 |---|---:|
 | `pytest tests/test_surf_deep_equivalence.py` (drift) | 89 |
-| `pytest tests/test_c_backend.py` (C lowering + known codegen panics) | 7 |
+| `pytest tests/test_c_backend.py` (C lowering + golden outputs) | 7 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject) | 3 |
 | `pytest tests/test_c_earchin_artifacts.py` (EARS proof bridge) | 2 |
@@ -184,19 +184,17 @@ New or touched Chelis examples should still be formatted and linted
 before they are added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.7.6](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.6)
+[Chelis-Lang/chelis@v0.7.20](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.20)
 release artifacts.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.7.6. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  v0.7.20. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, some `grad`/activation shapes, `realize`, and some
   higher-order transform forms compile cleanly via `chelis check` and
   through the C backend, but are not all available in the in-process
-  evaluator. Some v0.7.6 C-backend symbolic-dimension panics are
-  locked as expected failures in `tests/test_c_backend.py` until they
-  are fixed upstream. Blocking CI
+  evaluator. Blocking CI
   runs the full native `chelis test tests/ --jobs auto` suite and covers
   the remaining examples with `chelis check`, Deep drift checks, negative
   checks, Octant round-trips, c-earchin proof checks, and C-backend execution.

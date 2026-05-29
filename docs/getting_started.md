@@ -18,8 +18,8 @@ The image is `ubuntu:24.04` plus:
 - Python 3 + pip (CI installs pytest before running the fallback harness)
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.3.0, `coral` 0.7.6, `nautilus` 0.7.6,
-  `octant` 0.4.5, and `c-earchin` 0.2.2 installed into the local Reef
+- The shells `chelis-std` 0.3.0, `coral` 0.7.18, `nautilus` 0.7.19,
+  `octant` 0.4.6, and `c-earchin` 0.2.5 installed into the local Reef
   registry from GitHub release assets
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
@@ -66,18 +66,16 @@ style diagnostics. Treat new or edited examples as style-clean.
 
 ## 5. C backend (full lowering)
 
-The IR evaluator at v0.7.6 doesn't run every primitive. The C-backend
-harness exercises supported native lowerings end-to-end and locks known
-v0.7.6 symbolic-dimension codegen panics as expected failures:
+The IR evaluator at v0.7.20 doesn't run every primitive. The C-backend
+harness exercises supported native lowerings end-to-end:
 
 ```sh
 python3 -m pytest -q tests/test_c_backend.py
 ```
 
 This builds supported programs under `verify/`, links against
-`libchelis_runtime.a` + OpenBLAS, runs the binary, diffs stdout against
-the committed golden in `verify/expected/<name>.txt`, and separately
-asserts the known compiler panics still fail with the expected reason.
+`libchelis_runtime.a` + OpenBLAS, runs the binary, and diffs stdout
+against the committed golden in `verify/expected/<name>.txt`.
 
 To do it by hand for one program:
 

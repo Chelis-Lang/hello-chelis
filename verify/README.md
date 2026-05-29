@@ -1,10 +1,10 @@
 # `verify/` — full-lowering verification via the C backend
 
 The IR evaluator that backs `chelis test` doesn't ship every primitive
-on v0.7.6. Some examples lower correctly through the **C backend**
-(`chelis build --target c`) and execute against the chelis runtime;
-others currently hit a v0.7.6 symbolic-dimension codegen panic. The
-test harness locks both outcomes so regressions are explicit.
+on the pinned toolchain. These examples lower correctly through the
+**C backend** (`chelis build --target c`) and execute against the
+chelis runtime. The test harness builds, links, runs, and golden-diffs
+every committed program in this directory so regressions are explicit.
 
 This directory holds small, project-free Chelis programs that exercise
 exactly the features the host runtime can't. Each one is built, linked
@@ -14,16 +14,12 @@ diffed against a golden in `expected/`.
 | Feature | Source | Golden |
 |---|---|---|
 | `grad` over a concrete tensor scalar reduction | [`grad_quadratic.ch`](grad_quadratic.ch) | [`expected/grad_quadratic.txt`](expected/grad_quadratic.txt) |
+| `grad` through a wrapper function parameter | [`grad_works.ch`](grad_works.ch) | [`expected/grad_works.txt`](expected/grad_works.txt) |
 | `cast` between precisions | [`cast_lowers.ch`](cast_lowers.ch) | [`expected/cast_lowers.txt`](expected/cast_lowers.txt) |
 | `realize` forced evaluation | [`realize_lowers.ch`](realize_lowers.ch) | [`expected/realize_lowers.txt`](expected/realize_lowers.txt) |
-
-Known v0.7.6 symbolic-dimension codegen panics, asserted by
-[`tests/test_c_backend.py`](../tests/test_c_backend.py):
-
-- [`grad_works.ch`](grad_works.ch)
-- [`relu_lowers.ch`](relu_lowers.ch)
-- [`relu_then_sigmoid.ch`](relu_then_sigmoid.ch)
-- [`sigmoid_lowers.ch`](sigmoid_lowers.ch)
+| `relu` tensor lowering | [`relu_lowers.ch`](relu_lowers.ch) | [`expected/relu_lowers.txt`](expected/relu_lowers.txt) |
+| `sigmoid` tensor lowering | [`sigmoid_lowers.ch`](sigmoid_lowers.ch) | [`expected/sigmoid_lowers.txt`](expected/sigmoid_lowers.txt) |
+| activation chaining | [`relu_then_sigmoid.ch`](relu_then_sigmoid.ch) | [`expected/relu_then_sigmoid.txt`](expected/relu_then_sigmoid.txt) |
 
 ## Run them
 
@@ -42,10 +38,6 @@ Each supported-lowering test:
 3. Links the emitted C with `gcc -fopenmp <name>.c -L<tmp>/<name>
    -lchelis_runtime -lopenblas -lm -lpthread -ldl`.
 4. Runs the binary and diffs stdout against `expected/<name>.txt`.
-
-The known-panic tests stop at `chelis build` and assert the compiler
-reports the symbolic-dimension internal error instead of silently
-emitting invalid C.
 
 ## Add a new verification
 

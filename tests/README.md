@@ -1,7 +1,7 @@
 # `tests/` — both Chelis-native and Python harnesses
 
 The repo keeps Chelis-native tests under `tests/<area>/<name>.ch`.
-The released v0.7.6 native runner runs the full test tree with
+The released v0.7.20 native runner runs the full test tree with
 node-local concurrency. Broader non-runtime invariants come from the
 Python drift, negative, Octant, c-earchin, and C-backend harnesses
 below. Run the native suite with:
@@ -20,7 +20,7 @@ reach:
 | [`test_negative_examples.py`](test_negative_examples.py) | reject | every `negative/*.ch` is rejected by `chelis check` with the kind declared in its `-- chelis-expect-fail: <kind>` header |
 | [`test_octant_pairs.py`](test_octant_pairs.py) | round-trip | every `octant/*.tex` re-translates to the committed `.dp`/`.spans.json`/`.ch` byte-equally |
 | [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | requirements proof | c-earchin finance-options property witnesses prove, and the failing witness maps to its EARS line |
-| [`test_c_backend.py`](test_c_backend.py) | C backend | supported `verify/*.ch` files build, link, run, and match goldens; known v0.7.6 symbolic-dimension codegen panics stay locked as expected failures |
+| [`test_c_backend.py`](test_c_backend.py) | C backend | every `verify/*.ch` file builds, links, runs, and matches its golden output |
 
 Run them all:
 

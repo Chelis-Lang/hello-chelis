@@ -15,7 +15,7 @@
         (var {span: "surf:117..120"} add)
         (var {span: "surf:121..122"} x)
         (var {span: "surf:124..125"} x))))
-  (defsig {} ones3 (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (defsig {} ones3 (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
   (def {}
     ones3
     (fn {}

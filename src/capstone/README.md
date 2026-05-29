@@ -19,11 +19,11 @@ and the relevant shells.
 |---|---|
 | `chelis check src/capstone/<file>.ch` | every file passes with fitness 1.0 |
 | `chelis test tests/capstone/` | runtime assertions for `blackscholes::call_atm`, `mlpipeline::*`, `transformerblock::block_module_loads` |
-| C-backend full lowering | [`verify/grad_quadratic.ch`](../../verify/grad_quadratic.ch) proves `grad` reaches native execution; [`verify/grad_works.ch`](../../verify/grad_works.ch) is a locked v0.7.6 codegen panic |
+| C-backend full lowering | [`verify/grad_quadratic.ch`](../../verify/grad_quadratic.ch) and [`verify/grad_works.ch`](../../verify/grad_works.ch) prove `grad` reaches native execution |
 
 ## Why some capstone tests are smoke-only
 
-The IR evaluator at v0.7.6 doesn't yet lower `grad` for the host
+The IR evaluator at the pinned toolchain doesn't yet lower `grad` for the host
 runtime, so test files like `tests/capstone/blackscholes.ch` exercise
 `call_price` (which doesn't use `grad`) but not `delta` / `vega`
 (which do). The `chelis check` pass validates the full grad

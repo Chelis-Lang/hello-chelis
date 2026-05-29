@@ -2,7 +2,7 @@
   hello.basics.modulesandimports.main
   (import-all {} hello.basics.modulesandimports.util)
   (export {} boost)
-  (defsig {} boost (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (defsig {} boost (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
   (def {}
     boost
     (fn {}

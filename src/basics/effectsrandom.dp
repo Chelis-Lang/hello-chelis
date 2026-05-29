@@ -27,7 +27,7 @@
           (t-prim {} f32)))))
   (defsig {}
     deterministic_pair
-    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32))))
+    (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
   (def {}
     deterministic_pair
     (fn {}

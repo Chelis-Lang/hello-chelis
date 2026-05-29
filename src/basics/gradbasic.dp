@@ -4,15 +4,15 @@
   (defsig {}
     loss
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (t-prim {} f32))))
   (def {}
     loss
     (fn {}
       (params {}
-        (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
+        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
       (let {span: "surf:128..243"}
         (bind {span: "surf:128..243"}
           err
@@ -51,15 +51,15 @@
   (defsig {}
     dloss_dw
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
   (def {}
     dloss_dw
     (fn {}
       (params {}
-        (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
+        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
       (app {span: "surf:315..338"}
         (grad {span: "surf:315..332", wrt: (var {} w)}
           (var {span: "surf:320..324"} loss)
@@ -69,15 +69,15 @@
   (defsig {}
     dloss_dx
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
   (def {}
     dloss_dx
     (fn {}
       (params {}
-        (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
+        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
       (app {span: "surf:410..433"}
         (grad {span: "surf:410..427", wrt: (var {} x)}
           (var {span: "surf:415..419"} loss)
