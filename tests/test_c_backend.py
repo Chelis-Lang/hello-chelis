@@ -25,6 +25,7 @@ REPO = Path(__file__).resolve().parent.parent
 VERIFY = REPO / "verify"
 EXPECTED = VERIFY / "expected"
 
+
 def discover() -> list[tuple[Path, Path]]:
     out: list[tuple[Path, Path]] = []
     for ch in sorted(VERIFY.glob("*.ch")):
