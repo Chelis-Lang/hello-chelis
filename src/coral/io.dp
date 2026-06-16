@@ -1,6 +1,8 @@
 (module {}
   hello.coral.io
-  (import {} coral.frame (Frame Column from_pairs nrows ncols))
+  (import {}
+    coral.frame
+    (Frame Column FloatCol StringCol from_pairs nrows ncols))
   (import {} coral.io (write_csv_frame read_csv_frame))
   (export {} sample_frame roundtrip_csv)
   (defsig {} sample_frame (t-fn {} (t-adt {} Frame (t-var {} 2))))
@@ -8,39 +10,39 @@
     sample_frame
     (fn {}
       (params {})
-      (app {span: "surf:203..330"}
-        (var {span: "surf:205..215"} from_pairs)
-        (app {span: "surf:216..327"}
+      (app {span: "surf:224..351"}
+        (var {span: "surf:226..236"} from_pairs)
+        (app {span: "surf:237..348"}
           (var {} Cons)
-          (tuple {span: "surf:217..284"}
-            (lit {span: "surf:218..225", type: (t-prim {} string)} "price")
-            (app {span: "surf:227..283"}
-              (var {span: "surf:227..235"} FloatCol)
-              (app {span: "surf:236..282"}
-                (var {span: "surf:236..245"} to_tensor)
-                (app {span: "surf:246..281"}
+          (tuple {span: "surf:238..305"}
+            (lit {span: "surf:239..246", type: (t-prim {} string)} "price")
+            (app {span: "surf:248..304"}
+              (var {span: "surf:248..256"} FloatCol)
+              (app {span: "surf:257..303"}
+                (var {span: "surf:257..266"} to_tensor)
+                (app {span: "surf:267..302"}
                   (var {} Cons)
-                  (cast {span: "surf:247..262"}
-                    (lit {span: "surf:252..256", type: (t-prim {} f32)} 10.5)
+                  (cast {span: "surf:268..283"}
+                    (lit {span: "surf:273..277", type: (t-prim {} f32)} 10.5)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {span: "surf:264..280"}
-                      (lit {span: "surf:269..274", type: (t-prim {} f32)} 20.25)
+                    (cast {span: "surf:285..301"}
+                      (lit {span: "surf:290..295", type: (t-prim {} f32)} 20.25)
                       (t-prim {} f32))
                     (var {} Nil))))))
           (app {}
             (var {} Cons)
-            (tuple {span: "surf:286..326"}
-              (lit {span: "surf:287..293", type: (t-prim {} string)} "city")
-              (app {span: "surf:295..325"}
-                (var {span: "surf:295..304"} StringCol)
-                (app {span: "surf:305..324"}
+            (tuple {span: "surf:307..347"}
+              (lit {span: "surf:308..314", type: (t-prim {} string)} "city")
+              (app {span: "surf:316..346"}
+                (var {span: "surf:316..325"} StringCol)
+                (app {span: "surf:326..345"}
                   (var {} Cons)
-                  (lit {span: "surf:306..313", type: (t-prim {} string)} "paris")
+                  (lit {span: "surf:327..334", type: (t-prim {} string)} "paris")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:315..323", type: (t-prim {} string)} "london")
+                    (lit {span: "surf:336..344", type: (t-prim {} string)} "london")
                     (var {} Nil)))))
             (var {} Nil))))))
   (defsig {}
@@ -52,18 +54,18 @@
     roundtrip_csv
     (fn {}
       (params {} (path {type: (t-prim {} string)}))
-      (let {span: "surf:386..466"}
-        (bind {span: "surf:386..466"}
+      (let {span: "surf:407..487"}
+        (bind {span: "surf:407..487"}
           df
-          (app {span: "surf:395..409"}
-            (var {span: "surf:395..407"} sample_frame)))
+          (app {span: "surf:416..430"}
+            (var {span: "surf:416..428"} sample_frame)))
         (let {}
           (bind {}
             __chelis_tmp0
-            (app {span: "surf:416..441"}
-              (var {span: "surf:416..431"} write_csv_frame)
-              (var {span: "surf:432..434"} df)
-              (var {span: "surf:436..440"} path)))
-          (app {span: "surf:444..464"}
-            (var {span: "surf:444..458"} read_csv_frame)
-            (var {span: "surf:459..463"} path)))))))
+            (app {span: "surf:437..462"}
+              (var {span: "surf:437..452"} write_csv_frame)
+              (var {span: "surf:453..455"} df)
+              (var {span: "surf:457..461"} path)))
+          (app {span: "surf:465..485"}
+            (var {span: "surf:465..479"} read_csv_frame)
+            (var {span: "surf:480..484"} path)))))))

@@ -3,9 +3,9 @@
 The scipy-equivalent shell. Pure Chelis (no C FFI), so AD flows through
 every numerical method via tensor-op composition. Currently `f32`-only;
 6–7 significant digits of precision. scipy parity at 216/216 samples in
-the strict gate as of v0.7.19.
+the strict gate as of v0.7.25.
 
-Pinned to `0.7.19`. Reef declaration in our [`reef.toml`](../../reef.toml).
+Pinned to `0.7.25`. Reef declaration in our [`reef.toml`](../../reef.toml).
 
 ## What's here
 

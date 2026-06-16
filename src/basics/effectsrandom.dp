@@ -7,11 +7,6 @@
     (t-fn {eff: (effects {} random)}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (defsig {}
-    sample_normal
-    (t-fn {eff: (effects {} random)}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     sample_normal
     (fn {}

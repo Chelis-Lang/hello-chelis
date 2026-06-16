@@ -105,7 +105,7 @@
               (var {span: "surf:862..871"} add_cents)
               (var {span: "surf:872..876"} base)
               (cast {span: "surf:878..892"}
-                (lit {span: "surf:883..884", type: (t-prim {} int32)} 7)
+                (lit {span: "surf:883..884", type: (t-prim {} int64)} 7)
                 (t-prim {} int64))))
           (app {span: "surf:896..960"}
             (var {span: "surf:896..907"} assert_true)

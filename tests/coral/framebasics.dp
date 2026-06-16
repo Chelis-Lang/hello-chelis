@@ -26,7 +26,7 @@
                 (var {span: "surf:334..339"} nrows)
                 (var {span: "surf:340..342"} df))
               (cast {span: "surf:345..359"}
-                (lit {span: "surf:350..351", type: (t-prim {} int32)} 3)
+                (lit {span: "surf:350..351", type: (t-prim {} int64)} 3)
                 (t-prim {} int64))
               (lit {span: "surf:361..385", type: (t-prim {} string)} "build_frame nrows == 3")))
           (app {span: "surf:389..455"}
@@ -35,7 +35,7 @@
               (var {span: "surf:403..408"} ncols)
               (var {span: "surf:409..411"} df))
             (cast {span: "surf:414..428"}
-              (lit {span: "surf:419..420", type: (t-prim {} int32)} 3)
+              (lit {span: "surf:419..420", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:430..454", type: (t-prim {} string)} "build_frame ncols == 3"))))))
   (defsig {}
@@ -61,7 +61,7 @@
                 (var {span: "surf:573..578"} nrows)
                 (var {span: "surf:579..582"} df2))
               (cast {span: "surf:585..599"}
-                (lit {span: "surf:590..591", type: (t-prim {} int32)} 3)
+                (lit {span: "surf:590..591", type: (t-prim {} int64)} 3)
                 (t-prim {} int64))
               (lit {span: "surf:601..634", type: (t-prim {} string)} "after with_column nrows still 3")))
           (app {span: "surf:638..711"}
@@ -70,7 +70,7 @@
               (var {span: "surf:652..657"} ncols)
               (var {span: "surf:658..661"} df2))
             (cast {span: "surf:664..678"}
-              (lit {span: "surf:669..670", type: (t-prim {} int32)} 4)
+              (lit {span: "surf:669..670", type: (t-prim {} int64)} 4)
               (t-prim {} int64))
             (lit {span: "surf:680..710", type: (t-prim {} string)} "after with_column ncols == 4"))))))
   (defsig {}
@@ -134,7 +134,7 @@
                         (var {span: "surf:1051..1056"} ncols)
                         (var {span: "surf:1057..1064"} renamed))
                       (cast {span: "surf:1067..1081"}
-                        (lit {span: "surf:1072..1073", type: (t-prim {} int32)} 3)
+                        (lit {span: "surf:1072..1073", type: (t-prim {} int64)} 3)
                         (t-prim {} int64))
                       (lit {span: "surf:1083..1104", type: (t-prim {} string)} "rename keeps 3 cols")))
                   (app {span: "surf:1108..1182"}
@@ -143,6 +143,6 @@
                       (var {span: "surf:1122..1127"} ncols)
                       (var {span: "surf:1128..1135"} dropped))
                     (cast {span: "surf:1138..1152"}
-                      (lit {span: "surf:1143..1144", type: (t-prim {} int32)} 2)
+                      (lit {span: "surf:1143..1144", type: (t-prim {} int64)} 2)
                       (t-prim {} int64))
                     (lit {span: "surf:1154..1181", type: (t-prim {} string)} "drop_column qty -> 2 cols")))))))))))

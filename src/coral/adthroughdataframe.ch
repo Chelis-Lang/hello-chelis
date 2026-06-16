@@ -1,5 +1,5 @@
 module Hello.Coral.AdThroughDataFrame
-import Coral.Frame (Frame, Column, from_pairs, nrows)
+import Coral.Frame (Frame, Column, FloatCol, from_pairs, nrows)
 export (frame_shape_check, simple_loss, dsimple_loss_dw)
 def frame_shape_check(w: tensor[n, f32]) -> int64 = {
   df = from_pairs([("w", FloatCol(w))])

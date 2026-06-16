@@ -15,27 +15,27 @@
           (app {span: "surf:242..322", type: (t-adt {} List (t-prim {} int64))}
             (var {} Cons)
             (cast {span: "surf:243..257"}
-              (lit {span: "surf:248..249", type: (t-prim {} int32)} 1)
+              (lit {span: "surf:248..249", type: (t-prim {} int64)} 1)
               (t-prim {} int64))
             (app {}
               (var {} Cons)
               (cast {span: "surf:259..273"}
-                (lit {span: "surf:264..265", type: (t-prim {} int32)} 2)
+                (lit {span: "surf:264..265", type: (t-prim {} int64)} 2)
                 (t-prim {} int64))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:275..289"}
-                  (lit {span: "surf:280..281", type: (t-prim {} int32)} 3)
+                  (lit {span: "surf:280..281", type: (t-prim {} int64)} 3)
                   (t-prim {} int64))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:291..305"}
-                    (lit {span: "surf:296..297", type: (t-prim {} int32)} 4)
+                    (lit {span: "surf:296..297", type: (t-prim {} int64)} 4)
                     (t-prim {} int64))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:307..321"}
-                      (lit {span: "surf:312..313", type: (t-prim {} int32)} 5)
+                      (lit {span: "surf:312..313", type: (t-prim {} int64)} 5)
                       (t-prim {} int64))
                     (var {} Nil)))))))
         (let {}
@@ -48,7 +48,7 @@
             (var {span: "surf:350..363"} assert_eq_int)
             (var {span: "surf:364..370"} result)
             (cast {span: "surf:372..386"}
-              (lit {span: "surf:377..378", type: (t-prim {} int32)} 6)
+              (lit {span: "surf:377..378", type: (t-prim {} int64)} 6)
               (t-prim {} int64))
             (lit {span: "surf:388..412", type: (t-prim {} string)} "sum of evens in [1..5]"))))))
   (defsig {}
@@ -64,17 +64,17 @@
           (app {span: "surf:488..539", type: (t-adt {} List (t-prim {} int64))}
             (var {} Cons)
             (cast {span: "surf:489..504"}
-              (lit {span: "surf:494..496", type: (t-prim {} int32)} 10)
+              (lit {span: "surf:494..496", type: (t-prim {} int64)} 10)
               (t-prim {} int64))
             (app {}
               (var {} Cons)
               (cast {span: "surf:506..521"}
-                (lit {span: "surf:511..513", type: (t-prim {} int32)} 20)
+                (lit {span: "surf:511..513", type: (t-prim {} int64)} 20)
                 (t-prim {} int64))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:523..538"}
-                  (lit {span: "surf:528..530", type: (t-prim {} int32)} 30)
+                  (lit {span: "surf:528..530", type: (t-prim {} int64)} 30)
                   (t-prim {} int64))
                 (var {} Nil)))))
         (let {}
@@ -89,7 +89,7 @@
               (var {span: "surf:582..585"} len)
               (var {span: "surf:586..592"} bumped))
             (cast {span: "surf:595..609"}
-              (lit {span: "surf:600..601", type: (t-prim {} int32)} 3)
+              (lit {span: "surf:600..601", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:611..640", type: (t-prim {} string)} "increments preserves length"))))))
   (defsig {} test_take_three (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -103,22 +103,22 @@
           (app {span: "surf:709..777", type: (t-adt {} List (t-prim {} int64))}
             (var {} Cons)
             (cast {span: "surf:710..725"}
-              (lit {span: "surf:715..717", type: (t-prim {} int32)} 10)
+              (lit {span: "surf:715..717", type: (t-prim {} int64)} 10)
               (t-prim {} int64))
             (app {}
               (var {} Cons)
               (cast {span: "surf:727..742"}
-                (lit {span: "surf:732..734", type: (t-prim {} int32)} 20)
+                (lit {span: "surf:732..734", type: (t-prim {} int64)} 20)
                 (t-prim {} int64))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:744..759"}
-                  (lit {span: "surf:749..751", type: (t-prim {} int32)} 30)
+                  (lit {span: "surf:749..751", type: (t-prim {} int64)} 30)
                   (t-prim {} int64))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:761..776"}
-                    (lit {span: "surf:766..768", type: (t-prim {} int32)} 40)
+                    (lit {span: "surf:766..768", type: (t-prim {} int64)} 40)
                     (t-prim {} int64))
                   (var {} Nil))))))
         (let {}
@@ -133,7 +133,7 @@
               (var {span: "surf:825..828"} len)
               (var {span: "surf:829..834"} taken))
             (cast {span: "surf:837..851"}
-              (lit {span: "surf:842..843", type: (t-prim {} int32)} 3)
+              (lit {span: "surf:842..843", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:853..868", type: (t-prim {} string)} "take 3 from 4"))))))
   (defsig {} test_vocab_lookup (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -162,17 +162,17 @@
                  }
               (var {} Cons)
               (cast {span: "surf:991..1005"}
-                (lit {span: "surf:996..997", type: (t-prim {} int32)} 1)
+                (lit {span: "surf:996..997", type: (t-prim {} int64)} 1)
                 (t-prim {} int64))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:1007..1021"}
-                  (lit {span: "surf:1012..1013", type: (t-prim {} int32)} 2)
+                  (lit {span: "surf:1012..1013", type: (t-prim {} int64)} 2)
                   (t-prim {} int64))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:1023..1037"}
-                    (lit {span: "surf:1028..1029", type: (t-prim {} int32)} 3)
+                    (lit {span: "surf:1028..1029", type: (t-prim {} int64)} 3)
                     (t-prim {} int64))
                   (var {} Nil)))))
           (let {}
@@ -190,14 +190,12 @@
                   (var {span: "surf:1098..1103"} vocab)
                   (lit {span: "surf:1105..1111", type: (t-prim {} string)} "beta")
                   (cast {span: "surf:1113..1128"}
-                    (app {span: "surf:1118..1120"}
-                      (var {} neg)
-                      (lit {span: "surf:1119..1120", type: (t-prim {} int32)} 1))
+                    (lit {span: "surf:1118..1120", type: (t-prim {} int64)} -1)
                     (t-prim {} int64))))
               (app {span: "surf:1132..1179"}
                 (var {span: "surf:1132..1145"} assert_eq_int)
                 (var {span: "surf:1146..1149"} hit)
                 (cast {span: "surf:1151..1165"}
-                  (lit {span: "surf:1156..1157", type: (t-prim {} int32)} 2)
+                  (lit {span: "surf:1156..1157", type: (t-prim {} int64)} 2)
                   (t-prim {} int64))
                 (lit {span: "surf:1167..1178", type: (t-prim {} string)} "beta -> 2")))))))))

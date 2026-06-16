@@ -7,9 +7,7 @@
       (app {span: "surf:36..85"}
         (var {} Cons)
         (cast {span: "surf:37..52"}
-          (app {span: "surf:42..46"}
-            (var {} neg)
-            (lit {span: "surf:43..46", type: (t-prim {} f32)} 2.0))
+          (lit {span: "surf:42..46", type: (t-prim {} f32)} -2.0)
           (t-prim {} f32))
         (app {}
           (var {} Cons)

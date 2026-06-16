@@ -9,7 +9,7 @@
     (fn {}
       (params {})
       (cast {span: "surf:232..246"}
-        (lit {span: "surf:237..238", type: (t-prim {} int32)} 0)
+        (lit {span: "surf:237..238", type: (t-prim {} int64)} 0)
         (t-prim {} int64))))
   (defsig {}
     tensor_sum_f32
@@ -53,7 +53,7 @@
                 (var {span: "surf:465..470"} nrows)
                 (var {span: "surf:471..473"} df))
               (cast {span: "surf:476..490"}
-                (lit {span: "surf:481..482", type: (t-prim {} int32)} 4)
+                (lit {span: "surf:481..482", type: (t-prim {} int64)} 4)
                 (t-prim {} int64))
               (lit {span: "surf:492..510", type: (t-prim {} string)} "sales nrows == 4")))
           (app {span: "surf:514..574"}
@@ -62,7 +62,7 @@
               (var {span: "surf:528..533"} ncols)
               (var {span: "surf:534..536"} df))
             (cast {span: "surf:539..553"}
-              (lit {span: "surf:544..545", type: (t-prim {} int32)} 2)
+              (lit {span: "surf:544..545", type: (t-prim {} int64)} 2)
               (t-prim {} int64))
             (lit {span: "surf:555..573", type: (t-prim {} string)} "sales ncols == 2"))))))
   (defsig {}
@@ -95,7 +95,7 @@
                   (var {span: "surf:735..740"} nrows)
                   (var {span: "surf:741..747"} result))
                 (cast {span: "surf:750..764"}
-                  (lit {span: "surf:755..756", type: (t-prim {} int32)} 2)
+                  (lit {span: "surf:755..756", type: (t-prim {} int64)} 2)
                   (t-prim {} int64))
                 (lit {span: "surf:766..785", type: (t-prim {} string)} "two unique cities")))
             (let {}
@@ -107,7 +107,7 @@
                     (var {span: "surf:807..812"} ncols)
                     (var {span: "surf:813..819"} result))
                   (cast {span: "surf:822..836"}
-                    (lit {span: "surf:827..828", type: (t-prim {} int32)} 2)
+                    (lit {span: "surf:827..828", type: (t-prim {} int64)} 2)
                     (t-prim {} int64))
                   (lit {span: "surf:838..853", type: (t-prim {} string)} "key + qty_sum")))
               (app {span: "surf:857..943"}
@@ -150,7 +150,7 @@
                   (var {span: "surf:1105..1110"} nrows)
                   (var {span: "surf:1111..1117"} result))
                 (cast {span: "surf:1120..1134"}
-                  (lit {span: "surf:1125..1126", type: (t-prim {} int32)} 2)
+                  (lit {span: "surf:1125..1126", type: (t-prim {} int64)} 2)
                   (t-prim {} int64))
                 (lit {span: "surf:1136..1155", type: (t-prim {} string)} "two unique cities")))
             (app {span: "surf:1159..1246"}

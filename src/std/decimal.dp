@@ -79,7 +79,7 @@
             (kv {}
               scale
               (cast {span: "surf:690..704"}
-                (lit {span: "surf:695..696", type: (t-prim {} int32)} 2)
+                (lit {span: "surf:695..696", type: (t-prim {} int64)} 2)
                 (t-prim {} int64)))))
         (app {span: "surf:709..734"}
           (var {span: "surf:709..720"} decimal_add)

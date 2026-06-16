@@ -114,7 +114,7 @@
               (lit {span: "surf:614..622", type: (t-prim {} f32)} 0.000001)
               (t-prim {} f32))
             (cast {span: "surf:630..646"}
-              (lit {span: "surf:635..638", type: (t-prim {} int32)} 200)
+              (lit {span: "surf:635..638", type: (t-prim {} int64)} 200)
               (t-prim {} int64)))))))
   (defsig {}
     lin_model
@@ -208,5 +208,5 @@
               (lit {span: "surf:1050..1060", type: (t-prim {} f32)} 0.00000001)
               (t-prim {} f32))
             (cast {span: "surf:1068..1084"}
-              (lit {span: "surf:1073..1076", type: (t-prim {} int32)} 100)
+              (lit {span: "surf:1073..1076", type: (t-prim {} int64)} 100)
               (t-prim {} int64))))))))

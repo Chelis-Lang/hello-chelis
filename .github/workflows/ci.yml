@@ -49,8 +49,14 @@ jobs:
 
       - name: chelis test native suite
         run: |
+          # 0.7.26 cascade added the `school` dependency for the ML examples, which
+          # the per-test-worker dep recompilation (a known chelis slowness) makes the
+          # 105-test suite compile-bound well past the old 180s budget. The suite is
+          # correct (105/0 locally); raise the wall-clock to 900s. The untimed nightly
+          # lane already runs the full suite. Real fix lives upstream (cross-worker
+          # compiled-dep caching), not in this gate.
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            timeout 180s chelis test tests/ --jobs auto
+            timeout 900s chelis test tests/ --jobs auto
 
       - name: Deep s-expression drift check (every .ch must match its .dp)
         run: |
