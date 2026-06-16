@@ -45,7 +45,7 @@
           (lit {span: "surf:338..348", type: (t-prim {} f32)} 0.00000001)
           (t-prim {} f32))
         (cast {span: "surf:356..372"}
-          (lit {span: "surf:361..364", type: (t-prim {} int32)} 100)
+          (lit {span: "surf:361..364", type: (t-prim {} int64)} 100)
           (t-prim {} int64)))))
   (defsig {} sqrt2_brent (t-fn {} (t-prim {} f32)))
   (def {}
@@ -65,7 +65,7 @@
           (lit {span: "surf:458..470", type: (t-prim {} f32)} 0.0000000001)
           (t-prim {} f32))
         (cast {span: "surf:478..494"}
-          (lit {span: "surf:483..486", type: (t-prim {} int32)} 100)
+          (lit {span: "surf:483..486", type: (t-prim {} int64)} 100)
           (t-prim {} int64)))))
   (defsig {} sqrt2_newton (t-fn {} (t-prim {} f32)))
   (def {}
@@ -83,5 +83,5 @@
           (lit {span: "surf:581..593", type: (t-prim {} f32)} 0.0000000001)
           (t-prim {} f32))
         (cast {span: "surf:601..616"}
-          (lit {span: "surf:606..608", type: (t-prim {} int32)} 50)
+          (lit {span: "surf:606..608", type: (t-prim {} int64)} 50)
           (t-prim {} int64))))))

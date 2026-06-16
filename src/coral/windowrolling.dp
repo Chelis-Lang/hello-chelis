@@ -45,7 +45,7 @@
         (app {span: "surf:313..328"}
           (var {span: "surf:313..326"} sample_series))
         (cast {span: "surf:330..344"}
-          (lit {span: "surf:335..336", type: (t-prim {} int32)} 3)
+          (lit {span: "surf:335..336", type: (t-prim {} int64)} 3)
           (t-prim {} int64)))))
   (defsig {} std3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
@@ -57,7 +57,7 @@
         (app {span: "surf:389..404"}
           (var {span: "surf:389..402"} sample_series))
         (cast {span: "surf:406..420"}
-          (lit {span: "surf:411..412", type: (t-prim {} int32)} 3)
+          (lit {span: "surf:411..412", type: (t-prim {} int64)} 3)
           (t-prim {} int64)))))
   (defsig {} ewm_half (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}

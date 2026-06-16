@@ -250,9 +250,7 @@
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:1296..1311"}
-                  (app {span: "surf:1301..1305"}
-                    (var {} neg)
-                    (lit {span: "surf:1302..1305", type: (t-prim {} f32)} 2.0))
+                  (lit {span: "surf:1301..1305", type: (t-prim {} f32)} -2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)

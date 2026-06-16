@@ -1,5 +1,5 @@
 module Hello.Coral.Reshape
-import Coral.Frame (Frame, Column, from_pairs)
+import Coral.Frame (Frame, Column, FloatCol, StringCol, from_pairs)
 import Coral.Reshape (pivot, melt)
 export (long_frame, wide_frame, pivoted, melted)
 def long_frame() -> Frame[4] = { from_pairs([("city", StringCol(["a", "a", "b", "b"])), ("product", StringCol(["x", "y", "x", "y"])), ("price", FloatCol(to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32), cast(4.0, f32)])))]) }

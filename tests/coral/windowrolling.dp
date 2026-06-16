@@ -35,7 +35,7 @@
                   (var {span: "surf:297..302"} index)
                   (var {span: "surf:303..306"} out)
                   (cast {span: "surf:308..322"}
-                    (lit {span: "surf:313..314", type: (t-prim {} int32)} 0)
+                    (lit {span: "surf:313..314", type: (t-prim {} int64)} 0)
                     (t-prim {} int64))))
               (lit {span: "surf:326..343", type: (t-prim {} string)} "mean3[0] is NaN")))
           (let {}
@@ -47,7 +47,7 @@
                   (var {span: "surf:364..369"} index)
                   (var {span: "surf:370..373"} out)
                   (cast {span: "surf:375..389"}
-                    (lit {span: "surf:380..381", type: (t-prim {} int32)} 2)
+                    (lit {span: "surf:380..381", type: (t-prim {} int64)} 2)
                     (t-prim {} int64)))
                 (cast {span: "surf:392..406"}
                   (lit {span: "surf:397..400", type: (t-prim {} f32)} 2.0)
@@ -65,7 +65,7 @@
                     (var {span: "surf:466..471"} index)
                     (var {span: "surf:472..475"} out)
                     (cast {span: "surf:477..491"}
-                      (lit {span: "surf:482..483", type: (t-prim {} int32)} 3)
+                      (lit {span: "surf:482..483", type: (t-prim {} int64)} 3)
                       (t-prim {} int64)))
                   (cast {span: "surf:494..508"}
                     (lit {span: "surf:499..502", type: (t-prim {} f32)} 3.0)
@@ -80,7 +80,7 @@
                   (var {span: "surf:564..569"} index)
                   (var {span: "surf:570..573"} out)
                   (cast {span: "surf:575..589"}
-                    (lit {span: "surf:580..581", type: (t-prim {} int32)} 4)
+                    (lit {span: "surf:580..581", type: (t-prim {} int64)} 4)
                     (t-prim {} int64)))
                 (cast {span: "surf:592..606"}
                   (lit {span: "surf:597..600", type: (t-prim {} f32)} 4.0)
@@ -108,7 +108,7 @@
             (var {span: "surf:743..748"} index)
             (var {span: "surf:749..752"} out)
             (cast {span: "surf:754..768"}
-              (lit {span: "surf:759..760", type: (t-prim {} int32)} 2)
+              (lit {span: "surf:759..760", type: (t-prim {} int64)} 2)
               (t-prim {} int64)))
           (cast {span: "surf:771..785"}
             (lit {span: "surf:776..779", type: (t-prim {} f32)} 1.0)
@@ -139,7 +139,7 @@
                 (var {span: "surf:922..927"} index)
                 (var {span: "surf:928..931"} out)
                 (cast {span: "surf:933..947"}
-                  (lit {span: "surf:938..939", type: (t-prim {} int32)} 0)
+                  (lit {span: "surf:938..939", type: (t-prim {} int64)} 0)
                   (t-prim {} int64)))
               (cast {span: "surf:950..964"}
                 (lit {span: "surf:955..958", type: (t-prim {} f32)} 1.0)
@@ -154,7 +154,7 @@
               (var {span: "surf:1018..1023"} index)
               (var {span: "surf:1024..1027"} out)
               (cast {span: "surf:1029..1043"}
-                (lit {span: "surf:1034..1035", type: (t-prim {} int32)} 1)
+                (lit {span: "surf:1034..1035", type: (t-prim {} int64)} 1)
                 (t-prim {} int64)))
             (cast {span: "surf:1046..1060"}
               (lit {span: "surf:1051..1054", type: (t-prim {} f32)} 1.5)

@@ -52,7 +52,7 @@
             (var {span: "surf:396..413"} frame_shape_check)
             (var {span: "surf:414..415"} w))
           (cast {span: "surf:418..432"}
-            (lit {span: "surf:423..424", type: (t-prim {} int32)} 3)
+            (lit {span: "surf:423..424", type: (t-prim {} int64)} 3)
             (t-prim {} int64))
           (lit {span: "surf:434..452", type: (t-prim {} string)} "frame nrows == 3")))))
   (defsig {}
@@ -140,6 +140,6 @@
             (var {span: "surf:865..882"} frame_shape_check)
             (var {span: "surf:883..884"} w))
           (cast {span: "surf:887..901"}
-            (lit {span: "surf:892..893", type: (t-prim {} int32)} 3)
+            (lit {span: "surf:892..893", type: (t-prim {} int64)} 3)
             (t-prim {} int64))
           (lit {span: "surf:903..927", type: (t-prim {} string)} "grad input has shape 3"))))))

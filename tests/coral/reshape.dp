@@ -21,7 +21,7 @@
                 (var {span: "surf:226..231"} nrows)
                 (var {span: "surf:232..233"} p))
               (cast {span: "surf:236..250"}
-                (lit {span: "surf:241..242", type: (t-prim {} int32)} 2)
+                (lit {span: "surf:241..242", type: (t-prim {} int64)} 2)
                 (t-prim {} int64))
               (lit {span: "surf:252..278", type: (t-prim {} string)} "pivot: 2 distinct cities")))
           (app {span: "surf:282..354"}
@@ -30,7 +30,7 @@
               (var {span: "surf:296..301"} ncols)
               (var {span: "surf:302..303"} p))
             (cast {span: "surf:306..320"}
-              (lit {span: "surf:311..312", type: (t-prim {} int32)} 3)
+              (lit {span: "surf:311..312", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:322..353", type: (t-prim {} string)} "pivot: city + x + y == 3 cols"))))))
   (defsig {} test_melt_shape (t-fn {eff: (effects {} test)} (t-prim {} unit)))
@@ -51,7 +51,7 @@
                 (var {span: "surf:437..442"} nrows)
                 (var {span: "surf:443..444"} m))
               (cast {span: "surf:447..461"}
-                (lit {span: "surf:452..453", type: (t-prim {} int32)} 6)
+                (lit {span: "surf:452..453", type: (t-prim {} int64)} 6)
                 (t-prim {} int64))
               (lit {span: "surf:463..497", type: (t-prim {} string)} "melt: 3 rows * 2 value cols == 6")))
           (app {span: "surf:501..583"}
@@ -60,6 +60,6 @@
               (var {span: "surf:515..520"} ncols)
               (var {span: "surf:521..522"} m))
             (cast {span: "surf:525..539"}
-              (lit {span: "surf:530..531", type: (t-prim {} int32)} 3)
+              (lit {span: "surf:530..531", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:541..582", type: (t-prim {} string)} "melt: city + variable + value == 3 cols")))))))

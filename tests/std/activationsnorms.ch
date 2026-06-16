@@ -1,7 +1,7 @@
 module Hello.Tests.Std.ActivationsNorms
 import Hello.Std.ActivationsNorms (rms_normalize, manual_layer_norm)
-import Std.Nn.Silu (sigmoid_scalar)
-import Std.Nn.Gelu (gelu_scalar)
+import School.Nn.Silu (sigmoid_scalar)
+import School.Nn.Gelu (gelu_scalar)
 import Std.Test (assert_close)
 def test_sigmoid_scalar_zero() -> unit ! { Test } = {
   result = sigmoid_scalar(cast(0.0, f32))

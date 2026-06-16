@@ -1,4 +1,4 @@
-# Compiler vs Interpreter Discrepancies (v0.7.20)
+# Compiler vs Interpreter Discrepancies (v0.7.26)
 
 Catalogued during the porting work. The compiler ships three distinct
 execution paths that don't all share the same primitive set:
@@ -7,7 +7,7 @@ execution paths that don't all share the same primitive set:
   checking. The most permissive: accepts every Surf form the spec
   describes.
 - **IR evaluator (host runtime)** — `chelis eval`, `chelis test`.
-  Interactive in-process execution. Limited primitive set on v0.7.20.
+  Interactive in-process execution. Limited primitive set on v0.7.26.
 - **C backend** — `chelis build --target c`. Production code path.
   Different (and on some primitives complementary) limitations.
 
@@ -119,7 +119,7 @@ through the C backend.
 > Workaround: `pad_sequences([[...], [...]], 0.0)` per upstream's
 > `tensor_structural_ops.ch`.
 
-### Fixed-shape C smoke fixtures lower on v0.7.20
+### Fixed-shape C smoke fixtures lower on v0.7.26
 
 The v0.7.6 symbolic-dimension C-codegen panic no longer applies to
 the current verify fixtures. `verify/grad_works.ch`,
@@ -127,7 +127,7 @@ the current verify fixtures. `verify/grad_works.ch`,
 `verify/sigmoid_lowers.ch` now build, link, run, and golden-diff in
 `tests/test_c_backend.py`.
 
-The v0.7.20 checker does reject signatures that declare a polymorphic
+The v0.7.26 checker does reject signatures that declare a polymorphic
 dimension while the function body fixes that dimension to a concrete
 literal, such as subtracting a length-3 literal vector from
 `tensor[n, f32]`. The current corpus makes those example shapes
@@ -189,7 +189,7 @@ explicit with `tensor[3, f32]`.
 > ```
 > chelis test tests/ --jobs auto
 > ```
-> Status: on v0.7.20 the full native tree passes under node-local
+> Status: on v0.7.26 the full native tree passes under node-local
 > concurrency. Use `chelis test tests/ --jobs 1` only as a serial
 > fallback for debugging output.
 
@@ -219,7 +219,7 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 | `grad` not in host runtime | `tests/capstone/blackscholes.ch` | `verify/grad_quadratic.ch` exercises C backend |
 | `realize` not in host runtime | (would-be `tests/basics/jitrealize.ch`) | `verify/realize_lowers.ch` exercises C backend |
 | Tensor activations not in host runtime | `tests/basics/pipeandmatch.ch` | Test file uses `neg`/`add` chain instead of `relu`/`sigmoid` |
-| v0.7.6 symbolic-dim C-codegen panic | historical `verify/grad_works.ch` and activation verify fixture shapes | resolved on v0.7.20; now normal golden-output C-backend tests |
+| v0.7.6 symbolic-dim C-codegen panic | historical `verify/grad_works.ch` and activation verify fixture shapes | resolved on v0.7.26; now normal golden-output C-backend tests |
 | `expand` shape divergence | `src/capstone/linreg.ch` | check-only; build-only via verify |
 | `with seed` blocks `chelis build` | `src/basics/effectsrandom.ch` | Project-wide build limited; verify/ programs are bare modules |
 | `cast(t, bf16)` rejected | `src/basics/precisioncast.ch` | Test uses f32→f64→f32 round trip |

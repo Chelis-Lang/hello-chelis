@@ -72,7 +72,7 @@
           (lit {span: "surf:516..526", type: (t-prim {} f32)} 0.00000001)
           (t-prim {} f32))
         (cast {span: "surf:534..550"}
-          (lit {span: "surf:539..542", type: (t-prim {} int32)} 200)
+          (lit {span: "surf:539..542", type: (t-prim {} int64)} 200)
           (t-prim {} int64)))))
   (defsig {} parabola_minimum_brent (t-fn {} (t-prim {} f32)))
   (def {}
@@ -92,7 +92,7 @@
           (lit {span: "surf:653..663", type: (t-prim {} f32)} 0.00000001)
           (t-prim {} f32))
         (cast {span: "surf:671..687"}
-          (lit {span: "surf:676..679", type: (t-prim {} int32)} 200)
+          (lit {span: "surf:676..679", type: (t-prim {} int64)} 200)
           (t-prim {} int64)))))
   (defsig {} parabola_minimum_newton (t-fn {} (t-prim {} f32)))
   (def {}
@@ -111,5 +111,5 @@
           (lit {span: "surf:801..813", type: (t-prim {} f32)} 0.0000000001)
           (t-prim {} f32))
         (cast {span: "surf:821..836"}
-          (lit {span: "surf:826..828", type: (t-prim {} int32)} 50)
+          (lit {span: "surf:826..828", type: (t-prim {} int64)} 50)
           (t-prim {} int64))))))

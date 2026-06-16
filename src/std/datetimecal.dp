@@ -25,7 +25,7 @@
           (var {span: "surf:290..293"} mul)
           (var {span: "surf:294..299"} years)
           (cast {span: "surf:301..317"}
-            (lit {span: "surf:306..309", type: (t-prim {} int32)} 365)
+            (lit {span: "surf:306..309", type: (t-prim {} int64)} 365)
             (t-prim {} int64))))))
   (defsig {} weekday_name (t-fn {} (t-adt {} Date) (t-prim {} string)))
   (def {}
@@ -63,7 +63,7 @@
         (var {span: "surf:541..549"} add_days)
         (var {span: "surf:550..551"} d)
         (cast {span: "surf:553..568"}
-          (lit {span: "surf:558..560", type: (t-prim {} int32)} 30)
+          (lit {span: "surf:558..560", type: (t-prim {} int64)} 30)
           (t-prim {} int64)))))
   (defsig {} week_before (t-fn {} (t-adt {} Date) (t-adt {} Date)))
   (def {}
@@ -74,7 +74,7 @@
         (var {span: "surf:605..613"} sub_days)
         (var {span: "surf:614..615"} d)
         (cast {span: "surf:617..631"}
-          (lit {span: "surf:622..623", type: (t-prim {} int32)} 7)
+          (lit {span: "surf:622..623", type: (t-prim {} int64)} 7)
           (t-prim {} int64)))))
   (defsig {} new_years_day (t-fn {} (t-prim {} int64) (t-adt {} Date)))
   (def {}
@@ -85,8 +85,8 @@
         (var {span: "surf:674..678"} date)
         (var {span: "surf:679..683"} year)
         (cast {span: "surf:685..699"}
-          (lit {span: "surf:690..691", type: (t-prim {} int32)} 1)
+          (lit {span: "surf:690..691", type: (t-prim {} int64)} 1)
           (t-prim {} int64))
         (cast {span: "surf:701..715"}
-          (lit {span: "surf:706..707", type: (t-prim {} int32)} 1)
+          (lit {span: "surf:706..707", type: (t-prim {} int64)} 1)
           (t-prim {} int64))))))

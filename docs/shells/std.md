@@ -3,7 +3,9 @@
 The standard library. Always available, no extra `[dependencies]` line
 needed beyond the implicit one in `reef.toml`.
 
-Pinned to `0.3.0`.
+Pinned to `0.4.0`. The neural-network and loss modules (`Std.Nn.*`,
+`Std.Loss.*`) moved to the `school` package as of 0.4.0; see
+[`school.md`](school.md).
 
 ## What's here
 
@@ -12,10 +14,7 @@ Pinned to `0.3.0`.
 | `Std.Tensor.Construct` | `to_tensor`, literal-list construction, `expand`, `pad_sequences` |
 | `Std.Tensor.Reduce` | `sum`, `mean`, `max_reduce`, `softmax`, `argmax`, `argmin`, `all`, `any` |
 | `Std.Tensor.Mask` | `where`, `where_indices`, `cmplt`, `eq`, `neq`, `gt`, `lte`, `gte` |
-| `Std.Nn.Activation` | `relu`, `sigmoid`, `tanh`, `gelu`, `silu`, `softmax`, `log_softmax` |
-| `Std.Nn.Norm` | `layer_norm`, `rms_norm`, `batch_norm`, `group_norm` |
-| `Std.Nn.Loss` | `mse`, `cross_entropy`, `bce`, `huber`, `kl_div` |
-| `Std.Nn.Random` | `uniform`, `normal`, `bernoulli`, `categorical` (effect-typed `! { Random }`) |
+| `Std.Init.Random` | `uniform`, `normal`, `normal_like`, `bernoulli`, `categorical` (effect-typed `! { Random }`) |
 | `Std.LinAlg` | `transpose`, `inverse`, `det`, `trace`, `eye`, `diag` |
 | `Std.Time` | `DateTime`, `Duration`, `Period`, `BusinessDay` |
 | `Std.Decimal` | `Decimal[P, S]` with compile-time precision tracking |

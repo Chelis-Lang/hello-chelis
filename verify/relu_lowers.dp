@@ -7,16 +7,12 @@
       (app {span: "surf:33..115"}
         (var {} Cons)
         (cast {span: "surf:34..49"}
-          (app {span: "surf:39..43"}
-            (var {} neg)
-            (lit {span: "surf:40..43", type: (t-prim {} f32)} 2.0))
+          (lit {span: "surf:39..43", type: (t-prim {} f32)} -2.0)
           (t-prim {} f32))
         (app {}
           (var {} Cons)
           (cast {span: "surf:51..66"}
-            (app {span: "surf:56..60"}
-              (var {} neg)
-              (lit {span: "surf:57..60", type: (t-prim {} f32)} 0.5))
+            (lit {span: "surf:56..60", type: (t-prim {} f32)} -0.5)
             (t-prim {} f32))
           (app {}
             (var {} Cons)

@@ -3,7 +3,7 @@
 A complete, runnable example project for the
 [Chelis](https://github.com/Chelis-Lang/chelis) language v0.7.x and
 its shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`,
-`c-earchin`).
+`c-earchin`, `school`).
 Designed as a self-education tool: clone, run, read.
 
 If you've never seen Chelis before, start with
@@ -135,12 +135,18 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.7.20`** with
-**`chelis-std` 0.3.0**, **coral 0.7.18**, **nautilus 0.7.19**, and
-**octant 0.4.6**. The c-earchin requirements-bridge fixtures are
-generated from the **c-earchin 0.2.5** release and proven in the
-Python harness. The `compiler = "=0.7.20"` pin in `reef.toml` is hard:
-the language is pre-1.0 and breaking changes ship between minor versions.
+The runnable in-repo corpus is pinned to **chelis `0.7.26`** with
+**`chelis-std` 0.4.0**, **coral 0.7.24**, **nautilus 0.7.25**,
+**octant 0.4.7**, and **school 0.1.3**. The c-earchin
+requirements-bridge fixtures are proven against the **c-earchin 0.3.0**
+release in the Python harness. The `compiler = "=0.7.26"` pin in
+`reef.toml` is hard: the language is pre-1.0 and breaking changes ship
+between minor versions.
+
+The neural-network and loss modules (`Nn.*`, `Loss.*`) moved out of
+`chelis-std` and into the new **`school`** package as of chelis-std
+0.4.0. Programs that previously imported `Std.Nn.*` / `Std.Loss.*` now
+import the corresponding `School.Nn.*` / `School.Loss.*` modules.
 
 ## Test status
 
@@ -184,13 +190,13 @@ New or touched Chelis examples should still be formatted and linted
 before they are added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.7.20](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.20)
+[Chelis-Lang/chelis@v0.7.26](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.26)
 release artifacts.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.7.20. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  v0.7.26. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, some `grad`/activation shapes, `realize`, and some
   higher-order transform forms compile cleanly via `chelis check` and
   through the C backend, but are not all available in the in-process

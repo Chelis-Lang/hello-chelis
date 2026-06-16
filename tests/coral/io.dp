@@ -9,7 +9,7 @@
     (fn {}
       (params {})
       (cast {span: "surf:221..235"}
-        (lit {span: "surf:226..227", type: (t-prim {} int32)} 0)
+        (lit {span: "surf:226..227", type: (t-prim {} int64)} 0)
         (t-prim {} int64))))
   (defsig {} one_i64 (t-fn {} (t-prim {} int64)))
   (def {}
@@ -17,7 +17,7 @@
     (fn {}
       (params {})
       (cast {span: "surf:261..275"}
-        (lit {span: "surf:266..267", type: (t-prim {} int32)} 1)
+        (lit {span: "surf:266..267", type: (t-prim {} int64)} 1)
         (t-prim {} int64))))
   (defsig {}
     test_csv_roundtrip_shape_and_values
@@ -57,7 +57,7 @@
                     (var {span: "surf:501..506"} nrows)
                     (var {span: "surf:507..511"} back))
                   (cast {span: "surf:514..528"}
-                    (lit {span: "surf:519..520", type: (t-prim {} int32)} 2)
+                    (lit {span: "surf:519..520", type: (t-prim {} int64)} 2)
                     (t-prim {} int64))
                   (lit {span: "surf:530..556", type: (t-prim {} string)} "csv roundtrip nrows == 2")))
               (let {}
@@ -69,7 +69,7 @@
                       (var {span: "surf:578..583"} ncols)
                       (var {span: "surf:584..588"} back))
                     (cast {span: "surf:591..605"}
-                      (lit {span: "surf:596..597", type: (t-prim {} int32)} 2)
+                      (lit {span: "surf:596..597", type: (t-prim {} int64)} 2)
                       (t-prim {} int64))
                     (lit {span: "surf:607..633", type: (t-prim {} string)} "csv roundtrip ncols == 2")))
                 (let {}

@@ -1,7 +1,7 @@
 module Hello.Std.ActivationsNorms
-import Std.Nn.Silu (sigmoid_scalar)
-import Std.Nn.Gelu (gelu_scalar, tanh_scalar)
-import Std.Nn.RmsNorm (rms_scale)
+import School.Nn.Silu (sigmoid_scalar)
+import School.Nn.Gelu (gelu_scalar, tanh_scalar)
+import School.Nn.RmsNorm (rms_scale)
 export (relu_then_sigmoid, gelu_vec, silu_vec, tanh_vec, rms_normalize, manual_layer_norm, sigmoid_then_tanh, gelu_then_relu)
 def relu_then_sigmoid(x: &tensor[n, f32]) -> tensor[n, f32] = sigmoid(relu(x))
 def gelu_vec(x: &tensor[n, f32]) -> tensor[n, f32] = to_tensor(map(fn (v: f32) -> gelu_scalar(v), to_list(x)))

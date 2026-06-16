@@ -58,7 +58,7 @@
               (var {span: "surf:370..376"} prices)
               (var {span: "surf:378..384"} cities))
             (cast {span: "surf:387..401"}
-              (lit {span: "surf:392..393", type: (t-prim {} int32)} 2)
+              (lit {span: "surf:392..393", type: (t-prim {} int64)} 2)
               (t-prim {} int64))
             (lit {span: "surf:403..423", type: (t-prim {} string)} "groupby_two_cities"))))))
   (defsig {} test_summary_stat (t-fn {eff: (effects {} test)} (t-prim {} unit)))

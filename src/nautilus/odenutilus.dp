@@ -34,7 +34,7 @@
           (lit {span: "surf:285..288", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
         (cast {span: "surf:296..312"}
-          (lit {span: "surf:301..304", type: (t-prim {} int32)} 100)
+          (lit {span: "surf:301..304", type: (t-prim {} int64)} 100)
           (t-prim {} int64)))))
   (defsig {} decay_euler (t-fn {} (t-prim {} f32)))
   (def {}
@@ -54,7 +54,7 @@
           (lit {span: "surf:397..400", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
         (cast {span: "surf:408..425"}
-          (lit {span: "surf:413..417", type: (t-prim {} int32)} 2000)
+          (lit {span: "surf:413..417", type: (t-prim {} int64)} 2000)
           (t-prim {} int64)))))
   (defsig {} exp_growth_rk4 (t-fn {} (t-prim {} f32)))
   (def {}
@@ -74,5 +74,5 @@
           (lit {span: "surf:512..515", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
         (cast {span: "surf:523..539"}
-          (lit {span: "surf:528..531", type: (t-prim {} int32)} 100)
+          (lit {span: "surf:528..531", type: (t-prim {} int64)} 100)
           (t-prim {} int64))))))

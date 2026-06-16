@@ -64,7 +64,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.7.20
+ARG CHELIS_VERSION=0.7.26
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -79,10 +79,11 @@ RUN --mount=type=secret,id=github_token \
     && chelis --version
 
 # --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.18
-ARG NAUTILUS_VERSION=0.7.19
-ARG OCTANT_VERSION=0.4.6
-ARG C_EARCHIN_VERSION=0.2.5
+ARG CORAL_VERSION=0.7.24
+ARG NAUTILUS_VERSION=0.7.25
+ARG OCTANT_VERSION=0.4.7
+ARG C_EARCHIN_VERSION=0.3.0
+ARG SCHOOL_VERSION=0.1.3
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
@@ -90,7 +91,8 @@ RUN --mount=type=secret,id=github_token \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}"
+    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}" \
+    && chelis reef install --from-github "Chelis-Lang/school@v${SCHOOL_VERSION}"
 
 # --- Octant CLI from release tarball --------------------------------------
 RUN --mount=type=secret,id=github_token \
