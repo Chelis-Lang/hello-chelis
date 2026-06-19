@@ -1,15 +1,25 @@
 name: nightly
 
+# Slimmed to its one unique value over the per-PR ci.yml gate: a valgrind
+# memory-safety pass on built C output. The check/test/pytest steps the
+# older sweep ran all duplicate what ci.yml already covers per PR, so they
+# are dropped. The Docker image build stays because valgrind needs the
+# chelis toolchain plus the image's C toolchain.
+
 on:
   schedule:
     - cron: "30 3 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: nightly-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   full-sweep:
-    name: check + pytest + valgrind
+    name: valgrind
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v4
@@ -27,28 +37,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: chelis check
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
-            chelis check src/basics/hellotensor.ch
-
-      - name: chelis test native suite
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly \
-            chelis test tests/ --jobs auto
-
-      - name: pytest tests/
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
-            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
-            python3 -m pytest -q tests/
-          '
-
       - name: Valgrind on built C output (subset)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
             set -e
-            for ex in src/basics/hellotensor.ch src/basics/gradbasic.ch; do
+            for ex in src/basics/hellotensor.ch verify/grad_quadratic.ch; do
               out=$(mktemp)
               chelis build --target c "$ex" -o "$out"
               if [ -x "$out" ]; then
@@ -56,3 +49,47 @@ jobs:
               fi
             done
           '
+
+  # Surface a nightly failure as a tracking issue (opens on failure, closes on
+  # green) so a red nightly is impossible to miss -- scheduled-run failures do
+  # not show a red status on main, which is how nightlies stay red for days
+  # unnoticed.
+  report:
+    name: Surface nightly status
+    needs: full-sweep
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open/close nightly-failure tracking issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ needs.full-sweep.result }}
+        with:
+          script: |
+            const title = 'Nightly failing: hello-chelis';
+            const { owner, repo } = context.repo;
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const q = `repo:${owner}/${repo} is:issue is:open in:title "${title}"`;
+            const found = await github.rest.search.issuesAndPullRequests({ q });
+            const existing = found.data.items.find(i => i.title === title);
+            if (process.env.RESULT === 'failure') {
+              if (existing) {
+                core.info(`Tracking issue #${existing.number} already open.`);
+              } else {
+                const issue = await github.rest.issues.create({
+                  owner, repo, title,
+                  body: `The **hello-chelis** nightly failed.\n\nRun: ${runUrl}\nCommit: \`${context.sha}\`\n\nAuto-opened on failure; auto-closes when the nightly next passes.`,
+                  labels: ['nightly-failure'],
+                });
+                core.info(`Opened tracking issue #${issue.data.number}.`);
+              }
+            } else if (process.env.RESULT === 'success' && existing) {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: existing.number,
+                body: `Nightly green again -- ${runUrl}. Closing.`,
+              });
+              await github.rest.issues.update({ owner, repo, issue_number: existing.number, state: 'closed' });
+              core.info(`Closed tracking issue #${existing.number}.`);
+            }
