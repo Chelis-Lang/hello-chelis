@@ -135,11 +135,11 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.7.26`** with
-**`chelis-std` 0.4.0**, **coral 0.7.24**, **nautilus 0.7.25**,
-**octant 0.4.7**, and **school 0.1.3**. The c-earchin
-requirements-bridge fixtures are proven against the **c-earchin 0.3.0**
-release in the Python harness. The `compiler = "=0.7.26"` pin in
+The runnable in-repo corpus is pinned to **chelis `0.7.27`** with
+**`chelis-std` 0.4.0**, **coral 0.7.25**, **nautilus 0.7.26**,
+**octant 0.4.8**, and **school 0.1.4**. The c-earchin
+requirements-bridge fixtures are proven against the **c-earchin 0.3.1**
+release in the Python harness. The `compiler = "=0.7.27"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
 between minor versions.
 
@@ -190,13 +190,13 @@ New or touched Chelis examples should still be formatted and linted
 before they are added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.7.26](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.26)
+[Chelis-Lang/chelis@v0.7.27](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.27)
 release artifacts.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.7.26. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  v0.7.27. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, some `grad`/activation shapes, `realize`, and some
   higher-order transform forms compile cleanly via `chelis check` and
   through the C backend, but are not all available in the in-process

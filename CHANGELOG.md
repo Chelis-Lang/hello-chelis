@@ -7,6 +7,45 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+### 0.1.9 - 2026-06-19
+
+Cascaded the corpus from chelis 0.7.26 to chelis 0.7.27. This is a
+clean pin bump: no source migration was required and no 0.7.27
+breaking change fired on this corpus.
+
+#### Pin bumps
+
+- compiler `=0.7.26` -> `=0.7.27`
+- `coral` `0.7.24` -> `0.7.25`
+- `nautilus` `0.7.25` -> `0.7.26`
+- `octant` `0.4.7` -> `0.4.8`
+- `c-earchin` `0.3.0` -> `0.3.1`
+- `school` `0.1.3` -> `0.1.4`
+- `chelis-std` stays `0.4.0` (compiler-bundled)
+
+Bumped across `reef.toml`, `reef.lock` (regenerated against the new
+releases via `chelis reef build`), the Docker image
+(`docker/Dockerfile` ARGs, `docker/docker-compose.yml` image tag),
+`.github/workflows/release.yml` env, `README.md`, and the `docs/` and
+per-area `README.md` references.
+
+#### ML relocation re-verified
+
+The 0.1.8 cascade moved the corpus's neural-network and loss imports
+out of `chelis-std` and into the `school` package (`School.Nn.*`,
+`School.Loss.*`). Those imports now resolve from `school@v0.1.4`; no
+`Std.Nn.*` / `Std.Loss.*` imports remain and no re-migration was
+needed. `chelis reef build` resolves the full dependency closure
+cleanly.
+
+#### Validation
+
+`chelis reef build` is clean against chelis 0.7.27; the lockfile pins
+were regenerated for the new shell releases. Front-end check, native
+`chelis test`, Deep-drift, C-backend, Octant, c-earchin, and negative
+harnesses run in the Docker-based PR CI against the freshly bundled
+toolchain.
+
 ### 0.1.8 - 2026-06-16
 
 Migrated the corpus from chelis 0.7.20 to chelis 0.7.26 (chelis-std

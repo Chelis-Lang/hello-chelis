@@ -18,8 +18,8 @@ The image is `ubuntu:24.04` plus:
 - Python 3 + pip (CI installs pytest before running the fallback harness)
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.4.0, `coral` 0.7.24, `nautilus` 0.7.25,
-  `octant` 0.4.7, `c-earchin` 0.3.0, and `school` 0.1.3 installed into
+- The shells `chelis-std` 0.4.0, `coral` 0.7.25, `nautilus` 0.7.26,
+  `octant` 0.4.8, `c-earchin` 0.3.1, and `school` 0.1.4 installed into
   the local Reef registry from GitHub release assets
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
@@ -66,7 +66,7 @@ style diagnostics. Treat new or edited examples as style-clean.
 
 ## 5. C backend (full lowering)
 
-The IR evaluator at v0.7.26 doesn't run every primitive. The C-backend
+The IR evaluator at v0.7.27 doesn't run every primitive. The C-backend
 harness exercises supported native lowerings end-to-end:
 
 ```sh
