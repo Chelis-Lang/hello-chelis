@@ -1,7 +1,7 @@
 """c-earchin finance-options proof artifacts stay executable.
 
 The fixtures are committed from the released c-earchin finance-options
-demo (pinned at v0.3.1) so hello-chelis can validate the final stack
+demo (pinned at v0.3.2) so hello-chelis can validate the final stack
 without cloning or building c-earchin from source.
 """
 

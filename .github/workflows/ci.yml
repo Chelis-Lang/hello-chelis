@@ -49,8 +49,8 @@ jobs:
 
       - name: chelis test native suite
         run: |
-          # 0.7.26 cascade added the `school` dependency for the ML examples, which
-          # the per-test-worker dep recompilation (a known chelis slowness) makes the
+          # The `school` dependency for the ML examples, combined with
+          # per-test-worker dep recompilation (a known chelis slowness), makes the
           # 105-test suite compile-bound well past the old 180s budget. The suite is
           # correct (105/0 locally); raise the wall-clock to 900s. The untimed nightly
           # lane already runs the full suite. Real fix lives upstream (cross-worker

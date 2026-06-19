@@ -1,7 +1,7 @@
 # hello-chelis
 
 A complete, runnable example project for the
-[Chelis](https://github.com/Chelis-Lang/chelis) language v0.7.x and
+[Chelis](https://github.com/Chelis-Lang/chelis) language v0.8.x and
 its shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`,
 `c-earchin`, `school`).
 Designed as a self-education tool: clone, run, read.
@@ -135,11 +135,11 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.7.27`** with
-**`chelis-std` 0.4.0**, **coral 0.7.25**, **nautilus 0.7.26**,
-**octant 0.4.8**, and **school 0.1.4**. The c-earchin
-requirements-bridge fixtures are proven against the **c-earchin 0.3.1**
-release in the Python harness. The `compiler = "=0.7.27"` pin in
+The runnable in-repo corpus is pinned to **chelis `0.8.0`** with
+**`chelis-std` 0.4.0**, **coral 0.7.26**, **nautilus 0.7.27**,
+**octant 0.4.9**, and **school 0.1.5**. The c-earchin
+requirements-bridge fixtures are proven against the **c-earchin 0.3.2**
+release in the Python harness. The `compiler = "=0.8.0"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
 between minor versions.
 
@@ -161,9 +161,11 @@ import the corresponding `School.Nn.*` / `School.Loss.*` modules.
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 
 `chelis lint --check .` is now a blocking CI gate. The corpus reports
-zero error-severity findings and zero advisory warnings under chelis
-0.7.8. Every upstream rule that previously blocked this gate landed
-in chelis 0.7.8:
+zero error-severity findings under chelis 0.8.0. One existing advisory
+`prefer-pipe-operator` finding remains in
+`src/capstone/transformerblock.ch`; advisory diagnostics do not fail
+`lint --check`. Every upstream rule that previously blocked this gate
+landed in chelis 0.7.8:
 
 - The `module-pascal-components` allowlist now recognizes `Linearity`,
   `Hypothesis`, `Integration`, and `Optimize` as legitimate
@@ -190,13 +192,13 @@ New or touched Chelis examples should still be formatted and linted
 before they are added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.7.27](https://github.com/Chelis-Lang/chelis/releases/tag/v0.7.27)
+[Chelis-Lang/chelis@v0.8.0](https://github.com/Chelis-Lang/chelis/releases/tag/v0.8.0)
 release artifacts.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.7.27. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  v0.8.0. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, some `grad`/activation shapes, `realize`, and some
   higher-order transform forms compile cleanly via `chelis check` and
   through the C backend, but are not all available in the in-process

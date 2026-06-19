@@ -7,6 +7,37 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+### 0.1.10 - 2026-06-19
+
+Cascaded the corpus from chelis 0.7.27 to chelis 0.8.0.
+
+#### Pin bumps
+
+- compiler `=0.7.27` -> `=0.8.0`
+- `coral` `0.7.25` -> `0.7.26`
+- `nautilus` `0.7.26` -> `0.7.27`
+- `octant` `0.4.8` -> `0.4.9`
+- `c-earchin` `0.3.1` -> `0.3.2`
+- `school` `0.1.4` -> `0.1.5`
+- `chelis-std` stays `0.4.0` (compiler-bundled)
+
+Bumped across `reef.toml`, `reef.lock` (regenerated against the new
+releases via `chelis reef build`), the Docker image
+(`docker/Dockerfile` ARGs, `docker/docker-compose.yml` image tag),
+`.github/workflows/release.yml` env, `README.md`, and the current
+`docs/` and per-area `README.md` references.
+
+#### Validation
+
+Validated with chelis 0.8.0 and the released shell packages:
+`chelis reef build`, `chelis check src/basics/hellotensor.ch`,
+`chelis lint --check .`, `python3 scripts/regen_deep.py --check`,
+`chelis test tests/ --jobs auto`, `python3 -m pytest -q tests/`,
+`python3 -m ruff check tests/`, `python3 -m black --check tests/`,
+and the Docker image build/smoke for `hello-chelis:0.8.0`. Strict
+lint exits zero with the existing non-blocking `prefer-pipe-operator`
+advisory in `src/capstone/transformerblock.ch`.
+
 ### 0.1.9 - 2026-06-19
 
 Cascaded the corpus from chelis 0.7.26 to chelis 0.7.27. This is a
