@@ -1,0 +1,43 @@
+# Provisional valgrind suppressions for the nightly "Valgrind on built C
+# output (subset)" step. Each entry is scoped to one specific known frame and
+# cites the upstream issue that makes it provisional. Remove an entry when its
+# cited issue is fixed; do NOT broaden these to whole-library wildcards.
+#
+# chelis#406: chelis runtime leaks two heap blocks (definitely lost) in a
+# `chelis build --target c` binary. Allocated once at program scope and
+# reclaimed by the OS at exit, so harmless for short-lived programs, but they
+# block a clean --leak-check=full gate. Suppressed here until chelis#406 lands.
+
+{
+   chelis-406-list-from-values
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect
+   fun:malloc
+   fun:chelis_list_from_values
+   fun:main
+}
+
+{
+   chelis-406-contiguous
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect
+   fun:malloc
+   fun:chelis_alloc
+   fun:chelis_contiguous
+   fun:main
+}
+
+# Not a chelis bug: libgomp allocates per-thread TLS in the OpenMP worker pool
+# (GOMP_parallel) that is never freed at process exit. This is the standard
+# OpenMP-runtime valgrind false positive, independent of chelis.
+{
+   libgomp-thread-pool-tls
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   ...
+   fun:GOMP_parallel
+}
