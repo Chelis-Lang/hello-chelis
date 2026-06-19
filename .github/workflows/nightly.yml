@@ -37,19 +37,24 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Valgrind a real chelis-built C binary. We copy the standalone grad
-      # file out of the reef root and build it from /tmp so the build lowers
-      # ONLY that file: `chelis build --target c <anyfile>` run from the reef
-      # root lowers the whole hello-chelis package, which includes the
-      # capstone BlackScholes.delta/.vega. Those differentiate w.r.t. a scalar
-      # f32 via inline `grad(f)(x)`, and chelis's host-lane C backend can only
-      # lower grad w.r.t. a tensor, so the whole-package build aborts ("can't
-      # lower these defs ... applies/binds grad ... in a position the host
-      # lane can't resolve") regardless of the entry file. grad_quadratic.ch
-      # uses the supported grad-over-function-parameter / tensor-wrt form, so
-      # built in isolation it lowers and runs cleanly (the Dockerfile does the
-      # same /tmp build as its sanity check). This is a "(subset)" pass by
-      # design; it is not the place to exercise the whole package.
+      # Valgrind a real chelis-built C binary. `chelis build --target c` emits
+      # a DIRECTORY of C sources + headers (not an executable, and it does not
+      # invoke the C compiler); we gcc-compile + link that against the image's
+      # libchelis_runtime.a, then valgrind the resulting binary. This mirrors
+      # the Dockerfile's sanity build.
+      #
+      # We copy the standalone grad file out of the reef root and build it from
+      # /tmp so the build lowers ONLY that file: `chelis build --target c
+      # <anyfile>` run from the reef root lowers the whole hello-chelis
+      # package, which includes the capstone BlackScholes.delta/.vega. Those
+      # differentiate w.r.t. a scalar f32 via inline `grad(f)(x)`, and chelis's
+      # host-lane C backend can only lower grad w.r.t. a tensor, so the
+      # whole-package build aborts ("can't lower these defs ... applies/binds
+      # grad ... in a position the host lane can't resolve") regardless of the
+      # entry file. grad_quadratic.ch uses the supported grad-over-function-
+      # parameter / tensor-wrt form, so built in isolation it lowers and runs
+      # cleanly. This is a "(subset)" pass by design; it is not the place to
+      # exercise the whole package.
       # TODO(chelis): no upstream tracking issue yet for inline/scalar-wrt grad
       # being unlowerable in `build --target c` (the limitation the error text
       # documents). File one and replace this TODO with the chelis#NNN cite per
@@ -59,11 +64,11 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
             set -e
             cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch
-            out=$(mktemp)
-            chelis build --target c /tmp/grad_quadratic.ch -o "$out"
-            if [ -x "$out" ]; then
-              valgrind --error-exitcode=1 --leak-check=full "$out"
-            fi
+            chelis build --target c /tmp/grad_quadratic.ch -o /tmp/grad_build
+            cd /tmp/grad_build
+            gcc -O2 -fopenmp grad_quadratic.c -L. -L/usr/local/lib -lchelis_runtime \
+                -lopenblas -lm -lpthread -ldl -o grad_quadratic
+            valgrind --error-exitcode=1 --leak-check=full ./grad_quadratic
           '
 
   # Surface a nightly failure as a tracking issue (opens on failure, closes on
