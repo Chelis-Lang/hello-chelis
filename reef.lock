@@ -6,8 +6,8 @@ version = "0.1.11"
 name = "chelis-std"
 version = "0.4.0"
 compiler = "=0.14.0"
-archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
-shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+archive_sha256 = "530cb0f6d4f79800a6f6fa1986a1c1424005e573b55e59784d7bf81e4f12c659"
+shell_sha256 = "284e0c32eece36f9dcc2e291a6f4f299e5a710d6a79f883f534755b914e9e9b0"
 
 [dependencies.source]
 kind = "bundled"
@@ -17,31 +17,30 @@ compiler_version = "0.14.0"
 name = "coral"
 version = "0.7.30"
 compiler = "=0.14.0"
-archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
-shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+archive_sha256 = "55a8a6d9eb869bb5ddf0be8ecec8d93298478485347d940f095adae39c0f17ed"
+shell_sha256 = "63c687243181147564e33cadded56a0f54bcad403ec4af246fa97f4e4a464b44"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/coral@v0.7.30"
 
 [[dependencies]]
 name = "nautilus"
 version = "0.7.33"
 compiler = "=0.14.0"
-archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
-shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+archive_sha256 = "08cc04ce32d0131d39df88fe2230c83b2b33d3dd8dd52dda431273cff22e0fa4"
+shell_sha256 = "63459eb6a6f943a245c7673cc10f879c312fcaf0a1af28dd0d0a1382fb28f71d"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/nautilus@v0.7.33"
 
 [[dependencies]]
 name = "school"
-version = "0.1.5"
+version = "0.1.9"
 compiler = "=0.14.0"
-archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
-shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+archive_sha256 = "a841e7402fa24dd47a6964eac62d45d906d73a44a6767ba50b387b0f3b08ab06"
+shell_sha256 = "9ef1c1fa5e851d4774182ab961068974a83b497f766c36e5fee88a85616cfe0f"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/school@v0.1.5"
+remote_origin = "github://chelis-lang/school@v0.1.9"
+
