@@ -10,9 +10,9 @@ permissions:
   contents: write
 
 env:
-  CHELIS_VERSION: 0.8.0
+  CHELIS_VERSION: 0.14.0
   PACKAGE_NAME: hello-chelis
-  PACKAGE_VERSION: 0.1.10
+  PACKAGE_VERSION: 0.1.11
 
 jobs:
   build-reef-assets:

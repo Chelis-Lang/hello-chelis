@@ -1,48 +1,47 @@
 [package]
 name = "hello-chelis"
-version = "0.1.10"
+version = "0.1.11"
 
 [[dependencies]]
 name = "chelis-std"
 version = "0.4.0"
-compiler = "=0.8.0"
-archive_sha256 = "651d210ce8852de3092714c5807a4f991735b2ac0c58e4ed45f44046b889f2e5"
-shell_sha256 = "4c625bbf9b30941cecaeb78e2886866dde5bcf481d506c8d9615a8e3596afee1"
+compiler = "=0.14.0"
+archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 
 [dependencies.source]
 kind = "bundled"
-compiler_version = "0.8.0"
+compiler_version = "0.14.0"
 
 [[dependencies]]
 name = "coral"
-version = "0.7.26"
-compiler = "=0.8.0"
-archive_sha256 = "488fa31b21cdc0bb5389be0965f150f363579f65d63f632413e20f8544b5a271"
-shell_sha256 = "7f829d665bef820e874e7bf1675cc487b0715017000c9832f12c7fb9c55340c8"
+version = "0.7.30"
+compiler = "=0.14.0"
+archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/coral@v0.7.26"
+remote_origin = "github://Chelis-Lang/coral@v0.7.30"
 
 [[dependencies]]
 name = "nautilus"
-version = "0.7.27"
-compiler = "=0.8.0"
-archive_sha256 = "ccc171cc15c91247e862f2f4df1b24d74f9869c2f31abef840bb9f1d77af408e"
-shell_sha256 = "ad79aa2f05f14b4a2152219bbed596bcb04d362021bb297d885303c3d0a11e64"
+version = "0.7.33"
+compiler = "=0.14.0"
+archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/nautilus@v0.7.27"
+remote_origin = "github://Chelis-Lang/nautilus@v0.7.33"
 
 [[dependencies]]
 name = "school"
 version = "0.1.5"
-compiler = "=0.8.0"
-archive_sha256 = "a7a0639f2f87a5533503bcecd042703c4c5a8f5c8e4ba8924f99bb783b5ed1df"
-shell_sha256 = "dad1d1d6ef1e04668346ef93f36e4c297617d7f79a8d774d10d6829fb0b89e57"
+compiler = "=0.14.0"
+archive_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+shell_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 
 [dependencies.source]
 kind = "local_registry"
 remote_origin = "github://Chelis-Lang/school@v0.1.5"
-
