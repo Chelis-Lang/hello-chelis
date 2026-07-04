@@ -34,7 +34,7 @@ jobs:
           load: true
           secrets: |
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          cache-from: type=gha
+          # cache-from: type=gha (disabled: force fresh build after version bump)
           cache-to: type=gha,mode=max
           # Pass CHELIS_VERSION as build-arg to bust the cache on version bumps.
           # Without this, GHA layer cache can serve a stale chelis binary.
@@ -96,7 +96,7 @@ jobs:
           load: true
           secrets: |
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          cache-from: type=gha
+          # cache-from: type=gha (disabled: force fresh build after version bump)
 
       # Negative examples + Octant pair regeneration + C-backend
       # audit-chain greps. See tests/README.md.
