@@ -81,9 +81,9 @@ RUN --mount=type=secret,id=github_token \
 # --- Install shell releases into Reef registry ----------------------------
 ARG CORAL_VERSION=0.7.30
 ARG NAUTILUS_VERSION=0.7.33
-ARG OCTANT_VERSION=0.4.9
-ARG C_EARCHIN_VERSION=0.3.2
-ARG SCHOOL_VERSION=0.1.5
+ARG OCTANT_VERSION=0.10.1
+ARG C_EARCHIN_VERSION=0.3.3
+ARG SCHOOL_VERSION=0.1.9
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
