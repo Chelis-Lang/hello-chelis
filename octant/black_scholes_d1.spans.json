@@ -1,5 +1,7 @@
 {
-  "source": "/home/user/hello-chelis/octant/black_scholes_d1.tex",
+  "schema_version": "1.0",
+  "source_format": "latex",
+  "source": "octant/black_scholes_d1.tex",
   "source_hash": "sha256:a118b2c4577d4da0b03639e242daa08930217127b411fc3b76d4bc870377f1df",
   "spans": [
     {
@@ -15,7 +17,8 @@
         "end_column": 62,
         "label": null
       },
-      "latex_text": "d_1 = \\frac{\\ln(s/k) + (r + \\sigma^2 / 2) t}{\\sigma \\sqrt{t}}"
+      "latex_text": "d_1 = \\frac{\\ln(s/k) + (r + \\sigma^2 / 2) t}{\\sigma \\sqrt{t}}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_002",
@@ -30,7 +33,8 @@
         "end_column": 62,
         "label": null
       },
-      "latex_text": "\\frac{\\ln(s/k) + (r + \\sigma^2 / 2) t}{\\sigma \\sqrt{t}}"
+      "latex_text": "\\frac{\\ln(s/k) + (r + \\sigma^2 / 2) t}{\\sigma \\sqrt{t}}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_003",
@@ -45,7 +49,8 @@
         "end_column": 44,
         "label": null
       },
-      "latex_text": "\\ln(s/k) + (r + \\sigma^2 / 2) t"
+      "latex_text": "\\ln(s/k) + (r + \\sigma^2 / 2) t",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_004",
@@ -60,7 +65,8 @@
         "end_column": 21,
         "label": null
       },
-      "latex_text": "\\ln(s/k)"
+      "latex_text": "\\ln(s/k)",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_005",
@@ -75,7 +81,8 @@
         "end_column": 20,
         "label": null
       },
-      "latex_text": "s/k"
+      "latex_text": "s/k",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_006",
@@ -90,7 +97,8 @@
         "end_column": 18,
         "label": null
       },
-      "latex_text": "s"
+      "latex_text": "s",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_007",
@@ -105,7 +113,8 @@
         "end_column": 20,
         "label": null
       },
-      "latex_text": "k"
+      "latex_text": "k",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_008",
@@ -120,7 +129,8 @@
         "end_column": 44,
         "label": null
       },
-      "latex_text": "(r + \\sigma^2 / 2) t"
+      "latex_text": "(r + \\sigma^2 / 2) t",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_009",
@@ -135,7 +145,8 @@
         "end_column": 41,
         "label": null
       },
-      "latex_text": "r + \\sigma^2 / 2"
+      "latex_text": "r + \\sigma^2 / 2",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_010",
@@ -150,7 +161,8 @@
         "end_column": 26,
         "label": null
       },
-      "latex_text": "r"
+      "latex_text": "r",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_011",
@@ -165,7 +177,8 @@
         "end_column": 41,
         "label": null
       },
-      "latex_text": "\\sigma^2 / 2"
+      "latex_text": "\\sigma^2 / 2",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_012",
@@ -180,7 +193,8 @@
         "end_column": 37,
         "label": null
       },
-      "latex_text": "\\sigma^2"
+      "latex_text": "\\sigma^2",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_013",
@@ -195,7 +209,8 @@
         "end_column": 35,
         "label": null
       },
-      "latex_text": "\\sigma"
+      "latex_text": "\\sigma",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_014",
@@ -210,7 +225,8 @@
         "end_column": 35,
         "label": null
       },
-      "latex_text": "\\sigma"
+      "latex_text": "\\sigma",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_015",
@@ -225,7 +241,8 @@
         "end_column": 41,
         "label": null
       },
-      "latex_text": "2"
+      "latex_text": "2",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_016",
@@ -240,7 +257,8 @@
         "end_column": 44,
         "label": null
       },
-      "latex_text": "t"
+      "latex_text": "t",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_017",
@@ -255,7 +273,8 @@
         "end_column": 61,
         "label": null
       },
-      "latex_text": "\\sigma \\sqrt{t}"
+      "latex_text": "\\sigma \\sqrt{t}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_018",
@@ -270,7 +289,8 @@
         "end_column": 52,
         "label": null
       },
-      "latex_text": "\\sigma"
+      "latex_text": "\\sigma",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_019",
@@ -285,7 +305,8 @@
         "end_column": 61,
         "label": null
       },
-      "latex_text": "\\sqrt{t}"
+      "latex_text": "\\sqrt{t}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_020",
@@ -300,7 +321,8 @@
         "end_column": 60,
         "label": null
       },
-      "latex_text": "t"
+      "latex_text": "t",
+      "faithfulness": "deterministic-faithful"
     }
   ]
 }

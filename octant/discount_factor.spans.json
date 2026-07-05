@@ -1,5 +1,7 @@
 {
-  "source": "/home/user/hello-chelis/octant/discount_factor.tex",
+  "schema_version": "1.0",
+  "source_format": "latex",
+  "source": "octant/discount_factor.tex",
   "source_hash": "sha256:114b0527bcbe224d9b297c388b88a2d8bd3359df5392e13fefd3a6208fc3ee1a",
   "spans": [
     {
@@ -15,7 +17,8 @@
         "end_column": 13,
         "label": null
       },
-      "latex_text": "d = e^{-r t}"
+      "latex_text": "d = e^{-r t}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_002",
@@ -30,7 +33,8 @@
         "end_column": 13,
         "label": null
       },
-      "latex_text": "e^{-r t}"
+      "latex_text": "e^{-r t}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_003",
@@ -45,7 +49,8 @@
         "end_column": 13,
         "label": null
       },
-      "latex_text": "e^{-r t}"
+      "latex_text": "e^{-r t}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_004",
@@ -60,7 +65,8 @@
         "end_column": 13,
         "label": null
       },
-      "latex_text": "e^{-r t}"
+      "latex_text": "e^{-r t}",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_005",
@@ -75,7 +81,8 @@
         "end_column": 6,
         "label": null
       },
-      "latex_text": "e"
+      "latex_text": "e",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_006",
@@ -90,7 +97,8 @@
         "end_column": 12,
         "label": null
       },
-      "latex_text": "-r t"
+      "latex_text": "-r t",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_007",
@@ -105,7 +113,8 @@
         "end_column": 10,
         "label": null
       },
-      "latex_text": "-r"
+      "latex_text": "-r",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_008",
@@ -120,7 +129,8 @@
         "end_column": 10,
         "label": null
       },
-      "latex_text": "-r"
+      "latex_text": "-r",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_009",
@@ -135,7 +145,8 @@
         "end_column": 10,
         "label": null
       },
-      "latex_text": "r"
+      "latex_text": "r",
+      "faithfulness": "deterministic-faithful"
     },
     {
       "deep_node_id": "n_010",
@@ -150,7 +161,8 @@
         "end_column": 12,
         "label": null
       },
-      "latex_text": "t"
+      "latex_text": "t",
+      "faithfulness": "deterministic-faithful"
     }
   ]
 }
