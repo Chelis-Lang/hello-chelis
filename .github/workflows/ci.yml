@@ -11,100 +11,15 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Primary gate: the released Chelis toolchain must check and test the corpus,
-# regenerate Deep sidecars byte-for-byte, and lower the C-backend examples.
+permissions:
+  contents: read
 
 jobs:
-  chelis-native:
-    name: chelis inventory + check + test
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/setup-buildx-action@v3
-
-      - name: Build hello-chelis Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: docker/Dockerfile
-          tags: hello-chelis:ci
-          load: true
-          secrets: |
-            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          # cache-from: type=gha (disabled: force fresh build after version bump)
-          no-cache: true
-          cache-to: type=gha,mode=max
-          # Pass CHELIS_VERSION as build-arg to bust the cache on version bumps.
-          # Without this, GHA layer cache can serve a stale chelis binary.
-          build-args: |
-            CHELIS_VERSION=0.14.0
-            CORAL_VERSION=0.7.30
-            NAUTILUS_VERSION=0.7.33
-
-      - name: chelis lint inventory (non-blocking)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis lint .
-
-      - name: chelis check (front-end gate)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis check src/basics/hellotensor.ch
-
-      - name: chelis test native suite
-        run: |
-          # The `school` dependency for the ML examples, combined with
-          # per-test-worker dep recompilation (a known chelis slowness), makes the
-          # 105-test suite compile-bound well past the old 180s budget. The suite is
-          # correct (105/0 locally); raise the wall-clock to 900s. The untimed nightly
-          # lane already runs the full suite. Real fix lives upstream (cross-worker
-          # compiled-dep caching), not in this gate.
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            timeout 900s chelis test tests/ --jobs auto
-
-      - name: Deep s-expression drift check (every .ch must match its .dp)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            python3 scripts/regen_deep.py --check
-
-      # The IR evaluator doesn't ship every primitive. This lane builds
-      # supported verify/*.ch files through `chelis build`, links against
-      # libchelis_runtime + OpenBLAS, and golden-diffs native output.
-      - name: chelis build (C-backend coverage)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
-            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
-            python3 -m pytest -q tests/test_c_backend.py
-          '
-
-  fallback-orchestration:
-    name: pytest (fallback)
-    runs-on: ubuntu-24.04
-    needs: chelis-native
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - name: Reuse hello-chelis image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: docker/Dockerfile
-          tags: hello-chelis:ci
-          load: true
-          secrets: |
-            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          # cache-from: type=gha (disabled: force fresh build after version bump)
-          no-cache: true
-
-      # Negative examples + Octant pair regeneration + C-backend
-      # audit-chain greps. See tests/README.md.
-      - name: pytest tests/
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
-            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
-            python3 -m pytest -q tests/
-          '
+  central:
+    uses: Chelis-Lang/ci/.github/workflows/consumer-hello-chelis-ci.yml@1546f3d4f674c69c5bfd38621cc880d4d1b8fdf4
+    with:
+      chelis-version: 0.14.0
+      coral-version: 0.7.30
+      nautilus-version: 0.7.33
+    secrets:
+      CHELIS_RELEASE_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN }}

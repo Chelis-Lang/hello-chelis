@@ -9,55 +9,11 @@ on:
 permissions:
   contents: write
 
-env:
-  CHELIS_VERSION: 0.14.0
-  PACKAGE_NAME: hello-chelis
-  PACKAGE_VERSION: 0.1.11
-
 jobs:
-  build-reef-assets:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download chelis toolchain
-        env:
-          GH_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-        run: |
-          gh release download "v${CHELIS_VERSION}" \
-            --repo Chelis-Lang/chelis \
-            --pattern "chelis-v${CHELIS_VERSION}-linux-x86_64.tar.gz" \
-            --dir /tmp/chelis-toolchain
-          tar -xzf "/tmp/chelis-toolchain/chelis-v${CHELIS_VERSION}-linux-x86_64.tar.gz" \
-            -C /tmp/chelis-toolchain
-          echo "/tmp/chelis-toolchain/chelis-v${CHELIS_VERSION}-linux-x86_64/bin" >> "$GITHUB_PATH"
-
-      - name: Verify toolchain
-        run: test "$(chelis --version)" = "chelis ${CHELIS_VERSION}"
-
-      - name: Check Deep sidecars
-        run: python3 scripts/regen_deep.py --check
-
-      - name: Build reef assets
-        env:
-          GH_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          GITHUB_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-        run: chelis reef build
-
-      - name: Verify release assets
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        run: |
-          test "${GITHUB_REF_NAME#v}" = "${PACKAGE_VERSION}"
-          test -f "dist/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.zst"
-          test -f "dist/${PACKAGE_NAME}-${PACKAGE_VERSION}.chb"
-
-      - name: Publish GitHub Release
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            dist/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tar.zst
-            dist/${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.chb
-          generate_release_notes: true
-          fail_on_unmatched_files: true
+  central:
+    uses: Chelis-Lang/ci/.github/workflows/consumer-hello-chelis-release.yml@1546f3d4f674c69c5bfd38621cc880d4d1b8fdf4
+    with:
+      chelis-version: 0.14.0
+      package-version: 0.1.11
+    secrets:
+      CHELIS_RELEASE_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN }}
