@@ -15,6 +15,12 @@ concurrency:
   group: nightly-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  CHELIS_VERSION: 0.16.1
+
+permissions:
+  contents: read
+
 jobs:
   full-sweep:
     name: valgrind
@@ -23,6 +29,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reject missing or conflicting workflow mirrors
+        run: python3 scripts/check_workflow_pins.py
+
+      - name: Resolve exact Reef compiler pin
+        id: pin
+        shell: bash
+        run: |
+          pin="$(awk -F '"' '/^compiler = "=/ { sub(/^=/, "", $2); print $2; exit }' reef.toml)"
+          test "$pin" = "$CHELIS_VERSION"
+          echo "version=$pin" >> "$GITHUB_OUTPUT"
+
       - uses: docker/setup-buildx-action@v3
 
       - name: Build image
@@ -36,25 +56,21 @@ jobs:
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            CHELIS_VERSION=${{ steps.pin.outputs.version }}
+            CORAL_VERSION=0.7.31
+            NAUTILUS_VERSION=0.7.34
+            SCHOOL_VERSION=0.1.10
 
-      # Valgrind a real chelis-built C binary. `chelis build --target c` emits
-      # a DIRECTORY of C sources + headers (not an executable, and it does not
-      # invoke the C compiler); we gcc-compile + link that against the image's
-      # libchelis_runtime.a, then valgrind the resulting binary. This mirrors
-      # the Dockerfile's sanity build.
-      #
-      # We copy the standalone grad file out of the reef root and build it from
-      # /tmp so the build lowers ONLY that file: `chelis build --target c
-      # <anyfile>` run from the reef root lowers the whole hello-chelis
-      # package, which includes the capstone BlackScholes.delta/.vega. Those
-      # differentiate w.r.t. a scalar f32 via inline `grad(f)(x)`, and chelis's
-      # host-lane C backend can only lower grad w.r.t. a tensor (chelis#405), so
-      # the whole-package build aborts ("can't lower these defs ... applies/binds
-      # grad ... in a position the host lane can't resolve") regardless of the
-      # entry file. grad_quadratic.ch uses the supported grad-over-function-
-      # parameter / tensor-wrt form, so built in isolation it lowers and runs
-      # cleanly. This is a "(subset)" pass by design; it is not the place to
-      # exercise the whole package.
+      - name: Prove image toolchain pin
+        run: |
+          test "$(docker run --rm hello-chelis:nightly chelis --version)" = \
+            "chelis ${{ steps.pin.outputs.version }}"
+
+      # Valgrind one focused chelis-built C binary. `chelis build --target c`
+      # emits C sources + headers; this lane compiles and links them against the
+      # image runtime. Package-wide C acceptance belongs to ci.yml, while this
+      # scheduled lane stays narrow enough to make leak attribution useful.
       #
       # The valgrind run uses .github/valgrind-known.supp, which suppresses two
       # provisional, narrowly-scoped chelis runtime leaks (chelis#406) plus the

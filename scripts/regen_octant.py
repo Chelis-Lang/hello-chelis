@@ -36,8 +36,8 @@ def main() -> int:
         ch = base.with_suffix(".ch")
 
         r = subprocess.run(
-            ["octant", "translate", str(tex), "--output", str(dp), "--spans", str(spans)],
-            check=False, capture_output=True, text=True,
+            ["octant", "translate", str(tex.relative_to(REPO)), "--output", str(dp), "--spans", str(spans)],
+            check=False, capture_output=True, text=True, cwd=REPO,
         )
         if r.returncode != 0:
             print(f"!! octant translate failed for {tex.name}:\n{r.stderr}", file=sys.stderr)

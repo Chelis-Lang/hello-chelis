@@ -7,6 +7,40 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+### 0.1.11 - 2026-07-22
+
+Cascaded the corpus from Chelis `0.8.0` to `0.16.1` and adopted the native
+shell-conformance contract.
+
+#### Pin and conformance updates
+
+- compiler `=0.8.0` -> `=0.16.1`
+- `coral` `0.7.26` -> `0.7.31`
+- `nautilus` `0.7.27` -> `0.7.34`
+- standalone `octant` `0.4.9` -> `0.10.1`
+- `school` `0.1.5` -> `0.1.10`
+- `chelis-std` remains compiler-bundled `0.4.0`
+- c-earchin remains committed proof evidence rather than an installed Reef
+  package because its published manifest still pins Chelis `0.14.0`
+
+Added first-stage workflow-pin/conformance enforcement, synchronized native
+`tests_neg/` contracts, explicit `tests_blocked/` probes, capability ownership
+documentation, and generated-artifact drift gates.
+
+#### Capability refresh
+
+Removed obsolete narrowings around direct `grad`, `realize`, `vmap`, tensor
+activation pipelines, seeded C generation, `expand`, nested tensors, and
+higher-order wrappers. Current blockers are limited to the Black-Scholes
+`normal_cdf` grad path, Coral's explicit Parquet stub, and narrow-float C host
+boundaries (`chelis#716`).
+
+#### Validation
+
+Observed 112 native positive tests, 3 native negative contracts, 2 expected
+blockers, 92 Deep drift cases, 7 C-backend goldens, 4 Octant round trips,
+2 c-earchin proof cases, and 114 aggregate Python checks.
+
 ### 0.1.10 - 2026-06-19
 
 Cascaded the corpus from chelis 0.7.27 to chelis 0.8.0.

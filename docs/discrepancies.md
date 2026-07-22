@@ -1,237 +1,98 @@
-# Compiler vs Interpreter Discrepancies (v0.8.0)
+# Compiler and Runtime Discrepancies (Chelis 0.16.1)
 
-Catalogued during the porting work. The compiler ships three distinct
-execution paths that don't all share the same primitive set:
+Chelis exposes a shared front end through three execution surfaces:
 
-- **front-end** — `chelis check`. Parser + type/dim/effect/linearity
-  checking. The most permissive: accepts every Surf form the spec
-  describes.
-- **IR evaluator (host runtime)** — `chelis eval`, `chelis test`.
-  Interactive in-process execution. Limited primitive set on v0.8.0.
-- **C backend** — `chelis build --target c`. Production code path.
-  Different (and on some primitives complementary) limitations.
+- **Front end:** `chelis check <file>`
+- **IR evaluator:** `chelis eval --file <file>` and `chelis test`
+- **C backend:** `chelis build --target c <file>`, followed by C compilation
 
-A program can pass `chelis check` and fail in either runtime, and pass
-in one runtime but fail in the other. The discrepancies below were all
-hit while porting this corpus; each item is a real compiler error
-message verbatim or a reproducible behavior.
+A claim is current only after its relevant surfaces are executed. The complete
+0.16.1 reprobe matrix is retained in the active OpenSpec change evidence; this
+document carries only limitations that survived.
 
-## Transforms (`grad`, `vmap`, `jit`, `realize`)
+## Current limitations
 
-### `grad`: not in host runtime
-> ```
-> FAIL (host runtime does not support `grad`)
-> ```
-> Status: rejected by `chelis test`.
-> Workaround: exercise via the C backend (`verify/grad_works.ch`).
+### Black-Scholes grad through `normal_cdf`
 
-### `grad`: C backend rejects the inline application form
-> ```
-> error: `chelis build --target c` can't lower these defs — their
-> body applies/binds `grad` (or `vmap`) in a position the host lane
-> can't resolve (inline `grad(f)(x)` or `g = grad(f); g(x)`).
-> Workaround that compiles today: make the function you want to
-> differentiate a parameter of the enclosing def, then call
-> `grad(local, wrt=(arg))(arg)` where `local` is a locally-bound fn
-> that uses the parameter; and make sure that function uses only
-> pure tensor ops (sum, add, mul, einsum, etc.) — `grad` through
-> host-lane `fold`/`map` is not currently supported, rewrite to
-> `tensor_to_scalar(sum(mul(v, v), 0))` or `einsum`.
-> ```
-> Status: `grad(f, wrt=w)(w, x)` accepted by `chelis check`,
-> rejected by `chelis build`. The wrapper-fn-param form
-> (`fn (w_local) -> model(w_local, x)`) lowers cleanly.
-> See `verify/grad_works.ch` for the compiling form.
+`grad` itself works for direct scalar and tensor losses in both evaluator and C
+lanes. The real Black-Scholes `delta`/`vega` graph still fails native evaluation:
 
-### `grad`: refactoring src/ to the wrapper form breaks `chelis test`
-> ```
-> FAIL (compile: lowered root count mismatch: expected N named
-> roots, got N-2)
-> ```
-> Status: changing `src/basics/gradbasic.ch` to the wrapper-fn-param
-> form caused project-wide breakage in the IR evaluator — every test
-> in the project failed to compile, regardless of whether the test
-> itself imported gradbasic. Internal accounting between the named-
-> roots walker and the lowering pass diverges on the new shape.
-> Workaround: keep the inline form in src/ (the `chelis check` and
-> `chelis test` lanes accept it), put the lowering form in verify/.
+```text
+if condition must be bool, got Tensor(RuntimeTensorValue { ... precision: Bool })
+```
 
-### `realize`: not in host runtime
-> ```
-> FAIL (host runtime does not support `realize`)
-> ```
-> Status: rejected by `chelis test`. Lowers cleanly via C backend
-> (`verify/realize_lowers.ch`).
+- `check`: PASS
+- native `test`: BLOCKED
+- Reef build: PASS
+- C generation: PASS, but no accepted exact-value runtime oracle for this graph
+- executable probe: `tests_blocked/capstone/blackscholes_grad.ch`
+- source: `docs/issue_drafts/blackscholes_grad_bool_condition.md`
 
-### `vmap`: parallel restriction with `grad`
-The compiler error message for `grad` lowering also mentions
-`vmap` — same wrapper-fn-param form is required for both transforms
-through the C backend.
+Teach and execute `call_price`; retain the Greeks as visible blocked capability
+until both delta and vega exact-value assertions pass.
 
-## Tensor primitives
+### bf16/f16 C host boundaries (`chelis#716`)
 
-### Activations not in host runtime
-> ```
-> FAIL (unsupported builtin `relu` in host runtime)
-> FAIL (unsupported builtin `sigmoid` in host runtime)
-> ```
-> Status: tensor `relu`, `sigmoid`, and (per chelis-std SKILL.md)
-> `gelu`, `silu`, `tanh` are check-clean but the IR evaluator
-> doesn't ship them. C backend handles them.
+Tensor f32→bf16 casts check and evaluate, and their C kernels are generated. The
+C host-boundary printer still reads 2-byte narrow-float buffers as f32. Casting
+`[1.0, 2.0]` to bf16 therefore compiles but prints:
 
-### Tensor `cast` precision restrictions
-> ```
-> error: cannot cast tensor to unsupported element precision
-> `bf16` (supported: f32, f64, bool, int8, int32, int64)
-> ```
-> Status: `cast(tensor, bf16)` rejected by `chelis check`. `bf16`
-> is reserved syntax but no precision conversion implemented.
-> Workaround: use f64 / int32 / etc.
+```text
+[2.003875732421875, 0.0]
+```
 
-### `copy` rejects scalars
-> ```
-> error: copy requires tensor input, got f32
-> ```
-> Status: `copy(scalar)` rejected by `chelis check`. Scalars don't
-> have linearity, so `copy` is a tensor-only operation.
+Learner-facing C examples remain f32/f64. See the manual reprobe in
+`tests_blocked/README.md`; do not promote bf16 C output until the emitted binary
+is byte-correct.
 
-## Shape and dimension issues
+### Coral Parquet is an explicit package stub
 
-### `expand` broadcast shape divergence
-> ```
-> FAIL (tensor shapes must match for elementwise op, got [64, 1] vs [64])
-> ```
-> Status: `expand(b: tensor[1, f32], 0, 64)` is typed as
-> `tensor[64, 1, f32]` by `chelis check` but the IR evaluator
-> produces `tensor[64, f32]` at runtime, breaking
-> `add(matmul_output, expanded_bias)` whose matmul side really is
-> rank 2. Hit in `src/capstone/linreg.ch::predict`. The same shape
-> appears in upstream's own `examples/linreg.ch` (in the chelis
-> source repo, separate from this corpus), so the issue is tracked as a
-> general compiler/runtime divergence rather than a hello-chelis-only
-> fixture bug.
+Coral `0.7.31` implements `read_parquet_frame` and `write_parquet_frame` as
+explicit `fail(...)` calls (`Chelis-Lang/coral@v0.7.31:src/io.ch:203`). The API
+checks and generates C, but evaluator and C execution fail with:
 
-### `to_tensor` doesn't accept 2D Python-style literals
-> ```
-> error: to_tensor expects numeric or bool List elements, got List f32
-> ```
-> Status: `to_tensor([[1.0, 2.0], [3.0, 4.0]])` rejected.
-> Workaround: `pad_sequences([[...], [...]], 0.0)` per upstream's
-> `tensor_structural_ops.ch`.
+```text
+read_parquet_frame requires Std.Io.Parquet (not in current runtime)
+```
 
-### Fixed-shape C smoke fixtures lower on v0.8.0
+Executable probe: `tests_blocked/coral/parquet.ch`. CSV and JSON frame I/O are
+fully executable at the pin.
 
-The v0.7.6 symbolic-dimension C-codegen panic no longer applies to
-the current verify fixtures. `verify/grad_works.ch`,
-`verify/relu_lowers.ch`, `verify/relu_then_sigmoid.ch`, and
-`verify/sigmoid_lowers.ch` now build, link, run, and golden-diff in
-`tests/test_c_backend.py`.
+## Command-contract guidance
 
-The v0.8.0 checker does reject signatures that declare a polymorphic
-dimension while the function body fixes that dimension to a concrete
-literal, such as subtracting a length-3 literal vector from
-`tensor[n, f32]`. The current corpus makes those example shapes
-explicit with `tensor[3, f32]`.
+`chelis check --help` documents a single `<FILE>`. A directory argument no
+longer produces the old immediate argument error, but it did not terminate in a
+30-minute image probe. CI uses explicit file checks plus `chelis reef build`;
+do not treat directory checking as an acceptance oracle.
 
-### Higher-order f32 wrappers fail in C codegen
-> ```
-> grad_polynomial.c:122: error: implicit declaration of function 'dpoly'
-> ```
-> Status: a function with signature
-> `(model: f32 -> f32, x: f32) -> f32` referencing `model(x)`
-> doesn't get its wrapper definition emitted in C. Same pattern
-> with `tensor[n, f32]` return type works fine.
+## Resolved during the 0.16.1 bump
 
-### Pipe operator drops shape on tensor activation chains in C
-> ```
-> $ ./pipe_relu_sigmoid
-> xs = tensor(shape=[3], data=[-1.0, 0.0, 1.0])
-> out = ()
-> ```
-> Status: `xs |> relu |> sigmoid` lowers but produces unit-typed
-> output. Use direct calls: `sigmoid(relu(xs))` works. Affects only
-> the C backend; `chelis check` accepts the pipe form.
+| Historical claim | 0.16.1 evidence |
+|---|---|
+| direct `grad` unavailable in evaluator | scalar and tensor direct-grad eval/C probes pass |
+| direct grad rejected by C, requiring wrapper form | direct and wrapper C binaries both pass; verify fixtures now use direct grad |
+| `realize` unavailable in evaluator | native assertion and C golden pass |
+| `vmap` restricted | batched native assertion and C probe pass |
+| tensor activations unavailable in evaluator | piped `relu`→`sigmoid` native assertion passes |
+| piped activations lose C shape | piped/direct C output is identical |
+| `with seed(...)` blocks project C generation | package-context evaluator and C binary both pass |
+| `expand` check/runtime shape divergence | both lanes produce `[64,1]` in the LinReg path |
+| nested numeric `to_tensor` rejected | `[2,2]` eval and C probes pass |
+| higher-order scalar wrappers omitted in C | scalar and tensor wrapper binaries pass |
+| fixed-shape symbolic-dim C panic | current C golden suite passes |
 
-## Effect handlers
+`copy(scalar)` remains a deliberate type error because scalar values are not
+linear resources. It is not an upstream limitation.
 
-### `with seed(...)` rejected by C backend, project-wide
-> ```
-> error: `chelis build --target c` does not yet plumb `with
-> seed(...)` into the generated runtime; rejecting rather than
-> silently dropping the seed. Run the seeded program through
-> `chelis eval` instead.
-> ```
-> Status: ANY `with seed(...)` anywhere in the project source tree
-> blocks `chelis build` of EVERY file. Affects
-> `src/basics/effectsrandom.ch::deterministic_pair` — even building
-> a sibling capstone fails because the project as a whole contains
-> the gate-tripping construct. Per the message, fully exercising
-> seeded RNG requires `chelis eval`.
+## Evidence lanes
 
-## CLI and harness ergonomics
-
-### `chelis check` is single-file only
-> ```
-> error: unexpected argument 'examples/' found
-> ```
-> Status: `chelis check examples/` rejected. Must iterate per-file.
-> The CI harness invokes it once per `.ch` via pytest parametrization.
-
-### `chelis test` rejects single-file paths from outside repo root
-> ```
-> error: path `tests/basics/hellotensor.ch` does not exist —
-> pass a tests directory or a single .ch file
-> ```
-> Status: only resolvable from the project root (where `reef.toml`
-> lives). Run via `cd <repo> && chelis test ...`.
-
-### `chelis test --jobs auto` is the native default
-> ```
-> chelis test tests/ --jobs auto
-> ```
-> Status: on v0.8.0 the full native tree passes under node-local
-> concurrency. Use `chelis test tests/ --jobs 1` only as a serial
-> fallback for debugging output.
-
-### `chelis surf` decompile is best-effort
-List literals decompile to `Cons/Nil` chains, `cast(x, f32)` to
-`(x as f32)`, etc. Re-deepifying the decompiled Surf produces a
-different (but semantically equivalent) Deep AST. We don't enforce
-round-trip identity; the drift check (`.dp` matches `chelis deep
-<ch>`) is the load-bearing equivalence guarantee.
-
-### Reef install requires `GITHUB_TOKEN` for private shells
-> ```
-> error: ... GITHUB_TOKEN is not set and `gh auth token` did not
-> yield a token ... export GITHUB_TOKEN=$(gh auth token) and retry
-> ```
-> Status: the public release-asset URL doesn't serve bytes for
-> chelis-lang's private repos during pre-launch.
-> The Dockerfile uses the canonical release path with a BuildKit
-> `github_token` secret: `chelis reef install --from-github` downloads
-> each prebuilt shell package instead of cloning and rebuilding shell
-> repos.
-
-## Where each gap shows up in this corpus
-
-| Gap | Affected file(s) | Workaround |
-|---|---|---|
-| `grad` not in host runtime | `tests/capstone/blackscholes.ch` | `verify/grad_quadratic.ch` exercises C backend |
-| `realize` not in host runtime | (would-be `tests/basics/jitrealize.ch`) | `verify/realize_lowers.ch` exercises C backend |
-| Tensor activations not in host runtime | `tests/basics/pipeandmatch.ch` | Test file uses `neg`/`add` chain instead of `relu`/`sigmoid` |
-| v0.7.6 symbolic-dim C-codegen panic | historical `verify/grad_works.ch` and activation verify fixture shapes | resolved on v0.7.26; now normal golden-output C-backend tests |
-| `expand` shape divergence | `src/capstone/linreg.ch` | check-only; build-only via verify |
-| `with seed` blocks `chelis build` | `src/basics/effectsrandom.ch` | Project-wide build limited; verify/ programs are bare modules |
-| `cast(t, bf16)` rejected | `src/basics/precisioncast.ch` | Test uses f32→f64→f32 round trip |
-
-## Status of each item upstream
-
-The chelis_phase3_plan.md cited in error messages tracks several of
-these as "Acknowledged Limitations" (Batch 7b for the `with seed`
-gate). The `grad` lowering form is documented as the workaround in
-`crates/chelis-cli/tests/cli.rs::build_c_tensor_grad_local_wrapper_*`.
-The activation kernels still need broader host-runtime coverage, but
-their current C-backend lowering is covered by normal golden-output
-tests.
-
-This document is descriptive, not prescriptive — fixes belong upstream.
+| Invariant | Command |
+|---|---|
+| package front end | `chelis reef build` |
+| native runtime | `chelis test tests/ --jobs auto` |
+| must-reject diagnostics | `chelis test tests_neg/ --expect neg` |
+| expected upstream blockers | `chelis test tests_blocked/ --expect blocked` |
+| Deep source drift | `python3 scripts/regen_deep.py --check` |
+| C generation/link/runtime | `python3 -m pytest -q tests/test_c_backend.py` |
+| Octant round trips | `python3 -m pytest -q tests/test_octant_pairs.py` |
+| c-earchin proof diagnostics | `python3 -m pytest -q tests/test_c_earchin_artifacts.py` |

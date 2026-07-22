@@ -1,0 +1,4 @@
+read_parquet_frame requires Std.Io.Parquet (not in current runtime)
+source: Chelis-Lang/coral@v0.7.31:src/io.ch:203
+tracker: docs/UPSTREAM_BUGS.md#coral-parquet-api-is-an-explicit-runtime-stub
+On pass, add an executable Parquet round-trip and move the capability from @upstream to @pin.

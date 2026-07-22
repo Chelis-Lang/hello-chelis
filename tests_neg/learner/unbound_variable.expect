@@ -1,0 +1,2 @@
+unbound variable: missing
+source: tests/negative/unbound_variable.ch; synchronized by scripts/sync_negative_tests.py

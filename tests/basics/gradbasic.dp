@@ -1,0 +1,162 @@
+(module {}
+  hello.tests.basics.gradbasic
+  (import {} hello.basics.gradbasic (dloss_dw dloss_dx))
+  (import {} std.test (assert_close_tensor))
+  (defsig {} test_grad_w (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_grad_w
+    (fn {}
+      (params {})
+      (let {span: "surf:164..451"}
+        (bind {span: "surf:164..451"}
+          w
+          (app {span: "surf:172..231"}
+            (var {span: "surf:172..181"} to_tensor)
+            (app {span: "surf:182..230"}
+              (var {} Cons)
+              (cast {span: "surf:183..197"}
+                (lit {span: "surf:188..191", type: (t-prim {} f32)} 0.5)
+                (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {span: "surf:199..213"}
+                  (lit {span: "surf:204..207", type: (t-prim {} f32)} 0.5)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:215..229"}
+                    (lit {span: "surf:220..223", type: (t-prim {} f32)} 0.5)
+                    (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            x
+            (app {span: "surf:238..297"}
+              (var {span: "surf:238..247"} to_tensor)
+              (app {span: "surf:248..296"}
+                (var {} Cons)
+                (cast {span: "surf:249..263"}
+                  (lit {span: "surf:254..257", type: (t-prim {} f32)} 1.0)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:265..279"}
+                    (lit {span: "surf:270..273", type: (t-prim {} f32)} 2.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:281..295"}
+                      (lit {span: "surf:286..289", type: (t-prim {} f32)} 3.0)
+                      (t-prim {} f32))
+                    (var {} Nil))))))
+          (let {}
+            (bind {}
+              expected
+              (app {span: "surf:311..370"}
+                (var {span: "surf:311..320"} to_tensor)
+                (app {span: "surf:321..369"}
+                  (var {} Cons)
+                  (cast {span: "surf:322..336"}
+                    (lit {span: "surf:327..330", type: (t-prim {} f32)} 1.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:338..352"}
+                      (lit {span: "surf:343..346", type: (t-prim {} f32)} 2.0)
+                      (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {span: "surf:354..368"}
+                        (lit {span: "surf:359..362", type: (t-prim {} f32)} 3.0)
+                        (t-prim {} f32))
+                      (var {} Nil))))))
+            (app {span: "surf:373..449"}
+              (var {span: "surf:373..392"} assert_close_tensor)
+              (app {span: "surf:393..407"}
+                (var {span: "surf:393..401"} dloss_dw)
+                (var {span: "surf:402..403"} w)
+                (var {span: "surf:405..406"} x))
+              (var {span: "surf:409..417"} expected)
+              (cast {span: "surf:419..438"}
+                (lit {span: "surf:424..432", type: (t-prim {} f32)} 0.000001)
+                (t-prim {} f32))
+              (lit {span: "surf:440..448", type: (t-prim {} string)} "grad_w")))))))
+  (defsig {} test_grad_x (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_grad_x
+    (fn {}
+      (params {})
+      (let {span: "surf:491..781"}
+        (bind {span: "surf:491..781"}
+          w
+          (app {span: "surf:499..558"}
+            (var {span: "surf:499..508"} to_tensor)
+            (app {span: "surf:509..557"}
+              (var {} Cons)
+              (cast {span: "surf:510..524"}
+                (lit {span: "surf:515..518", type: (t-prim {} f32)} 0.5)
+                (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {span: "surf:526..540"}
+                  (lit {span: "surf:531..534", type: (t-prim {} f32)} 0.5)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:542..556"}
+                    (lit {span: "surf:547..550", type: (t-prim {} f32)} 0.5)
+                    (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            x
+            (app {span: "surf:565..624"}
+              (var {span: "surf:565..574"} to_tensor)
+              (app {span: "surf:575..623"}
+                (var {} Cons)
+                (cast {span: "surf:576..590"}
+                  (lit {span: "surf:581..584", type: (t-prim {} f32)} 1.0)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:592..606"}
+                    (lit {span: "surf:597..600", type: (t-prim {} f32)} 2.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:608..622"}
+                      (lit {span: "surf:613..616", type: (t-prim {} f32)} 3.0)
+                      (t-prim {} f32))
+                    (var {} Nil))))))
+          (let {}
+            (bind {}
+              expected
+              (app {span: "surf:638..700"}
+                (var {span: "surf:638..647"} to_tensor)
+                (app {span: "surf:648..699"}
+                  (var {} Cons)
+                  (cast {span: "surf:649..664"}
+                    (lit {span: "surf:654..658", type: (t-prim {} f32)} -0.5)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:666..681"}
+                      (lit {span: "surf:671..675", type: (t-prim {} f32)} -0.5)
+                      (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {span: "surf:683..698"}
+                        (lit {span: "surf:688..692", type: (t-prim {} f32)} -0.5)
+                        (t-prim {} f32))
+                      (var {} Nil))))))
+            (app {span: "surf:703..779"}
+              (var {span: "surf:703..722"} assert_close_tensor)
+              (app {span: "surf:723..737"}
+                (var {span: "surf:723..731"} dloss_dx)
+                (var {span: "surf:732..733"} w)
+                (var {span: "surf:735..736"} x))
+              (var {span: "surf:739..747"} expected)
+              (cast {span: "surf:749..768"}
+                (lit {span: "surf:754..762", type: (t-prim {} f32)} 0.000001)
+                (t-prim {} f32))
+              (lit {span: "surf:770..778", type: (t-prim {} string)} "grad_x"))))))))

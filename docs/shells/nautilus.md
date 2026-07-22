@@ -1,11 +1,10 @@
 # `nautilus`
 
 The scipy-equivalent shell. Pure Chelis (no C FFI), so AD flows through
-every numerical method via tensor-op composition. Currently `f32`-only;
-6–7 significant digits of precision. scipy parity at 216/216 samples in
-the strict gate as of v0.7.27.
+numerical methods via tensor-op composition. Currently `f32`-only;
+learner examples use tolerances appropriate to 6–7 significant digits.
 
-Pinned to `0.7.27`. Reef declaration in our [`reef.toml`](../../reef.toml).
+Pinned to `0.7.34`. Reef declaration in our [`reef.toml`](../../reef.toml).
 
 ## What's here
 
@@ -17,10 +16,10 @@ Pinned to `0.7.27`. Reef declaration in our [`reef.toml`](../../reef.toml).
 | `Nautilus.Stats` | `mean`, `var`, `std`, `skew`, `kurt`, `median`, `quantile`, `percentile`, `trim_mean`, `cov`, `corr` |
 | `Nautilus.Distance` | Euclidean, Manhattan, Chebyshev, cosine, Mahalanobis |
 | `Nautilus.Roots` | `bisect`, `newton`, `brent` |
-| `Nautilus.ODE` | `euler_step` / `euler_solve`, `rk4_step` / `rk4_solve`, `rk45_endpoint` |
-| `Nautilus.SDE` | `euler_maruyama`, `milstein` (caller-supplied noise) |
+| `Nautilus.Ode` | `euler_step` / `euler_solve`, `rk4_step` / `rk4_solve`, `rk45_endpoint` |
+| `Nautilus.Sde` | `euler_maruyama`, `milstein` (caller-supplied noise) |
 | `Nautilus.Integrate` | `trapezoid`, `simpson`, `gauss_legendre`, `adaptive_simpson`, `romberg`, `gauss_hermite`, `gauss_laguerre` |
-| `Nautilus.Hypothesis` | z / t / chi-squared statistics, p-values, CIs |
+| `Nautilus.Testing` | z / t / chi-squared statistics, p-values, CIs |
 | `Nautilus.Optimize` | `golden_section`, `brent_minimize`, `gradient_descent`, `newton_min` |
 | `Nautilus.Interpolate` | `linear_uniform`, `linear_sorted`, `cubic_hermite` |
 | `Nautilus.CurveFit` | single-parameter Levenberg-Marquardt |
@@ -35,7 +34,7 @@ See [`src/nautilus/`](../../src/nautilus/) — catalog at
 
 The Black-Scholes capstone at
 [`src/capstone/blackscholes.ch`](../../src/capstone/blackscholes.ch)
-calls `Nautilus.Distributions.normal_cdf` and differentiates the call
-price via `grad` to produce option Greeks — the path the primer's
-"AD through quadrature" claim hinges on. The corresponding LaTeX
+calls `Nautilus.Distributions.normal_cdf`. Call-price execution is pinned;
+`delta`/`vega` remain an expected native blocker because grad encounters a
+tensor-bool conditional inside that call graph. The corresponding LaTeX
 input lives at [`octant/black_scholes_d1.tex`](../../octant/black_scholes_d1.tex).

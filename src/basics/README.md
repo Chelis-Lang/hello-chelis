@@ -28,6 +28,6 @@ under [`tests/basics/`](../../tests/basics/).
 | Lane | Coverage |
 |---|---|
 | `chelis check src/basics/<file>.ch` | every file: parse, type, dim, effect, linearity, fitness == 1.0 |
-| `chelis test tests/basics/` | runtime assertions for every file (some with workarounds — see [`docs/discrepancies.md`](../../docs/discrepancies.md) for the IR evaluator's gaps with `grad` / `realize` / tensor activations) |
+| `chelis test tests/basics/` | runtime assertions for every file, including direct `grad`, seeded random, `vmap`, `realize`, and tensor activation pipelines |
 | `chelis deep src/basics/<file>.ch` | committed in `<file>.dp`, drift-checked by [`tests/test_surf_deep_equivalence.py`](../../tests/test_surf_deep_equivalence.py) |
-| C-backend lowering proof | [`verify/grad_works.ch`](../../verify/grad_works.ch), [`verify/realize_lowers.ch`](../../verify/realize_lowers.ch), [`verify/relu_lowers.ch`](../../verify/relu_lowers.ch), etc. — built and run end-to-end |
+| C-backend lowering proof | [`verify/grad_works.ch`](../../verify/grad_works.ch), [`verify/realize_lowers.ch`](../../verify/realize_lowers.ch), [`verify/relu_lowers.ch`](../../verify/relu_lowers.ch), etc. — independent generated-C goldens |

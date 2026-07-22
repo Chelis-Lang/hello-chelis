@@ -18,20 +18,15 @@ and the relevant shells.
 | Lane | Coverage |
 |---|---|
 | `chelis check src/capstone/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/capstone/` | runtime assertions for `blackscholes::call_atm`, `mlpipeline::*`, `transformerblock::block_module_loads` |
+| `chelis test tests/capstone/` | runtime assertions for Black-Scholes call price, LinReg prediction/expand shape, ML pipeline, and transformer block |
 | C-backend full lowering | [`verify/grad_quadratic.ch`](../../verify/grad_quadratic.ch) and [`verify/grad_works.ch`](../../verify/grad_works.ch) prove `grad` reaches native execution |
 
-## Why some capstone tests are smoke-only
+## Current capstone boundary
 
-The IR evaluator at the pinned toolchain doesn't yet lower `grad` for the host
-runtime, so test files like `tests/capstone/blackscholes.ch` exercise
-`call_price` (which doesn't use `grad`) but not `delta` / `vega`
-(which do). The `chelis check` pass validates the full grad
-definition at type-system level; the runtime exercise of grad lives
-in [`verify/`](../../verify/), where supported files build through
-the C backend, link against `libchelis_runtime.a` + OpenBLAS, and
-execute.
-
-See [`docs/discrepancies.md`](../../docs/discrepancies.md) for the
-full inventory of compiler/runtime gaps and the workarounds used
-across this corpus.
+Direct scalar and tensor `grad` now execute at Chelis `0.16.1`, and the focused
+C goldens use the direct form. Black-Scholes `delta`/`vega` still expose a
+narrower conditional-lowering defect inside the Nautilus `normal_cdf` call graph;
+the exact-value delta case lives in
+[`tests_blocked/capstone/blackscholes_grad.ch`](../../tests_blocked/capstone/blackscholes_grad.ch).
+See [`docs/discrepancies.md`](../../docs/discrepancies.md) for the observed
+per-lane diagnostic.

@@ -2,14 +2,13 @@
 the chelis runtime + OpenBLAS, run the binary, and assert stdout
 matches a committed golden under verify/expected/<name>.txt.
 
-This is the lane that demonstrates native C lowering where the pinned
-toolchain supports it. The IR evaluator
-(`chelis test`) still has a narrower primitive set; the C
-backend covers the supported lowering examples.
+This independent lane demonstrates that selected surfaces lower through the
+production C backend even when the same feature also executes under
+`chelis test`.
 
-Each verify/<name>.ch is a self-contained module (no `Hello.*` prefix)
-because `chelis build` rejects projects that contain `with seed(...)`
-anywhere in the source tree.
+Each verify/<name>.ch is a self-contained module (no `Hello.*` prefix) so the
+C-backend lane stays focused on one lowering surface at a time instead of
+rebuilding the complete learner package for every golden.
 """
 
 from __future__ import annotations
@@ -51,8 +50,8 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         pytest.skip("gcc not on PATH")
 
     with tempfile.TemporaryDirectory() as tmp:
-        # Copy outside the project so `chelis build` doesn't pull the
-        # full src tree (which would trip `with seed` rejection).
+        # Copy outside the project so each golden proves one focused lowering
+        # surface without repeatedly compiling the full Reef package.
         ch_copy = Path(tmp) / source.name
         ch_copy.write_text(source.read_text())
         out_dir = Path(tmp) / source.stem

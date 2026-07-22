@@ -1,8 +1,8 @@
 """c-earchin finance-options proof artifacts stay executable.
 
-The fixtures are committed from the released c-earchin finance-options
-demo (pinned at v0.3.2) so hello-chelis can validate the final stack
-without cloning or building c-earchin from source.
+The fixtures were captured from the historical c-earchin v0.3.2
+finance-options demo and remain committed so Chelis 0.16.1 can validate the
+bridge without installing c-earchin's currently incompatible Reef package.
 """
 
 from __future__ import annotations
@@ -43,7 +43,8 @@ def test_c_earchin_finance_options_prove_passes() -> None:
 
     records = [json.loads(line) for line in result.stdout.splitlines() if line.strip()]
     summary = records[-1]
-    # chelis 0.7.26 made the prove summary additive: it grew an
+    # Historical schema note: chelis 0.7.26 made the prove summary additive by
+    # adding an
     # `obligations` field for smt-gated obligation records. The finance
     # bridge emits none, so the meaningful counts are pinned and any
     # additive key (e.g. `obligations`) is tolerated when zero.

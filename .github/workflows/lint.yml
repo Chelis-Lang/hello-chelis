@@ -8,9 +8,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  pin-consistency:
+    name: offline pin consistency
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check_workflow_pins.py
+
   python:
     name: ruff + black on the test harness
     runs-on: ubuntu-24.04
+    needs: pin-consistency
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -33,6 +42,7 @@ jobs:
   chelis-lint:
     name: chelis lint inventory
     runs-on: ubuntu-24.04
+    needs: pin-consistency
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -50,6 +60,11 @@ jobs:
           secrets: |
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           cache-from: type=gha
+          build-args: |
+            CHELIS_VERSION=0.16.1
+            CORAL_VERSION=0.7.31
+            NAUTILUS_VERSION=0.7.34
+            SCHOOL_VERSION=0.1.10
 
       - name: chelis lint --check (blocking)
         run: |

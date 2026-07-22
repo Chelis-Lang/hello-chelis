@@ -1,4 +1,4 @@
-"""Each .ch under tests/negative/ has a `// chelis-expect-fail: <kind>`
+"""Each .ch under tests/negative/ has a `-- chelis-expect-fail: <kind>`
 header and must be REJECTED by `chelis check`. The compiler's first
 reported error must carry the declared kind.
 

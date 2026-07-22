@@ -11,7 +11,8 @@ def test_simple_loss_value() -> unit ! { Test } = {
   expected = to_tensor([cast(14.0, f32)])
   assert_close_tensor(reshape_to_one(simple_loss(w)), expected, cast(0.00001, f32), "loss == 14.0")
 }
-def test_dgrad_is_callable_in_typecheck() -> unit ! { Test } = {
+def test_dgrad_runtime_value() -> unit ! { Test } = {
   w = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])
-  assert_eq_int(frame_shape_check(w), cast(3, int64), "grad input has shape 3")
+  expected = to_tensor([cast(2.0, f32), cast(4.0, f32), cast(6.0, f32)])
+  assert_close_tensor(dsimple_loss_dw(w), expected, cast(0.00001, f32), "dgrad == 2w")
 }

@@ -5,10 +5,6 @@ def loss_fn(w: tensor[3, f32], x: tensor[3, f32]) -> f32 = {
   prod = mul(err, x)
   prod |> sum(0) |> tensor_to_scalar
 }
-def dloss_dw(model: tensor[3, f32] -> tensor[3, f32] -> f32, w: tensor[3, f32], x: tensor[3, f32]) -> tensor[3, f32] = {
-  target = fn (w_local: tensor[3, f32]) -> model(w_local, x)
-  grad(target, wrt=w_local)(w)
-}
 w0 = to_tensor([cast(0.5, f32), cast(0.5, f32), cast(0.5, f32)])
 x0 = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])
-dw = dloss_dw(loss_fn, w0, x0)
+dw = grad(loss_fn, wrt=w)(w0, x0)

@@ -1,0 +1,19 @@
+{"diagnostic":"AGENTS.md is missing","evidence":[],"fix":"run `chelis reef conform init`","gating":true,"key":"agents-md","row":1,"section":"§1","tier":"must","verdict":"fail"}
+{"diagnostic":"","evidence":[],"fix":"","gating":true,"key":"reef-pin","row":2,"section":"§2","tier":"must","verdict":"pass"}
+{"diagnostic":"","evidence":[],"fix":"","gating":true,"key":"workflow-env-pins","row":3,"section":"§2","tier":"must","verdict":"pass"}
+{"diagnostic":"ci.yml does not run the offline pin/conformance guard","evidence":[],"fix":"add a step running `chelis reef conform bump-check --base origin/main` (and/or `conform audit`)","gating":true,"key":"pin-consistency-guard","row":4,"section":"§2","tier":"must","verdict":"fail"}
+{"diagnostic":"could not confirm a pin-resolving installer (chelisup / install-chelis action)","evidence":[],"fix":"install the toolchain via chelisup; never hand-symlink a machine-global default","gating":true,"key":"toolchain-installer","row":5,"section":"§2","tier":"must","verdict":"manual"}
+{"diagnostic":"","evidence":[],"fix":"","gating":true,"key":"uv-python","row":6,"section":"§2","tier":"must","verdict":"pass"}
+{"diagnostic":"docs/CHELIS_SURFACE.md is missing","evidence":[],"fix":"run `chelis reef conform init` / `sync`","gating":true,"key":"chelis-surface","row":7,"section":"§3","tier":"must","verdict":"fail"}
+{"diagnostic":"docs/UPSTREAM_BUGS.md is missing","evidence":[],"fix":"add docs/UPSTREAM_BUGS.md with the four required sections","gating":true,"key":"upstream-bugs","row":8,"section":"§4","tier":"must","verdict":"fail"}
+{"diagnostic":"","evidence":[],"fix":"","gating":true,"key":"staleness-audit","row":9,"section":"§4","tier":"must","verdict":"pass"}
+{"diagnostic":"docs/issue_drafts/ convention not present (SHOULD)","evidence":[],"fix":"add docs/issue_drafts/README.md for parked filings","gating":false,"key":"issue-drafts","row":10,"section":"§4","tier":"should","verdict":"fail"}
+{"diagnostic":"tests_neg/ is missing or has no .ch cases","evidence":[],"fix":"add tests_neg/<area>/<name>.ch + .expect sidecars","gating":true,"key":"tests-neg","row":11,"section":"§6","tier":"must","verdict":"fail"}
+{"diagnostic":"no open upstream blocker with an expressible reproducer","evidence":[],"fix":"","gating":true,"key":"tests-blocked","row":12,"section":"§5","tier":"must-if-blocker","verdict":"na"}
+{"diagnostic":"AGENTS.md is missing","evidence":[],"fix":"run `chelis reef conform init`","gating":true,"key":"pin-bump-checklist","row":13,"section":"§7","tier":"must","verdict":"fail"}
+{"diagnostic":"vendored skills drifted from the pinned set: backend-numerics: missing, cli-surface: missing, example-corpus: missing, issue-resolution: missing, packaging-install: missing, phase-gate: missing, redteam-exec: missing, spec-sync: missing","evidence":[],"fix":"run `chelis reef conform sync` to re-materialize agent-skills/ from the toolchain","gating":true,"key":"vendored-skills","row":14,"section":"§8","tier":"must","verdict":"fail"}
+{"diagnostic":"no parity/ harness (shell does not validate against external oracles)","evidence":[],"fix":"","gating":true,"key":"parity-harness","row":15,"section":"§9","tier":"must-if-external-oracles","verdict":"na"}
+{"diagnostic":"≥2-config acceptance is review discipline, not mechanically decidable","evidence":[],"fix":"reviewer must confirm each new public verb has ≥2 distinct shape/config cases","gating":true,"key":"two-config-acceptance","row":16,"section":"§9","tier":"must","verdict":"manual"}
+{"diagnostic":"AGENTS.md is missing","evidence":[],"fix":"run `chelis reef conform init`","gating":true,"key":"scaffolding-drift-rule","row":17,"section":"§10","tier":"must","verdict":"fail"}
+{"diagnostic":"shell does not link chelis crates as Cargo path deps","evidence":[],"fix":"","gating":true,"key":"chelis-src","row":18,"section":"§2","tier":"must-if-crate-linking","verdict":"na"}
+{"summary":{"must_failures":8,"ok":false,"pin":"=0.14.0"}}

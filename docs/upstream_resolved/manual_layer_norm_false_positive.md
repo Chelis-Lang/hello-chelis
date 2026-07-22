@@ -1,5 +1,8 @@
 # `manual_layer_norm` linearity flag: resolved as scout false-positive
 
+> Historical resolved record. Version and machine-path details below document
+> the original Chelis 0.7.10 investigation, not current installation guidance.
+
 ## Context
 
 `src/std/activationsnorms.ch:16-26` defines `manual_layer_norm`. A scouting pass

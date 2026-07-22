@@ -35,7 +35,8 @@ effect / linearity) but diverge after lowering:
 - **`chelis check`** runs the front end and emits a JSON fitness
   report with structured errors. Most permissive lane.
 - **`chelis test`, `chelis eval`** run the IR evaluator in-process.
-  Fast iteration, but a narrower primitive set on the pinned toolchain.
+  At `0.16.1` they cover direct grad, vmap, realize, activations, and seeded
+  execution; current exceptions are explicit under `tests_blocked/`.
 - **`chelis build --target c`** lowers, generates C with `// span:`
   audit-chain comments, and links against `libchelis_runtime.a` +
   OpenBLAS + libgomp. Production path.
@@ -57,8 +58,10 @@ src/
 
 tests/
 ├── basics/, std/, coral/, nautilus/, capstone/  Hello.Tests.*.*
-└── negative/                                    expected-fail .ch files
+└── negative/                                    learner-owned reject sources
 
+tests_neg/                                       generated native reject contracts
+tests_blocked/                                   expected upstream blockers
 verify/                                          project-free C-backend programs
 octant/                                          .tex + machine-generated triple
 ```
@@ -144,14 +147,17 @@ runs the `--check` mode and fails on any divergence. See
 
 | Lane | What it runs | Surface |
 |---|---|---|
-| `chelis lint .` | non-blocking nomenclature inventory per `spec/01-nomenclature.md` | every `.ch` |
+| `chelis lint --check .` | blocking nomenclature gate per `spec/01-nomenclature.md` | every `.ch` |
 | `chelis check src/<file>.ch` | front-end (parse/type/dim/effect/linearity) | per file |
 | `chelis test tests/ --jobs auto` | runtime assertions via the IR evaluator | full native suite |
+| `chelis test tests_neg/ --expect neg` | rejection + diagnostic stability | generated learner mirrors |
+| `chelis test tests_blocked/ --expect blocked` | expected-failure drift/FIX detection | live upstream blockers |
 | `pytest tests/test_surf_deep_equivalence.py` | `.dp` matches `chelis deep <ch>` | every Surf file |
 | `pytest tests/test_c_backend.py` | `chelis build` + link + run + golden-diff | `verify/*.ch` |
 | `pytest tests/test_octant_pairs.py` | LaTeX → Deep → Surf round-trip | every `octant/*.tex` |
 | `pytest tests/test_c_earchin_artifacts.py` | EARS → Deep property witnesses prove with span diagnostics | finance-options fixtures |
-| `pytest tests/test_negative_examples.py` | programs that must be rejected | `tests/negative/*.ch` |
+| `pytest tests/test_negative_examples.py` | structured learner-facing error kinds | `tests/negative/*.ch` |
+| `pytest tests/test_workflow_pins.py` | matching/missing/conflicting workflow mirrors | offline fixtures |
 
 Each is non-overlapping and gates on a different invariant.
 

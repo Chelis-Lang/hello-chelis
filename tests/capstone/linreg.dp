@@ -1,0 +1,119 @@
+(module {}
+  hello.tests.capstone.linreg
+  (import {} hello.capstone.linreg (predict))
+  (import {} std.test (assert_close))
+  (defsig {}
+    vector_64
+    (t-fn {} (t-prim {} f32) (t-tensor {} (d-lit {} 64) (t-prim {} f32))))
+  (def {}
+    vector_64
+    (fn {}
+      (params {} (value {type: (t-prim {} f32)}))
+      (app {span: "surf:152..193"}
+        (var {span: "surf:152..158"} expand)
+        (app {span: "surf:159..185"}
+          (var {span: "surf:159..162"} sum)
+          (app {span: "surf:163..181"}
+            (var {span: "surf:163..172"} to_tensor)
+            (app {span: "surf:173..180"}
+              (var {} Cons)
+              (var {span: "surf:174..179"} value)
+              (var {} Nil)))
+          (lit {span: "surf:183..184", type: (t-prim {} int32)} 0))
+        (lit {span: "surf:187..188", type: (t-prim {} int32)} 0)
+        (lit {span: "surf:190..192", type: (t-prim {} int32)} 64))))
+  (defsig {}
+    matrix_64_64
+    (t-fn {}
+      (t-prim {} f32)
+      (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))))
+  (def {}
+    matrix_64_64
+    (fn {}
+      (params {} (value {type: (t-prim {} f32)}))
+      (app {span: "surf:248..279"}
+        (var {span: "surf:248..254"} expand)
+        (app {span: "surf:255..271"}
+          (var {span: "surf:255..264"} vector_64)
+          (var {span: "surf:265..270"} value))
+        (lit {span: "surf:273..274", type: (t-prim {} int32)} 0)
+        (lit {span: "surf:276..278", type: (t-prim {} int32)} 64))))
+  (defsig {}
+    matrix_64_1
+    (t-fn {}
+      (t-prim {} f32)
+      (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))))
+  (def {}
+    matrix_64_1
+    (fn {}
+      (params {} (value {type: (t-prim {} f32)}))
+      (app {span: "surf:332..365"}
+        (var {span: "surf:332..338"} expand)
+        (app {span: "surf:339..357"}
+          (var {span: "surf:339..348"} to_tensor)
+          (app {span: "surf:349..356"}
+            (var {} Cons)
+            (var {span: "surf:350..355"} value)
+            (var {} Nil)))
+        (lit {span: "surf:359..360", type: (t-prim {} int32)} 0)
+        (lit {span: "surf:362..364", type: (t-prim {} int32)} 64))))
+  (defsig {}
+    test_predict_bias_shape_and_value
+    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_predict_bias_shape_and_value
+    (fn {}
+      (params {})
+      (let {span: "surf:427..672"}
+        (bind {span: "surf:427..672"}
+          x
+          (app {span: "surf:435..463"}
+            (var {span: "surf:435..447"} matrix_64_64)
+            (cast {span: "surf:448..462"}
+              (lit {span: "surf:453..456", type: (t-prim {} f32)} 1.0)
+              (t-prim {} f32))))
+        (let {}
+          (bind {}
+            w
+            (app {span: "surf:470..497"}
+              (var {span: "surf:470..481"} matrix_64_1)
+              (cast {span: "surf:482..496"}
+                (lit {span: "surf:487..490", type: (t-prim {} f32)} 1.0)
+                (t-prim {} f32))))
+          (let {}
+            (bind {}
+              b
+              (app {span: "surf:504..531"}
+                (var {span: "surf:504..513"} to_tensor)
+                (app {span: "surf:514..530"}
+                  (var {} Cons)
+                  (cast {span: "surf:515..529"}
+                    (lit {span: "surf:520..523", type: (t-prim {} f32)} 1.0)
+                    (t-prim {} f32))
+                  (var {} Nil))))
+            (let {}
+              (bind {}
+                total
+                (app {span: "surf:542..592"}
+                  (var {span: "surf:542..558"} tensor_to_scalar)
+                  (app {span: "surf:559..591"}
+                    (var {span: "surf:559..562"} sum)
+                    (app {span: "surf:563..587"}
+                      (var {span: "surf:563..566"} sum)
+                      (app {span: "surf:567..583"}
+                        (var {span: "surf:567..574"} predict)
+                        (var {span: "surf:575..576"} x)
+                        (var {span: "surf:578..579"} w)
+                        (var {span: "surf:581..582"} b))
+                      (lit {span: "surf:585..586", type: (t-prim {} int32)} 1))
+                    (lit {span: "surf:589..590", type: (t-prim {} int32)} 0))))
+              (app {span: "surf:595..670"}
+                (var {span: "surf:595..607"} assert_close)
+                (var {span: "surf:608..613"} total)
+                (cast {span: "surf:615..632"}
+                  (lit {span: "surf:620..626", type: (t-prim {} f32)} 4160.0)
+                  (t-prim {} f32))
+                (cast {span: "surf:634..653"}
+                  (lit {span: "surf:639..647", type: (t-prim {} f32)} 0.000001)
+                  (t-prim {} f32))
+                (lit {span: "surf:655..669", type: (t-prim {} string)} "predict_bias")))))))))

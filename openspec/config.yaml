@@ -1,0 +1,19 @@
+schema: spec-driven
+
+context: |
+  hello-chelis is the complete runnable learning project for Chelis and its shipped ecosystem.
+  Preserve clone-to-run behavior, pinned-version compatibility, executable examples, and curriculum accuracy.
+  Follow README.md, the curriculum, and the verification documentation before proposing implementation.
+
+rules:
+  proposal:
+    - State the learner-visible outcome, affected ecosystem surface, and explicit non-goals.
+    - Identify pin, example, curriculum, and verification impact.
+  design:
+    - Record alternatives, compatibility strategy, failure behavior, migration, and rollback.
+  specs:
+    - Use SHALL requirements with fresh-clone, expected-failure, and version-drift scenarios.
+    - Keep illustrative content distinct from executable acceptance evidence.
+  tasks:
+    - Order work as specs, examples, negative fixtures, documentation, and end-to-end validation.
+    - Include strict OpenSpec validation and one authoritative repository acceptance oracle.

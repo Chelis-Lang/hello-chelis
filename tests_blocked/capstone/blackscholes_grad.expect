@@ -1,0 +1,3 @@
+if condition must be bool, got Tensor
+docs/issue_drafts/blackscholes_grad_bool_condition.md
+On pass, move the exact-value delta assertion into tests/capstone/blackscholes.ch and add the corresponding vega assertion.

@@ -64,7 +64,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.14.0
+ARG CHELIS_VERSION=0.16.1
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -76,23 +76,24 @@ RUN --mount=type=secret,id=github_token \
     && cp /tmp/chelis-toolchain/lib/libchelis_runtime.a /usr/local/lib/libchelis_runtime.a \
     && mkdir -p /usr/local/include \
     && cp /tmp/chelis-toolchain/include/*.h /usr/local/include/ \
-    && chelis --version
+    && test "$(chelis --version)" = "chelis ${CHELIS_VERSION}"
 
-# --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.30
-ARG NAUTILUS_VERSION=0.7.33
+# --- Install imported shell releases into Reef registry -------------------
+ARG CORAL_VERSION=0.7.31
+ARG NAUTILUS_VERSION=0.7.34
 ARG OCTANT_VERSION=0.10.1
-ARG C_EARCHIN_VERSION=0.3.3
-ARG SCHOOL_VERSION=0.1.9
+ARG SCHOOL_VERSION=0.1.10
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/school@v${SCHOOL_VERSION}"
+
+# Octant is consumed as a standalone translator below, not as an imported
+# Reef package. The c-earchin proof fixtures are committed in this repository
+# and run directly through `chelis prove`, so no c-earchin package is installed.
 
 # --- Octant CLI from release tarball --------------------------------------
 RUN --mount=type=secret,id=github_token \

@@ -1,8 +1,8 @@
 # hello-chelis
 
 A complete, runnable example project for the
-[Chelis](https://github.com/Chelis-Lang/chelis) language v0.8.x and
-its shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`,
+[Chelis](https://github.com/Chelis-Lang/chelis) language `0.16.1` and
+its pinned shell releases (`chelis-std`, `coral`, `nautilus`, `octant`,
 `c-earchin`, `school`).
 Designed as a self-education tool: clone, run, read.
 
@@ -16,11 +16,11 @@ through the corpus.
 |---|---|---|
 | Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs + match, modules, dim polymorphism, precision + cast, effects (`Random`) + handlers, linearity (`copy` + `&borrow`), `grad`, `vmap`, `jit` + `realize`, macros |
 | `chelis-std` | [`src/std/`](src/std/) | activations + norms, reductions + losses, `Decimal[P, S]`, `DateTime`, `List` / `Dict` / iter, text I/O |
-| `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O, AD through frame ops |
+| `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O, tensor grad beside Frame construction |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
 | `octant` (LaTeX bridge) | [`octant/`](octant/) | `.tex` inputs translated to canonical Deep + provenance + decompiled Surf |
 | `c-earchin` (requirements bridge) | [`docs/shells/c_earchin.md`](docs/shells/c_earchin.md) | finance-flavored EARS requirements translated to Chelis property witnesses, proven with span diagnostics back to the EARS line |
-| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes Greeks via `grad`, linear regression with SGD, transformer block, end-to-end ML pipeline across the code-import shells |
+| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes pricing with blocked Greek evidence, linear regression with SGD, transformer block, end-to-end ML pipeline across the code-import shells |
 
 ## Layout
 
@@ -47,7 +47,7 @@ hello-chelis/
 ├── verify/                    project-free C-backend lowering programs
 │   ├── *.ch + *.dp            self-contained programs that exercise grad,
 │   │                          relu, sigmoid, cast, realize through the C
-│   │                          backend (the IR evaluator doesn't lower these)
+│   │                          backend as an independent execution oracle
 │   └── expected/*.txt         golden stdout per program
 │
 ├── octant/                    LaTeX → Deep → Surf triples
@@ -81,9 +81,10 @@ hello-chelis/
 
 ## Quickstart
 
-The Docker image installs prebuilt release artifacts: the Chelis
-toolchain tarball, Octant's CLI tarball, and shell packages via
-`chelis reef install --from-github`. Because the canonical org repos
+The image installs prebuilt release artifacts: the Chelis `0.16.1`
+toolchain tarball, Octant's `0.10.1` CLI tarball, and the imported Coral,
+Nautilus, and School packages via `chelis reef install --from-github`.
+c-earchin proof fixtures are committed and require no package install. Because the canonical org repos
 are private during pre-launch, pass a GitHub token with access to those
 repos when building locally.
 
@@ -100,7 +101,10 @@ chelis check src/basics/hellotensor.ch          # front-end gate (parse + types)
 chelis lint --check .                            # blocking nomenclature gate
 chelis test tests/ --jobs auto                   # native runtime suite
 chelis test tests/ --jobs 1                      # serial fallback for debugging
-python3 -m pytest tests/                         # drift + negative + C-backend + octant + c-earchin
+chelis test tests_neg/ --expect neg              # must-reject diagnostic contracts
+chelis test tests_blocked/ --expect blocked      # expected upstream blockers
+chelis reef conform audit --explain              # shell-contract gate
+python3 -m pytest tests/                         # drift + C-backend + bridges + fallback
 ```
 
 ## Two source surfaces
@@ -126,8 +130,8 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 | Path | Command | Strengths | Limitations |
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
-| IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on the pinned toolchain |
-| C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
+| IR evaluator | `chelis test`, `chelis eval` | Direct grad, vmap, realize, activations, seeded execution | Black-Scholes grad and Coral Parquet remain expected blockers |
+| C backend | `chelis build --target c` | Independent production-backend execution | bf16/f16 host boundaries remain blocked by `chelis#716` |
 
 Each test in this corpus runs in the lane that supports it. Full
 inventory of gaps with verbatim compiler error messages in
@@ -135,13 +139,13 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.8.0`** with
-**`chelis-std` 0.4.0**, **coral 0.7.26**, **nautilus 0.7.27**,
-**octant 0.4.9**, and **school 0.1.5**. The c-earchin
-requirements-bridge fixtures are proven against the **c-earchin 0.3.2**
-release in the Python harness. The `compiler = "=0.8.0"` pin in
-`reef.toml` is hard: the language is pre-1.0 and breaking changes ship
-between minor versions.
+The runnable corpus is pinned exactly to **Chelis `0.16.1`** with
+**`chelis-std` 0.4.0**, **Coral 0.7.31**, **Nautilus 0.7.34**, and
+**School 0.1.10**. Octant is consumed as the standalone **0.10.1**
+translator. The committed c-earchin fixtures originated at **0.3.2** and
+execute directly through Chelis `prove`; its source package is not a Reef
+dependency. The exact compiler contract is enforced across `reef.toml`,
+`reef.lock`, Docker, and every installer workflow.
 
 The neural-network and loss modules (`Nn.*`, `Loss.*`) moved out of
 `chelis-std` and into the new **`school`** package as of chelis-std
@@ -152,20 +156,24 @@ import the corresponding `School.Nn.*` / `School.Loss.*` modules.
 
 | Lane | Pass count |
 |---|---:|
-| `pytest tests/test_surf_deep_equivalence.py` (drift) | 89 |
+| `pytest tests/test_surf_deep_equivalence.py` (drift) | 92 |
 | `pytest tests/test_c_backend.py` (C lowering + golden outputs) | 7 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject) | 3 |
 | `pytest tests/test_c_earchin_artifacts.py` (EARS proof bridge) | 2 |
-| `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
-| **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
+| `pytest tests/test_workflow_pins.py` (workflow/lock/Docker/Compose drift) | 6 |
+| `chelis test tests/ --jobs auto` (native runtime suite) | 112 |
+| `chelis test tests_neg/ --expect neg` | 3 |
+| `chelis test tests_blocked/ --expect blocked` | 2 expected blockers |
+| **Blocking CI outcomes** | **pin/conformance first, then every runtime/generated/bridge/fallback lane** |
 
 `chelis lint --check .` is now a blocking CI gate. The corpus reports
-zero error-severity findings under chelis 0.8.0. One existing advisory
+zero error-severity findings under Chelis 0.16.1. One existing advisory
 `prefer-pipe-operator` finding remains in
 `src/capstone/transformerblock.ch`; advisory diagnostics do not fail
-`lint --check`. Every upstream rule that previously blocked this gate
-landed in chelis 0.7.8:
+`lint --check`. Historical context: the rules that originally unblocked this
+gate landed in Chelis 0.7.7–0.7.8 (the versions below are historical, not
+current support claims):
 
 - The `module-pascal-components` allowlist now recognizes `Linearity`,
   `Hypothesis`, `Integration`, and `Optimize` as legitimate
@@ -192,20 +200,15 @@ New or touched Chelis examples should still be formatted and linted
 before they are added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.8.0](https://github.com/Chelis-Lang/chelis/releases/tag/v0.8.0)
+[Chelis-Lang/chelis@v0.16.1](https://github.com/Chelis-Lang/chelis/releases/tag/v0.16.1)
 release artifacts.
 
 ## Caveats
 
-- The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.8.0. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
-  `log`, some `grad`/activation shapes, `realize`, and some
-  higher-order transform forms compile cleanly via `chelis check` and
-  through the C backend, but are not all available in the in-process
-  evaluator. Blocking CI
-  runs the full native `chelis test tests/ --jobs auto` suite and covers
-  the remaining examples with `chelis check`, Deep drift checks, negative
-  checks, Octant round-trips, c-earchin proof checks, and C-backend execution.
+- Most v0.8.0 evaluator narrowings were removed at `0.16.1`: direct grad,
+  vmap, realize, activation pipelines, expand, nested tensors, and seeded
+  execution now have runtime evidence. Current expected failures live only in
+  `tests_blocked/`, with details in `docs/UPSTREAM_BUGS.md`.
 - The canonical Chelis-Lang shells are private during pre-launch, so
   `chelis reef install --from-github` requires `GITHUB_TOKEN`. The
   Docker image uses that canonical install path and passes the token as
@@ -215,10 +218,9 @@ release artifacts.
   library. `.tex` inputs live at the repo root in `octant/`, with
   `.dp`/`.spans.json`/`.ch` siblings produced by `octant translate`
   and `chelis surf`.
-- `with seed(...)` blocks `chelis build` of the entire project tree
-  (it's gated upstream pending RNG plumbing through codegen). Affects
-  one src file (`src/basics/effectsrandom.ch`); demonstrated through
-  `chelis test` only.
+- `with seed(...)` now executes in both evaluator and C lanes. Narrow-float
+  bf16/f16 values remain unsuitable for learner-facing C output until
+  `chelis#716` closes.
 
 ## License
 

@@ -1,0 +1,27 @@
+(module {}
+  hello.tests.basics.effectsrandom
+  (import {} hello.basics.effectsrandom (deterministic_pair))
+  (import {} std.test (assert_close_tensor))
+  (defsig {} test_seed_repeats (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (def {}
+    test_seed_repeats
+    (fn {}
+      (params {})
+      (let {span: "surf:178..313"}
+        (bind {span: "surf:178..313"}
+          first
+          (app {span: "surf:190..210"}
+            (var {span: "surf:190..208"} deterministic_pair)))
+        (let {}
+          (bind {}
+            second
+            (app {span: "surf:222..242"}
+              (var {span: "surf:222..240"} deterministic_pair)))
+          (app {span: "surf:245..311"}
+            (var {span: "surf:245..264"} assert_close_tensor)
+            (var {span: "surf:265..270"} first)
+            (var {span: "surf:272..278"} second)
+            (cast {span: "surf:280..294"}
+              (lit {span: "surf:285..288", type: (t-prim {} f32)} 0.0)
+              (t-prim {} f32))
+            (lit {span: "surf:296..310", type: (t-prim {} string)} "seed_repeats")))))))

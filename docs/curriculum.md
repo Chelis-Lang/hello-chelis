@@ -18,13 +18,10 @@ program in this repo ships in both forms.
 
 ## 1. The compiler's three execution paths (10 min)
 
-Skim [`discrepancies.md`](discrepancies.md). You don't need to
-understand every gap — just internalize that **`chelis check`,
-`chelis test` (the IR evaluator), and `chelis build --target c` are
-three different acceptors** with overlapping but non-identical
-primitive sets. A program can pass one and fail the others. The
-corpus is structured around that fact: every example is exercised in
-the lane that supports it.
+Skim [`discrepancies.md`](discrepancies.md). **`chelis check`,
+`chelis test` (the IR evaluator), and `chelis build --target c` remain
+separate acceptors.** Most historical gaps closed by `0.16.1`; current
+exceptions are executable expected failures under `tests_blocked/`.
 
 ## 2. Language fundamentals (60 min)
 
@@ -35,8 +32,8 @@ and self-contained:
    dimensions, no implicit broadcasting. Compare the Surf to the
    sibling `.dp` to see how `tensor[n, f32]` desugars.
 2. [`pipeandmatch.ch`](../src/basics/pipeandmatch.ch) — ADTs are
-   exhaustively matched and explicit nested call chains replace
-   illustrative pipe syntax in the executable corpus.
+   exhaustively matched; piped tensor activation chains execute in both
+   evaluator and C lanes.
 3. [`modulesandimports/`](../src/basics/modulesandimports/) — the
    three import forms (qualified, selective, glob).
 4. [`dimpoly.ch`](../src/basics/dimpoly.ch) — bracketed dim
@@ -88,9 +85,8 @@ substrate for a different domain:
 ### Coral — typed dataframes
 
 [`src/coral/`](../src/coral/) — pandas-equivalent surfaces. The
-distinctive capability is **AD through dataframe operations**: numeric
-columns are tensor-backed, so `grad` flows through `group_by`, joins,
-window functions. See
+example combines typed Frame construction with a separately executable direct
+tensor gradient. It does not overclaim AD through joins or `group_by`. See
 [`adthroughdataframe.ch`](../src/coral/adthroughdataframe.ch).
 
 ### Nautilus — numerics
@@ -120,7 +116,8 @@ with failure diagnostics resolving back to the EARS line.
 [`src/capstone/`](../src/capstone/) — multi-shell integrations:
 
 - [`blackscholes.ch`](../src/capstone/blackscholes.ch): Black-Scholes
-  call price + Greeks via `grad`. Cross-reference to the LaTeX form
+  call price plus visible `grad`-defined Greeks. Call price executes; the
+  exact-value Greek probe remains in `tests_blocked/`. Cross-reference to the LaTeX form
   at [`octant/black_scholes_d1.tex`](../octant/black_scholes_d1.tex).
 - [`linreg.ch`](../src/capstone/linreg.ch): linear regression with
   predict / loss / SGD step.
@@ -135,9 +132,9 @@ with failure diagnostics resolving back to the EARS line.
 
 [`verify/`](../verify/) holds project-free programs that build to C,
 link, and run end-to-end. Read [`verify/README.md`](../verify/README.md).
-This is where features the in-process IR evaluator can't run (`grad`,
-tensor `relu`/`sigmoid`, `realize`, `cast`) get exercised through the
-production code path.
+These independent goldens ensure direct grad, tensor activations, realize, and
+casts continue to work through generated C even though they now also execute in
+the evaluator.
 
 ```sh
 python3 -m pytest -q tests/test_c_backend.py

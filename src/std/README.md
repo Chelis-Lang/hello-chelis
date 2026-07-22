@@ -1,6 +1,6 @@
 # `src/std/` — chelis-std surfaces
 
-Tour of the standard library that ships with the compiler at v0.8.0.
+Tour of `chelis-std` `0.4.0` as bundled with Chelis `0.16.1`.
 Every file here imports from `Std.*` and demonstrates a different
 slice of the runtime that's available without any third-party shell.
 

@@ -9,6 +9,7 @@ install + first commands.
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
+export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 ```
 
@@ -18,13 +19,29 @@ The image is `ubuntu:24.04` plus:
 - Python 3 + pip (CI installs pytest before running the fallback harness)
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.4.0, `coral` 0.7.26, `nautilus` 0.7.27,
-  `octant` 0.4.9, `c-earchin` 0.3.2, and `school` 0.1.5 installed into
-  the local Reef registry from GitHub release assets
+- Chelis `0.16.1`, bundled `chelis-std` `0.4.0`, Coral `0.7.31`,
+  Nautilus `0.7.34`, and School `0.1.10`
+- The standalone Octant `0.10.1` translator; c-earchin proof fixtures are
+  committed and need no package install
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
 repos and downloads release artifacts instead of compiling toolchains
 from source. Rebuilds reuse the layer cache.
+
+On Apple Silicon with Apple Container:
+
+```sh
+GITHUB_TOKEN=$(gh auth token) container build --platform linux/amd64 \
+  --file docker/Dockerfile --secret id=github_token,env=GITHUB_TOKEN \
+  --tag hello-chelis:0.16.1 .
+container run --rm --platform linux/amd64 --rosetta \
+  --volume "$PWD:/workspace" --workdir /workspace hello-chelis:0.16.1
+```
+
+The `linux/amd64` platform is required because the authenticated release
+tarballs currently contain x86-64 binaries. For the full `--jobs auto` native
+suite, give the VM an explicit resource envelope (validated with
+`container run --cpus 8 --memory 16G ...`) to avoid a low-default-memory kill.
 
 ## 2. Inside the container
 
@@ -42,12 +59,12 @@ chelis check src/basics/hellotensor.ch     # parse + types + dim
                                             # + effect + linearity
 ```
 
-`chelis check` validates the entire project on any single-file
-invocation: all 200K+ typed nodes get re-loaded each call. There's
-no per-file or directory mode.
+A file under the Reef root resolves against the complete pinned package graph.
+`check --help` documents one `<FILE>`; use `chelis reef build` for the package
+front-end gate rather than relying on directory-check behavior.
 
-The native IR evaluator still has documented primitive gaps, but the
-full native test tree is a blocking lane:
+The full native test tree is blocking. Its current expected exceptions
+(Black-Scholes grad and Coral Parquet) are isolated under `tests_blocked/`:
 
 ```sh
 chelis test tests/ --jobs auto
@@ -61,15 +78,15 @@ chelis lint .                              # non-blocking nomenclature inventory
 chelis lint --check .                      # blocking lint gate
 ```
 
-The strict gate passes under chelis 0.8.0 with zero error-severity
+The strict gate passes under Chelis 0.16.1 with zero error-severity
 findings. One existing `prefer-pipe-operator` advisory remains in
 `src/capstone/transformerblock.ch`; advisory diagnostics do not fail
 `lint --check`. Treat new or edited examples as style-clean.
 
 ## 5. C backend (full lowering)
 
-The IR evaluator at v0.8.0 doesn't run every primitive. The C-backend
-harness exercises supported native lowerings end-to-end:
+The C-backend harness is an independent production-lane oracle even for
+features that also execute in the `0.16.1` evaluator:
 
 ```sh
 python3 -m pytest -q tests/test_c_backend.py
@@ -101,6 +118,7 @@ After editing any `.ch`:
 ```sh
 python3 scripts/regen_deep.py            # walks src/, tests/, verify/
 python3 scripts/regen_octant.py          # walks octant/
+python3 scripts/sync_negative_tests.py   # materializes tests_neg/learner/
 ```
 
 CI fails on drift. Run these before committing.
@@ -111,9 +129,10 @@ CI fails on drift. Run these before committing.
 python3 -m pytest tests/
 ```
 
-Covers what `chelis test` doesn't: programs that must be rejected,
-Octant pipeline round-trips, c-earchin proof diagnostics, C-backend
-lowering goldens, and Surf-Deep drift. See
+Covers structured learner-negative diagnostics, Octant pipeline round-trips,
+c-earchin proof diagnostics, C-backend lowering goldens, workflow-pin fixtures,
+and Surf-Deep drift. Native negative and blocked contracts additionally run via
+`chelis test tests_neg/ --expect neg` and `chelis test tests_blocked/ --expect blocked`. See
 [`tests/README.md`](../tests/README.md) for the breakdown.
 
 ## What to read next
