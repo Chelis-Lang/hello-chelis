@@ -83,9 +83,11 @@ hello-chelis/
 
 The Docker image installs prebuilt release artifacts: the Chelis
 toolchain tarball, Octant's CLI tarball, and shell packages via
-`chelis reef install --from-github`. Because the canonical org repos
-are private during pre-launch, pass a GitHub token with access to those
-repos when building locally.
+`chelis reef install --from-github`. Docker Compose verifies the Chelis
+tarball against `.github/chelis-toolchains.json` before extracting or
+executing it. Because the canonical org repos are private during
+pre-launch, pass a GitHub token with access to those repos when building
+locally.
 
 ```sh
 export GITHUB_TOKEN=$(gh auth token)

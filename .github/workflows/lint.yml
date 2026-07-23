@@ -7,51 +7,18 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  python:
-    name: ruff + black on the test harness
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install linters
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install ruff==0.6.* black==24.*
-
-      - name: ruff check
-        run: ruff check tests/
-
-      - name: black --check
-        run: black --check tests/
-
-  chelis-lint:
-    name: chelis lint inventory
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: docker/Dockerfile
-          tags: hello-chelis:lint
-          load: true
-          secrets: |
-            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          cache-from: type=gha
-
-      - name: chelis lint --check (blocking)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:lint \
-            chelis lint --check .
+  central:
+    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@4394706b569bdd7d557f6edc7b9818249decc330
+    with:
+      profile: hello-chelis-lint
+      chelis-version: 0.14.0
+      chelis-linux-sha256: sha256:0c790cfcc28ead0c283efb1bc1a1ddfabb6a46491212122aa283ef77f717e3ee
+      coral-version: 0.7.30
+      nautilus-version: 0.7.33
+      school-version: 0.1.9
+    secrets:
+      CHELIS_RELEASE_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN }}

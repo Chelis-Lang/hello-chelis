@@ -3,6 +3,13 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      args:
+        CHELIS_TOOLCHAIN_SOURCE: local-toolchain
+        CHELIS_VERSION: 0.14.0
+        CHELIS_LINUX_SHA256: sha256:0c790cfcc28ead0c283efb1bc1a1ddfabb6a46491212122aa283ef77f717e3ee
+        CORAL_VERSION: 0.7.30
+        NAUTILUS_VERSION: 0.7.33
+        SCHOOL_VERSION: 0.1.9
       secrets:
         - github_token
     image: hello-chelis:0.14.0

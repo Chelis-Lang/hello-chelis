@@ -1,120 +1,27 @@
 name: nightly
 
-# Slimmed to its one unique value over the per-PR ci.yml gate: a valgrind
-# memory-safety pass on built C output. The check/test/pytest steps the
-# older sweep ran all duplicate what ci.yml already covers per PR, so they
-# are dropped. The Docker image build stays because valgrind needs the
-# chelis toolchain plus the image's C toolchain.
-
 on:
   schedule:
-    - cron: "30 3 * * *"
+    - cron: '30 3 * * *'
   workflow_dispatch:
 
 concurrency:
   group: nightly-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
-  full-sweep:
-    name: valgrind
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-
-      - name: Build image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: docker/Dockerfile
-          tags: hello-chelis:nightly
-          load: true
-          secrets: |
-            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      # Valgrind a real chelis-built C binary. `chelis build --target c` emits
-      # a DIRECTORY of C sources + headers (not an executable, and it does not
-      # invoke the C compiler); we gcc-compile + link that against the image's
-      # libchelis_runtime.a, then valgrind the resulting binary. This mirrors
-      # the Dockerfile's sanity build.
-      #
-      # We copy the standalone grad file out of the reef root and build it from
-      # /tmp so the build lowers ONLY that file: `chelis build --target c
-      # <anyfile>` run from the reef root lowers the whole hello-chelis
-      # package, which includes the capstone BlackScholes.delta/.vega. Those
-      # differentiate w.r.t. a scalar f32 via inline `grad(f)(x)`, and chelis's
-      # host-lane C backend can only lower grad w.r.t. a tensor (chelis#405), so
-      # the whole-package build aborts ("can't lower these defs ... applies/binds
-      # grad ... in a position the host lane can't resolve") regardless of the
-      # entry file. grad_quadratic.ch uses the supported grad-over-function-
-      # parameter / tensor-wrt form, so built in isolation it lowers and runs
-      # cleanly. This is a "(subset)" pass by design; it is not the place to
-      # exercise the whole package.
-      #
-      # The valgrind run uses .github/valgrind-known.supp, which suppresses two
-      # provisional, narrowly-scoped chelis runtime leaks (chelis#406) plus the
-      # standard libgomp thread-pool TLS false positive. The suppressions are
-      # removed when chelis#406 lands; everything else (invalid access, any new
-      # leak frame) still fails the run.
-      - name: Valgrind on built C output (subset)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '
-            set -e
-            cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch
-            chelis build --target c /tmp/grad_quadratic.ch -o /tmp/grad_build
-            cd /tmp/grad_build
-            gcc -O2 -fopenmp grad_quadratic.c -L. -L/usr/local/lib -lchelis_runtime \
-                -lopenblas -lm -lpthread -ldl -o grad_quadratic
-            valgrind --error-exitcode=1 --leak-check=full \
-                --suppressions=/workspace/.github/valgrind-known.supp \
-                ./grad_quadratic
-          '
-
-  # Surface a nightly failure as a tracking issue (opens on failure, closes on
-  # green) so a red nightly is impossible to miss -- scheduled-run failures do
-  # not show a red status on main, which is how nightlies stay red for days
-  # unnoticed.
-  report:
-    name: Surface nightly status
-    needs: full-sweep
-    if: always()
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-    steps:
-      - name: Open/close nightly-failure tracking issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ needs.full-sweep.result }}
-        with:
-          script: |
-            const title = 'Nightly failing: hello-chelis';
-            const { owner, repo } = context.repo;
-            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
-            const q = `repo:${owner}/${repo} is:issue is:open in:title "${title}"`;
-            const found = await github.rest.search.issuesAndPullRequests({ q });
-            const existing = found.data.items.find(i => i.title === title);
-            if (process.env.RESULT === 'failure') {
-              if (existing) {
-                core.info(`Tracking issue #${existing.number} already open.`);
-              } else {
-                const issue = await github.rest.issues.create({
-                  owner, repo, title,
-                  body: `The **hello-chelis** nightly failed.\n\nRun: ${runUrl}\nCommit: \`${context.sha}\`\n\nAuto-opened on failure; auto-closes when the nightly next passes.`,
-                  labels: ['nightly-failure'],
-                });
-                core.info(`Opened tracking issue #${issue.data.number}.`);
-              }
-            } else if (process.env.RESULT === 'success' && existing) {
-              await github.rest.issues.createComment({
-                owner, repo, issue_number: existing.number,
-                body: `Nightly green again -- ${runUrl}. Closing.`,
-              });
-              await github.rest.issues.update({ owner, repo, issue_number: existing.number, state: 'closed' });
-              core.info(`Closed tracking issue #${existing.number}.`);
-            }
+  central:
+    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@4394706b569bdd7d557f6edc7b9818249decc330
+    with:
+      profile: hello-chelis-nightly
+      chelis-version: 0.14.0
+      chelis-linux-sha256: sha256:0c790cfcc28ead0c283efb1bc1a1ddfabb6a46491212122aa283ef77f717e3ee
+      coral-version: 0.7.30
+      nautilus-version: 0.7.33
+      school-version: 0.1.9
+    secrets:
+      CHELIS_RELEASE_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN }}
