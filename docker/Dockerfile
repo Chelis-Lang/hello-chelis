@@ -1,8 +1,11 @@
-# hello-chelis: Ubuntu 24.04 with a pre-authenticated Chelis toolchain and
+# syntax=docker/dockerfile:1.7
+
+# hello-chelis: Ubuntu 24.04 with an authenticated Chelis toolchain and
 # the extant shell releases pre-installed.
 #
-# CI stages the digest-verified toolchain at .ci-authenticated-chelis before
-# building. Local builds must stage the same archive layout first.
+# CI selects the toolchain staged at .ci-authenticated-chelis by the central
+# workflow. Docker Compose selects a local stage that downloads the same pinned
+# archive and verifies its committed digest before extraction or execution.
 #
 # Build:
 #   docker compose -f docker/docker-compose.yml build
@@ -10,13 +13,14 @@
 # Run an interactive shell at /workspace:
 #   docker compose -f docker/docker-compose.yml run --rm hello-chelis
 #
-# Canonical-org repos are private during pre-launch. CI passes a
-# GitHub token as a BuildKit secret so this image can consume release
-# assets directly rather than cloning and compiling source repos.
+# Canonical-org repos are private during pre-launch. CI and local builds pass a
+# GitHub token as a BuildKit secret so release assets can be consumed directly
+# rather than cloning and compiling source repos.
 
-# syntax=docker/dockerfile:1.7
+ARG CHELIS_TOOLCHAIN_SOURCE=ci-toolchain
+ARG CHELIS_VERSION=0.14.0
 
-FROM ubuntu:24.04
+FROM ubuntu:24.04 AS release-download-base
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -28,18 +32,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
-        gcc \
-        g++ \
-        make \
-        libopenblas-dev \
-        libgomp1 \
-        valgrind \
-        git \
-        python3 \
-        python3-pip \
-        python3-venv \
-        jq \
-    && rm -rf /var/lib/apt/lists/*
+        jq
 
 # --- Helper for private GitHub release assets -----------------------------
 COPY <<'EOF' /usr/local/bin/download-github-release-asset
@@ -66,9 +59,52 @@ curl -fL "${auth_args[@]}" -H "Accept: application/octet-stream" "$url" -o "$out
 EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
-# --- Digest-verified Chelis compiler staged by the central workflow --------
-ARG CHELIS_VERSION=0.14.0
-COPY .ci-authenticated-chelis/ /usr/local/
+FROM release-download-base AS runtime-base
+
+RUN apt-get install -y --no-install-recommends \
+        gcc \
+        g++ \
+        make \
+        libopenblas-dev \
+        libgomp1 \
+        valgrind \
+        git \
+        python3 \
+        python3-pip \
+        python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- CI source: toolchain authenticated and staged by the central workflow --
+FROM scratch AS ci-toolchain
+COPY .ci-authenticated-chelis/ /toolchain/
+
+# --- Local source: download with credentials, verify, then extract separately -
+FROM release-download-base AS local-toolchain
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG CHELIS_VERSION
+ARG CHELIS_LINUX_SHA256
+RUN --mount=type=secret,id=github_token,required=true \
+    [[ "${CHELIS_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] \
+    && [[ "${CHELIS_LINUX_SHA256}" =~ ^sha256:[0-9a-f]{64}$ ]] \
+    && token="$(cat /run/secrets/github_token)" \
+    && test -n "$token" \
+    && export GITHUB_TOKEN="$token" \
+    && asset="chelis-v${CHELIS_VERSION}-linux-x86_64.tar.gz" \
+    && download-github-release-asset Chelis-Lang/chelis "v${CHELIS_VERSION}" "$asset" "/tmp/${asset}" \
+    && printf '%s  %s\n' "${CHELIS_LINUX_SHA256#sha256:}" "/tmp/${asset}" | sha256sum --check -
+RUN asset="chelis-v${CHELIS_VERSION}-linux-x86_64.tar.gz" \
+    && mkdir -p /toolchain \
+    && tar -xzf "/tmp/${asset}" -C /toolchain --strip-components=1 \
+    && rm -f "/tmp/${asset}"
+
+# BuildKit follows only the selected source stage. CI therefore does not
+# download a second compiler archive, while a clean local checkout needs no
+# pre-created .ci-authenticated-chelis directory.
+FROM ${CHELIS_TOOLCHAIN_SOURCE} AS selected-toolchain
+
+FROM runtime-base AS final
+ARG CHELIS_VERSION
+COPY --from=selected-toolchain /toolchain/ /usr/local/
 RUN test -x /usr/local/bin/chelis \
     && test -f /usr/local/lib/libchelis_runtime.a \
     && test -n "$(find /usr/local/include -maxdepth 1 -name '*.h' -print -quit)" \

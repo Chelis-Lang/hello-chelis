@@ -9,6 +9,7 @@ install + first commands.
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
+export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 ```
 
@@ -24,7 +25,8 @@ The image is `ubuntu:24.04` plus:
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
 repos and downloads release artifacts instead of compiling toolchains
-from source. Rebuilds reuse the layer cache.
+from source. The Chelis archive must match the committed digest before
+Docker extracts or executes it. Rebuilds reuse the layer cache.
 
 ## 2. Inside the container
 
