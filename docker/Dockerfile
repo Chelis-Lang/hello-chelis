@@ -1,5 +1,8 @@
-# hello-chelis: Ubuntu 24.04 with the released Chelis toolchain and
+# hello-chelis: Ubuntu 24.04 with a pre-authenticated Chelis toolchain and
 # the extant shell releases pre-installed.
+#
+# CI stages the digest-verified toolchain at .ci-authenticated-chelis before
+# building. Local builds must stage the same archive layout first.
 #
 # Build:
 #   docker compose -f docker/docker-compose.yml build
@@ -63,20 +66,13 @@ curl -fL "${auth_args[@]}" -H "Accept: application/octet-stream" "$url" -o "$out
 EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
-# --- Chelis compiler from release tarball ---------------------------------
+# --- Digest-verified Chelis compiler staged by the central workflow --------
 ARG CHELIS_VERSION=0.14.0
-RUN --mount=type=secret,id=github_token \
-    token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
-    && export GITHUB_TOKEN="$token" \
-    && asset="chelis-v${CHELIS_VERSION}-linux-x86_64.tar.gz" \
-    && download-github-release-asset Chelis-Lang/chelis "v${CHELIS_VERSION}" "$asset" "/tmp/${asset}" \
-    && mkdir -p /tmp/chelis-toolchain \
-    && tar -xzf "/tmp/${asset}" -C /tmp/chelis-toolchain --strip-components=1 \
-    && cp /tmp/chelis-toolchain/bin/chelis /usr/local/bin/chelis \
-    && cp /tmp/chelis-toolchain/lib/libchelis_runtime.a /usr/local/lib/libchelis_runtime.a \
-    && mkdir -p /usr/local/include \
-    && cp /tmp/chelis-toolchain/include/*.h /usr/local/include/ \
-    && chelis --version
+COPY .ci-authenticated-chelis/ /usr/local/
+RUN test -x /usr/local/bin/chelis \
+    && test -f /usr/local/lib/libchelis_runtime.a \
+    && test -n "$(find /usr/local/include -maxdepth 1 -name '*.h' -print -quit)" \
+    && test "$(chelis --version)" = "chelis ${CHELIS_VERSION}"
 
 # --- Install shell releases into Reef registry ----------------------------
 ARG CORAL_VERSION=0.7.30
@@ -95,14 +91,18 @@ RUN --mount=type=secret,id=github_token \
     && chelis reef install --from-github "Chelis-Lang/school@v${SCHOOL_VERSION}"
 
 # --- Octant CLI from release tarball --------------------------------------
+# Download while the credential exists, then execute only after BuildKit has
+# removed the secret mount from the following layer.
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
     && asset="octant-v${OCTANT_VERSION}-linux-x86_64.tar.gz" \
-    && download-github-release-asset Chelis-Lang/octant "v${OCTANT_VERSION}" "$asset" "/tmp/${asset}" \
+    && download-github-release-asset Chelis-Lang/octant "v${OCTANT_VERSION}" "$asset" "/tmp/${asset}"
+RUN asset="octant-v${OCTANT_VERSION}-linux-x86_64.tar.gz" \
     && mkdir -p /tmp/octant-toolchain \
     && tar -xzf "/tmp/${asset}" -C /tmp/octant-toolchain --strip-components=1 \
     && cp /tmp/octant-toolchain/bin/octant /usr/local/bin/octant \
+    && rm -rf "/tmp/${asset}" /tmp/octant-toolchain \
     && octant version
 
 # --- Workspace -------------------------------------------------------------
