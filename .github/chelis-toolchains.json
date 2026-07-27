@@ -1,0 +1,9 @@
+{
+  "schema": "chelis-toolchain-digests/v1",
+  "versions": {
+    "0.17.1": {
+      "linux-x86_64": "sha256:d3e6d057996622e3cc6bb1c063bc4d804c96553010b48ef42f98ef03328d078f",
+      "darwin-arm64": "sha256:549c0745bf995eb40a0bbed395c964e3b3c86e46c0ac14749237f3417a3cf569"
+    }
+  }
+}
