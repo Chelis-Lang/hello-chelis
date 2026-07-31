@@ -25,3 +25,7 @@ venv/
 
 # CI
 .cache/
+.ci-central-helper/
+.ci-central-helper.partial/
+.ci-container-artifacts/
+.ci-container-artifacts.partial-*/

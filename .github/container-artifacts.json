@@ -1,0 +1,101 @@
+{
+  "schema": "chelis-container-artifacts/v1",
+  "artifacts": [
+    {
+      "identity": "chelis-toolchain-linux-x86_64",
+      "repository": "Chelis-Lang/chelis",
+      "version": "0.17.1",
+      "asset": "chelis-v0.17.1-linux-x86_64.tar.gz",
+      "sizeBytes": 26677777,
+      "sha256": "sha256:d3e6d057996622e3cc6bb1c063bc4d804c96553010b48ef42f98ef03328d078f"
+    },
+    {
+      "identity": "coral-shell",
+      "repository": "Chelis-Lang/coral",
+      "version": "0.7.32",
+      "asset": "coral-0.7.32.chb",
+      "sizeBytes": 15964,
+      "sha256": "sha256:4097970a3f784373dc4bbf8937aa0107893201bcce35102a518e39ee90869ef0"
+    },
+    {
+      "identity": "coral-archive",
+      "repository": "Chelis-Lang/coral",
+      "version": "0.7.32",
+      "asset": "coral-0.7.32.tar.zst",
+      "sizeBytes": 15497,
+      "sha256": "sha256:d819b4182d7157a061a1996b3102fcb01ed7e0296fdb4a9f1850e20a554486f3"
+    },
+    {
+      "identity": "nautilus-shell",
+      "repository": "Chelis-Lang/nautilus",
+      "version": "0.7.35",
+      "asset": "nautilus-0.7.35.chb",
+      "sizeBytes": 37860,
+      "sha256": "sha256:ad451b4cda907baf68f451c90b0e27fc1720ab92998f1ddbb7991e83be2f0c15"
+    },
+    {
+      "identity": "nautilus-archive",
+      "repository": "Chelis-Lang/nautilus",
+      "version": "0.7.35",
+      "asset": "nautilus-0.7.35.tar.zst",
+      "sizeBytes": 31850,
+      "sha256": "sha256:11809a4676aa4b3b4fdd2a182ebae5cdfcf17c0930d87bccf3028d332637e630"
+    },
+    {
+      "identity": "octant-shell",
+      "repository": "Chelis-Lang/octant",
+      "version": "0.10.1",
+      "asset": "octant-0.10.1.chb",
+      "sizeBytes": 283,
+      "sha256": "sha256:8b86c720fca3535b0e57c69ed4cd6c4c4d1fe9193391c31571369ff2760ce85a"
+    },
+    {
+      "identity": "octant-archive",
+      "repository": "Chelis-Lang/octant",
+      "version": "0.10.1",
+      "asset": "octant-0.10.1.tar.zst",
+      "sizeBytes": 105254,
+      "sha256": "sha256:45b60e858f529bbaf1d55c1823449f25e9325f591430cb2865a1146ac302847c"
+    },
+    {
+      "identity": "octant-cli-linux-x86_64",
+      "repository": "Chelis-Lang/octant",
+      "version": "0.10.1",
+      "asset": "octant-v0.10.1-linux-x86_64.tar.gz",
+      "sizeBytes": 996661,
+      "sha256": "sha256:816b85e5c2d27c64d4e61974d9fc0959a3b5a61f763e275df2e66aba805ce2fa"
+    },
+    {
+      "identity": "c-earchin-shell",
+      "repository": "Chelis-Lang/c-earchin",
+      "version": "0.3.3",
+      "asset": "c-earchin-0.3.3.chb",
+      "sizeBytes": 1237,
+      "sha256": "sha256:6af60342693f76d53a3a6fad1415d257c3485b6b1722929abf327941f5795f92"
+    },
+    {
+      "identity": "c-earchin-archive",
+      "repository": "Chelis-Lang/c-earchin",
+      "version": "0.3.3",
+      "asset": "c-earchin-0.3.3.tar.zst",
+      "sizeBytes": 19020,
+      "sha256": "sha256:af1bebc4c977099451b39a92fc16352ea333e7a6d1ac1c4144573ddac019aa3a"
+    },
+    {
+      "identity": "school-shell",
+      "repository": "Chelis-Lang/school",
+      "version": "0.1.12",
+      "asset": "school-0.1.12.chb",
+      "sizeBytes": 72120,
+      "sha256": "sha256:c97bd3fb87742c3a01450ade88ff1e258a207150a745ec67ee3c49bdeedf4e52"
+    },
+    {
+      "identity": "school-archive",
+      "repository": "Chelis-Lang/school",
+      "version": "0.1.12",
+      "asset": "school-0.1.12.tar.zst",
+      "sizeBytes": 102366,
+      "sha256": "sha256:d7a23fa52592cc0d43ff12caeaf6fcda5f25682451f7c84f81539ca3402b4656"
+    }
+  ]
+}
