@@ -7,6 +7,26 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+Updated the executable corpus from the stale 0.14.0 stack to the latest
+coherent 0.17.1 shell cascade. This also removes false ecosystem-drift
+failures caused by rechecking the old Coral, Nautilus, and School artifacts
+against Chelis HEAD.
+
+#### Pin bumps
+
+- compiler `=0.14.0` -> `=0.17.1`
+- `coral` `0.7.30` -> `0.7.32`
+- `nautilus` `0.7.33` -> `0.7.35`
+- `school` `0.1.9` -> `0.1.12`
+- `chelis-std` stays `0.4.0`
+
+The manifest, regenerated lockfile, Docker defaults, CI and release workflow,
+Compose image tag, README, and version-scoped discrepancy docs move together.
+The source check, native test suite, and numerically tolerant C-backend oracle
+also pass against Chelis HEAD 0.17.4 under the ecosystem canary's
+dependency-compiler drift waiver. Release-pinned CI remains the owner of
+byte-for-byte generated Deep sidecar drift.
+
 ### 0.1.10 - 2026-06-19
 
 Cascaded the corpus from chelis 0.7.27 to chelis 0.8.0.

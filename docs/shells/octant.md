@@ -5,7 +5,7 @@ importable Chelis library.** It turns a bounded subset of mathematical
 LaTeX into typed Chelis Deep, with provenance back to byte ranges in the
 source `.tex`.
 
-Pinned to `0.4.9`. Installed in the Docker image and on `$PATH` as
+Pinned to `0.10.1`. Installed in the Docker image and on `$PATH` as
 `octant`. It is not an importable Reef dependency in this repo.
 
 ## How you use it

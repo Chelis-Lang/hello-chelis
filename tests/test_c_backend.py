@@ -1,6 +1,6 @@
 """Build supported verify/*.ch via `chelis build --target c`, link with
-the chelis runtime + OpenBLAS, run the binary, and assert stdout
-matches a committed golden under verify/expected/<name>.txt.
+the chelis runtime + OpenBLAS, run the binary, and compare its tensor
+structure and numeric values with verify/expected/<name>.txt.
 
 This is the lane that demonstrates native C lowering where the pinned
 toolchain supports it. The IR evaluator
@@ -14,6 +14,7 @@ anywhere in the source tree.
 
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import tempfile
@@ -24,6 +25,56 @@ import pytest
 REPO = Path(__file__).resolve().parent.parent
 VERIFY = REPO / "verify"
 EXPECTED = VERIFY / "expected"
+TENSOR_LINE = re.compile(
+    r"^(?P<label>[A-Za-z_][A-Za-z0-9_]*) = tensor\(shape=\[(?P<shape>[^]]*)\], "
+    r"data=\[(?P<data>[^]]*)\]\)$"
+)
+
+
+def parse_tensor_output(text: str) -> list[tuple[str, tuple[int, ...], list[float]]]:
+    records = []
+    for line in text.strip().splitlines():
+        match = TENSOR_LINE.fullmatch(line.strip())
+        if match is None:
+            raise ValueError(f"unexpected C-backend output line: {line!r}")
+        shape_text = match.group("shape").strip()
+        data_text = match.group("data").strip()
+        shape = tuple(
+            int(value.strip()) for value in shape_text.split(",") if value.strip()
+        )
+        data = [float(value.strip()) for value in data_text.split(",") if value.strip()]
+        records.append((match.group("label"), shape, data))
+    return records
+
+
+def assert_tensor_output_matches(actual: str, expected: str) -> None:
+    actual_records = parse_tensor_output(actual)
+    expected_records = parse_tensor_output(expected)
+    assert len(actual_records) == len(expected_records)
+    for actual_record, expected_record in zip(
+        actual_records, expected_records, strict=True
+    ):
+        actual_label, actual_shape, actual_data = actual_record
+        expected_label, expected_shape, expected_data = expected_record
+        assert actual_label == expected_label
+        assert actual_shape == expected_shape
+        assert actual_data == pytest.approx(expected_data, rel=1e-6, abs=1e-7)
+
+
+def test_tensor_output_comparison_accepts_equivalent_f32_renderings() -> None:
+    concise = "ys = tensor(shape=[3], data=[0.11920292, 0.5, 0.880797])"
+    precise = (
+        "ys = tensor(shape=[3], data=[0.1192029193043709, 0.5, 0.8807970285415649])"
+    )
+    assert_tensor_output_matches(concise, precise)
+
+
+def test_tensor_output_comparison_rejects_shape_drift() -> None:
+    with pytest.raises(AssertionError):
+        assert_tensor_output_matches(
+            "ys = tensor(shape=[2], data=[1.0, 2.0])",
+            "ys = tensor(shape=[1, 2], data=[1.0, 2.0])",
+        )
 
 
 def discover() -> list[tuple[Path, Path]]:
@@ -95,10 +146,4 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
             run.returncode == 0
         ), f"binary exited {run.returncode}:\n{run.stdout}\n{run.stderr}"
 
-        actual = run.stdout.strip()
-        expected = golden.read_text().strip()
-        assert actual == expected, (
-            f"output mismatch for {source.name}:\n"
-            f"--- expected ---\n{expected}\n"
-            f"--- actual ---\n{actual}"
-        )
+        assert_tensor_output_matches(run.stdout, golden.read_text())
