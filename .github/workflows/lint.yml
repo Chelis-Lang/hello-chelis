@@ -54,4 +54,4 @@ jobs:
       - name: chelis lint --check (blocking)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:lint \
-            chelis lint --check .
+            python3 scripts/ci/lint_inventory.py
