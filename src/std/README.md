@@ -1,15 +1,16 @@
 # `src/std/` — chelis-std surfaces
 
-Tour of the standard library that ships with the compiler at v0.8.0.
-Every file here imports from `Std.*` and demonstrates a different
-slice of the runtime that's available without any third-party shell.
+Tour of the standard-library surface bundled with compiler v0.17.1, plus the
+School 0.1.12 neural-network/loss modules that moved out of `chelis-std` 0.4.0.
+The collection, tensor, time, decimal, and I/O examples use the bundled
+runtime; activation and loss examples import the pinned School package.
 
 ## Files
 
 | File | Surface | Notes |
 |---|---|---|
-| [`activationsnorms.ch`](activationsnorms.ch) | `Std.Nn.Activation`, `Std.Nn.Norm` | tensor `relu`/`sigmoid`/`silu`/`gelu`/`tanh`, RMS / layer norm |
-| [`reductionslosses.ch`](reductionslosses.ch) | `Std.Tensor.Reduce`, `Std.Nn.Loss` | sum/mean/prod axis reductions, cross-entropy, BCE, KL, perplexity |
+| [`activationsnorms.ch`](activationsnorms.ch) | tensor builtins + `School.Nn.*` | tensor `relu`/`sigmoid`/`silu`/`gelu`/`tanh`, RMS / layer norm |
+| [`reductionslosses.ch`](reductionslosses.ch) | tensor reductions + `School.Loss.*` | sum/mean/prod axis reductions, cross-entropy, BCE, KL, perplexity |
 | [`decimal.ch`](decimal.ch) | `Std.Decimal` | `Decimal[P, S]` exact arithmetic for prices, tax, currency |
 | [`datetimecal.ch`](datetimecal.ch) | `Std.Time` | `DateTime`, `Duration`, weekday lookup, formatting |
 | [`collectionsiter.ch`](collectionsiter.ch) | `Std.List`, `Std.Dict`, `Std.Iter` | `List[T]` + `Dict[K, V]` + `map`/`filter`/`fold`/`scan` |

@@ -40,9 +40,10 @@ jobs:
           # Pass CHELIS_VERSION as build-arg to bust the cache on version bumps.
           # Without this, GHA layer cache can serve a stale chelis binary.
           build-args: |
-            CHELIS_VERSION=0.14.0
-            CORAL_VERSION=0.7.30
-            NAUTILUS_VERSION=0.7.33
+            CHELIS_VERSION=0.17.1
+            CORAL_VERSION=0.7.32
+            NAUTILUS_VERSION=0.7.35
+            SCHOOL_VERSION=0.1.12
 
       - name: chelis lint inventory (non-blocking)
         run: |
@@ -59,9 +60,8 @@ jobs:
           # The `school` dependency for the ML examples, combined with
           # per-test-worker dep recompilation (a known chelis slowness), makes the
           # 105-test suite compile-bound well past the old 180s budget. The suite is
-          # correct (105/0 locally); raise the wall-clock to 900s. The untimed nightly
-          # lane already runs the full suite. Real fix lives upstream (cross-worker
-          # compiled-dep caching), not in this gate.
+          # correct (105/0 locally); raise the wall-clock to 900s. Real fix lives
+          # upstream (cross-worker compiled-dep caching), not in this gate.
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             timeout 900s chelis test tests/ --jobs auto
 
