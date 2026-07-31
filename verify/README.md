@@ -49,7 +49,7 @@ automatically.
 
 `chelis build` rejects any project source tree containing `with
 seed(...)` because the C backend doesn't yet plumb the seeded RNG.
-`src/basics/effectsrandom.ch` uses `with seed(42)`, which trips the
+`src/basics/effectsrandom.ch` uses `with seed(42i64)`, which trips the
 gate for the whole project. Putting verification programs outside
 `src/` (and giving them bare module names like `module GradWorks`
 instead of `module Hello.*`) sidesteps the gate without sacrificing
