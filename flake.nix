@@ -14,7 +14,7 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
       lib = pkgs.lib;
-      helperRevision = "c3662b659cc6af3a973fe2d4ab7bf4b8ab36d814";
+      helperRevision = "b9d928466d917991ed0c818e82f6737d907dce2b";
       artifacts = ./.ci-container-artifacts;
       sourceRoot = toString ./.;
       excludedPrefixes = map (name: "/${name}") [
@@ -94,7 +94,10 @@
         packages.pytest-xdist
       ]);
       consumerRoot = pkgs.runCommand "hello-chelis-container-root" { } ''
-        mkdir -p "$out/workspace" "$out/share/chelis/reef/packages"
+        mkdir -p \
+          "$out/workspace" \
+          "$out/share/chelis/reef/cache" \
+          "$out/share/chelis/reef/packages"
         cp -R ${consumerSource}/. "$out/workspace/"
 
         install_package() {
