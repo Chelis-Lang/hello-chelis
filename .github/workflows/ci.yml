@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   central:
-    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@5691ce4c7298cbccc4b3a579c909e916bff9a49b
+    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@677f242c7f686b76c4172f52739e839fcb272cf6
     with:
       profile: container-ci
       chelis-version: 0.17.1
