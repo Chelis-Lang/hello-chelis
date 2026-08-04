@@ -14,7 +14,7 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
       lib = pkgs.lib;
-      helperRevision = "7b228fff00e34ba8fda0e84c4289c5afd30a9ac2";
+      helperRevision = "a72ef0b8d711f63cdbf97a3a4bd0e6ae3193aeb3";
       artifacts = ./.ci-container-artifacts;
       sourceRoot = toString ./.;
       excludedPrefixes = map (name: "/${name}") [
