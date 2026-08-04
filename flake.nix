@@ -38,29 +38,34 @@
           in
           !(lib.any (prefix: relative == prefix || lib.hasPrefix "${prefix}/" relative) excludedPrefixes);
       };
+      runtimeLibraryPath = lib.makeLibraryPath [
+        pkgs.glibc
+        pkgs.stdenv.cc.cc.lib
+      ];
+      patchLinuxExecutable = executable: ''
+        patchelf \
+          --set-interpreter ${pkgs.stdenv.cc.bintools.dynamicLinker} \
+          --set-rpath ${runtimeLibraryPath} \
+          ${executable}
+        case "$(patchelf --print-interpreter ${executable})" in
+          /nix/store/*/lib/ld-linux-x86-64.so.2) ;;
+          *) exit 1 ;;
+        esac
+      '';
       chelisToolchain =
         pkgs.runCommand "chelis-toolchain-0.17.1"
           {
             nativeBuildInputs = [
-              pkgs.autoPatchelfHook
               pkgs.gnutar
               pkgs.gzip
               pkgs.patchelf
-            ];
-            buildInputs = [
-              pkgs.glibc
-              pkgs.stdenv.cc.cc.lib
             ];
           }
           ''
             mkdir -p "$out"
             tar -xzf ${artifacts}/chelis-toolchain-linux-x86_64/chelis-v0.17.1-linux-x86_64.tar.gz \
               -C "$out" --strip-components=1
-            autoPatchelf "$out"
-            case "$(patchelf --print-interpreter "$out/bin/chelis")" in
-              /nix/store/*/lib/ld-linux-x86-64.so.2) ;;
-              *) exit 1 ;;
-            esac
+            ${patchLinuxExecutable "$out/bin/chelis"}
             "$out/bin/chelis" --version >/dev/null
             test -f "$out/lib/libchelis_runtime.a"
           '';
@@ -68,25 +73,16 @@
         pkgs.runCommand "octant-cli-0.10.1"
           {
             nativeBuildInputs = [
-              pkgs.autoPatchelfHook
               pkgs.gnutar
               pkgs.gzip
               pkgs.patchelf
-            ];
-            buildInputs = [
-              pkgs.glibc
-              pkgs.stdenv.cc.cc.lib
             ];
           }
           ''
             mkdir -p "$out"
             tar -xzf ${artifacts}/octant-cli-linux-x86_64/octant-v0.10.1-linux-x86_64.tar.gz \
               -C "$out" --strip-components=1
-            autoPatchelf "$out"
-            case "$(patchelf --print-interpreter "$out/bin/octant")" in
-              /nix/store/*/lib/ld-linux-x86-64.so.2) ;;
-              *) exit 1 ;;
-            esac
+            ${patchLinuxExecutable "$out/bin/octant"}
             "$out/bin/octant" --version >/dev/null
           '';
       python = pkgs.python311.withPackages (packages: [
