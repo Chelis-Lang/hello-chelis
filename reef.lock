@@ -15,33 +15,34 @@ compiler_version = "0.18.5"
 
 [[dependencies]]
 name = "coral"
-version = "0.7.38"
-compiler = "=0.18.4"
-archive_sha256 = "e68ac948c3539c3eba95283b49a907a753acc1de540a4a3840410ae79bf70854"
-shell_sha256 = "a5be8783717b951db11f58beb9084a674ab86c7891cb847a6e74e4a04535e85e"
+version = "0.7.39"
+compiler = "=0.18.5"
+archive_sha256 = "38149dab1bceed366dc93bc62f6e3f46e21fe4d27af49510ca024bc66d16a77f"
+shell_sha256 = "b54e8a410a3f747f0a02dc6fb8496d9fe868c288d6db1ffb2f634664f499835a"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/coral@v0.7.38"
+remote_origin = "github://chelis-lang/coral@v0.7.39"
 
 [[dependencies]]
 name = "nautilus"
-version = "0.7.41"
-compiler = "=0.18.4"
-archive_sha256 = "1bba785ccead8c38275f8daa111a27516b4f21d16eb3223c23dbb7bcb6a0a6f3"
-shell_sha256 = "e92a47020f5691b49e5b39aba0094c7e1ed2e39d9dce55a9a135fd34480cc083"
+version = "0.7.42"
+compiler = "=0.18.5"
+archive_sha256 = "fcdf32e581d95a43b0c37d672ff241348f75f308179d0b03f6f79a5247506f95"
+shell_sha256 = "f5ed24c05c4e20fdf6c72601e2e9dd68cf46a63730eb79d9189adc493704f028"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/nautilus@v0.7.41"
+remote_origin = "github://chelis-lang/nautilus@v0.7.42"
 
 [[dependencies]]
 name = "school"
-version = "0.1.12"
-compiler = "=0.17.1"
-archive_sha256 = "d7a23fa52592cc0d43ff12caeaf6fcda5f25682451f7c84f81539ca3402b4656"
-shell_sha256 = "c97bd3fb87742c3a01450ade88ff1e258a207150a745ec67ee3c49bdeedf4e52"
+version = "0.1.13"
+compiler = "=0.18.5"
+archive_sha256 = "f39c01e851a16088ed9f83152381c6e7563c9b364d9169f90190747a6e806360"
+shell_sha256 = "cedd34dde0b3b033080fe0422110b753f9ab076f452fe0f40d0e76e2dc19c58b"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/school@v0.1.12"
+remote_origin = "github://chelis-lang/school@v0.1.13"
+
