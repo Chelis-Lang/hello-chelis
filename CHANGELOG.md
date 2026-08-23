@@ -15,20 +15,21 @@ described here as one net change from 0.1.10.
 - compiler `=0.14.0` -> `=0.17.1` -> `=0.18.5`
 - `coral` `0.7.30` -> `0.7.32` -> `0.7.39`
 - `nautilus` `0.7.33` -> `0.7.35` -> `0.7.42`
-- `school` `0.1.9` -> `0.1.12`, then TBD pending school's own bump
+- `school` `0.1.9` -> `0.1.12` -> `0.1.13`
 - `chelis-std` stays `0.4.0`
 
-`coral` 0.7.39 and `nautilus` 0.7.42 are the versions **staged** in those
-shells' own bump PRs (coral#27, nautilus#43), not yet tagged. Pinning the
-staged numbers keeps this PR merge-ready as written once the cascade tags.
+`coral` 0.7.39, `nautilus` 0.7.42, and `school` 0.1.13 are the versions
+**staged** in those shells' own bump PRs (coral#27, nautilus#43, school#190),
+not yet tagged. Pinning the staged numbers keeps this PR merge-ready as written
+once the cascade tags.
 
 The manifest, Docker `ARG` defaults, CI build-args, release workflow env,
 Compose image tag, README, and version-scoped discrepancy docs move together.
-`reef.lock` still records `coral` 0.7.38 / `nautilus` 0.7.41, the last versions
-with real published artifacts. It cannot record 0.7.39 / 0.7.42 honestly until
-those tags exist, because the lock stores artifact hashes and a locally built
-package's bytes are not the release's. Regenerate the whole file with
-`chelis reef build` as the last step of the cascade.
+`reef.lock` still records the last versions with real published artifacts
+(`coral` 0.7.38, `nautilus` 0.7.41, `school` 0.1.12). It cannot record the staged
+numbers honestly until those tags exist, because the lock stores artifact hashes
+and a locally built package's bytes are not the release's. Regenerate the whole
+file with `chelis reef build` as the last step of the cascade.
 
 ### Chelis 0.18.5 cascade
 
@@ -74,31 +75,28 @@ offline pin guard (`chelis reef conform bump-check`) and the negative suite.
 
 #### Known blockers
 
-- **The cascade is incomplete.** `school` has no 0.18.5-pinned release
-  (0.1.12 pins `=0.17.1` and does not parse on 0.18.5), and `coral` 0.7.38 /
-  `nautilus` 0.7.41 pin `=0.18.4`. Reef rejects a dependency whose
-  `package.compiler` differs from the running compiler, so CI stays red until
-  those ship. Local validation used the sanctioned
-  `CHELIS_REEF_ALLOW_DEP_COMPILER_DRIFT` waiver.
+- **The cascade is untagged.** All three sibling shells have their 0.18.5 bump
+  staged but not released, so the Docker image cannot fetch them and CI stays
+  red until they tag. Nothing else is outstanding: the corpus is validated
+  against all three staged sources locally.
 - **chelis#1258** — `Frame[N]` desugars to `(t-var {} N)`, so `chelis surf` and
   `chelis migrate surf` fail on the five `src/coral/` files. Filed upstream
   during this bump with a self-contained reproducer.
 
 #### Validation
 
-Validated two ways. The stronger pass builds `coral` 0.7.39 and `nautilus`
-0.7.42 from their bump-PR branch heads (46aa4046, c060cb92) into a private Reef
-registry and runs the corpus against those real staged sources with **no
-dependency-compiler drift waiver at all**. The `school`-importing files are
-parked for that pass, since school has not staged a 0.18.5 release yet. Results:
+Validated against the real staged sources rather than a waiver. `coral` 0.7.39,
+`nautilus` 0.7.42, and `school` 0.1.13 were built from their bump-PR branch heads
+(d90ee05, c060cb92, 26bab5b) into a private Reef registry, and the corpus runs
+against them with **no dependency-compiler drift waiver and nothing parked**:
 `chelis reef build`, `chelis lint --check .` (zero error-severity findings; the
 one pre-existing `prefer-pipe-operator` advisory in
 `src/capstone/transformerblock.ch` remains), `chelis fmt --check` over all 93
-`.ch` files, `chelis test tests/ --jobs auto` (99 passed / 1 failed, the single
-failure being a parked school-dependent module), `chelis test tests_neg
---expect neg` (3/3), `python3 scripts/regen_deep.py --check`, and
-`python3 -m pytest tests/` (96 passed, 4 skipped for the absent octant binary,
-7 C-backend cases failing only because macOS `clang` has no `-fopenmp`). Those
+`.ch` files, `chelis test tests/ --jobs auto` (**105 passed / 0 failed**),
+`chelis test tests_neg --expect neg` (3/3), `python3 scripts/regen_deep.py
+--check`, and `python3 -m pytest tests/` (97 passed, 4 skipped for the absent
+octant binary, 7 C-backend cases failing only because macOS `clang` has no
+`-fopenmp`). Those
 7 were re-run by hand against Accelerate: 5 byte-exact goldens and the 2
 rendering-only diffs described above. The Docker image build, the valgrind
 lane, and the octant round-trip validate in CI.

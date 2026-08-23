@@ -19,7 +19,7 @@ The image is `ubuntu:24.04` plus:
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
 - The shells `chelis-std` 0.4.0, `coral` 0.7.39, `nautilus` 0.7.42,
-  `octant` 0.10.1, `c-earchin` 0.3.3, and `school` 0.1.12 installed into
+  `octant` 0.10.1, `c-earchin` 0.3.3, and `school` 0.1.13 installed into
   the local Reef registry from GitHub release assets
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang

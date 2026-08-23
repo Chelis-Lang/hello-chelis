@@ -83,7 +83,7 @@ ARG CORAL_VERSION=0.7.39
 ARG NAUTILUS_VERSION=0.7.42
 ARG OCTANT_VERSION=0.10.1
 ARG C_EARCHIN_VERSION=0.3.3
-ARG SCHOOL_VERSION=0.1.12
+ARG SCHOOL_VERSION=0.1.13
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \

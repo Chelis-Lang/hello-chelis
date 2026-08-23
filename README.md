@@ -139,7 +139,7 @@ inventory of gaps with verbatim compiler error messages in
 
 The runnable in-repo corpus is pinned to **chelis `0.18.5`** with
 **`chelis-std` 0.4.0**, **coral 0.7.39**, **nautilus 0.7.42**,
-**octant 0.10.1**, and **school 0.1.12**. The committed c-earchin
+**octant 0.10.1**, and **school 0.1.13**. The committed c-earchin
 requirements-bridge fixtures are proven against the **c-earchin 0.3.2**
 release in the Python harness. The `compiler = "=0.18.5"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
