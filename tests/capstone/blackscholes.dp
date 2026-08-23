@@ -1,8 +1,10 @@
-(module {}
+(module {surf_path: "Hello.Tests.Capstone.BlackScholes"}
   hello.tests.capstone.blackscholes
-  (import {} hello.capstone.blackscholes (call_price))
-  (import {} std.test (assert_close))
-  (defsig {} test_call_atm (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Hello.Capstone.BlackScholes"}
+    hello.capstone.blackscholes
+    (call_price))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {} test_call_atm (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_call_atm
     (fn {}
@@ -12,24 +14,24 @@
         (app {span: "surf:174..269"}
           (var {span: "surf:174..184"} call_price)
           (cast {span: "surf:185..201"}
-            (lit {span: "surf:190..195", type: (t-prim {} f32)} 100.0)
+            (lit {span: "surf:190..195", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
             (t-prim {} f32))
           (cast {span: "surf:203..219"}
-            (lit {span: "surf:208..213", type: (t-prim {} f32)} 100.0)
+            (lit {span: "surf:208..213", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
             (t-prim {} f32))
           (cast {span: "surf:221..236"}
-            (lit {span: "surf:226..230", type: (t-prim {} f32)} 0.05)
+            (lit {span: "surf:226..230", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.05)
             (t-prim {} f32))
           (cast {span: "surf:238..252"}
-            (lit {span: "surf:243..246", type: (t-prim {} f32)} 0.2)
+            (lit {span: "surf:243..246", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.2)
             (t-prim {} f32))
           (cast {span: "surf:254..268"}
-            (lit {span: "surf:259..262", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:259..262", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32)))
         (cast {span: "surf:271..289"}
-          (lit {span: "surf:276..283", type: (t-prim {} f32)} 10.4506)
+          (lit {span: "surf:276..283", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.4506)
           (t-prim {} f32))
         (cast {span: "surf:291..306"}
-          (lit {span: "surf:296..300", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:296..300", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.05)
           (t-prim {} f32))
         (lit {span: "surf:308..321", type: (t-prim {} string)} "bs_call_atm")))))

@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.PipeAndMatch"}
   hello.basics.pipeandmatch
   (export {} Activation activate pipeline)
   (deftype {} Activation () (variant {} Relu) (variant {} Sigmoid))
@@ -14,20 +14,20 @@
       (params {}
         (act {type: (t-adt {} Activation)})
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (match {span: "surf:182..258"}
-        (var {span: "surf:192..195"} act)
+      (match {span: "surf:184..254"}
+        (var {span: "surf:190..193"} act)
         (arm {}
           (pat-ctor {} Relu)
           ()
-          (app {span: "surf:217..224"}
-            (var {span: "surf:217..221"} relu)
-            (var {span: "surf:222..223"} x)))
+          (app {span: "surf:215..222"}
+            (var {span: "surf:215..219"} relu)
+            (var {span: "surf:220..221"} x)))
         (arm {}
           (pat-ctor {} Sigmoid)
           ()
-          (app {span: "surf:242..252"}
-            (var {span: "surf:242..249"} sigmoid)
-            (var {span: "surf:250..251"} x))))))
+          (app {span: "surf:240..250"}
+            (var {span: "surf:240..247"} sigmoid)
+            (var {span: "surf:248..249"} x))))))
   (defsig {}
     pipeline
     (t-fn {}
@@ -38,7 +38,7 @@
     (fn {}
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {span: "surf:312..332"}
-        (var {span: "surf:312..313"} x)
-        (var {span: "surf:317..321"} relu)
-        (var {span: "surf:325..332"} sigmoid)))))
+      (pipe {span: "surf:308..328"}
+        (var {span: "surf:308..309"} x)
+        (var {span: "surf:313..317"} relu)
+        (var {span: "surf:321..328"} sigmoid)))))

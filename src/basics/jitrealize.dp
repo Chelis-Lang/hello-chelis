@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.JitRealize"}
   hello.basics.jitrealize
   (export {} eager with_realize)
   (defsig {}
@@ -28,17 +28,17 @@
       (params {}
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
       (let {span: "surf:197..253"}
-        (bind {span: "surf:197..253"}
+        (bind {}
           doubled
           (pipe {span: "surf:211..233"}
             (var {span: "surf:211..212"} x)
-            (fn {span: "surf:216..222"}
+            (fn {span: "surf:216..222", surf_pipe_stage: "call-first"}
               (params {} __chelis_pipe)
               (app {span: "surf:216..222"}
                 (var {span: "surf:216..219"} add)
                 (var {span: "surf:216..222"} __chelis_pipe)
                 (var {span: "surf:220..221"} x)))
-            (fn {span: "surf:226..233"}
+            (fn {span: "surf:226..233", surf_pipe_stage: "call-first"}
               (params {} __chelis_pipe)
               (realize {span: "surf:226..233"}
                 (var {span: "surf:226..233"} __chelis_pipe)))))

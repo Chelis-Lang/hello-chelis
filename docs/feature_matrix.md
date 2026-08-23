@@ -28,9 +28,9 @@ that exercises it, plus the test lane that proves it works.
 | Effect rows: `IO` | [`src/std/tensorio.ch`](../src/std/tensorio.ch) | `tests/std/tensorio.ch` (`! { Test, IO }`) |
 | Effect rows: `Test` | every test file | by definition |
 | Linearity: consume / `copy` / `&borrow` | [`src/basics/linearity.ch`](../src/basics/linearity.ch) | `tests/basics/linearity.ch` |
-| Unbound variable rejected | [`tests/negative/unbound_variable.ch`](../tests/negative/unbound_variable.ch) | `pytest tests/test_negative_examples.py` |
-| Dimension mismatch rejected | [`tests/negative/dim_mismatch.ch`](../tests/negative/dim_mismatch.ch) | same |
-| Precision mismatch rejected | [`tests/negative/precision_mismatch.ch`](../tests/negative/precision_mismatch.ch) | same |
+| Unbound variable rejected | [`tests_neg/check/unbound_variable.ch`](../tests_neg/check/unbound_variable.ch) | `pytest tests/test_negative_examples.py` |
+| Dimension mismatch rejected | [`tests_neg/check/dim_mismatch.ch`](../tests_neg/check/dim_mismatch.ch) | same |
+| Precision mismatch rejected | [`tests_neg/check/precision_mismatch.ch`](../tests_neg/check/precision_mismatch.ch) | same |
 | `grad` (reverse-mode AD) | [`src/basics/gradbasic.ch`](../src/basics/gradbasic.ch), [`src/capstone/blackscholes.ch`](../src/capstone/blackscholes.ch) | C backend via [`verify/grad_quadratic.ch`](../verify/grad_quadratic.ch) and [`verify/grad_works.ch`](../verify/grad_works.ch) |
 | `vmap` | [`src/basics/vmap.ch`](../src/basics/vmap.ch) | `tests/basics/vmap.ch` |
 | `jit` | [`src/basics/jitrealize.ch`](../src/basics/jitrealize.ch) | type-only via `chelis check` |
@@ -117,7 +117,7 @@ output (modulo the absolute-path field in `.spans.json`).
 | C backend lowering | `python3 -m pytest tests/test_c_backend.py` — builds, links, runs, and golden-diffs every `verify/*.ch` fixture |
 | Octant pipeline round-trip | `python3 -m pytest tests/test_octant_pairs.py` |
 | c-earchin proof bridge | `python3 -m pytest tests/test_c_earchin_artifacts.py` |
-| Negative examples | `python3 -m pytest tests/test_negative_examples.py` |
+| Negative examples | `python3 -m pytest tests/test_negative_examples.py` and `chelis test tests_neg --expect neg` |
 | Nomenclature | `chelis lint .` inventory; strict cleanup remains tracked separately |
 
 ## Not exercised in this corpus

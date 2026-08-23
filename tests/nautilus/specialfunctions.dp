@@ -1,104 +1,94 @@
-(module {}
+(module {surf_path: "Hello.Tests.Nautilus.SpecialFunctions"}
   hello.tests.nautilus.specialfunctions
-  (import {}
+  (import {surf_path: "Hello.Nautilus.SpecialFunctions"}
     hello.nautilus.specialfunctions
     (erf_pipe erf_round_trip log_gamma_one complementary_erf j0_at_zero))
-  (import {} std.test (assert_close))
-  (defsig {}
-    test_erf_pipe_zero
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {} test_erf_pipe_zero (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_erf_pipe_zero
     (fn {}
       (params {})
-      (app {span: "surf:234..323"}
+      (app {span: "surf:234..319"}
         (var {span: "surf:234..246"} assert_close)
         (app {span: "surf:247..271"}
           (var {span: "surf:247..255"} erf_pipe)
           (cast {span: "surf:256..270"}
-            (lit {span: "surf:261..264", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:261..264", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
             (t-prim {} f32)))
         (cast {span: "surf:273..287"}
-          (lit {span: "surf:278..281", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:278..281", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:289..308"}
-          (lit {span: "surf:294..302", type: (t-prim {} f32)} 0.000001)
+        (cast {span: "surf:289..304"}
+          (lit {span: "surf:294..298", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
           (t-prim {} f32))
-        (lit {span: "surf:310..322", type: (t-prim {} string)} "erf(0) = 0"))))
-  (defsig {}
-    test_erf_round_trip
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+        (lit {span: "surf:306..318", type: (t-prim {} string)} "erf(0) = 0"))))
+  (defsig {} test_erf_round_trip (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_erf_round_trip
     (fn {}
       (params {})
-      (app {span: "surf:371..477"}
-        (var {span: "surf:371..383"} assert_close)
-        (app {span: "surf:384..414"}
-          (var {span: "surf:384..398"} erf_round_trip)
-          (cast {span: "surf:399..413"}
-            (lit {span: "surf:404..407", type: (t-prim {} f32)} 0.3)
+      (app {span: "surf:367..473"}
+        (var {span: "surf:367..379"} assert_close)
+        (app {span: "surf:380..410"}
+          (var {span: "surf:380..394"} erf_round_trip)
+          (cast {span: "surf:395..409"}
+            (lit {span: "surf:400..403", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.3)
             (t-prim {} f32)))
-        (cast {span: "surf:416..430"}
-          (lit {span: "surf:421..424", type: (t-prim {} f32)} 0.3)
+        (cast {span: "surf:412..426"}
+          (lit {span: "surf:417..420", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.3)
           (t-prim {} f32))
-        (cast {span: "surf:432..450"}
-          (lit {span: "surf:437..444", type: (t-prim {} f32)} 0.00001)
+        (cast {span: "surf:428..446"}
+          (lit {span: "surf:433..440", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
           (t-prim {} f32))
-        (lit {span: "surf:452..476", type: (t-prim {} string)} "erf(erfinv(0.3)) = 0.3"))))
-  (defsig {}
-    test_log_gamma_one
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+        (lit {span: "surf:448..472", type: (t-prim {} string)} "erf(erfinv(0.3)) = 0.3"))))
+  (defsig {} test_log_gamma_one (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_log_gamma_one
     (fn {}
       (params {})
-      (app {span: "surf:524..610"}
-        (var {span: "surf:524..536"} assert_close)
-        (app {span: "surf:537..552"}
-          (var {span: "surf:537..550"} log_gamma_one))
-        (cast {span: "surf:554..568"}
-          (lit {span: "surf:559..562", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:520..602"}
+        (var {span: "surf:520..532"} assert_close)
+        (app {span: "surf:533..548"}
+          (var {span: "surf:533..546"} log_gamma_one))
+        (cast {span: "surf:550..564"}
+          (lit {span: "surf:555..558", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:570..589"}
-          (lit {span: "surf:575..583", type: (t-prim {} f32)} 0.000001)
+        (cast {span: "surf:566..581"}
+          (lit {span: "surf:571..575", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
           (t-prim {} f32))
-        (lit {span: "surf:591..609", type: (t-prim {} string)} "log_gamma(1) = 0"))))
-  (defsig {}
-    test_complementary_erf
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+        (lit {span: "surf:583..601", type: (t-prim {} string)} "log_gamma(1) = 0"))))
+  (defsig {} test_complementary_erf (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_complementary_erf
     (fn {}
       (params {})
-      (app {span: "surf:661..763"}
-        (var {span: "surf:661..673"} assert_close)
-        (app {span: "surf:674..707"}
-          (var {span: "surf:674..691"} complementary_erf)
-          (cast {span: "surf:692..706"}
-            (lit {span: "surf:697..700", type: (t-prim {} f32)} 0.7)
+      (app {span: "surf:653..751"}
+        (var {span: "surf:653..665"} assert_close)
+        (app {span: "surf:666..699"}
+          (var {span: "surf:666..683"} complementary_erf)
+          (cast {span: "surf:684..698"}
+            (lit {span: "surf:689..692", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.7)
             (t-prim {} f32)))
-        (cast {span: "surf:709..723"}
-          (lit {span: "surf:714..717", type: (t-prim {} f32)} 1.0)
+        (cast {span: "surf:701..715"}
+          (lit {span: "surf:706..709", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:725..744"}
-          (lit {span: "surf:730..738", type: (t-prim {} f32)} 0.000001)
+        (cast {span: "surf:717..732"}
+          (lit {span: "surf:722..726", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
           (t-prim {} f32))
-        (lit {span: "surf:746..762", type: (t-prim {} string)} "erf + erfc = 1"))))
-  (defsig {}
-    test_bessel_j0_zero
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+        (lit {span: "surf:734..750", type: (t-prim {} string)} "erf + erfc = 1"))))
+  (defsig {} test_bessel_j0_zero (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_bessel_j0_zero
     (fn {}
       (params {})
-      (app {span: "surf:811..887"}
-        (var {span: "surf:811..823"} assert_close)
-        (app {span: "surf:824..836"} (var {span: "surf:824..834"} j0_at_zero))
-        (cast {span: "surf:838..852"}
-          (lit {span: "surf:843..846", type: (t-prim {} f32)} 1.0)
+      (app {span: "surf:799..871"}
+        (var {span: "surf:799..811"} assert_close)
+        (app {span: "surf:812..824"} (var {span: "surf:812..822"} j0_at_zero))
+        (cast {span: "surf:826..840"}
+          (lit {span: "surf:831..834", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:854..873"}
-          (lit {span: "surf:859..867", type: (t-prim {} f32)} 0.000001)
+        (cast {span: "surf:842..857"}
+          (lit {span: "surf:847..851", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
           (t-prim {} f32))
-        (lit {span: "surf:875..886", type: (t-prim {} string)} "j0(0) = 1")))))
+        (lit {span: "surf:859..870", type: (t-prim {} string)} "j0(0) = 1")))))

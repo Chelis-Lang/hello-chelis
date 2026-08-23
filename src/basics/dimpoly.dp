@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.DimPoly"}
   hello.basics.dimpoly
   (export {} identity_dim scaled double_apply)
   (defsig {}
@@ -38,10 +38,11 @@
     double_apply
     (fn {}
       (params {}
-        (f {type: (t-fn {}
-                     (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))
-                     (t-tensor {} (d-var {} a) (t-prim {} f32)))
-           })
+        (f
+          {type: (t-fn {}
+                    (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))
+                    (t-tensor {} (d-var {} a) (t-prim {} f32)))
+          })
         (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
       (pipe {span: "surf:296..307"}
         (var {span: "surf:296..297"} x)

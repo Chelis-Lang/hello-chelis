@@ -1,63 +1,65 @@
-(module {}
+(module {surf_path: "Hello.Coral.GroupByAgg"}
   hello.coral.groupbyagg
-  (import {}
+  (import {surf_path: "Coral.Frame"}
     coral.frame
     (Frame Column FloatCol StringCol from_pairs nrows ncols get_float_col))
-  (import {} coral.groupby (group_by agg_sum agg_mean))
+  (import {surf_path: "Coral.GroupBy"}
+    coral.groupby
+    (group_by agg_sum agg_mean))
   (export {} sales_frame total_per_city mean_per_city)
   (defsig {} sales_frame (t-fn {} (t-adt {} Frame (t-var {} 4))))
   (def {}
     sales_frame
     (fn {}
       (params {})
-      (app {span: "surf:262..419"}
-        (var {span: "surf:264..274"} from_pairs)
-        (app {span: "surf:275..416"}
+      (app {span: "surf:262..415"}
+        (var {span: "surf:262..272"} from_pairs)
+        (app {span: "surf:273..414"}
           (var {} Cons)
-          (tuple {span: "surf:276..317"}
-            (lit {span: "surf:277..283", type: (t-prim {} string)} "city")
-            (app {span: "surf:285..316"}
-              (var {span: "surf:285..294"} StringCol)
-              (app {span: "surf:295..315"}
+          (tuple {span: "surf:274..315"}
+            (lit {span: "surf:275..281", type: (t-prim {} string)} "city")
+            (app {span: "surf:283..314"}
+              (var {span: "surf:283..292"} StringCol)
+              (app {span: "surf:293..313"}
                 (var {} Cons)
-                (lit {span: "surf:296..299", type: (t-prim {} string)} "a")
+                (lit {span: "surf:294..297", type: (t-prim {} string)} "a")
                 (app {}
                   (var {} Cons)
-                  (lit {span: "surf:301..304", type: (t-prim {} string)} "b")
+                  (lit {span: "surf:299..302", type: (t-prim {} string)} "b")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:306..309", type: (t-prim {} string)} "a")
+                    (lit {span: "surf:304..307", type: (t-prim {} string)} "a")
                     (app {}
                       (var {} Cons)
-                      (lit {span: "surf:311..314", type: (t-prim {} string)} "b")
+                      (lit {span: "surf:309..312", type: (t-prim {} string)} "b")
                       (var {} Nil)))))))
           (app {}
             (var {} Cons)
-            (tuple {span: "surf:319..415"}
-              (lit {span: "surf:320..325", type: (t-prim {} string)} "qty")
-              (app {span: "surf:327..414"}
-                (var {span: "surf:327..335"} FloatCol)
-                (app {span: "surf:336..413"}
-                  (var {span: "surf:336..345"} to_tensor)
-                  (app {span: "surf:346..412"}
+            (tuple {span: "surf:317..413"}
+              (lit {span: "surf:318..323", type: (t-prim {} string)} "qty")
+              (app {span: "surf:325..412"}
+                (var {span: "surf:325..333"} FloatCol)
+                (app {span: "surf:334..411"}
+                  (var {span: "surf:334..343"} to_tensor)
+                  (app {span: "surf:344..410"}
                     (var {} Cons)
-                    (cast {span: "surf:347..361"}
-                      (lit {span: "surf:352..355", type: (t-prim {} f32)} 1.0)
+                    (cast {span: "surf:345..359"}
+                      (lit {span: "surf:350..353", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {span: "surf:363..378"}
-                        (lit {span: "surf:368..372", type: (t-prim {} f32)} 10.0)
+                      (cast {span: "surf:361..376"}
+                        (lit {span: "surf:366..370", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
                         (t-prim {} f32))
                       (app {}
                         (var {} Cons)
-                        (cast {span: "surf:380..394"}
-                          (lit {span: "surf:385..388", type: (t-prim {} f32)} 2.0)
+                        (cast {span: "surf:378..392"}
+                          (lit {span: "surf:383..386", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                           (t-prim {} f32))
                         (app {}
                           (var {} Cons)
-                          (cast {span: "surf:396..411"}
-                            (lit {span: "surf:401..405", type: (t-prim {} f32)} 20.0)
+                          (cast {span: "surf:394..409"}
+                            (lit {span: "surf:399..403", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 20.0)
                             (t-prim {} f32))
                           (var {} Nil))))))))
             (var {} Nil))))))
@@ -66,24 +68,24 @@
     total_per_city
     (fn {}
       (params {})
-      (app {span: "surf:455..506"}
-        (var {span: "surf:457..464"} agg_sum)
-        (app {span: "surf:465..496"}
-          (var {span: "surf:465..473"} group_by)
-          (app {span: "surf:474..487"}
-            (var {span: "surf:474..485"} sales_frame))
-          (lit {span: "surf:489..495", type: (t-prim {} string)} "city"))
-        (lit {span: "surf:498..503", type: (t-prim {} string)} "qty"))))
+      (app {span: "surf:451..498"}
+        (var {span: "surf:451..458"} agg_sum)
+        (app {span: "surf:459..490"}
+          (var {span: "surf:459..467"} group_by)
+          (app {span: "surf:468..481"}
+            (var {span: "surf:468..479"} sales_frame))
+          (lit {span: "surf:483..489", type: (t-prim {} string)} "city"))
+        (lit {span: "surf:492..497", type: (t-prim {} string)} "qty"))))
   (defsig {} mean_per_city (t-fn {} (t-adt {} Frame (t-var {} 2))))
   (def {}
     mean_per_city
     (fn {}
       (params {})
-      (app {span: "surf:541..593"}
-        (var {span: "surf:543..551"} agg_mean)
-        (app {span: "surf:552..583"}
-          (var {span: "surf:552..560"} group_by)
-          (app {span: "surf:561..574"}
-            (var {span: "surf:561..572"} sales_frame))
-          (lit {span: "surf:576..582", type: (t-prim {} string)} "city"))
-        (lit {span: "surf:585..590", type: (t-prim {} string)} "qty")))))
+      (app {span: "surf:533..581"}
+        (var {span: "surf:533..541"} agg_mean)
+        (app {span: "surf:542..573"}
+          (var {span: "surf:542..550"} group_by)
+          (app {span: "surf:551..564"}
+            (var {span: "surf:551..562"} sales_frame))
+          (lit {span: "surf:566..572", type: (t-prim {} string)} "city"))
+        (lit {span: "surf:575..580", type: (t-prim {} string)} "qty")))))

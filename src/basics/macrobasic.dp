@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.MacroBasic"}
   hello.basics.macrobasic
   (export {} with_residual doubled)
   (defsig {}

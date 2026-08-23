@@ -1,6 +1,6 @@
 # `src/std/` — chelis-std surfaces
 
-Tour of the standard-library surface bundled with compiler v0.17.1, plus the
+Tour of the standard-library surface bundled with compiler v0.18.5, plus the
 School 0.1.12 neural-network/loss modules that moved out of `chelis-std` 0.4.0.
 The collection, tensor, time, decimal, and I/O examples use the bundled
 runtime; activation and loss examples import the pinned School package.

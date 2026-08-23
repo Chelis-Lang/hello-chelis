@@ -1,1 +1,1 @@
-a = mul(p, exp(mul(log(add(1.0, div(r, n))), mul(n, t))))
+a = (p * exp((log((1.0 + (r / n))) * (n * t))))

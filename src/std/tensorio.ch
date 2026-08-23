@@ -5,7 +5,7 @@ def write_then_read(path: string, contents: string) -> string ! { IO } = {
   _ = write_text(path, contents)
   read_text(path)
 }
-def file_or_default(path: string, fallback: string) -> string ! { IO } = { if exists(path) then read_text(path) else fallback }
+def file_or_default(path: string, fallback: string) -> string ! { IO } = if exists(path) then read_text(path) else fallback
 def save_message(path: string, message: string) -> string ! { IO } = {
   banner = string_concat("[hello] ", message)
   write_then_read(path, banner)

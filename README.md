@@ -1,7 +1,7 @@
 # hello-chelis
 
 A complete, runnable example project for the
-[Chelis](https://github.com/Chelis-Lang/chelis) language v0.17.x and
+[Chelis](https://github.com/Chelis-Lang/chelis) language v0.18.x and
 its shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`,
 `c-earchin`, `school`).
 Designed as a self-education tool: clone, run, read.
@@ -38,11 +38,13 @@ hello-chelis/
 │
 ├── tests/                     Chelis-native tests (Hello.Tests.*)
 │   ├── basics/, std/, coral/, nautilus/, capstone/
-│   ├── negative/              programs that MUST be rejected
 │   ├── test_c_backend.py      verify/ programs build, link, run, golden-diff
 │   ├── test_negative_examples.py
 │   ├── test_octant_pairs.py   .tex → .dp/.ch round-trip
 │   └── test_surf_deep_equivalence.py    every .dp matches `chelis deep` of .ch
+│
+├── tests_neg/                 programs that MUST be rejected (shell contract §6)
+│   └── check/                 *.ch + *.expect (line 1 pins the diagnostic)
 │
 ├── verify/                    project-free C-backend lowering programs
 │   ├── *.ch + *.dp            self-contained programs that exercise grad,
@@ -135,11 +137,11 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.17.1`** with
-**`chelis-std` 0.4.0**, **coral 0.7.32**, **nautilus 0.7.35**,
+The runnable in-repo corpus is pinned to **chelis `0.18.5`** with
+**`chelis-std` 0.4.0**, **coral 0.7.38**, **nautilus 0.7.41**,
 **octant 0.10.1**, and **school 0.1.12**. The committed c-earchin
 requirements-bridge fixtures are proven against the **c-earchin 0.3.2**
-release in the Python harness. The `compiler = "=0.17.1"` pin in
+release in the Python harness. The `compiler = "=0.18.5"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
 between minor versions.
 
@@ -155,13 +157,14 @@ import the corresponding `School.Nn.*` / `School.Loss.*` modules.
 | `pytest tests/test_surf_deep_equivalence.py` (drift) | 89 |
 | `pytest tests/test_c_backend.py` (C lowering + golden outputs) | 7 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
-| `pytest tests/test_negative_examples.py` (must-reject) | 3 |
+| `pytest tests/test_negative_examples.py` (must-reject, error kind) | 3 |
+| `chelis test tests_neg --expect neg` (must-reject, diagnostic text) | 3 |
 | `pytest tests/test_c_earchin_artifacts.py` (EARS proof bridge) | 2 |
 | `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 
 `chelis lint --check .` is now a blocking CI gate. The corpus reports
-zero error-severity findings under chelis 0.17.1. One existing advisory
+zero error-severity findings under chelis 0.18.5. One existing advisory
 `prefer-pipe-operator` finding remains in
 `src/capstone/transformerblock.ch`; advisory diagnostics do not fail
 `lint --check`. Every upstream rule that previously blocked this gate
@@ -192,13 +195,13 @@ New or touched Chelis examples should still be formatted and linted
 before they are added.
 
 All green on the Docker image installed from
-[Chelis-Lang/chelis@v0.17.1](https://github.com/Chelis-Lang/chelis/releases/tag/v0.17.1)
+[Chelis-Lang/chelis@v0.18.5](https://github.com/Chelis-Lang/chelis/releases/tag/v0.18.5)
 release artifacts.
 
 ## Caveats
 
 - The IR evaluator (`chelis test`) still has primitive gaps at
-  v0.17.1. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
+  v0.18.5. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, some `grad`/activation shapes, `realize`, and some
   higher-order transform forms compile cleanly via `chelis check` and
   through the C backend, but are not all available in the in-process

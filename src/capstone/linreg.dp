@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Capstone.LinReg"}
   hello.capstone.linreg
   (export {} predict mse_loss sgd_step)
   (defsig {}
@@ -15,24 +15,24 @@
         (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
         (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
-      (pipe {span: "surf:168..207"}
+      (pipe {span: "surf:168..210"}
         (var {span: "surf:168..169"} x)
-        (fn {span: "surf:173..182"}
+        (fn {span: "surf:173..182", surf_pipe_stage: "call-first"}
           (params {} __chelis_pipe)
           (app {span: "surf:173..182"}
             (var {span: "surf:173..179"} matmul)
             (var {span: "surf:173..182"} __chelis_pipe)
             (var {span: "surf:180..181"} w)))
-        (fn {span: "surf:186..207"}
+        (fn {span: "surf:186..210", surf_pipe_stage: "call-first"}
           (params {} __chelis_pipe)
-          (app {span: "surf:186..207"}
+          (app {span: "surf:186..210"}
             (var {span: "surf:186..189"} add)
-            (var {span: "surf:186..207"} __chelis_pipe)
-            (app {span: "surf:190..206"}
+            (var {span: "surf:186..210"} __chelis_pipe)
+            (app {span: "surf:190..209"}
               (var {span: "surf:190..196"} expand)
               (var {span: "surf:197..198"} b)
               (lit {span: "surf:200..201", type: (t-prim {} int32)} 0)
-              (lit {span: "surf:203..205", type: (t-prim {} int32)} 64)))))))
+              (lit {span: "surf:203..208", type: (t-prim {} int64)} 64)))))))
   (defsig {}
     mse_loss
     (t-fn {}
@@ -49,35 +49,35 @@
         (y {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
-      (let {span: "surf:327..431"}
-        (bind {span: "surf:327..431"}
+      (let {span: "surf:330..434"}
+        (bind {}
           pred
-          (app {span: "surf:338..354"}
-            (var {span: "surf:338..345"} predict)
-            (var {span: "surf:346..347"} x)
-            (var {span: "surf:349..350"} w)
-            (var {span: "surf:352..353"} b)))
+          (app {span: "surf:341..357"}
+            (var {span: "surf:341..348"} predict)
+            (var {span: "surf:349..350"} x)
+            (var {span: "surf:352..353"} w)
+            (var {span: "surf:355..356"} b)))
         (let {}
           (bind {}
             err
-            (app {span: "surf:363..375"}
-              (var {span: "surf:363..366"} sub)
-              (var {span: "surf:367..371"} pred)
-              (var {span: "surf:373..374"} y)))
+            (app {span: "surf:366..378"}
+              (var {span: "surf:366..369"} sub)
+              (var {span: "surf:370..374"} pred)
+              (var {span: "surf:376..377"} y)))
           (let {}
             (bind {}
               err_copy
-              (var {span: "surf:389..392"} err))
-            (app {span: "surf:395..429"}
-              (var {span: "surf:395..398"} sum)
-              (app {span: "surf:399..425"}
-                (var {span: "surf:399..402"} sum)
-                (app {span: "surf:403..421"}
-                  (var {span: "surf:403..406"} mul)
-                  (var {span: "surf:407..410"} err)
-                  (var {span: "surf:412..420"} err_copy))
-                (lit {span: "surf:423..424", type: (t-prim {} int32)} 1))
-              (lit {span: "surf:427..428", type: (t-prim {} int32)} 0)))))))
+              (var {span: "surf:392..395"} err))
+            (app {span: "surf:398..432"}
+              (var {span: "surf:398..401"} sum)
+              (app {span: "surf:402..428"}
+                (var {span: "surf:402..405"} sum)
+                (app {span: "surf:406..424"}
+                  (var {span: "surf:406..409"} mul)
+                  (var {span: "surf:410..413"} err)
+                  (var {span: "surf:415..423"} err_copy))
+                (lit {span: "surf:426..427", type: (t-prim {} int32)} 1))
+              (lit {span: "surf:430..431", type: (t-prim {} int32)} 0)))))))
   (defsig {}
     sgd_step
     (t-fn {}
@@ -98,65 +98,65 @@
         (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
         (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))})
         (lr {type: (t-prim {} f32)}))
-      (let {span: "surf:585..805"}
-        (bind {span: "surf:585..805"}
+      (let {span: "surf:588..814"}
+        (bind {}
           dw
-          (app {span: "surf:594..627"}
-            (grad {span: "surf:594..615", wrt: (var {} w)}
-              (var {span: "surf:599..607"} mse_loss)
+          (app {span: "surf:597..630"}
+            (grad {span: "surf:597..618", wrt: (var {} w)}
+              (var {span: "surf:602..610"} mse_loss)
               (lit {type: (t-prim {} int32)} 2))
-            (var {span: "surf:616..617"} x)
-            (var {span: "surf:619..620"} y)
-            (var {span: "surf:622..623"} w)
-            (var {span: "surf:625..626"} b)))
+            (var {span: "surf:619..620"} x)
+            (var {span: "surf:622..623"} y)
+            (var {span: "surf:625..626"} w)
+            (var {span: "surf:628..629"} b)))
         (let {}
           (bind {}
             db
-            (app {span: "surf:635..668"}
-              (grad {span: "surf:635..656", wrt: (var {} b)}
-                (var {span: "surf:640..648"} mse_loss)
+            (app {span: "surf:638..671"}
+              (grad {span: "surf:638..659", wrt: (var {} b)}
+                (var {span: "surf:643..651"} mse_loss)
                 (lit {type: (t-prim {} int32)} 3))
-              (var {span: "surf:657..658"} x)
-              (var {span: "surf:660..661"} y)
-              (var {span: "surf:663..664"} w)
-              (var {span: "surf:666..667"} b)))
+              (var {span: "surf:660..661"} x)
+              (var {span: "surf:663..664"} y)
+              (var {span: "surf:666..667"} w)
+              (var {span: "surf:669..670"} b)))
           (let {}
             (bind {}
               lr_t
-              (app {span: "surf:678..693"}
-                (var {span: "surf:678..687"} to_tensor)
-                (app {span: "surf:688..692"}
+              (app {span: "surf:681..696"}
+                (var {span: "surf:681..690"} to_tensor)
+                (app {span: "surf:691..695"}
                   (var {} Cons)
-                  (var {span: "surf:689..691"} lr)
+                  (var {span: "surf:692..694"} lr)
                   (var {} Nil))))
             (let {}
               (bind {}
                 new_w
-                (app {span: "surf:704..754"}
-                  (var {span: "surf:704..707"} sub)
-                  (var {span: "surf:708..709"} w)
-                  (app {span: "surf:711..753"}
-                    (var {span: "surf:711..714"} mul)
-                    (app {span: "surf:715..748"}
-                      (var {span: "surf:715..721"} expand)
-                      (app {span: "surf:722..741"}
-                        (var {span: "surf:722..728"} expand)
-                        (var {span: "surf:729..733"} lr_t)
-                        (lit {span: "surf:735..736", type: (t-prim {} int32)} 0)
-                        (lit {span: "surf:738..740", type: (t-prim {} int32)} 64))
-                      (lit {span: "surf:743..744", type: (t-prim {} int32)} 1)
-                      (lit {span: "surf:746..747", type: (t-prim {} int32)} 1))
-                    (var {span: "surf:750..752"} dw))))
+                (app {span: "surf:707..763"}
+                  (var {span: "surf:707..710"} sub)
+                  (var {span: "surf:711..712"} w)
+                  (app {span: "surf:714..762"}
+                    (var {span: "surf:714..717"} mul)
+                    (app {span: "surf:718..757"}
+                      (var {span: "surf:718..724"} expand)
+                      (app {span: "surf:725..747"}
+                        (var {span: "surf:725..731"} expand)
+                        (var {span: "surf:732..736"} lr_t)
+                        (lit {span: "surf:738..739", type: (t-prim {} int32)} 0)
+                        (lit {span: "surf:741..746", type: (t-prim {} int64)} 64))
+                      (lit {span: "surf:749..750", type: (t-prim {} int32)} 1)
+                      (lit {span: "surf:752..756", type: (t-prim {} int64)} 1))
+                    (var {span: "surf:759..761"} dw))))
               (let {}
                 (bind {}
                   new_b
-                  (app {span: "surf:765..786"}
-                    (var {span: "surf:765..768"} sub)
-                    (var {span: "surf:769..770"} b)
-                    (app {span: "surf:772..785"}
-                      (var {span: "surf:772..775"} mul)
-                      (var {span: "surf:776..780"} lr_t)
-                      (var {span: "surf:782..784"} db))))
-                (tuple {span: "surf:789..803"}
-                  (var {span: "surf:790..795"} new_w)
-                  (var {span: "surf:797..802"} new_b))))))))))
+                  (app {span: "surf:774..795"}
+                    (var {span: "surf:774..777"} sub)
+                    (var {span: "surf:778..779"} b)
+                    (app {span: "surf:781..794"}
+                      (var {span: "surf:781..784"} mul)
+                      (var {span: "surf:785..789"} lr_t)
+                      (var {span: "surf:791..793"} db))))
+                (tuple {span: "surf:798..812"}
+                  (var {span: "surf:799..804"} new_w)
+                  (var {span: "surf:806..811"} new_b))))))))))

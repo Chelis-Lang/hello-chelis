@@ -1,6 +1,6 @@
-(module {}
+(module {surf_path: "Hello.Std.Decimal"}
   hello.std.decimal
-  (import {}
+  (import {surf_path: "Std.Decimal"}
     std.decimal
     (Decimal
       decimal
@@ -52,7 +52,7 @@
         (subtotal {type: (t-adt {} Decimal)})
         (discount {type: (t-adt {} Decimal)}))
       (let {span: "surf:515..583"}
-        (bind {span: "surf:515..583"}
+        (bind {}
           net
           (app {span: "surf:525..556"}
             (var {span: "surf:525..536"} decimal_sub)
@@ -71,7 +71,7 @@
         (price {type: (t-adt {} Decimal)})
         (cents {type: (t-prim {} int64)}))
       (let {span: "surf:641..736"}
-        (bind {span: "surf:641..736"}
+        (bind {}
           delta
           (record {span: "surf:653..706"}
             Decimal
@@ -79,7 +79,7 @@
             (kv {}
               scale
               (cast {span: "surf:690..704"}
-                (lit {span: "surf:695..696", type: (t-prim {} int64)} 2)
+                (lit {span: "surf:695..696", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
                 (t-prim {} int64)))))
         (app {span: "surf:709..734"}
           (var {span: "surf:709..720"} decimal_add)

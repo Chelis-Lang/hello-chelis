@@ -1,6 +1,8 @@
-(module {}
+(module {surf_path: "Hello.Nautilus.SpecialFunctions"}
   hello.nautilus.specialfunctions
-  (import {} nautilus.special (erf erfc erfinv log_gamma bessel_j0))
+  (import {surf_path: "Nautilus.Special"}
+    nautilus.special
+    (erf erfc erfinv log_gamma bessel_j0))
   (export {} erf_pipe erf_round_trip log_gamma_one complementary_erf j0_at_zero)
   (defsig {} erf_pipe (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
@@ -28,7 +30,7 @@
       (app {span: "surf:302..327"}
         (var {span: "surf:302..311"} log_gamma)
         (cast {span: "surf:312..326"}
-          (lit {span: "surf:317..320", type: (t-prim {} f32)} 1.0)
+          (lit {span: "surf:317..320", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32)))))
   (defsig {} complementary_erf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
   (def {}
@@ -51,5 +53,5 @@
       (app {span: "surf:414..439"}
         (var {span: "surf:414..423"} bessel_j0)
         (cast {span: "surf:424..438"}
-          (lit {span: "surf:429..432", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:429..432", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))))))

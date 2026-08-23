@@ -1,87 +1,81 @@
-(module {}
+(module {surf_path: "Hello.Tests.Nautilus.Interpolation"}
   hello.tests.nautilus.interpolation
-  (import {}
+  (import {surf_path: "Hello.Nautilus.Interpolation"}
     hello.nautilus.interpolation
     (linear_at_query hermite_unit_segment hermite_endpoint))
-  (import {} std.test (assert_close))
-  (defsig {}
-    test_linear_at_node
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {} test_linear_at_node (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_linear_at_node
     (fn {}
       (params {})
-      (app {span: "surf:214..334"}
+      (app {span: "surf:214..330"}
         (var {span: "surf:214..226"} assert_close)
         (app {span: "surf:227..258"}
           (var {span: "surf:227..242"} linear_at_query)
           (cast {span: "surf:243..257"}
-            (lit {span: "surf:248..251", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:248..251", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32)))
         (cast {span: "surf:260..274"}
-          (lit {span: "surf:265..268", type: (t-prim {} f32)} 1.0)
+          (lit {span: "surf:265..268", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:276..295"}
-          (lit {span: "surf:281..289", type: (t-prim {} f32)} 0.000001)
+        (cast {span: "surf:276..291"}
+          (lit {span: "surf:281..285", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
           (t-prim {} f32))
-        (lit {span: "surf:297..333", type: (t-prim {} string)} "linear interp at node = node value"))))
-  (defsig {}
-    test_linear_midpoint
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+        (lit {span: "surf:293..329", type: (t-prim {} string)} "linear interp at node = node value"))))
+  (defsig {} test_linear_midpoint (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_linear_midpoint
     (fn {}
       (params {})
-      (app {span: "surf:383..505"}
-        (var {span: "surf:383..395"} assert_close)
-        (app {span: "surf:396..427"}
-          (var {span: "surf:396..411"} linear_at_query)
-          (cast {span: "surf:412..426"}
-            (lit {span: "surf:417..420", type: (t-prim {} f32)} 1.5)
+      (app {span: "surf:379..501"}
+        (var {span: "surf:379..391"} assert_close)
+        (app {span: "surf:392..423"}
+          (var {span: "surf:392..407"} linear_at_query)
+          (cast {span: "surf:408..422"}
+            (lit {span: "surf:413..416", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
             (t-prim {} f32)))
-        (cast {span: "surf:429..443"}
-          (lit {span: "surf:434..437", type: (t-prim {} f32)} 2.5)
+        (cast {span: "surf:425..439"}
+          (lit {span: "surf:430..433", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.5)
           (t-prim {} f32))
-        (cast {span: "surf:445..463"}
-          (lit {span: "surf:450..457", type: (t-prim {} f32)} 0.00001)
+        (cast {span: "surf:441..459"}
+          (lit {span: "surf:446..453", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
           (t-prim {} f32))
-        (lit {span: "surf:465..504", type: (t-prim {} string)} "linear interp midpoint of (1,1)-(2,4)"))))
+        (lit {span: "surf:461..500", type: (t-prim {} string)} "linear interp midpoint of (1,1)-(2,4)"))))
   (defsig {}
     test_hermite_unit_midpoint
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_hermite_unit_midpoint
     (fn {}
       (params {})
-      (app {span: "surf:560..679"}
-        (var {span: "surf:560..572"} assert_close)
-        (app {span: "surf:573..609"}
-          (var {span: "surf:573..593"} hermite_unit_segment)
-          (cast {span: "surf:594..608"}
-            (lit {span: "surf:599..602", type: (t-prim {} f32)} 0.5)
+      (app {span: "surf:556..675"}
+        (var {span: "surf:556..568"} assert_close)
+        (app {span: "surf:569..605"}
+          (var {span: "surf:569..589"} hermite_unit_segment)
+          (cast {span: "surf:590..604"}
+            (lit {span: "surf:595..598", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
             (t-prim {} f32)))
-        (cast {span: "surf:611..625"}
-          (lit {span: "surf:616..619", type: (t-prim {} f32)} 0.5)
+        (cast {span: "surf:607..621"}
+          (lit {span: "surf:612..615", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
           (t-prim {} f32))
-        (cast {span: "surf:627..645"}
-          (lit {span: "surf:632..639", type: (t-prim {} f32)} 0.00001)
+        (cast {span: "surf:623..641"}
+          (lit {span: "surf:628..635", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
           (t-prim {} f32))
-        (lit {span: "surf:647..678", type: (t-prim {} string)} "Hermite cubic mid value = 0.5"))))
-  (defsig {}
-    test_hermite_endpoint
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+        (lit {span: "surf:643..674", type: (t-prim {} string)} "Hermite cubic mid value = 0.5"))))
+  (defsig {} test_hermite_endpoint (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_hermite_endpoint
     (fn {}
       (params {})
-      (app {span: "surf:729..831"}
-        (var {span: "surf:729..741"} assert_close)
-        (app {span: "surf:742..760"}
-          (var {span: "surf:742..758"} hermite_endpoint))
-        (cast {span: "surf:762..776"}
-          (lit {span: "surf:767..770", type: (t-prim {} f32)} 7.0)
+      (app {span: "surf:725..827"}
+        (var {span: "surf:725..737"} assert_close)
+        (app {span: "surf:738..756"}
+          (var {span: "surf:738..754"} hermite_endpoint))
+        (cast {span: "surf:758..772"}
+          (lit {span: "surf:763..766", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 7.0)
           (t-prim {} f32))
-        (cast {span: "surf:778..796"}
-          (lit {span: "surf:783..790", type: (t-prim {} f32)} 0.00001)
+        (cast {span: "surf:774..792"}
+          (lit {span: "surf:779..786", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
           (t-prim {} f32))
-        (lit {span: "surf:798..830", type: (t-prim {} string)} "Hermite at right endpoint = y1")))))
+        (lit {span: "surf:794..826", type: (t-prim {} string)} "Hermite at right endpoint = y1")))))

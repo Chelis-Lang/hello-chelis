@@ -1,6 +1,8 @@
-(module {}
+(module {surf_path: "Hello.Capstone.BlackScholes"}
   hello.capstone.blackscholes
-  (import {} nautilus.distributions (normal_cdf))
+  (import {surf_path: "Nautilus.Distributions"}
+    nautilus.distributions
+    (normal_cdf))
   (export {} call_price delta vega)
   (defsig {}
     d1
@@ -21,7 +23,7 @@
         (sigma {type: (t-prim {} f32)})
         (t {type: (t-prim {} f32)}))
       (let {span: "surf:171..302"}
-        (bind {span: "surf:171..302"}
+        (bind {}
           num
           (app {span: "surf:181..256"}
             (var {span: "surf:181..184"} add)
@@ -39,7 +41,7 @@
                 (app {span: "surf:212..250"}
                   (var {span: "surf:212..215"} mul)
                   (cast {span: "surf:216..230"}
-                    (lit {span: "surf:221..224", type: (t-prim {} f32)} 0.5)
+                    (lit {span: "surf:221..224", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
                     (t-prim {} f32))
                   (app {span: "surf:232..249"}
                     (var {span: "surf:232..235"} mul)
@@ -111,7 +113,7 @@
         (sigma {type: (t-prim {} f32)})
         (t {type: (t-prim {} f32)}))
       (let {span: "surf:479..710"}
-        (bind {span: "surf:479..710"}
+        (bind {}
           d_1
           (app {span: "surf:489..510"}
             (var {span: "surf:489..491"} d1)
@@ -150,10 +152,10 @@
                   (var {span: "surf:587..597"} normal_cdf)
                   (var {span: "surf:598..601"} d_1)
                   (cast {span: "surf:603..617"}
-                    (lit {span: "surf:608..611", type: (t-prim {} f32)} 0.0)
+                    (lit {span: "surf:608..611", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                     (t-prim {} f32))
                   (cast {span: "surf:619..633"}
-                    (lit {span: "surf:624..627", type: (t-prim {} f32)} 1.0)
+                    (lit {span: "surf:624..627", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                     (t-prim {} f32))))
               (app {span: "surf:637..707"}
                 (var {span: "surf:637..640"} mul)
@@ -165,10 +167,10 @@
                   (var {span: "surf:659..669"} normal_cdf)
                   (var {span: "surf:670..673"} d_2)
                   (cast {span: "surf:675..689"}
-                    (lit {span: "surf:680..683", type: (t-prim {} f32)} 0.0)
+                    (lit {span: "surf:680..683", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                     (t-prim {} f32))
                   (cast {span: "surf:691..705"}
-                    (lit {span: "surf:696..699", type: (t-prim {} f32)} 1.0)
+                    (lit {span: "surf:696..699", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                     (t-prim {} f32))))))))))
   (defsig {}
     delta

@@ -1,6 +1,6 @@
-(module {}
+(module {surf_path: "Hello.Nautilus.Stats"}
   hello.nautilus.stats
-  (import {}
+  (import {surf_path: "Nautilus.Stats"}
     nautilus.stats
     (mean_vec variance_vec std_vec median_vec quantile_vec correlation_scalar))
   (export {}
@@ -37,7 +37,7 @@
         (var {span: "surf:332..344"} variance_vec)
         (var {span: "surf:345..346"} v)
         (cast {span: "surf:348..362"}
-          (lit {span: "surf:353..354", type: (t-prim {} int64)} 1)
+          (lit {span: "surf:353..354", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
           (t-prim {} int64)))))
   (defsig {}
     sample_std
@@ -53,7 +53,7 @@
         (var {span: "surf:408..415"} std_vec)
         (var {span: "surf:416..417"} v)
         (cast {span: "surf:419..433"}
-          (lit {span: "surf:424..425", type: (t-prim {} int64)} 1)
+          (lit {span: "surf:424..425", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
           (t-prim {} int64)))))
   (defsig {}
     sample_median
@@ -82,7 +82,7 @@
         (var {span: "surf:549..561"} quantile_vec)
         (var {span: "surf:562..563"} v)
         (cast {span: "surf:565..580"}
-          (lit {span: "surf:570..574", type: (t-prim {} f32)} 0.25)
+          (lit {span: "surf:570..574", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.25)
           (t-prim {} f32)))))
   (defsig {}
     sample_correlation

@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "SigmoidLowers"}
   sigmoidlowers
   (def {}
     xs
@@ -7,17 +7,17 @@
       (app {span: "surf:36..85"}
         (var {} Cons)
         (cast {span: "surf:37..52"}
-          (lit {span: "surf:42..46", type: (t-prim {} f32)} -2.0)
+          (lit {span: "surf:42..46", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} -2.0)
           (t-prim {} f32))
         (app {}
           (var {} Cons)
           (cast {span: "surf:54..68"}
-            (lit {span: "surf:59..62", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:59..62", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
             (t-prim {} f32))
           (app {}
             (var {} Cons)
             (cast {span: "surf:70..84"}
-              (lit {span: "surf:75..78", type: (t-prim {} f32)} 2.0)
+              (lit {span: "surf:75..78", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
               (t-prim {} f32))
             (var {} Nil))))))
   (def {}

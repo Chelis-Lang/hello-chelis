@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 env:
-  CHELIS_VERSION: 0.17.1
+  CHELIS_VERSION: 0.18.5
   PACKAGE_NAME: hello-chelis
   PACKAGE_VERSION: 0.1.11
 

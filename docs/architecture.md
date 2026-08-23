@@ -56,8 +56,10 @@ src/
 └── capstone/   multi-shell integrations         Hello.Capstone.*
 
 tests/
-├── basics/, std/, coral/, nautilus/, capstone/  Hello.Tests.*.*
-└── negative/                                    expected-fail .ch files
+└── basics/, std/, coral/, nautilus/, capstone/  Hello.Tests.*.*
+
+tests_neg/
+└── check/                                       expected-fail .ch + .expect
 
 verify/                                          project-free C-backend programs
 octant/                                          .tex + machine-generated triple
@@ -151,7 +153,8 @@ runs the `--check` mode and fails on any divergence. See
 | `pytest tests/test_c_backend.py` | `chelis build` + link + run + golden-diff | `verify/*.ch` |
 | `pytest tests/test_octant_pairs.py` | LaTeX → Deep → Surf round-trip | every `octant/*.tex` |
 | `pytest tests/test_c_earchin_artifacts.py` | EARS → Deep property witnesses prove with span diagnostics | finance-options fixtures |
-| `pytest tests/test_negative_examples.py` | programs that must be rejected | `tests/negative/*.ch` |
+| `pytest tests/test_negative_examples.py` | programs that must be rejected, by error kind | `tests_neg/check/*.ch` |
+| `chelis test tests_neg --expect neg` | same corpus, by pinned diagnostic substring | `tests_neg/check/*.expect` |
 
 Each is non-overlapping and gates on a different invariant.
 

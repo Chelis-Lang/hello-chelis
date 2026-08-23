@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "GradQuadratic"}
   gradquadratic
   (defsig {}
     sumsq
@@ -26,13 +26,14 @@
     grad_sumsq
     (fn {}
       (params {}
-        (model {type: (t-fn {}
-                         (t-tensor {} (d-lit {} 3) (t-prim {} f32))
-                         (t-prim {} f32))
-               })
+        (model
+          {type: (t-fn {}
+                    (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+                    (t-prim {} f32))
+          })
         (theta {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
       (let {span: "surf:195..303"}
-        (bind {span: "surf:195..303"}
+        (bind {}
           target
           (fn {span: "surf:208..262"}
             (params {}
@@ -52,17 +53,17 @@
       (app {span: "surf:322..370"}
         (var {} Cons)
         (cast {span: "surf:323..337"}
-          (lit {span: "surf:328..331", type: (t-prim {} f32)} 1.0)
+          (lit {span: "surf:328..331", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
         (app {}
           (var {} Cons)
           (cast {span: "surf:339..353"}
-            (lit {span: "surf:344..347", type: (t-prim {} f32)} 2.0)
+            (lit {span: "surf:344..347", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
             (t-prim {} f32))
           (app {}
             (var {} Cons)
             (cast {span: "surf:355..369"}
-              (lit {span: "surf:360..363", type: (t-prim {} f32)} 3.0)
+              (lit {span: "surf:360..363", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
               (t-prim {} f32))
             (var {} Nil))))))
   (def {}

@@ -40,10 +40,23 @@ jobs:
           # Pass CHELIS_VERSION as build-arg to bust the cache on version bumps.
           # Without this, GHA layer cache can serve a stale chelis binary.
           build-args: |
-            CHELIS_VERSION=0.17.1
-            CORAL_VERSION=0.7.32
-            NAUTILUS_VERSION=0.7.35
+            CHELIS_VERSION=0.18.5
+            CORAL_VERSION=0.7.38
+            NAUTILUS_VERSION=0.7.41
             SCHOOL_VERSION=0.1.12
+
+      # Offline pin/conformance guard (shell contract §2). `bump-check` passes
+      # trivially when the reef pin is unchanged vs the base; when it changed,
+      # it requires a green conformance audit, so a raw pin edit that skips the
+      # Pin Bump Checklist fails the PR. It needs the base ref to diff against,
+      # hence the unshallow fetch.
+      - name: Fetch base ref for the pin guard
+        run: git fetch --no-tags --depth=1 origin main:refs/remotes/origin/main
+
+      - name: chelis reef conform bump-check
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            chelis reef conform bump-check --base origin/main
 
       - name: chelis lint inventory (non-blocking)
         run: |
@@ -64,6 +77,15 @@ jobs:
           # upstream (cross-worker compiled-dep caching), not in this gate.
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             timeout 900s chelis test tests/ --jobs auto
+
+      # Negative suite (shell contract §6). Each tests_neg/**/*.ch must be
+      # REJECTED, with the diagnostic substring pinned on line 1 of its .expect
+      # sidecar. A case that starts PASSING fails the run loudly -- that is a
+      # regression in the checker, not a fixture to update.
+      - name: chelis test tests_neg (--expect neg)
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            chelis test tests_neg --expect neg
 
       - name: Deep s-expression drift check (every .ch must match its .dp)
         run: |

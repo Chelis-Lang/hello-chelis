@@ -1,65 +1,65 @@
-(module {}
+(module {surf_path: "Hello.Tests.Nautilus.Sde"}
   hello.tests.nautilus.sde
-  (import {} hello.nautilus.sde (gbm_path_zero_noise em_one_step_decay))
-  (import {} std.test (assert_close assert_true))
-  (defsig {}
-    test_em_one_step_decay
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Hello.Nautilus.Sde"}
+    hello.nautilus.sde
+    (gbm_path_zero_noise em_one_step_decay))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
+  (defsig {} test_em_one_step_decay (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_em_one_step_decay
     (fn {}
       (params {})
-      (app {span: "surf:193..299"}
+      (app {span: "surf:193..295"}
         (var {span: "surf:193..205"} assert_close)
         (app {span: "surf:206..225"}
           (var {span: "surf:206..223"} em_one_step_decay))
         (cast {span: "surf:227..241"}
-          (lit {span: "surf:232..235", type: (t-prim {} f32)} 0.9)
+          (lit {span: "surf:232..235", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.9)
           (t-prim {} f32))
-        (cast {span: "surf:243..262"}
-          (lit {span: "surf:248..256", type: (t-prim {} f32)} 0.000001)
+        (cast {span: "surf:243..258"}
+          (lit {span: "surf:248..252", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
           (t-prim {} f32))
-        (lit {span: "surf:264..298", type: (t-prim {} string)} "EM step decay y0=1 dt=0.1 -> 0.9"))))
+        (lit {span: "surf:260..294", type: (t-prim {} string)} "EM step decay y0=1 dt=0.1 -> 0.9"))))
   (defsig {}
     test_gbm_zero_noise_close_to_exp
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_gbm_zero_noise_close_to_exp
     (fn {}
       (params {})
-      (let {span: "surf:360..490"}
-        (bind {span: "surf:360..490"}
+      (let {span: "surf:356..486"}
+        (bind {}
           y
-          (app {span: "surf:368..389"}
-            (var {span: "surf:368..387"} gbm_path_zero_noise)))
-        (app {span: "surf:392..488"}
-          (var {span: "surf:392..404"} assert_close)
-          (var {span: "surf:405..406"} y)
-          (cast {span: "surf:408..426"}
-            (lit {span: "surf:413..420", type: (t-prim {} f32)} 1.10462)
+          (app {span: "surf:364..385"}
+            (var {span: "surf:364..383"} gbm_path_zero_noise)))
+        (app {span: "surf:388..484"}
+          (var {span: "surf:388..400"} assert_close)
+          (var {span: "surf:401..402"} y)
+          (cast {span: "surf:404..422"}
+            (lit {span: "surf:409..416", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.10462)
             (t-prim {} f32))
-          (cast {span: "surf:428..444"}
-            (lit {span: "surf:433..438", type: (t-prim {} f32)} 0.001)
+          (cast {span: "surf:424..440"}
+            (lit {span: "surf:429..434", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.001)
             (t-prim {} f32))
-          (lit {span: "surf:446..487", type: (t-prim {} string)} "GBM zero-noise approximates (1+mu*dt)^n")))))
+          (lit {span: "surf:442..483", type: (t-prim {} string)} "GBM zero-noise approximates (1+mu*dt)^n")))))
   (defsig {}
     test_gbm_zero_noise_finite_positive
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_gbm_zero_noise_finite_positive
     (fn {}
       (params {})
-      (let {span: "surf:554..665"}
-        (bind {span: "surf:554..665"}
+      (let {span: "surf:550..661"}
+        (bind {}
           y
-          (app {span: "surf:562..583"}
-            (var {span: "surf:562..581"} gbm_path_zero_noise)))
-        (app {span: "surf:586..663"}
-          (var {span: "surf:586..597"} assert_true)
-          (app {span: "surf:598..619"}
-            (var {span: "surf:598..600"} gt)
-            (var {span: "surf:601..602"} y)
-            (cast {span: "surf:604..618"}
-              (lit {span: "surf:609..612", type: (t-prim {} f32)} 1.0)
+          (app {span: "surf:558..579"}
+            (var {span: "surf:558..577"} gbm_path_zero_noise)))
+        (app {span: "surf:582..659"}
+          (var {span: "surf:582..593"} assert_true)
+          (app {span: "surf:594..615"}
+            (var {span: "surf:594..596"} gt)
+            (var {span: "surf:597..598"} y)
+            (cast {span: "surf:600..614"}
+              (lit {span: "surf:605..608", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
               (t-prim {} f32)))
-          (lit {span: "surf:621..662", type: (t-prim {} string)} "GBM zero-noise with positive drift > y0"))))))
+          (lit {span: "surf:617..658", type: (t-prim {} string)} "GBM zero-noise with positive drift > y0"))))))

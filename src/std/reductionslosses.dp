@@ -1,10 +1,12 @@
-(module {}
+(module {surf_path: "Hello.Std.ReductionsLosses"}
   hello.std.reductionslosses
-  (import {} school.loss.crossentropy (loss))
-  (import {} school.loss.bce (bce_with_logits))
-  (import {} school.loss.kldiv (kl_divergence))
-  (import {} school.loss.metrics (perplexity))
-  (import {} school.loss.metrics (perplexity))
+  (import {surf_path: "School.Loss.CrossEntropy"}
+    school.loss.crossentropy
+    (loss))
+  (import {surf_path: "School.Loss.Bce"} school.loss.bce (bce_with_logits))
+  (import {surf_path: "School.Loss.KlDiv"} school.loss.kldiv (kl_divergence))
+  (import {surf_path: "School.Loss.Metrics"} school.loss.metrics (perplexity))
+  (import {surf_path: "School.Loss.Metrics"} school.loss.metrics (perplexity))
   (export {}
     sum_axis0
     mean_axis0
@@ -22,14 +24,15 @@
     sum_axis0
     (fn {}
       (params {}
-        (x {type: (t-ref {}
-                     (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
-           }))
+        (x
+          {type: (t-ref {}
+                    (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+          }))
       (app {span: "surf:384..406"}
         (var {span: "surf:384..387"} sum)
         (var {span: "surf:388..389"} x)
         (cast {span: "surf:391..405"}
-          (lit {span: "surf:396..397", type: (t-prim {} int32)} 0)
+          (lit {span: "surf:396..397", surf_literal_style: "unsuffixed", type: (t-prim {} int32)} 0)
           (t-prim {} int32)))))
   (defsig {}
     mean_axis0
@@ -40,14 +43,15 @@
     mean_axis0
     (fn {}
       (params {}
-        (x {type: (t-ref {}
-                     (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
-           }))
+        (x
+          {type: (t-ref {}
+                    (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
+          }))
       (app {span: "surf:465..488"}
         (var {span: "surf:465..469"} mean)
         (var {span: "surf:470..471"} x)
         (cast {span: "surf:473..487"}
-          (lit {span: "surf:478..479", type: (t-prim {} int32)} 0)
+          (lit {span: "surf:478..479", surf_literal_style: "unsuffixed", type: (t-prim {} int32)} 0)
           (t-prim {} int32)))))
   (defsig {}
     prod_axis0
@@ -58,14 +62,15 @@
     prod_axis0
     (fn {}
       (params {}
-        (x {type: (t-ref {}
-                     (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
-           }))
+        (x
+          {type: (t-ref {}
+                    (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+          }))
       (app {span: "surf:553..583"}
         (var {span: "surf:553..564"} prod_reduce)
         (var {span: "surf:565..566"} x)
         (cast {span: "surf:568..582"}
-          (lit {span: "surf:573..574", type: (t-prim {} int32)} 0)
+          (lit {span: "surf:573..574", surf_literal_style: "unsuffixed", type: (t-prim {} int32)} 0)
           (t-prim {} int32)))))
   (defsig {}
     ce_loss

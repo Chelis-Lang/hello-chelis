@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.ModulesAndImports.Util"}
   hello.basics.modulesandimports.util
   (export {} double ones3)
   (defsig {}
@@ -25,16 +25,16 @@
         (app {span: "surf:169..217"}
           (var {} Cons)
           (cast {span: "surf:170..184"}
-            (lit {span: "surf:175..178", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:175..178", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
           (app {}
             (var {} Cons)
             (cast {span: "surf:186..200"}
-              (lit {span: "surf:191..194", type: (t-prim {} f32)} 1.0)
+              (lit {span: "surf:191..194", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
               (t-prim {} f32))
             (app {}
               (var {} Cons)
               (cast {span: "surf:202..216"}
-                (lit {span: "surf:207..210", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:207..210", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (var {} Nil))))))))

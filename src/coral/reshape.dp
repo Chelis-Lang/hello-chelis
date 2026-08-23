@@ -1,80 +1,82 @@
-(module {}
+(module {surf_path: "Hello.Coral.Reshape"}
   hello.coral.reshape
-  (import {} coral.frame (Frame Column FloatCol StringCol from_pairs))
-  (import {} coral.reshape (pivot melt))
+  (import {surf_path: "Coral.Frame"}
+    coral.frame
+    (Frame Column FloatCol StringCol from_pairs))
+  (import {surf_path: "Coral.Reshape"} coral.reshape (pivot melt))
   (export {} long_frame wide_frame pivoted melted)
   (defsig {} long_frame (t-fn {} (t-adt {} Frame (t-var {} 4))))
   (def {}
     long_frame
     (fn {}
       (params {})
-      (app {span: "surf:210..413"}
-        (var {span: "surf:212..222"} from_pairs)
-        (app {span: "surf:223..410"}
+      (app {span: "surf:210..409"}
+        (var {span: "surf:210..220"} from_pairs)
+        (app {span: "surf:221..408"}
           (var {} Cons)
-          (tuple {span: "surf:224..265"}
-            (lit {span: "surf:225..231", type: (t-prim {} string)} "city")
-            (app {span: "surf:233..264"}
-              (var {span: "surf:233..242"} StringCol)
-              (app {span: "surf:243..263"}
+          (tuple {span: "surf:222..263"}
+            (lit {span: "surf:223..229", type: (t-prim {} string)} "city")
+            (app {span: "surf:231..262"}
+              (var {span: "surf:231..240"} StringCol)
+              (app {span: "surf:241..261"}
                 (var {} Cons)
-                (lit {span: "surf:244..247", type: (t-prim {} string)} "a")
+                (lit {span: "surf:242..245", type: (t-prim {} string)} "a")
                 (app {}
                   (var {} Cons)
-                  (lit {span: "surf:249..252", type: (t-prim {} string)} "a")
+                  (lit {span: "surf:247..250", type: (t-prim {} string)} "a")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:254..257", type: (t-prim {} string)} "b")
+                    (lit {span: "surf:252..255", type: (t-prim {} string)} "b")
                     (app {}
                       (var {} Cons)
-                      (lit {span: "surf:259..262", type: (t-prim {} string)} "b")
+                      (lit {span: "surf:257..260", type: (t-prim {} string)} "b")
                       (var {} Nil)))))))
           (app {}
             (var {} Cons)
-            (tuple {span: "surf:267..311"}
-              (lit {span: "surf:268..277", type: (t-prim {} string)} "product")
-              (app {span: "surf:279..310"}
-                (var {span: "surf:279..288"} StringCol)
-                (app {span: "surf:289..309"}
+            (tuple {span: "surf:265..309"}
+              (lit {span: "surf:266..275", type: (t-prim {} string)} "product")
+              (app {span: "surf:277..308"}
+                (var {span: "surf:277..286"} StringCol)
+                (app {span: "surf:287..307"}
                   (var {} Cons)
-                  (lit {span: "surf:290..293", type: (t-prim {} string)} "x")
+                  (lit {span: "surf:288..291", type: (t-prim {} string)} "x")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:295..298", type: (t-prim {} string)} "y")
+                    (lit {span: "surf:293..296", type: (t-prim {} string)} "y")
                     (app {}
                       (var {} Cons)
-                      (lit {span: "surf:300..303", type: (t-prim {} string)} "x")
+                      (lit {span: "surf:298..301", type: (t-prim {} string)} "x")
                       (app {}
                         (var {} Cons)
-                        (lit {span: "surf:305..308", type: (t-prim {} string)} "y")
+                        (lit {span: "surf:303..306", type: (t-prim {} string)} "y")
                         (var {} Nil)))))))
             (app {}
               (var {} Cons)
-              (tuple {span: "surf:313..409"}
-                (lit {span: "surf:314..321", type: (t-prim {} string)} "price")
-                (app {span: "surf:323..408"}
-                  (var {span: "surf:323..331"} FloatCol)
-                  (app {span: "surf:332..407"}
-                    (var {span: "surf:332..341"} to_tensor)
-                    (app {span: "surf:342..406"}
+              (tuple {span: "surf:311..407"}
+                (lit {span: "surf:312..319", type: (t-prim {} string)} "price")
+                (app {span: "surf:321..406"}
+                  (var {span: "surf:321..329"} FloatCol)
+                  (app {span: "surf:330..405"}
+                    (var {span: "surf:330..339"} to_tensor)
+                    (app {span: "surf:340..404"}
                       (var {} Cons)
-                      (cast {span: "surf:343..357"}
-                        (lit {span: "surf:348..351", type: (t-prim {} f32)} 1.0)
+                      (cast {span: "surf:341..355"}
+                        (lit {span: "surf:346..349", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                         (t-prim {} f32))
                       (app {}
                         (var {} Cons)
-                        (cast {span: "surf:359..373"}
-                          (lit {span: "surf:364..367", type: (t-prim {} f32)} 2.0)
+                        (cast {span: "surf:357..371"}
+                          (lit {span: "surf:362..365", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                           (t-prim {} f32))
                         (app {}
                           (var {} Cons)
-                          (cast {span: "surf:375..389"}
-                            (lit {span: "surf:380..383", type: (t-prim {} f32)} 3.0)
+                          (cast {span: "surf:373..387"}
+                            (lit {span: "surf:378..381", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                             (t-prim {} f32))
                           (app {}
                             (var {} Cons)
-                            (cast {span: "surf:391..405"}
-                              (lit {span: "surf:396..399", type: (t-prim {} f32)} 4.0)
+                            (cast {span: "surf:389..403"}
+                              (lit {span: "surf:394..397", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                               (t-prim {} f32))
                             (var {} Nil))))))))
               (var {} Nil)))))))
@@ -83,70 +85,70 @@
     wide_frame
     (fn {}
       (params {})
-      (app {span: "surf:445..664"}
-        (var {span: "surf:447..457"} from_pairs)
-        (app {span: "surf:458..661"}
+      (app {span: "surf:441..656"}
+        (var {span: "surf:441..451"} from_pairs)
+        (app {span: "surf:452..655"}
           (var {} Cons)
-          (tuple {span: "surf:459..495"}
-            (lit {span: "surf:460..466", type: (t-prim {} string)} "city")
-            (app {span: "surf:468..494"}
-              (var {span: "surf:468..477"} StringCol)
-              (app {span: "surf:478..493"}
+          (tuple {span: "surf:453..489"}
+            (lit {span: "surf:454..460", type: (t-prim {} string)} "city")
+            (app {span: "surf:462..488"}
+              (var {span: "surf:462..471"} StringCol)
+              (app {span: "surf:472..487"}
                 (var {} Cons)
-                (lit {span: "surf:479..482", type: (t-prim {} string)} "a")
+                (lit {span: "surf:473..476", type: (t-prim {} string)} "a")
                 (app {}
                   (var {} Cons)
-                  (lit {span: "surf:484..487", type: (t-prim {} string)} "b")
+                  (lit {span: "surf:478..481", type: (t-prim {} string)} "b")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:489..492", type: (t-prim {} string)} "c")
+                    (lit {span: "surf:483..486", type: (t-prim {} string)} "c")
                     (var {} Nil))))))
           (app {}
             (var {} Cons)
-            (tuple {span: "surf:497..575"}
-              (lit {span: "surf:498..503", type: (t-prim {} string)} "qty")
-              (app {span: "surf:505..574"}
-                (var {span: "surf:505..513"} FloatCol)
-                (app {span: "surf:514..573"}
-                  (var {span: "surf:514..523"} to_tensor)
-                  (app {span: "surf:524..572"}
+            (tuple {span: "surf:491..569"}
+              (lit {span: "surf:492..497", type: (t-prim {} string)} "qty")
+              (app {span: "surf:499..568"}
+                (var {span: "surf:499..507"} FloatCol)
+                (app {span: "surf:508..567"}
+                  (var {span: "surf:508..517"} to_tensor)
+                  (app {span: "surf:518..566"}
                     (var {} Cons)
-                    (cast {span: "surf:525..539"}
-                      (lit {span: "surf:530..533", type: (t-prim {} f32)} 1.0)
+                    (cast {span: "surf:519..533"}
+                      (lit {span: "surf:524..527", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {span: "surf:541..555"}
-                        (lit {span: "surf:546..549", type: (t-prim {} f32)} 2.0)
+                      (cast {span: "surf:535..549"}
+                        (lit {span: "surf:540..543", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                         (t-prim {} f32))
                       (app {}
                         (var {} Cons)
-                        (cast {span: "surf:557..571"}
-                          (lit {span: "surf:562..565", type: (t-prim {} f32)} 3.0)
+                        (cast {span: "surf:551..565"}
+                          (lit {span: "surf:556..559", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                           (t-prim {} f32))
                         (var {} Nil)))))))
             (app {}
               (var {} Cons)
-              (tuple {span: "surf:577..660"}
-                (lit {span: "surf:578..585", type: (t-prim {} string)} "price")
-                (app {span: "surf:587..659"}
-                  (var {span: "surf:587..595"} FloatCol)
-                  (app {span: "surf:596..658"}
-                    (var {span: "surf:596..605"} to_tensor)
-                    (app {span: "surf:606..657"}
+              (tuple {span: "surf:571..654"}
+                (lit {span: "surf:572..579", type: (t-prim {} string)} "price")
+                (app {span: "surf:581..653"}
+                  (var {span: "surf:581..589"} FloatCol)
+                  (app {span: "surf:590..652"}
+                    (var {span: "surf:590..599"} to_tensor)
+                    (app {span: "surf:600..651"}
                       (var {} Cons)
-                      (cast {span: "surf:607..622"}
-                        (lit {span: "surf:612..616", type: (t-prim {} f32)} 10.0)
+                      (cast {span: "surf:601..616"}
+                        (lit {span: "surf:606..610", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
                         (t-prim {} f32))
                       (app {}
                         (var {} Cons)
-                        (cast {span: "surf:624..639"}
-                          (lit {span: "surf:629..633", type: (t-prim {} f32)} 20.0)
+                        (cast {span: "surf:618..633"}
+                          (lit {span: "surf:623..627", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 20.0)
                           (t-prim {} f32))
                         (app {}
                           (var {} Cons)
-                          (cast {span: "surf:641..656"}
-                            (lit {span: "surf:646..650", type: (t-prim {} f32)} 30.0)
+                          (cast {span: "surf:635..650"}
+                            (lit {span: "surf:640..644", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 30.0)
                             (t-prim {} f32))
                           (var {} Nil)))))))
               (var {} Nil)))))))
@@ -155,28 +157,28 @@
     pivoted
     (fn {}
       (params {})
-      (app {span: "surf:693..740"}
-        (var {span: "surf:693..698"} pivot)
-        (app {span: "surf:699..711"} (var {span: "surf:699..709"} long_frame))
-        (lit {span: "surf:713..719", type: (t-prim {} string)} "city")
-        (lit {span: "surf:721..730", type: (t-prim {} string)} "product")
-        (lit {span: "surf:732..739", type: (t-prim {} string)} "price"))))
+      (app {span: "surf:685..732"}
+        (var {span: "surf:685..690"} pivot)
+        (app {span: "surf:691..703"} (var {span: "surf:691..701"} long_frame))
+        (lit {span: "surf:705..711", type: (t-prim {} string)} "city")
+        (lit {span: "surf:713..722", type: (t-prim {} string)} "product")
+        (lit {span: "surf:724..731", type: (t-prim {} string)} "price"))))
   (defsig {} melted (t-fn {} (t-adt {} Frame (t-var {} 6))))
   (def {}
     melted
     (fn {}
       (params {})
-      (app {span: "surf:768..814"}
-        (var {span: "surf:768..772"} melt)
-        (app {span: "surf:773..785"} (var {span: "surf:773..783"} wide_frame))
-        (app {span: "surf:787..795"}
+      (app {span: "surf:760..806"}
+        (var {span: "surf:760..764"} melt)
+        (app {span: "surf:765..777"} (var {span: "surf:765..775"} wide_frame))
+        (app {span: "surf:779..787"}
           (var {} Cons)
-          (lit {span: "surf:788..794", type: (t-prim {} string)} "city")
+          (lit {span: "surf:780..786", type: (t-prim {} string)} "city")
           (var {} Nil))
-        (app {span: "surf:797..813"}
+        (app {span: "surf:789..805"}
           (var {} Cons)
-          (lit {span: "surf:798..803", type: (t-prim {} string)} "qty")
+          (lit {span: "surf:790..795", type: (t-prim {} string)} "qty")
           (app {}
             (var {} Cons)
-            (lit {span: "surf:805..812", type: (t-prim {} string)} "price")
+            (lit {span: "surf:797..804", type: (t-prim {} string)} "price")
             (var {} Nil)))))))

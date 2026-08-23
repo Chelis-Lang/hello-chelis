@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.Linearity"}
   hello.basics.linearity
   (export {} residual fan_out)
   (defsig {}

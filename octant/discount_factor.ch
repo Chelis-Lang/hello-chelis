@@ -1,1 +1,1 @@
-d = exp(mul(log(e), mul(sub(0.0, r), t)))
+d = exp((log(e) * ((0.0 - r) * t)))
