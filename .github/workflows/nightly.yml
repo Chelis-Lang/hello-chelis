@@ -63,11 +63,13 @@ jobs:
       # is a "(subset)" pass by design; it is not the place to exercise the
       # whole package. Re-probe both reasons per tests_blocked/README.md.
       #
-      # The valgrind run uses .github/valgrind-known.supp, which suppresses two
-      # provisional, narrowly-scoped chelis runtime leaks (chelis#406) plus the
-      # standard libgomp thread-pool TLS false positive. The suppressions are
-      # removed when chelis#406 lands; everything else (invalid access, any new
-      # leak frame) still fails the run.
+      # The valgrind run uses .github/valgrind-known.supp, which now suppresses
+      # only the standard libgomp thread-pool TLS false positive. The two
+      # chelis#406 entries were dropped during the 0.18.5 bump because that
+      # issue closed COMPLETED on 2026-06-19; both frames are reachable here,
+      # so this lane is their re-probe. Everything else (invalid access, any
+      # leak frame) fails the run -- including a chelis#406 residual, which
+      # should be filed as a new issue rather than re-suppressed.
       - name: Valgrind on built C output (subset)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '

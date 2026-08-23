@@ -54,4 +54,3 @@ around the reader. Every one cites its upstream issue; see
 | A concrete dimension argument on a parameterized ADT (`Frame[N]`) desugars to `(t-var {} N)` (chelis#1258) | `chelis surf` and `chelis migrate surf` fail on the five `src/coral/` files; their v0.19 rewrites were hand-applied | `@upstream` |
 | Integer type-application arguments are unenforced (chelis#1247) | `Frame[3]` is documentation, not a checked constraint; the corpus must not present it as one | `@upstream` |
 | Per-test-worker dependency recompilation | the native suite is compile-bound; CI's `chelis test` budget is 900s, not the 180s the suite's runtime warrants | `@upstream` |
-| Provisional runtime leaks under valgrind (chelis#406) | the nightly valgrind lane carries `.github/valgrind-known.supp`; remove it when #406 lands | `@upstream` |

@@ -63,15 +63,6 @@ checked constraint until this lands.
 **De-narrow when fixed:** add a negative example under `tests_neg/check/`
 asserting that a `Frame[3]` holding two rows is rejected.
 
-### chelis#406 — provisional runtime leaks under valgrind
-
-Two narrowly-scoped chelis runtime leaks are suppressed by
-[`.github/valgrind-known.supp`](../.github/valgrind-known.supp) alongside the
-standard libgomp thread-pool TLS false positive.
-
-**De-narrow when fixed:** delete the two chelis entries from the suppression
-file and keep only the libgomp one.
-
 ### `docs/issue_drafts/per_worker_dep_recompilation.md` — native suite is compile-bound
 
 The native test runner recompiles dependencies per test worker, which makes the
@@ -87,6 +78,15 @@ at the site in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 (none yet)
 
 ## Archived
+
+### chelis#406 — runtime leaks under valgrind
+
+Closed upstream COMPLETED on 2026-06-19. The two suppressions this repo carried
+for it were removed during the 0.18.5 bump, after the staleness audit found they
+had survived two pin bumps past the fix. Both frames are reachable in the
+nightly's `grad_quadratic` program, so the next nightly is the real re-probe. A
+red nightly there means a live residual: file a new issue and cite it, never
+re-add a suppression for a closed one.
 
 ### Manual layer-norm false positive
 
