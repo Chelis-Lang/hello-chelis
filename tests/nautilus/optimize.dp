@@ -1,12 +1,12 @@
-(module {}
+(module {surf_path: "Hello.Tests.Nautilus.Optimize"}
   hello.tests.nautilus.optimize
-  (import {}
+  (import {surf_path: "Hello.Nautilus.Optimize"}
     hello.nautilus.optimize
     (parabola_minimum_gss parabola_minimum_brent parabola_minimum_newton))
-  (import {} std.test (assert_close))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
   (defsig {}
     test_parabola_minimum_gss
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_parabola_minimum_gss
     (fn {}
@@ -16,15 +16,15 @@
         (app {span: "surf:237..259"}
           (var {span: "surf:237..257"} parabola_minimum_gss))
         (cast {span: "surf:261..275"}
-          (lit {span: "surf:266..269", type: (t-prim {} f32)} 3.0)
+          (lit {span: "surf:266..269", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
           (t-prim {} f32))
         (cast {span: "surf:277..294"}
-          (lit {span: "surf:282..288", type: (t-prim {} f32)} 0.0005)
+          (lit {span: "surf:282..288", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0005)
           (t-prim {} f32))
         (lit {span: "surf:296..331", type: (t-prim {} string)} "golden-section min of (x-3)^2 + 7"))))
   (defsig {}
     test_parabola_minimum_brent
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_parabola_minimum_brent
     (fn {}
@@ -34,15 +34,15 @@
         (app {span: "surf:401..425"}
           (var {span: "surf:401..423"} parabola_minimum_brent))
         (cast {span: "surf:427..441"}
-          (lit {span: "surf:432..435", type: (t-prim {} f32)} 3.0)
+          (lit {span: "surf:432..435", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
           (t-prim {} f32))
         (cast {span: "surf:443..460"}
-          (lit {span: "surf:448..454", type: (t-prim {} f32)} 0.0005)
+          (lit {span: "surf:448..454", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0005)
           (t-prim {} f32))
         (lit {span: "surf:462..488", type: (t-prim {} string)} "brent min of (x-3)^2 + 7"))))
   (defsig {}
     test_parabola_minimum_newton
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_parabola_minimum_newton
     (fn {}
@@ -52,9 +52,9 @@
         (app {span: "surf:559..584"}
           (var {span: "surf:559..582"} parabola_minimum_newton))
         (cast {span: "surf:586..600"}
-          (lit {span: "surf:591..594", type: (t-prim {} f32)} 3.0)
+          (lit {span: "surf:591..594", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
           (t-prim {} f32))
         (cast {span: "surf:602..620"}
-          (lit {span: "surf:607..614", type: (t-prim {} f32)} 0.00001)
+          (lit {span: "surf:607..614", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
           (t-prim {} f32))
         (lit {span: "surf:622..652", type: (t-prim {} string)} "newton 1D min of (x-3)^2 + 7")))))

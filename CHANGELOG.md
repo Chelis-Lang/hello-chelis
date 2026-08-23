@@ -7,25 +7,99 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
-Updated the executable corpus from the stale 0.14.0 stack to the latest
-coherent 0.17.1 shell cascade. This also removes false ecosystem-drift
-failures caused by rechecking the old Coral, Nautilus, and School artifacts
-against Chelis HEAD.
+Two cascades land in this window. 0.1.11 was never tagged, so both are
+described here as one net change from 0.1.10.
 
-#### Pin bumps
+#### Pin bumps (net, 0.1.10 -> this window)
 
-- compiler `=0.14.0` -> `=0.17.1`
-- `coral` `0.7.30` -> `0.7.32`
-- `nautilus` `0.7.33` -> `0.7.35`
-- `school` `0.1.9` -> `0.1.12`
+- compiler `=0.14.0` -> `=0.17.1` -> `=0.18.5`
+- `coral` `0.7.30` -> `0.7.32` -> `0.7.39`
+- `nautilus` `0.7.33` -> `0.7.35` -> `0.7.42`
+- `school` `0.1.9` -> `0.1.12` -> `0.1.13`
 - `chelis-std` stays `0.4.0`
 
-The manifest, regenerated lockfile, Docker defaults, CI and release workflow,
+`coral` 0.7.39, `nautilus` 0.7.42, and `school` 0.1.13 are the versions
+**staged** in those shells' own bump PRs (coral#27, nautilus#43, school#190),
+not yet tagged. Pinning the staged numbers keeps this PR merge-ready as written
+once the cascade tags.
+
+The manifest, Docker `ARG` defaults, CI build-args, release workflow env,
 Compose image tag, README, and version-scoped discrepancy docs move together.
-The source check, native test suite, and numerically tolerant C-backend oracle
-also pass against Chelis HEAD 0.17.4 under the ecosystem canary's
-dependency-compiler drift waiver. Release-pinned CI remains the owner of
-byte-for-byte generated Deep sidecar drift.
+`reef.lock` still records the last versions with real published artifacts
+(`coral` 0.7.38, `nautilus` 0.7.41, `school` 0.1.12). It cannot record the staged
+numbers honestly until those tags exist, because the lock stores artifact hashes
+and a locally built package's bytes are not the release's. Regenerate the whole
+file with `chelis reef build` as the last step of the cascade.
+
+### Chelis 0.18.5 cascade
+
+The corpus was migrated to **canonical Surf v0.19** (chelis#1031, shipped in
+0.18.4), which the style gate now enforces ahead of `build`, `check`,
+`validate`, and `eval --file`. 33 of 93 `.ch` files failed `chelis fmt --check`
+on the new grammar. `chelis migrate surf --from 0.18 --inplace` rewrote 28 of
+them across three classes: a one-expression block (`= { expr }` -> `= expr`),
+redundant zero-axis decoration (`vmap(f, axis=0)` -> `vmap(f)`), and
+non-canonical float literals (`0.000001` -> `1e-6`). The five `src/coral/`
+files were hand-migrated; see the blocker note below.
+
+Three source changes are semantic rather than syntactic:
+
+- `expand` now requires an `int64` size. `src/capstone/linreg.ch` and
+  `tests/coral/adthroughdataframe.ch` grew explicit `i64` suffixes
+  (`expand(b, 0, 64)` -> `expand(b, 0, 64i64)`).
+- Every `.dp` sidecar was regenerated. Deep now carries `surf_path` module
+  metadata, and span offsets moved with the source rewrites.
+- The `octant/*.ch` third of each LaTeX triple was regenerated: 0.18.5's
+  resugarer prints infix operators (`(a + b) / c`) where 0.17.1 printed prefix
+  builtin calls (`div(add(a, b), c)`). The `.tex` and `.dp` halves are
+  unchanged, because the octant pin did not move.
+
+Two `verify/expected/*.txt` goldens changed **rendering only**, not value: the
+runtime now prints an f32 at its own dtype width
+(`0.11920292`, not the double-rendered `0.1192029193043709`). Confirmed as a
+toolchain change by rebuilding the same program with 0.17.1 on the same
+machine. `tests/test_c_backend.py` compares numerically, so either spelling
+passes it; the files were updated to match a fresh capture.
+
+#### Conformance retrofit
+
+This repo had never been through `chelis reef conform`. The audit reported 8
+MUST failures; it now reports none. Added `AGENTS.md` (+ `CLAUDE.md` symlink)
+with the stamped pointer managed block, `docs/CHELIS_SURFACE.md`,
+`docs/UPSTREAM_BUGS.md`, `docs/issue_drafts/`, `tests_blocked/README.md`, and
+the vendored `agent-skills/` set. The compile-rejection corpus moved from
+`tests/negative/` to `tests_neg/check/` with `.expect` sidecars and now runs
+under two oracles: `chelis test tests_neg --expect neg` (diagnostic substring)
+and `tests/test_negative_examples.py` (structured error kind). CI gained the
+offline pin guard (`chelis reef conform bump-check`) and the negative suite.
+
+#### Known blockers
+
+- **The cascade is untagged.** All three sibling shells have their 0.18.5 bump
+  staged but not released, so the Docker image cannot fetch them and CI stays
+  red until they tag. Nothing else is outstanding: the corpus is validated
+  against all three staged sources locally.
+- **chelis#1258** — `Frame[N]` desugars to `(t-var {} N)`, so `chelis surf` and
+  `chelis migrate surf` fail on the five `src/coral/` files. Filed upstream
+  during this bump with a self-contained reproducer.
+
+#### Validation
+
+Validated against the real staged sources rather than a waiver. `coral` 0.7.39,
+`nautilus` 0.7.42, and `school` 0.1.13 were built from their bump-PR branch heads
+(d90ee05, c060cb92, 26bab5b) into a private Reef registry, and the corpus runs
+against them with **no dependency-compiler drift waiver and nothing parked**:
+`chelis reef build`, `chelis lint --check .` (zero error-severity findings; the
+one pre-existing `prefer-pipe-operator` advisory in
+`src/capstone/transformerblock.ch` remains), `chelis fmt --check` over all 93
+`.ch` files, `chelis test tests/ --jobs auto` (**105 passed / 0 failed**),
+`chelis test tests_neg --expect neg` (3/3), `python3 scripts/regen_deep.py
+--check`, and `python3 -m pytest tests/` (97 passed, 4 skipped for the absent
+octant binary, 7 C-backend cases failing only because macOS `clang` has no
+`-fopenmp`). Those
+7 were re-run by hand against Accelerate: 5 byte-exact goldens and the 2
+rendering-only diffs described above. The Docker image build, the valgrind
+lane, and the octant round-trip validate in CI.
 
 ### 0.1.10 - 2026-06-19
 

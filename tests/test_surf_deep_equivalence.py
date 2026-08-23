@@ -29,6 +29,7 @@ the full design rationale.
 
 from __future__ import annotations
 
+import importlib.util
 import shutil
 import subprocess
 from pathlib import Path
@@ -37,12 +38,34 @@ import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 
+# Kept in lockstep with scripts/regen_deep.py by the assertion below.
+WALK_DIRS = ("src", "tests", "tests_neg", "verify")
+
 
 def discover() -> list[Path]:
+    """Must stay in lockstep with `WALK_DIRS` in scripts/regen_deep.py: a
+    directory the script regenerates but this check does not walk is a
+    silent hole where a committed .dp can drift unnoticed.
+    """
     out: list[Path] = []
-    for d in ("src", "tests", "verify"):
+    for d in WALK_DIRS:
         out.extend(sorted((REPO / d).rglob("*.ch")))
     return out
+
+
+def test_walk_dirs_match_regen_script() -> None:
+    """The generator and this checker must cover the same tree.
+
+    When tests/negative/ moved to tests_neg/, updating only the script
+    silently dropped three files from the drift check. Assert the two
+    lists instead of trusting a comment.
+    """
+    spec = importlib.util.spec_from_file_location(
+        "regen_deep", REPO / "scripts" / "regen_deep.py"
+    )
+    regen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(regen)
+    assert sorted(regen.WALK_DIRS) == sorted(WALK_DIRS)
 
 
 @pytest.fixture(scope="session", autouse=True)

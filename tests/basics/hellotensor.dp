@@ -1,31 +1,33 @@
-(module {}
+(module {surf_path: "Hello.Tests.Basics.HelloTensor"}
   hello.tests.basics.hellotensor
-  (import {} hello.basics.hellotensor (add_vec))
-  (import {} std.test (assert_close_tensor))
-  (defsig {} test_add_vec (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Hello.Basics.HelloTensor"}
+    hello.basics.hellotensor
+    (add_vec))
+  (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
+  (defsig {} test_add_vec (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_add_vec
     (fn {}
       (params {})
-      (let {span: "surf:158..447"}
-        (bind {span: "surf:158..447"}
+      (let {span: "surf:158..443"}
+        (bind {}
           a
           (app {span: "surf:166..225"}
             (var {span: "surf:166..175"} to_tensor)
             (app {span: "surf:176..224"}
               (var {} Cons)
               (cast {span: "surf:177..191"}
-                (lit {span: "surf:182..185", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:182..185", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:193..207"}
-                  (lit {span: "surf:198..201", type: (t-prim {} f32)} 2.0)
+                  (lit {span: "surf:198..201", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:209..223"}
-                    (lit {span: "surf:214..217", type: (t-prim {} f32)} 3.0)
+                    (lit {span: "surf:214..217", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (var {} Nil))))))
         (let {}
@@ -36,17 +38,17 @@
               (app {span: "surf:242..290"}
                 (var {} Cons)
                 (cast {span: "surf:243..257"}
-                  (lit {span: "surf:248..251", type: (t-prim {} f32)} 4.0)
+                  (lit {span: "surf:248..251", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:259..273"}
-                    (lit {span: "surf:264..267", type: (t-prim {} f32)} 5.0)
+                    (lit {span: "surf:264..267", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:275..289"}
-                      (lit {span: "surf:280..283", type: (t-prim {} f32)} 6.0)
+                      (lit {span: "surf:280..283", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 6.0)
                       (t-prim {} f32))
                     (var {} Nil))))))
           (let {}
@@ -57,27 +59,27 @@
                 (app {span: "surf:315..363"}
                   (var {} Cons)
                   (cast {span: "surf:316..330"}
-                    (lit {span: "surf:321..324", type: (t-prim {} f32)} 5.0)
+                    (lit {span: "surf:321..324", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:332..346"}
-                      (lit {span: "surf:337..340", type: (t-prim {} f32)} 7.0)
+                      (lit {span: "surf:337..340", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 7.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
                       (cast {span: "surf:348..362"}
-                        (lit {span: "surf:353..356", type: (t-prim {} f32)} 9.0)
+                        (lit {span: "surf:353..356", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 9.0)
                         (t-prim {} f32))
                       (var {} Nil))))))
-            (app {span: "surf:367..445"}
+            (app {span: "surf:367..441"}
               (var {span: "surf:367..386"} assert_close_tensor)
               (app {span: "surf:387..400"}
                 (var {span: "surf:387..394"} add_vec)
                 (var {span: "surf:395..396"} a)
                 (var {span: "surf:398..399"} b))
               (var {span: "surf:402..410"} expected)
-              (cast {span: "surf:412..431"}
-                (lit {span: "surf:417..425", type: (t-prim {} f32)} 0.000001)
+              (cast {span: "surf:412..427"}
+                (lit {span: "surf:417..421", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
                 (t-prim {} f32))
-              (lit {span: "surf:433..444", type: (t-prim {} string)} "add_vec_3"))))))))
+              (lit {span: "surf:429..440", type: (t-prim {} string)} "add_vec_3"))))))))

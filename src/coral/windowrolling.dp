@@ -1,38 +1,40 @@
-(module {}
+(module {surf_path: "Hello.Coral.WindowRolling"}
   hello.coral.windowrolling
-  (import {} coral.window (rolling_mean rolling_std ewm))
+  (import {surf_path: "Coral.Window"}
+    coral.window
+    (rolling_mean rolling_std ewm))
   (export {} sample_series mean3 std3 ewm_half)
   (defsig {} sample_series (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     sample_series
     (fn {}
       (params {})
-      (app {span: "surf:172..267"}
-        (var {span: "surf:174..183"} to_tensor)
-        (app {span: "surf:184..264"}
+      (app {span: "surf:172..263"}
+        (var {span: "surf:172..181"} to_tensor)
+        (app {span: "surf:182..262"}
           (var {} Cons)
-          (cast {span: "surf:185..199"}
-            (lit {span: "surf:190..193", type: (t-prim {} f32)} 1.0)
+          (cast {span: "surf:183..197"}
+            (lit {span: "surf:188..191", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
           (app {}
             (var {} Cons)
-            (cast {span: "surf:201..215"}
-              (lit {span: "surf:206..209", type: (t-prim {} f32)} 2.0)
+            (cast {span: "surf:199..213"}
+              (lit {span: "surf:204..207", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
               (t-prim {} f32))
             (app {}
               (var {} Cons)
-              (cast {span: "surf:217..231"}
-                (lit {span: "surf:222..225", type: (t-prim {} f32)} 3.0)
+              (cast {span: "surf:215..229"}
+                (lit {span: "surf:220..223", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:233..247"}
-                  (lit {span: "surf:238..241", type: (t-prim {} f32)} 4.0)
+                (cast {span: "surf:231..245"}
+                  (lit {span: "surf:236..239", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:249..263"}
-                    (lit {span: "surf:254..257", type: (t-prim {} f32)} 5.0)
+                  (cast {span: "surf:247..261"}
+                    (lit {span: "surf:252..255", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
                     (t-prim {} f32))
                   (var {} Nil)))))))))
   (defsig {} mean3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
@@ -40,34 +42,34 @@
     mean3
     (fn {}
       (params {})
-      (app {span: "surf:300..345"}
-        (var {span: "surf:300..312"} rolling_mean)
-        (app {span: "surf:313..328"}
-          (var {span: "surf:313..326"} sample_series))
-        (cast {span: "surf:330..344"}
-          (lit {span: "surf:335..336", type: (t-prim {} int64)} 3)
+      (app {span: "surf:296..341"}
+        (var {span: "surf:296..308"} rolling_mean)
+        (app {span: "surf:309..324"}
+          (var {span: "surf:309..322"} sample_series))
+        (cast {span: "surf:326..340"}
+          (lit {span: "surf:331..332", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
           (t-prim {} int64)))))
   (defsig {} std3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     std3
     (fn {}
       (params {})
-      (app {span: "surf:377..421"}
-        (var {span: "surf:377..388"} rolling_std)
-        (app {span: "surf:389..404"}
-          (var {span: "surf:389..402"} sample_series))
-        (cast {span: "surf:406..420"}
-          (lit {span: "surf:411..412", type: (t-prim {} int64)} 3)
+      (app {span: "surf:373..417"}
+        (var {span: "surf:373..384"} rolling_std)
+        (app {span: "surf:385..400"}
+          (var {span: "surf:385..398"} sample_series))
+        (cast {span: "surf:402..416"}
+          (lit {span: "surf:407..408", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
           (t-prim {} int64)))))
   (defsig {} ewm_half (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     ewm_half
     (fn {}
       (params {})
-      (app {span: "surf:457..493"}
-        (var {span: "surf:457..460"} ewm)
-        (app {span: "surf:461..476"}
-          (var {span: "surf:461..474"} sample_series))
-        (cast {span: "surf:478..492"}
-          (lit {span: "surf:483..486", type: (t-prim {} f32)} 0.5)
+      (app {span: "surf:453..489"}
+        (var {span: "surf:453..456"} ewm)
+        (app {span: "surf:457..472"}
+          (var {span: "surf:457..470"} sample_series))
+        (cast {span: "surf:474..488"}
+          (lit {span: "surf:479..482", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
           (t-prim {} f32))))))

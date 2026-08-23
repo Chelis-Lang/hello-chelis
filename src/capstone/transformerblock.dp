@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Capstone.TransformerBlock"}
   hello.capstone.transformerblock
   (export {} block)
   (defsig {}
@@ -21,18 +21,12 @@
         (wk {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
         (wv {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
         (wo {type: (t-tensor {} (d-lit {} 64) (d-lit {} 256) (t-prim {} f32))})
-        (ff1 {type: (t-tensor {}
-                       (d-lit {} 256)
-                       (d-lit {} 1024)
-                       (t-prim {} f32))
-             })
-        (ff2 {type: (t-tensor {}
-                       (d-lit {} 1024)
-                       (d-lit {} 256)
-                       (t-prim {} f32))
-             }))
+        (ff1
+          {type: (t-tensor {} (d-lit {} 256) (d-lit {} 1024) (t-prim {} f32))})
+        (ff2
+          {type: (t-tensor {} (d-lit {} 1024) (d-lit {} 256) (t-prim {} f32))}))
       (let {span: "surf:279..550"}
-        (bind {span: "surf:279..550"}
+        (bind {}
           q
           (app {span: "surf:287..300"}
             (var {span: "surf:287..293"} matmul)
@@ -75,13 +69,13 @@
                     attn_out
                     (pipe {span: "surf:422..454"}
                       (var {span: "surf:422..427"} probs)
-                      (fn {span: "surf:431..440"}
+                      (fn {span: "surf:431..440", surf_pipe_stage: "call-first"}
                         (params {} __chelis_pipe)
                         (app {span: "surf:431..440"}
                           (var {span: "surf:431..437"} matmul)
                           (var {span: "surf:431..440"} __chelis_pipe)
                           (var {span: "surf:438..439"} v)))
-                      (fn {span: "surf:444..454"}
+                      (fn {span: "surf:444..454", surf_pipe_stage: "call-first"}
                         (params {} __chelis_pipe)
                         (app {span: "surf:444..454"}
                           (var {span: "surf:444..450"} matmul)

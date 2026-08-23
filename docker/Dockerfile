@@ -64,7 +64,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.17.1
+ARG CHELIS_VERSION=0.18.5
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -79,11 +79,11 @@ RUN --mount=type=secret,id=github_token \
     && chelis --version
 
 # --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.32
-ARG NAUTILUS_VERSION=0.7.35
+ARG CORAL_VERSION=0.7.39
+ARG NAUTILUS_VERSION=0.7.42
 ARG OCTANT_VERSION=0.10.1
 ARG C_EARCHIN_VERSION=0.3.3
-ARG SCHOOL_VERSION=0.1.12
+ARG SCHOOL_VERSION=0.1.13
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \

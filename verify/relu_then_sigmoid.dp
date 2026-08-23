@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "ReluThenSigmoid"}
   reluthensigmoid
   (def {}
     xs
@@ -7,17 +7,17 @@
       (app {span: "surf:38..87"}
         (var {} Cons)
         (cast {span: "surf:39..54"}
-          (lit {span: "surf:44..48", type: (t-prim {} f32)} -1.0)
+          (lit {span: "surf:44..48", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} -1.0)
           (t-prim {} f32))
         (app {}
           (var {} Cons)
           (cast {span: "surf:56..70"}
-            (lit {span: "surf:61..64", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:61..64", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
             (t-prim {} f32))
           (app {}
             (var {} Cons)
             (cast {span: "surf:72..86"}
-              (lit {span: "surf:77..80", type: (t-prim {} f32)} 1.0)
+              (lit {span: "surf:77..80", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
               (t-prim {} f32))
             (var {} Nil))))))
   (def {}

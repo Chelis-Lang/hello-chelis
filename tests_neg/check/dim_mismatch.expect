@@ -1,0 +1,4 @@
+dimension mismatch: Name("batch") vs Name("seq")
+chelis check must reject this: `add` over two tensors whose named dimensions
+differ. If this starts PASSING, named-dimension matching has regressed --
+that is a soundness bug, not a test to update.

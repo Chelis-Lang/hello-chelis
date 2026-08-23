@@ -1,9 +1,9 @@
-(module {}
+(module {surf_path: "Hello.Tests.Coral.AdThroughDataFrame"}
   hello.tests.coral.adthroughdataframe
-  (import {}
+  (import {surf_path: "Hello.Coral.AdThroughDataFrame"}
     hello.coral.adthroughdataframe
     (frame_shape_check simple_loss dsimple_loss_dw))
-  (import {} std.test (assert_eq_int assert_close_tensor))
+  (import {surf_path: "Std.Test"} std.test (assert_eq_int assert_close_tensor))
   (defsig {}
     reshape_to_one
     (t-fn {}
@@ -13,133 +13,131 @@
     reshape_to_one
     (fn {}
       (params {} (s {type: (t-tensor {} (t-prim {} f32))}))
-      (app {span: "surf:240..255"}
+      (app {span: "surf:240..258"}
         (var {span: "surf:240..246"} expand)
         (var {span: "surf:247..248"} s)
         (lit {span: "surf:250..251", type: (t-prim {} int32)} 0)
-        (lit {span: "surf:253..254", type: (t-prim {} int32)} 1))))
+        (lit {span: "surf:253..257", type: (t-prim {} int64)} 1))))
   (defsig {}
     test_frame_shape_from_tensor
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_frame_shape_from_tensor
     (fn {}
       (params {})
-      (let {span: "surf:312..455"}
-        (bind {span: "surf:312..455"}
+      (let {span: "surf:315..458"}
+        (bind {}
           w
-          (app {span: "surf:320..379"}
-            (var {span: "surf:320..329"} to_tensor)
-            (app {span: "surf:330..378"}
+          (app {span: "surf:323..382"}
+            (var {span: "surf:323..332"} to_tensor)
+            (app {span: "surf:333..381"}
               (var {} Cons)
-              (cast {span: "surf:331..345"}
-                (lit {span: "surf:336..339", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:334..348"}
+                (lit {span: "surf:339..342", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:347..361"}
-                  (lit {span: "surf:352..355", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:350..364"}
+                  (lit {span: "surf:355..358", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:363..377"}
-                    (lit {span: "surf:368..371", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:366..380"}
+                    (lit {span: "surf:371..374", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (var {} Nil))))))
-        (app {span: "surf:382..453"}
-          (var {span: "surf:382..395"} assert_eq_int)
-          (app {span: "surf:396..416"}
-            (var {span: "surf:396..413"} frame_shape_check)
-            (var {span: "surf:414..415"} w))
-          (cast {span: "surf:418..432"}
-            (lit {span: "surf:423..424", type: (t-prim {} int64)} 3)
+        (app {span: "surf:385..456"}
+          (var {span: "surf:385..398"} assert_eq_int)
+          (app {span: "surf:399..419"}
+            (var {span: "surf:399..416"} frame_shape_check)
+            (var {span: "surf:417..418"} w))
+          (cast {span: "surf:421..435"}
+            (lit {span: "surf:426..427", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
             (t-prim {} int64))
-          (lit {span: "surf:434..452", type: (t-prim {} string)} "frame nrows == 3")))))
-  (defsig {}
-    test_simple_loss_value
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+          (lit {span: "surf:437..455", type: (t-prim {} string)} "frame nrows == 3")))))
+  (defsig {} test_simple_loss_value (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_simple_loss_value
     (fn {}
       (params {})
-      (let {span: "surf:506..717"}
-        (bind {span: "surf:506..717"}
+      (let {span: "surf:509..720"}
+        (bind {}
           w
-          (app {span: "surf:514..573"}
-            (var {span: "surf:514..523"} to_tensor)
-            (app {span: "surf:524..572"}
+          (app {span: "surf:517..576"}
+            (var {span: "surf:517..526"} to_tensor)
+            (app {span: "surf:527..575"}
               (var {} Cons)
-              (cast {span: "surf:525..539"}
-                (lit {span: "surf:530..533", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:528..542"}
+                (lit {span: "surf:533..536", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:541..555"}
-                  (lit {span: "surf:546..549", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:544..558"}
+                  (lit {span: "surf:549..552", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:557..571"}
-                    (lit {span: "surf:562..565", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:560..574"}
+                    (lit {span: "surf:565..568", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (var {} Nil))))))
         (let {}
           (bind {}
             expected
-            (app {span: "surf:587..615"}
-              (var {span: "surf:587..596"} to_tensor)
-              (app {span: "surf:597..614"}
+            (app {span: "surf:590..618"}
+              (var {span: "surf:590..599"} to_tensor)
+              (app {span: "surf:600..617"}
                 (var {} Cons)
-                (cast {span: "surf:598..613"}
-                  (lit {span: "surf:603..607", type: (t-prim {} f32)} 14.0)
+                (cast {span: "surf:601..616"}
+                  (lit {span: "surf:606..610", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 14.0)
                   (t-prim {} f32))
                 (var {} Nil))))
-          (app {span: "surf:618..715"}
-            (var {span: "surf:618..637"} assert_close_tensor)
-            (app {span: "surf:638..668"}
-              (var {span: "surf:638..652"} reshape_to_one)
-              (app {span: "surf:653..667"}
-                (var {span: "surf:653..664"} simple_loss)
-                (var {span: "surf:665..666"} w)))
-            (var {span: "surf:670..678"} expected)
-            (cast {span: "surf:680..698"}
-              (lit {span: "surf:685..692", type: (t-prim {} f32)} 0.00001)
+          (app {span: "surf:621..718"}
+            (var {span: "surf:621..640"} assert_close_tensor)
+            (app {span: "surf:641..671"}
+              (var {span: "surf:641..655"} reshape_to_one)
+              (app {span: "surf:656..670"}
+                (var {span: "surf:656..667"} simple_loss)
+                (var {span: "surf:668..669"} w)))
+            (var {span: "surf:673..681"} expected)
+            (cast {span: "surf:683..701"}
+              (lit {span: "surf:688..695", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
               (t-prim {} f32))
-            (lit {span: "surf:700..714", type: (t-prim {} string)} "loss == 14.0"))))))
+            (lit {span: "surf:703..717", type: (t-prim {} string)} "loss == 14.0"))))))
   (defsig {}
     test_dgrad_is_callable_in_typecheck
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_dgrad_is_callable_in_typecheck
     (fn {}
       (params {})
-      (let {span: "surf:781..930"}
-        (bind {span: "surf:781..930"}
+      (let {span: "surf:784..933"}
+        (bind {}
           w
-          (app {span: "surf:789..848"}
-            (var {span: "surf:789..798"} to_tensor)
-            (app {span: "surf:799..847"}
+          (app {span: "surf:792..851"}
+            (var {span: "surf:792..801"} to_tensor)
+            (app {span: "surf:802..850"}
               (var {} Cons)
-              (cast {span: "surf:800..814"}
-                (lit {span: "surf:805..808", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:803..817"}
+                (lit {span: "surf:808..811", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:816..830"}
-                  (lit {span: "surf:821..824", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:819..833"}
+                  (lit {span: "surf:824..827", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:832..846"}
-                    (lit {span: "surf:837..840", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:835..849"}
+                    (lit {span: "surf:840..843", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (var {} Nil))))))
-        (app {span: "surf:851..928"}
-          (var {span: "surf:851..864"} assert_eq_int)
-          (app {span: "surf:865..885"}
-            (var {span: "surf:865..882"} frame_shape_check)
-            (var {span: "surf:883..884"} w))
-          (cast {span: "surf:887..901"}
-            (lit {span: "surf:892..893", type: (t-prim {} int64)} 3)
+        (app {span: "surf:854..931"}
+          (var {span: "surf:854..867"} assert_eq_int)
+          (app {span: "surf:868..888"}
+            (var {span: "surf:868..885"} frame_shape_check)
+            (var {span: "surf:886..887"} w))
+          (cast {span: "surf:890..904"}
+            (lit {span: "surf:895..896", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
             (t-prim {} int64))
-          (lit {span: "surf:903..927", type: (t-prim {} string)} "grad input has shape 3"))))))
+          (lit {span: "surf:906..930", type: (t-prim {} string)} "grad input has shape 3"))))))

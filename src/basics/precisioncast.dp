@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.PrecisionCast"}
   hello.basics.precisioncast
   (export {}
     to_f64_scalar

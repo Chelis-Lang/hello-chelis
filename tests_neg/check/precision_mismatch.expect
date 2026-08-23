@@ -1,0 +1,4 @@
+tensor precision mismatch: f32 vs f64
+chelis check must reject this: `add` over an f32 and an f64 tensor. Chelis has
+no implicit precision promotion. If this starts PASSING, an implicit promotion
+has been introduced -- reject the change, do not update this file.

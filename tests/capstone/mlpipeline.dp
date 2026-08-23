@@ -1,38 +1,40 @@
-(module {}
+(module {surf_path: "Hello.Tests.Capstone.MlPipeline"}
   hello.tests.capstone.mlpipeline
-  (import {} hello.capstone.mlpipeline (mean_grouped summary_stat))
-  (import {} std.test (assert_eq_int assert_close))
+  (import {surf_path: "Hello.Capstone.MlPipeline"}
+    hello.capstone.mlpipeline
+    (mean_grouped summary_stat))
+  (import {surf_path: "Std.Test"} std.test (assert_eq_int assert_close))
   (defsig {}
     test_grouped_two_cities
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_grouped_two_cities
     (fn {}
       (params {})
       (let {span: "surf:198..426"}
-        (bind {span: "surf:198..426"}
+        (bind {}
           prices
           (app {span: "surf:211..290"}
             (var {span: "surf:211..220"} to_tensor)
             (app {span: "surf:221..289"}
               (var {} Cons)
               (cast {span: "surf:222..237"}
-                (lit {span: "surf:227..231", type: (t-prim {} f32)} 10.0)
+                (lit {span: "surf:227..231", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:239..254"}
-                  (lit {span: "surf:244..248", type: (t-prim {} f32)} 20.0)
+                  (lit {span: "surf:244..248", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 20.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:256..271"}
-                    (lit {span: "surf:261..265", type: (t-prim {} f32)} 15.0)
+                    (lit {span: "surf:261..265", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 15.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:273..288"}
-                      (lit {span: "surf:278..282", type: (t-prim {} f32)} 25.0)
+                      (lit {span: "surf:278..282", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 25.0)
                       (t-prim {} f32))
                     (var {} Nil)))))))
         (let {}
@@ -58,43 +60,43 @@
               (var {span: "surf:370..376"} prices)
               (var {span: "surf:378..384"} cities))
             (cast {span: "surf:387..401"}
-              (lit {span: "surf:392..393", type: (t-prim {} int64)} 2)
+              (lit {span: "surf:392..393", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
               (t-prim {} int64))
             (lit {span: "surf:403..423", type: (t-prim {} string)} "groupby_two_cities"))))))
-  (defsig {} test_summary_stat (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (defsig {} test_summary_stat (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_summary_stat
     (fn {}
       (params {})
       (let {span: "surf:472..713"}
-        (bind {span: "surf:472..713"}
+        (bind {}
           prices
           (app {span: "surf:485..576"}
             (var {span: "surf:485..494"} to_tensor)
             (app {span: "surf:495..575"}
               (var {} Cons)
               (cast {span: "surf:496..510"}
-                (lit {span: "surf:501..504", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:501..504", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:512..526"}
-                  (lit {span: "surf:517..520", type: (t-prim {} f32)} 2.0)
+                  (lit {span: "surf:517..520", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:528..542"}
-                    (lit {span: "surf:533..536", type: (t-prim {} f32)} 3.0)
+                    (lit {span: "surf:533..536", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:544..558"}
-                      (lit {span: "surf:549..552", type: (t-prim {} f32)} 4.0)
+                      (lit {span: "surf:549..552", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
                       (cast {span: "surf:560..574"}
-                        (lit {span: "surf:565..568", type: (t-prim {} f32)} 5.0)
+                        (lit {span: "surf:565..568", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
                         (t-prim {} f32))
                       (var {} Nil))))))))
         (let {}
@@ -123,9 +125,9 @@
               (var {span: "surf:642..648"} prices)
               (var {span: "surf:650..656"} cities))
             (cast {span: "surf:659..676"}
-              (lit {span: "surf:664..670", type: (t-prim {} f32)} 4.5811)
+              (lit {span: "surf:664..670", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.5811)
               (t-prim {} f32))
             (cast {span: "surf:678..693"}
-              (lit {span: "surf:683..687", type: (t-prim {} f32)} 0.01)
+              (lit {span: "surf:683..687", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
               (t-prim {} f32))
             (lit {span: "surf:695..710", type: (t-prim {} string)} "mean_plus_std")))))))

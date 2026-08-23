@@ -1,8 +1,10 @@
-(module {}
+(module {surf_path: "Hello.Std.ActivationsNorms"}
   hello.std.activationsnorms
-  (import {} school.nn.silu (sigmoid_scalar))
-  (import {} school.nn.gelu (gelu_scalar tanh_scalar))
-  (import {} school.nn.rmsnorm (rms_scale))
+  (import {surf_path: "School.Nn.Silu"} school.nn.silu (sigmoid_scalar))
+  (import {surf_path: "School.Nn.Gelu"}
+    school.nn.gelu
+    (gelu_scalar tanh_scalar))
+  (import {surf_path: "School.Nn.RmsNorm"} school.nn.rmsnorm (rms_scale))
   (export {}
     relu_then_sigmoid
     gelu_vec
@@ -139,7 +141,7 @@
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (eps {type: (t-prim {} f32)}))
       (let {span: "surf:936..1026"}
-        (bind {span: "surf:936..1026"}
+        (bind {}
           scale
           (app {span: "surf:948..965"}
             (var {span: "surf:948..957"} rms_scale)
@@ -171,7 +173,7 @@
         (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
         (eps {type: (t-prim {} f32)}))
       (let {span: "surf:1099..1540"}
-        (bind {span: "surf:1099..1540"}
+        (bind {}
           xs
           (app {span: "surf:1108..1118"}
             (var {span: "surf:1108..1115"} to_list)
@@ -198,7 +200,7 @@
                     (var {span: "surf:1192..1195"} acc)
                     (var {span: "surf:1197..1198"} v)))
                 (cast {span: "surf:1201..1215"}
-                  (lit {span: "surf:1206..1209", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:1206..1209", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (var {span: "surf:1217..1219"} xs)))
             (let {}
@@ -239,7 +241,7 @@
                             (var {span: "surf:1356..1357"} v)
                             (var {span: "surf:1359..1360"} v))))
                       (cast {span: "surf:1364..1378"}
-                        (lit {span: "surf:1369..1372", type: (t-prim {} f32)} 0.0)
+                        (lit {span: "surf:1369..1372", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                         (t-prim {} f32))
                       (var {span: "surf:1380..1388"} centered)))
                   (let {}
@@ -255,7 +257,7 @@
                         (app {span: "surf:1434..1479"}
                           (var {span: "surf:1434..1437"} div)
                           (cast {span: "surf:1438..1452"}
-                            (lit {span: "surf:1443..1446", type: (t-prim {} f32)} 1.0)
+                            (lit {span: "surf:1443..1446", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                             (t-prim {} f32))
                           (app {span: "surf:1454..1478"}
                             (var {span: "surf:1454..1458"} sqrt)

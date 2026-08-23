@@ -1,7 +1,9 @@
-(module {}
+(module {surf_path: "Hello.Tests.Coral.WindowRolling"}
   hello.tests.coral.windowrolling
-  (import {} hello.coral.windowrolling (mean3 std3 ewm_half))
-  (import {} std.test (assert_close assert_true))
+  (import {surf_path: "Hello.Coral.WindowRolling"}
+    hello.coral.windowrolling
+    (mean3 std3 ewm_half))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
   (defsig {} is_nan_local (t-fn {} (t-prim {} f32) (t-prim {} bool)))
   (def {}
     is_nan_local
@@ -13,19 +15,19 @@
         (var {span: "surf:182..183"} x))))
   (defsig {}
     test_rolling_mean_window_3
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_rolling_mean_window_3
     (fn {}
       (params {})
       (let {span: "surf:239..648"}
-        (bind {span: "surf:239..648"}
+        (bind {}
           out
           (app {span: "surf:249..265"}
             (var {span: "surf:249..256"} to_list)
             (app {span: "surf:257..264"} (var {span: "surf:257..262"} mean3))))
         (let {}
-          (bind {}
+          (bind {destructure: true}
             __chelis_tmp2
             (app {span: "surf:272..344"}
               (var {span: "surf:272..283"} assert_true)
@@ -35,11 +37,11 @@
                   (var {span: "surf:297..302"} index)
                   (var {span: "surf:303..306"} out)
                   (cast {span: "surf:308..322"}
-                    (lit {span: "surf:313..314", type: (t-prim {} int64)} 0)
+                    (lit {span: "surf:313..314", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 0)
                     (t-prim {} int64))))
               (lit {span: "surf:326..343", type: (t-prim {} string)} "mean3[0] is NaN")))
           (let {}
-            (bind {}
+            (bind {destructure: true}
               __chelis_tmp1
               (app {span: "surf:351..446"}
                 (var {span: "surf:351..363"} assert_close)
@@ -47,17 +49,17 @@
                   (var {span: "surf:364..369"} index)
                   (var {span: "surf:370..373"} out)
                   (cast {span: "surf:375..389"}
-                    (lit {span: "surf:380..381", type: (t-prim {} int64)} 2)
+                    (lit {span: "surf:380..381", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
                     (t-prim {} int64)))
                 (cast {span: "surf:392..406"}
-                  (lit {span: "surf:397..400", type: (t-prim {} f32)} 2.0)
+                  (lit {span: "surf:397..400", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (cast {span: "surf:408..426"}
-                  (lit {span: "surf:413..420", type: (t-prim {} f32)} 0.00001)
+                  (lit {span: "surf:413..420", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
                   (t-prim {} f32))
                 (lit {span: "surf:428..445", type: (t-prim {} string)} "mean3[2] == 2.0")))
             (let {}
-              (bind {}
+              (bind {destructure: true}
                 __chelis_tmp0
                 (app {span: "surf:453..548"}
                   (var {span: "surf:453..465"} assert_close)
@@ -65,13 +67,13 @@
                     (var {span: "surf:466..471"} index)
                     (var {span: "surf:472..475"} out)
                     (cast {span: "surf:477..491"}
-                      (lit {span: "surf:482..483", type: (t-prim {} int64)} 3)
+                      (lit {span: "surf:482..483", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
                       (t-prim {} int64)))
                   (cast {span: "surf:494..508"}
-                    (lit {span: "surf:499..502", type: (t-prim {} f32)} 3.0)
+                    (lit {span: "surf:499..502", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (cast {span: "surf:510..528"}
-                    (lit {span: "surf:515..522", type: (t-prim {} f32)} 0.00001)
+                    (lit {span: "surf:515..522", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
                     (t-prim {} f32))
                   (lit {span: "surf:530..547", type: (t-prim {} string)} "mean3[3] == 3.0")))
               (app {span: "surf:551..646"}
@@ -80,24 +82,24 @@
                   (var {span: "surf:564..569"} index)
                   (var {span: "surf:570..573"} out)
                   (cast {span: "surf:575..589"}
-                    (lit {span: "surf:580..581", type: (t-prim {} int64)} 4)
+                    (lit {span: "surf:580..581", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 4)
                     (t-prim {} int64)))
                 (cast {span: "surf:592..606"}
-                  (lit {span: "surf:597..600", type: (t-prim {} f32)} 4.0)
+                  (lit {span: "surf:597..600", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                   (t-prim {} f32))
                 (cast {span: "surf:608..626"}
-                  (lit {span: "surf:613..620", type: (t-prim {} f32)} 0.00001)
+                  (lit {span: "surf:613..620", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
                   (t-prim {} f32))
                 (lit {span: "surf:628..645", type: (t-prim {} string)} "mean3[4] == 4.0"))))))))
   (defsig {}
     test_rolling_std_window_3
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_rolling_std_window_3
     (fn {}
       (params {})
       (let {span: "surf:702..825"}
-        (bind {span: "surf:702..825"}
+        (bind {}
           out
           (app {span: "surf:712..727"}
             (var {span: "surf:712..719"} to_list)
@@ -108,44 +110,42 @@
             (var {span: "surf:743..748"} index)
             (var {span: "surf:749..752"} out)
             (cast {span: "surf:754..768"}
-              (lit {span: "surf:759..760", type: (t-prim {} int64)} 2)
+              (lit {span: "surf:759..760", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
               (t-prim {} int64)))
           (cast {span: "surf:771..785"}
-            (lit {span: "surf:776..779", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:776..779", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
           (cast {span: "surf:787..804"}
-            (lit {span: "surf:792..798", type: (t-prim {} f32)} 0.0001)
+            (lit {span: "surf:792..798", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
             (t-prim {} f32))
           (lit {span: "surf:806..822", type: (t-prim {} string)} "std3[2] == 1.0")))))
-  (defsig {}
-    test_ewm_alpha_half
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (defsig {} test_ewm_alpha_half (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_ewm_alpha_half
     (fn {}
       (params {})
       (let {span: "surf:873..1100"}
-        (bind {span: "surf:873..1100"}
+        (bind {}
           out
           (app {span: "surf:883..902"}
             (var {span: "surf:883..890"} to_list)
             (app {span: "surf:891..901"} (var {span: "surf:891..899"} ewm_half))))
         (let {}
-          (bind {}
-            __chelis_tmp0
+          (bind {destructure: true}
+            __chelis_tmp3
             (app {span: "surf:909..1002"}
               (var {span: "surf:909..921"} assert_close)
               (app {span: "surf:922..948"}
                 (var {span: "surf:922..927"} index)
                 (var {span: "surf:928..931"} out)
                 (cast {span: "surf:933..947"}
-                  (lit {span: "surf:938..939", type: (t-prim {} int64)} 0)
+                  (lit {span: "surf:938..939", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 0)
                   (t-prim {} int64)))
               (cast {span: "surf:950..964"}
-                (lit {span: "surf:955..958", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:955..958", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (cast {span: "surf:966..984"}
-                (lit {span: "surf:971..978", type: (t-prim {} f32)} 0.00001)
+                (lit {span: "surf:971..978", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
                 (t-prim {} f32))
               (lit {span: "surf:986..1001", type: (t-prim {} string)} "ewm[0] == 1.0")))
           (app {span: "surf:1005..1098"}
@@ -154,12 +154,12 @@
               (var {span: "surf:1018..1023"} index)
               (var {span: "surf:1024..1027"} out)
               (cast {span: "surf:1029..1043"}
-                (lit {span: "surf:1034..1035", type: (t-prim {} int64)} 1)
+                (lit {span: "surf:1034..1035", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
                 (t-prim {} int64)))
             (cast {span: "surf:1046..1060"}
-              (lit {span: "surf:1051..1054", type: (t-prim {} f32)} 1.5)
+              (lit {span: "surf:1051..1054", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
               (t-prim {} f32))
             (cast {span: "surf:1062..1080"}
-              (lit {span: "surf:1067..1074", type: (t-prim {} f32)} 0.00001)
+              (lit {span: "surf:1067..1074", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
               (t-prim {} f32))
             (lit {span: "surf:1082..1097", type: (t-prim {} string)} "ewm[1] == 1.5")))))))

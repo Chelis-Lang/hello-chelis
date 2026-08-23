@@ -1,10 +1,10 @@
-(module {}
+(module {surf_path: "Hello.Capstone.MlPipeline"}
   hello.capstone.mlpipeline
-  (import {}
+  (import {surf_path: "Coral.Frame"}
     coral.frame
     (Frame FloatCol StringCol from_pairs get_float_col nrows))
-  (import {} coral.groupby (group_by agg_mean))
-  (import {} nautilus.stats (mean_vec std_vec))
+  (import {surf_path: "Coral.GroupBy"} coral.groupby (group_by agg_mean))
+  (import {surf_path: "Nautilus.Stats"} nautilus.stats (mean_vec std_vec))
   (export {} build_frame mean_grouped summary_stat)
   (defsig {}
     build_frame
@@ -48,7 +48,7 @@
         (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (cities {type: (t-adt {} List (t-prim {} string))}))
       (let {span: "surf:469..574"}
-        (bind {span: "surf:469..574"}
+        (bind {}
           df
           (app {span: "surf:478..505"}
             (var {span: "surf:478..489"} build_frame)
@@ -80,7 +80,7 @@
         (prices {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
         (cities {type: (t-adt {} List (t-prim {} string))}))
       (let {span: "surf:647..771"}
-        (bind {span: "surf:647..771"}
+        (bind {}
           df
           (app {span: "surf:656..683"}
             (var {span: "surf:656..667"} build_frame)
@@ -102,5 +102,5 @@
               (var {span: "surf:740..747"} std_vec)
               (var {span: "surf:748..751"} col)
               (cast {span: "surf:753..767"}
-                (lit {span: "surf:758..759", type: (t-prim {} int64)} 1)
+                (lit {span: "surf:758..759", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
                 (t-prim {} int64)))))))))

@@ -1,9 +1,14 @@
-"""Each .ch under tests/negative/ has a `// chelis-expect-fail: <kind>`
+"""Each .ch under tests_neg/check/ has a `-- chelis-expect-fail: <kind>`
 header and must be REJECTED by `chelis check`. The compiler's first
-reported error must carry the declared kind.
+reported error must carry the declared kind, and its message must
+contain the substring pinned on line 1 of the sibling .expect file.
+
+The native runner (`chelis test tests_neg --expect neg`, wired into
+ci.yml) checks the message substring. This harness checks the structured
+error *kind*, which the runner cannot see. Both read the same corpus.
 
 These files are checked OUTSIDE the project root (chelis check would
-otherwise treat tests/negative/ as a non-source-root within the project
+otherwise treat tests_neg/ as a non-source-root within the project
 and refuse to load them). We copy each to /tmp and run chelis check
 there.
 """
@@ -19,7 +24,7 @@ from pathlib import Path
 
 import pytest
 
-NEGATIVE_DIR = Path(__file__).resolve().parent / "negative"
+NEGATIVE_DIR = Path(__file__).resolve().parent.parent / "tests_neg" / "check"
 HEADER_RE = re.compile(r"^--\s*chelis-expect-fail:\s*(\S+)", re.MULTILINE)
 
 
@@ -31,6 +36,9 @@ def discover() -> list[tuple[Path, str]]:
             raise AssertionError(
                 f"{p.name} missing `-- chelis-expect-fail: <kind>` header"
             )
+        expect = p.with_suffix(".expect")
+        if not expect.exists():
+            raise AssertionError(f"{p.name} missing its .expect sidecar")
         out.append((p, m.group(1)))
     return out
 
@@ -63,3 +71,8 @@ def test_compiler_rejects(path: Path, expected_kind: str) -> None:
         assert (
             errors[0].get("kind") == expected_kind
         ), f"{path.name}: expected {expected_kind}, got {errors[0].get('kind')}"
+        pinned = path.with_suffix(".expect").read_text().splitlines()[0].strip()
+        assert pinned in errors[0].get("message", ""), (
+            f"{path.name}: first error message {errors[0].get('message')!r} "
+            f"does not contain the pinned substring {pinned!r}"
+        )

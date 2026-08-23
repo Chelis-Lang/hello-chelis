@@ -1,6 +1,6 @@
-(module {}
+(module {surf_path: "Hello.Std.TensorIo"}
   hello.std.tensorio
-  (import {} std.io (read_text write_text exists))
+  (import {surf_path: "Std.Io"} std.io (read_text write_text exists))
   (export {} write_then_read file_or_default save_message)
   (defsig {}
     write_then_read
@@ -15,7 +15,7 @@
         (path {type: (t-prim {} string)})
         (contents {type: (t-prim {} string)}))
       (let {span: "surf:201..255"}
-        (bind {span: "surf:201..255"}
+        (bind {destructure: true}
           __chelis_tmp0
           (app {span: "surf:209..235"}
             (var {span: "surf:209..219"} write_text)
@@ -36,14 +36,14 @@
       (params {}
         (path {type: (t-prim {} string)})
         (fallback {type: (t-prim {} string)}))
-      (if {span: "surf:329..383"}
-        (app {span: "surf:334..346"}
-          (var {span: "surf:334..340"} exists)
-          (var {span: "surf:341..345"} path))
-        (app {span: "surf:352..367"}
-          (var {span: "surf:352..361"} read_text)
-          (var {span: "surf:362..366"} path))
-        (var {span: "surf:373..381"} fallback))))
+      (if {span: "surf:329..379"}
+        (app {span: "surf:332..344"}
+          (var {span: "surf:332..338"} exists)
+          (var {span: "surf:339..343"} path))
+        (app {span: "surf:350..365"}
+          (var {span: "surf:350..359"} read_text)
+          (var {span: "surf:360..364"} path))
+        (var {span: "surf:371..379"} fallback))))
   (defsig {}
     save_message
     (t-fn {eff: (effects {} io)}
@@ -56,14 +56,14 @@
       (params {}
         (path {type: (t-prim {} string)})
         (message {type: (t-prim {} string)}))
-      (let {span: "surf:453..534"}
-        (bind {span: "surf:453..534"}
+      (let {span: "surf:449..530"}
+        (bind {}
           banner
-          (app {span: "surf:466..500"}
-            (var {span: "surf:466..479"} string_concat)
-            (lit {span: "surf:480..490", type: (t-prim {} string)} "[hello] ")
-            (var {span: "surf:492..499"} message)))
-        (app {span: "surf:503..532"}
-          (var {span: "surf:503..518"} write_then_read)
-          (var {span: "surf:519..523"} path)
-          (var {span: "surf:525..531"} banner))))))
+          (app {span: "surf:462..496"}
+            (var {span: "surf:462..475"} string_concat)
+            (lit {span: "surf:476..486", type: (t-prim {} string)} "[hello] ")
+            (var {span: "surf:488..495"} message)))
+        (app {span: "surf:499..528"}
+          (var {span: "surf:499..514"} write_then_read)
+          (var {span: "surf:515..519"} path)
+          (var {span: "surf:521..527"} banner))))))

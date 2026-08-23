@@ -1,28 +1,30 @@
-(module {}
+(module {surf_path: "Hello.Tests.Std.ReductionsLosses"}
   hello.tests.std.reductionslosses
-  (import {} hello.std.reductionslosses (kl_loss ce_perplexity))
-  (import {} std.test (assert_close))
+  (import {surf_path: "Hello.Std.ReductionsLosses"}
+    hello.std.reductionslosses
+    (kl_loss ce_perplexity))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
   (defsig {}
     test_kl_loss_self_is_zero
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_kl_loss_self_is_zero
     (fn {}
       (params {})
-      (let {span: "surf:183..385"}
-        (bind {span: "surf:183..385"}
+      (let {span: "surf:183..381"}
+        (bind {}
           p
           (app {span: "surf:191..234"}
             (var {span: "surf:191..200"} to_tensor)
             (app {span: "surf:201..233"}
               (var {} Cons)
               (cast {span: "surf:202..216"}
-                (lit {span: "surf:207..210", type: (t-prim {} f32)} 0.5)
+                (lit {span: "surf:207..210", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:218..232"}
-                  (lit {span: "surf:223..226", type: (t-prim {} f32)} 0.5)
+                  (lit {span: "surf:223..226", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
                   (t-prim {} f32))
                 (var {} Nil)))))
         (let {}
@@ -33,12 +35,12 @@
               (app {span: "surf:251..283"}
                 (var {} Cons)
                 (cast {span: "surf:252..266"}
-                  (lit {span: "surf:257..260", type: (t-prim {} f32)} 0.5)
+                  (lit {span: "surf:257..260", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:268..282"}
-                    (lit {span: "surf:273..276", type: (t-prim {} f32)} 0.5)
+                    (lit {span: "surf:273..276", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
                     (t-prim {} f32))
                   (var {} Nil)))))
           (let {}
@@ -48,63 +50,63 @@
                 (var {span: "surf:296..303"} kl_loss)
                 (var {span: "surf:304..305"} p)
                 (var {span: "surf:307..308"} q)))
-            (app {span: "surf:312..383"}
+            (app {span: "surf:312..379"}
               (var {span: "surf:312..324"} assert_close)
               (var {span: "surf:325..331"} result)
               (cast {span: "surf:333..347"}
-                (lit {span: "surf:338..341", type: (t-prim {} f32)} 0.0)
+                (lit {span: "surf:338..341", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                 (t-prim {} f32))
-              (cast {span: "surf:349..368"}
-                (lit {span: "surf:354..362", type: (t-prim {} f32)} 0.000001)
+              (cast {span: "surf:349..364"}
+                (lit {span: "surf:354..358", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
                 (t-prim {} f32))
-              (lit {span: "surf:370..382", type: (t-prim {} string)} "KL(p||p)=0")))))))
+              (lit {span: "surf:366..378", type: (t-prim {} string)} "KL(p||p)=0")))))))
   (defsig {}
     test_perplexity_zero_loss_is_one
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_perplexity_zero_loss_is_one
     (fn {}
       (params {})
-      (let {span: "surf:446..569"}
-        (bind {span: "surf:446..569"}
+      (let {span: "surf:442..561"}
+        (bind {}
           result
-          (app {span: "surf:459..488"}
-            (var {span: "surf:459..472"} ce_perplexity)
-            (cast {span: "surf:473..487"}
-              (lit {span: "surf:478..481", type: (t-prim {} f32)} 0.0)
+          (app {span: "surf:455..484"}
+            (var {span: "surf:455..468"} ce_perplexity)
+            (cast {span: "surf:469..483"}
+              (lit {span: "surf:474..477", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
               (t-prim {} f32))))
-        (app {span: "surf:491..567"}
-          (var {span: "surf:491..503"} assert_close)
-          (var {span: "surf:504..510"} result)
-          (cast {span: "surf:512..526"}
-            (lit {span: "surf:517..520", type: (t-prim {} f32)} 1.0)
+        (app {span: "surf:487..559"}
+          (var {span: "surf:487..499"} assert_close)
+          (var {span: "surf:500..506"} result)
+          (cast {span: "surf:508..522"}
+            (lit {span: "surf:513..516", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
-          (cast {span: "surf:528..547"}
-            (lit {span: "surf:533..541", type: (t-prim {} f32)} 0.000001)
+          (cast {span: "surf:524..539"}
+            (lit {span: "surf:529..533", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
             (t-prim {} f32))
-          (lit {span: "surf:549..566", type: (t-prim {} string)} "perplexity(0)=1")))))
+          (lit {span: "surf:541..558", type: (t-prim {} string)} "perplexity(0)=1")))))
   (defsig {}
     test_perplexity_unit_loss
-    (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+    (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_perplexity_unit_loss
     (fn {}
       (params {})
-      (let {span: "surf:623..750"}
-        (bind {span: "surf:623..750"}
+      (let {span: "surf:615..742"}
+        (bind {}
           result
-          (app {span: "surf:636..665"}
-            (var {span: "surf:636..649"} ce_perplexity)
-            (cast {span: "surf:650..664"}
-              (lit {span: "surf:655..658", type: (t-prim {} f32)} 1.0)
+          (app {span: "surf:628..657"}
+            (var {span: "surf:628..641"} ce_perplexity)
+            (cast {span: "surf:642..656"}
+              (lit {span: "surf:647..650", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
               (t-prim {} f32))))
-        (app {span: "surf:668..748"}
-          (var {span: "surf:668..680"} assert_close)
-          (var {span: "surf:681..687"} result)
-          (cast {span: "surf:689..709"}
-            (lit {span: "surf:694..703", type: (t-prim {} f32)} 2.7182817)
+        (app {span: "surf:660..740"}
+          (var {span: "surf:660..672"} assert_close)
+          (var {span: "surf:673..679"} result)
+          (cast {span: "surf:681..701"}
+            (lit {span: "surf:686..695", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.7182817)
             (t-prim {} f32))
-          (cast {span: "surf:711..728"}
-            (lit {span: "surf:716..722", type: (t-prim {} f32)} 0.0001)
+          (cast {span: "surf:703..720"}
+            (lit {span: "surf:708..714", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
             (t-prim {} f32))
-          (lit {span: "surf:730..747", type: (t-prim {} string)} "perplexity(1)=e"))))))
+          (lit {span: "surf:722..739", type: (t-prim {} string)} "perplexity(1)=e"))))))

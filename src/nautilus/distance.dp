@@ -1,6 +1,8 @@
-(module {}
+(module {surf_path: "Hello.Nautilus.Distance"}
   hello.nautilus.distance
-  (import {} nautilus.distance (euclidean manhattan chebyshev cosine_distance))
+  (import {surf_path: "Nautilus.Distance"}
+    nautilus.distance
+    (euclidean manhattan chebyshev cosine_distance))
   (export {}
     euclid
     manhattan_dist

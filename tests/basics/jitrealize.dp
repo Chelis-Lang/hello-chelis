@@ -1,26 +1,28 @@
-(module {}
+(module {surf_path: "Hello.Tests.Basics.JitRealize"}
   hello.tests.basics.jitrealize
-  (import {} hello.basics.jitrealize (eager))
-  (import {} std.test (assert_close_tensor))
-  (defsig {} test_eager (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Hello.Basics.JitRealize"}
+    hello.basics.jitrealize
+    (eager))
+  (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
+  (defsig {} test_eager (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_eager
     (fn {}
       (params {})
-      (let {span: "surf:152..392"}
-        (bind {span: "surf:152..392"}
+      (let {span: "surf:152..388"}
+        (bind {}
           w
           (app {span: "surf:160..203"}
             (var {span: "surf:160..169"} to_tensor)
             (app {span: "surf:170..202"}
               (var {} Cons)
               (cast {span: "surf:171..185"}
-                (lit {span: "surf:176..179", type: (t-prim {} f32)} 2.0)
+                (lit {span: "surf:176..179", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:187..201"}
-                  (lit {span: "surf:192..195", type: (t-prim {} f32)} 3.0)
+                  (lit {span: "surf:192..195", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                   (t-prim {} f32))
                 (var {} Nil)))))
         (let {}
@@ -31,12 +33,12 @@
               (app {span: "surf:220..252"}
                 (var {} Cons)
                 (cast {span: "surf:221..235"}
-                  (lit {span: "surf:226..229", type: (t-prim {} f32)} 4.0)
+                  (lit {span: "surf:226..229", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:237..251"}
-                    (lit {span: "surf:242..245", type: (t-prim {} f32)} 5.0)
+                    (lit {span: "surf:242..245", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
                     (t-prim {} f32))
                   (var {} Nil)))))
           (let {}
@@ -47,22 +49,22 @@
                 (app {span: "surf:277..310"}
                   (var {} Cons)
                   (cast {span: "surf:278..292"}
-                    (lit {span: "surf:283..286", type: (t-prim {} f32)} 8.0)
+                    (lit {span: "surf:283..286", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 8.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:294..309"}
-                      (lit {span: "surf:299..303", type: (t-prim {} f32)} 15.0)
+                      (lit {span: "surf:299..303", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 15.0)
                       (t-prim {} f32))
                     (var {} Nil)))))
-            (app {span: "surf:314..390"}
+            (app {span: "surf:314..386"}
               (var {span: "surf:314..333"} assert_close_tensor)
               (app {span: "surf:334..345"}
                 (var {span: "surf:334..339"} eager)
                 (var {span: "surf:340..341"} w)
                 (var {span: "surf:343..344"} x))
               (var {span: "surf:347..355"} expected)
-              (cast {span: "surf:357..376"}
-                (lit {span: "surf:362..370", type: (t-prim {} f32)} 0.000001)
+              (cast {span: "surf:357..372"}
+                (lit {span: "surf:362..366", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
                 (t-prim {} f32))
-              (lit {span: "surf:378..389", type: (t-prim {} string)} "eager_mul"))))))))
+              (lit {span: "surf:374..385", type: (t-prim {} string)} "eager_mul"))))))))

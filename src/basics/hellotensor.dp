@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.HelloTensor"}
   hello.basics.hellotensor
   (export {} add_vec)
   (defsig {}

@@ -1,6 +1,8 @@
-(module {}
+(module {surf_path: "Hello.Nautilus.LinAlg"}
   hello.nautilus.linalg
-  (import {} nautilus.linalg (matvec inner_product l2_norm_vec solve_2x2))
+  (import {surf_path: "Nautilus.LinAlg"}
+    nautilus.linalg
+    (matvec inner_product l2_norm_vec solve_2x2))
   (export {} vec_norm vec_dot mat_apply_2x2 solve_diag_2x2)
   (defsig {}
     vec_norm
@@ -41,9 +43,10 @@
     mat_apply_2x2
     (fn {}
       (params {}
-        (m {type: (t-ref {}
-                     (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32)))
-           })
+        (m
+          {type: (t-ref {}
+                    (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32)))
+          })
         (v {type: (t-ref {} (t-tensor {} (d-lit {} 2) (t-prim {} f32)))}))
       (app {span: "surf:377..389"}
         (var {span: "surf:377..383"} matvec)
@@ -57,19 +60,19 @@
     (fn {}
       (params {})
       (let {span: "surf:431..798"}
-        (bind {span: "surf:431..798"}
+        (bind {}
           e0
           (app {span: "surf:440..483"}
             (var {span: "surf:440..449"} to_tensor)
             (app {span: "surf:450..482"}
               (var {} Cons)
               (cast {span: "surf:451..465"}
-                (lit {span: "surf:456..459", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:456..459", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:467..481"}
-                  (lit {span: "surf:472..475", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:472..475", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (var {} Nil)))))
         (let {}
@@ -80,12 +83,12 @@
               (app {span: "surf:501..533"}
                 (var {} Cons)
                 (cast {span: "surf:502..516"}
-                  (lit {span: "surf:507..510", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:507..510", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:518..532"}
-                    (lit {span: "surf:523..526", type: (t-prim {} f32)} 1.0)
+                    (lit {span: "surf:523..526", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                     (t-prim {} f32))
                   (var {} Nil)))))
           (let {}
@@ -96,12 +99,12 @@
                 (app {span: "surf:554..586"}
                   (var {} Cons)
                   (cast {span: "surf:555..569"}
-                    (lit {span: "surf:560..563", type: (t-prim {} f32)} 2.0)
+                    (lit {span: "surf:560..563", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:571..585"}
-                      (lit {span: "surf:576..579", type: (t-prim {} f32)} 0.0)
+                      (lit {span: "surf:576..579", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                       (t-prim {} f32))
                     (var {} Nil)))))
             (let {}
@@ -112,12 +115,12 @@
                   (app {span: "surf:607..639"}
                     (var {} Cons)
                     (cast {span: "surf:608..622"}
-                      (lit {span: "surf:613..616", type: (t-prim {} f32)} 0.0)
+                      (lit {span: "surf:613..616", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
                       (cast {span: "surf:624..638"}
-                        (lit {span: "surf:629..632", type: (t-prim {} f32)} 3.0)
+                        (lit {span: "surf:629..632", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                         (t-prim {} f32))
                       (var {} Nil)))))
               (let {}
@@ -151,12 +154,12 @@
                           (app {span: "surf:745..777"}
                             (var {} Cons)
                             (cast {span: "surf:746..760"}
-                              (lit {span: "surf:751..754", type: (t-prim {} f32)} 4.0)
+                              (lit {span: "surf:751..754", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                               (t-prim {} f32))
                             (app {}
                               (var {} Cons)
                               (cast {span: "surf:762..776"}
-                                (lit {span: "surf:767..770", type: (t-prim {} f32)} 9.0)
+                                (lit {span: "surf:767..770", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 9.0)
                                 (t-prim {} f32))
                               (var {} Nil)))))
                       (app {span: "surf:781..796"}

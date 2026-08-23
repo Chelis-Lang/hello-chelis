@@ -1,4 +1,4 @@
-(module {}
+(module {surf_path: "Hello.Basics.GradBasic"}
   hello.basics.gradbasic
   (export {} loss dloss_dw dloss_dx)
   (defsig {}
@@ -14,7 +14,7 @@
         (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
         (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
       (let {span: "surf:128..243"}
-        (bind {span: "surf:128..243"}
+        (bind {}
           err
           (app {span: "surf:138..205"}
             (var {span: "surf:138..141"} sub)
@@ -24,17 +24,17 @@
               (app {span: "surf:155..203"}
                 (var {} Cons)
                 (cast {span: "surf:156..170"}
-                  (lit {span: "surf:161..164", type: (t-prim {} f32)} 1.0)
+                  (lit {span: "surf:161..164", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:172..186"}
-                    (lit {span: "surf:177..180", type: (t-prim {} f32)} 1.0)
+                    (lit {span: "surf:177..180", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:188..202"}
-                      (lit {span: "surf:193..196", type: (t-prim {} f32)} 1.0)
+                      (lit {span: "surf:193..196", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                       (t-prim {} f32))
                     (var {} Nil)))))))
         (let {}

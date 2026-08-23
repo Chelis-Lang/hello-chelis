@@ -1,19 +1,21 @@
-(module {}
+(module {surf_path: "Hello.Tests.Coral.Reshape"}
   hello.tests.coral.reshape
-  (import {} hello.coral.reshape (pivoted melted))
-  (import {} coral.frame (nrows ncols))
-  (import {} std.test (assert_eq_int))
-  (defsig {} test_pivot_shape (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (import {surf_path: "Hello.Coral.Reshape"}
+    hello.coral.reshape
+    (pivoted melted))
+  (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols))
+  (import {surf_path: "Std.Test"} std.test (assert_eq_int))
+  (defsig {} test_pivot_shape (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_pivot_shape
     (fn {}
       (params {})
       (let {span: "surf:188..356"}
-        (bind {span: "surf:188..356"}
+        (bind {}
           p
           (app {span: "surf:196..205"} (var {span: "surf:196..203"} pivoted)))
         (let {}
-          (bind {}
+          (bind {destructure: true}
             __chelis_tmp0
             (app {span: "surf:212..279"}
               (var {span: "surf:212..225"} assert_eq_int)
@@ -21,7 +23,7 @@
                 (var {span: "surf:226..231"} nrows)
                 (var {span: "surf:232..233"} p))
               (cast {span: "surf:236..250"}
-                (lit {span: "surf:241..242", type: (t-prim {} int64)} 2)
+                (lit {span: "surf:241..242", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
                 (t-prim {} int64))
               (lit {span: "surf:252..278", type: (t-prim {} string)} "pivot: 2 distinct cities")))
           (app {span: "surf:282..354"}
@@ -30,28 +32,28 @@
               (var {span: "surf:296..301"} ncols)
               (var {span: "surf:302..303"} p))
             (cast {span: "surf:306..320"}
-              (lit {span: "surf:311..312", type: (t-prim {} int64)} 3)
+              (lit {span: "surf:311..312", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:322..353", type: (t-prim {} string)} "pivot: city + x + y == 3 cols"))))))
-  (defsig {} test_melt_shape (t-fn {eff: (effects {} test)} (t-prim {} unit)))
+  (defsig {} test_melt_shape (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_melt_shape
     (fn {}
       (params {})
       (let {span: "surf:400..585"}
-        (bind {span: "surf:400..585"}
+        (bind {}
           m
           (app {span: "surf:408..416"} (var {span: "surf:408..414"} melted)))
         (let {}
-          (bind {}
-            __chelis_tmp0
+          (bind {destructure: true}
+            __chelis_tmp1
             (app {span: "surf:423..498"}
               (var {span: "surf:423..436"} assert_eq_int)
               (app {span: "surf:437..445"}
                 (var {span: "surf:437..442"} nrows)
                 (var {span: "surf:443..444"} m))
               (cast {span: "surf:447..461"}
-                (lit {span: "surf:452..453", type: (t-prim {} int64)} 6)
+                (lit {span: "surf:452..453", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 6)
                 (t-prim {} int64))
               (lit {span: "surf:463..497", type: (t-prim {} string)} "melt: 3 rows * 2 value cols == 6")))
           (app {span: "surf:501..583"}
@@ -60,6 +62,6 @@
               (var {span: "surf:515..520"} ncols)
               (var {span: "surf:521..522"} m))
             (cast {span: "surf:525..539"}
-              (lit {span: "surf:530..531", type: (t-prim {} int64)} 3)
+              (lit {span: "surf:530..531", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
               (t-prim {} int64))
             (lit {span: "surf:541..582", type: (t-prim {} string)} "melt: city + variable + value == 3 cols")))))))

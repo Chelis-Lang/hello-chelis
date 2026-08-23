@@ -1,6 +1,6 @@
-(module {}
+(module {surf_path: "Hello.Nautilus.Sde"}
   hello.nautilus.sde
-  (import {} nautilus.sde (euler_maruyama_fixed))
+  (import {surf_path: "Nautilus.Sde"} nautilus.sde (euler_maruyama_fixed))
   (export {} gbm_path_zero_noise em_one_step_decay)
   (defsig {}
     gbm_drift
@@ -12,7 +12,7 @@
       (app {span: "surf:156..178"}
         (var {span: "surf:156..159"} mul)
         (cast {span: "surf:160..174"}
-          (lit {span: "surf:165..168", type: (t-prim {} f32)} 0.1)
+          (lit {span: "surf:165..168", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.1)
           (t-prim {} f32))
         (var {span: "surf:176..177"} y))))
   (defsig {}
@@ -25,7 +25,7 @@
       (app {span: "surf:222..244"}
         (var {span: "surf:222..225"} mul)
         (cast {span: "surf:226..240"}
-          (lit {span: "surf:231..234", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:231..234", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.2)
           (t-prim {} f32))
         (var {span: "surf:242..243"} y))))
   (defsig {}
@@ -46,7 +46,7 @@
     (fn {}
       (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
       (cast {span: "surf:337..351"}
-        (lit {span: "surf:342..345", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:342..345", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
         (t-prim {} f32))))
   (defsig {} gbm_path_zero_noise (t-fn {} (t-prim {} f32)))
   (def {}
@@ -54,59 +54,59 @@
     (fn {}
       (params {})
       (let {span: "surf:387..676"}
-        (bind {span: "surf:387..676"}
+        (bind {}
           noise
           (app {span: "surf:399..570"}
             (var {span: "surf:399..408"} to_tensor)
             (app {span: "surf:409..569"}
               (var {} Cons)
               (cast {span: "surf:410..424"}
-                (lit {span: "surf:415..418", type: (t-prim {} f32)} 0.0)
+                (lit {span: "surf:415..418", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
                 (cast {span: "surf:426..440"}
-                  (lit {span: "surf:431..434", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:431..434", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
                   (cast {span: "surf:442..456"}
-                    (lit {span: "surf:447..450", type: (t-prim {} f32)} 0.0)
+                    (lit {span: "surf:447..450", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
                     (cast {span: "surf:458..472"}
-                      (lit {span: "surf:463..466", type: (t-prim {} f32)} 0.0)
+                      (lit {span: "surf:463..466", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
                       (cast {span: "surf:474..488"}
-                        (lit {span: "surf:479..482", type: (t-prim {} f32)} 0.0)
+                        (lit {span: "surf:479..482", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                         (t-prim {} f32))
                       (app {}
                         (var {} Cons)
                         (cast {span: "surf:490..504"}
-                          (lit {span: "surf:495..498", type: (t-prim {} f32)} 0.0)
+                          (lit {span: "surf:495..498", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                           (t-prim {} f32))
                         (app {}
                           (var {} Cons)
                           (cast {span: "surf:506..520"}
-                            (lit {span: "surf:511..514", type: (t-prim {} f32)} 0.0)
+                            (lit {span: "surf:511..514", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                             (t-prim {} f32))
                           (app {}
                             (var {} Cons)
                             (cast {span: "surf:522..536"}
-                              (lit {span: "surf:527..530", type: (t-prim {} f32)} 0.0)
+                              (lit {span: "surf:527..530", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                               (t-prim {} f32))
                             (app {}
                               (var {} Cons)
                               (cast {span: "surf:538..552"}
-                                (lit {span: "surf:543..546", type: (t-prim {} f32)} 0.0)
+                                (lit {span: "surf:543..546", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                                 (t-prim {} f32))
                               (app {}
                                 (var {} Cons)
                                 (cast {span: "surf:554..568"}
-                                  (lit {span: "surf:559..562", type: (t-prim {} f32)} 0.0)
+                                  (lit {span: "surf:559..562", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                                   (t-prim {} f32))
                                 (var {} Nil)))))))))))))
         (app {span: "surf:573..674"}
@@ -114,13 +114,13 @@
           (var {span: "surf:594..603"} gbm_drift)
           (var {span: "surf:605..618"} gbm_diffusion)
           (cast {span: "surf:620..634"}
-            (lit {span: "surf:625..628", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:625..628", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
           (cast {span: "surf:636..650"}
-            (lit {span: "surf:641..644", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:641..644", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
             (t-prim {} f32))
           (cast {span: "surf:652..666"}
-            (lit {span: "surf:657..660", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:657..660", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
           (var {span: "surf:668..673"} noise)))))
   (defsig {} em_one_step_decay (t-fn {} (t-prim {} f32)))
@@ -129,14 +129,14 @@
     (fn {}
       (params {})
       (let {span: "surf:710..858"}
-        (bind {span: "surf:710..858"}
+        (bind {}
           noise
           (app {span: "surf:722..749"}
             (var {span: "surf:722..731"} to_tensor)
             (app {span: "surf:732..748"}
               (var {} Cons)
               (cast {span: "surf:733..747"}
-                (lit {span: "surf:738..741", type: (t-prim {} f32)} 0.0)
+                (lit {span: "surf:738..741", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                 (t-prim {} f32))
               (var {} Nil))))
         (app {span: "surf:752..856"}
@@ -144,12 +144,12 @@
           (var {span: "surf:773..784"} decay_drift)
           (var {span: "surf:786..800"} zero_diffusion)
           (cast {span: "surf:802..816"}
-            (lit {span: "surf:807..810", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:807..810", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
             (t-prim {} f32))
           (cast {span: "surf:818..832"}
-            (lit {span: "surf:823..826", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:823..826", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
             (t-prim {} f32))
           (cast {span: "surf:834..848"}
-            (lit {span: "surf:839..842", type: (t-prim {} f32)} 0.1)
+            (lit {span: "surf:839..842", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.1)
             (t-prim {} f32))
           (var {span: "surf:850..855"} noise))))))

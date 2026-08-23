@@ -1,6 +1,8 @@
-(module {}
+(module {surf_path: "Hello.Coral.AdThroughDataFrame"}
   hello.coral.adthroughdataframe
-  (import {} coral.frame (Frame Column FloatCol from_pairs nrows))
+  (import {surf_path: "Coral.Frame"}
+    coral.frame
+    (Frame Column FloatCol from_pairs nrows))
   (export {} frame_shape_check simple_loss dsimple_loss_dw)
   (defsig {}
     frame_shape_check
@@ -10,7 +12,7 @@
     (fn {}
       (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
       (let {span: "surf:211..266"}
-        (bind {span: "surf:211..266"}
+        (bind {}
           df
           (app {span: "surf:220..252"}
             (var {span: "surf:220..230"} from_pairs)
@@ -35,7 +37,7 @@
     (fn {}
       (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
       (let {span: "surf:319..356"}
-        (bind {span: "surf:319..356"}
+        (bind {}
           prod
           (app {span: "surf:330..339"}
             (var {span: "surf:330..333"} mul)

@@ -6,7 +6,8 @@ script is the only mechanism that touches .dp files. They never get
 hand-edited.
 
 Usage:
-    python3 scripts/regen_deep.py             # walks src/, tests/, verify/
+    python3 scripts/regen_deep.py             # walks src/, tests/,
+                                              # tests_neg/, verify/
     python3 scripts/regen_deep.py --check     # CI mode: regen to a temp
                                               # location, diff against
                                               # committed; non-zero on drift
@@ -25,7 +26,7 @@ import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-WALK_DIRS = ["src", "tests", "verify"]
+WALK_DIRS = ["src", "tests", "tests_neg", "verify"]
 
 
 def discover() -> list[Path]:

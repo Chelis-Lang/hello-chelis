@@ -3,7 +3,7 @@ import Hello.Coral.GroupByAgg (sales_frame, total_per_city, mean_per_city)
 import Coral.Frame (nrows, ncols, get_float_col)
 import Std.Test (assert_eq_int, assert_close)
 def zero_i64() -> int64 = cast(0, int64)
-def tensor_sum_f32[n](t: tensor[n, f32]) -> f32 = { fold(fn (acc: f32, v: f32) -> add(acc, v), cast(0.0, f32), to_list(t)) }
+def tensor_sum_f32[n](t: tensor[n, f32]) -> f32 = fold(fn (acc: f32, v: f32) -> add(acc, v), cast(0.0, f32), to_list(t))
 def test_sales_frame_shape() -> unit ! { Test } = {
   df = sales_frame()
   _ = assert_eq_int(nrows(df), cast(4, int64), "sales nrows == 4")
