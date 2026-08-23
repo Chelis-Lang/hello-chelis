@@ -13,20 +13,22 @@ described here as one net change from 0.1.10.
 #### Pin bumps (net, 0.1.10 -> this window)
 
 - compiler `=0.14.0` -> `=0.17.1` -> `=0.18.5`
-- `coral` `0.7.30` -> `0.7.32` -> `0.7.38`
-- `nautilus` `0.7.33` -> `0.7.35` -> `0.7.41`
-- `school` `0.1.9` -> `0.1.12` (no 0.18.5-pinned release yet)
+- `coral` `0.7.30` -> `0.7.32` -> `0.7.39`
+- `nautilus` `0.7.33` -> `0.7.35` -> `0.7.42`
+- `school` `0.1.9` -> `0.1.12`, then TBD pending school's own bump
 - `chelis-std` stays `0.4.0`
+
+`coral` 0.7.39 and `nautilus` 0.7.42 are the versions **staged** in those
+shells' own bump PRs (coral#27, nautilus#43), not yet tagged. Pinning the
+staged numbers keeps this PR merge-ready as written once the cascade tags.
 
 The manifest, Docker `ARG` defaults, CI build-args, release workflow env,
 Compose image tag, README, and version-scoped discrepancy docs move together.
-`reef.lock` is regenerated for `coral`, `nautilus`, and `chelis-std`; the
-`school` entry is carried over verbatim from the previous lock, which is still
-exactly correct because that dependency did not move (same 0.1.12 release, same
-hashes). Leaving the lock stale is not an option: it pins versions the image no
-longer installs, so the Docker build tries to auto-fetch them and dies on a
-missing token before it ever reaches the real blocker. Regenerate the whole file
-with `chelis reef build` once the cascade completes.
+`reef.lock` still records `coral` 0.7.38 / `nautilus` 0.7.41, the last versions
+with real published artifacts. It cannot record 0.7.39 / 0.7.42 honestly until
+those tags exist, because the lock stores artifact hashes and a locally built
+package's bytes are not the release's. Regenerate the whole file with
+`chelis reef build` as the last step of the cascade.
 
 ### Chelis 0.18.5 cascade
 
@@ -84,7 +86,11 @@ offline pin guard (`chelis reef conform bump-check`) and the negative suite.
 
 #### Validation
 
-Run locally against chelis 0.18.5 with the dependency-compiler drift waiver:
+Validated two ways. The stronger pass builds `coral` 0.7.39 and `nautilus`
+0.7.42 from their bump-PR branch heads (46aa4046, c060cb92) into a private Reef
+registry and runs the corpus against those real staged sources with **no
+dependency-compiler drift waiver at all**. The `school`-importing files are
+parked for that pass, since school has not staged a 0.18.5 release yet. Results:
 `chelis reef build`, `chelis lint --check .` (zero error-severity findings; the
 one pre-existing `prefer-pipe-operator` advisory in
 `src/capstone/transformerblock.ch` remains), `chelis fmt --check` over all 93

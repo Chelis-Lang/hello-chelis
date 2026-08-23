@@ -5,7 +5,7 @@ pandas-equivalent shell. Numeric columns are tensor-backed, which is
 why dataframe pipelines compose with the rest of the Chelis tensor
 DAG — `grad` flows through `group_by`, AD flows through joins, etc.
 
-Pinned to `coral` v0.7.38.
+Pinned to `coral` v0.7.39.
 
 ## Files
 

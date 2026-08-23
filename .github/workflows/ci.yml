@@ -41,8 +41,8 @@ jobs:
           # Without this, GHA layer cache can serve a stale chelis binary.
           build-args: |
             CHELIS_VERSION=0.18.5
-            CORAL_VERSION=0.7.38
-            NAUTILUS_VERSION=0.7.41
+            CORAL_VERSION=0.7.39
+            NAUTILUS_VERSION=0.7.42
             SCHOOL_VERSION=0.1.12
 
       # Offline pin/conformance guard (shell contract §2). `bump-check` passes
