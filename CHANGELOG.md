@@ -20,10 +20,13 @@ described here as one net change from 0.1.10.
 
 The manifest, Docker `ARG` defaults, CI build-args, release workflow env,
 Compose image tag, README, and version-scoped discrepancy docs move together.
-`reef.lock` is deliberately **not** regenerated here: the resolver cannot
-produce a correct graph while `school` has no 0.18.5-pinned release, and a lock
-written with `school` omitted would silently drop a dependency. Regenerate it
-with `chelis reef build` as the last step once the cascade completes.
+`reef.lock` is regenerated for `coral`, `nautilus`, and `chelis-std`; the
+`school` entry is carried over verbatim from the previous lock, which is still
+exactly correct because that dependency did not move (same 0.1.12 release, same
+hashes). Leaving the lock stale is not an option: it pins versions the image no
+longer installs, so the Docker build tries to auto-fetch them and dies on a
+missing token before it ever reaches the real blocker. Regenerate the whole file
+with `chelis reef build` once the cascade completes.
 
 ### Chelis 0.18.5 cascade
 

@@ -5,35 +5,35 @@ version = "0.1.11"
 [[dependencies]]
 name = "chelis-std"
 version = "0.4.0"
-compiler = "=0.17.1"
-archive_sha256 = "4e4efe6f48fea5beded1703e4d801b11dd4697145a9c39611d9941a957833003"
-shell_sha256 = "9aa00439ca16afd0e673ff2f9446e40dbcca4ee6cf69be675fc6e27fbd570cc2"
+compiler = "=0.18.5"
+archive_sha256 = "1c2a0b7183976280bbc97e8bcb6e9e15ae51fcb9cc95a00d11bd3ce27e62a95c"
+shell_sha256 = "b8149eaecc320d796147ecc10eeca2798fd63fa8115de64d076a1e83a43c74e0"
 
 [dependencies.source]
 kind = "bundled"
-compiler_version = "0.17.1"
+compiler_version = "0.18.5"
 
 [[dependencies]]
 name = "coral"
-version = "0.7.32"
-compiler = "=0.17.1"
-archive_sha256 = "d819b4182d7157a061a1996b3102fcb01ed7e0296fdb4a9f1850e20a554486f3"
-shell_sha256 = "4097970a3f784373dc4bbf8937aa0107893201bcce35102a518e39ee90869ef0"
+version = "0.7.38"
+compiler = "=0.18.4"
+archive_sha256 = "e68ac948c3539c3eba95283b49a907a753acc1de540a4a3840410ae79bf70854"
+shell_sha256 = "a5be8783717b951db11f58beb9084a674ab86c7891cb847a6e74e4a04535e85e"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/coral@v0.7.32"
+remote_origin = "github://Chelis-Lang/coral@v0.7.38"
 
 [[dependencies]]
 name = "nautilus"
-version = "0.7.35"
-compiler = "=0.17.1"
-archive_sha256 = "11809a4676aa4b3b4fdd2a182ebae5cdfcf17c0930d87bccf3028d332637e630"
-shell_sha256 = "ad451b4cda907baf68f451c90b0e27fc1720ab92998f1ddbb7991e83be2f0c15"
+version = "0.7.41"
+compiler = "=0.18.4"
+archive_sha256 = "1bba785ccead8c38275f8daa111a27516b4f21d16eb3223c23dbb7bcb6a0a6f3"
+shell_sha256 = "e92a47020f5691b49e5b39aba0094c7e1ed2e39d9dce55a9a135fd34480cc083"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/nautilus@v0.7.35"
+remote_origin = "github://Chelis-Lang/nautilus@v0.7.41"
 
 [[dependencies]]
 name = "school"
@@ -45,4 +45,3 @@ shell_sha256 = "c97bd3fb87742c3a01450ade88ff1e258a207150a745ec67ee3c49bdeedf4e52
 [dependencies.source]
 kind = "local_registry"
 remote_origin = "github://Chelis-Lang/school@v0.1.12"
-
