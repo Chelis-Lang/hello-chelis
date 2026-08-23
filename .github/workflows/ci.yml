@@ -59,8 +59,11 @@ jobs:
 
       - name: chelis reef conform bump-check
         run: |
+          # The checkout is owned by the runner uid; git inside the container
+          # refuses it as dubious without a safe.directory grant, which
+          # bump-check surfaces as "could not resolve `origin/main`".
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis reef conform bump-check --base origin/main
+            bash -lc 'git config --global --add safe.directory /workspace && chelis reef conform bump-check --base origin/main'
 
       - name: chelis lint inventory (non-blocking)
         run: |
