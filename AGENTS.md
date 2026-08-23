@@ -61,6 +61,16 @@ does not equal the running compiler. A chelis bump therefore cannot land here
 until every one of those shells has published a release pinned to the same
 version. Bump this repo last.
 
+**`reef.lock` records artifact hashes, so it can only be regenerated against
+real published releases.** Validating a bump early against sibling shells that
+have staged but not tagged their releases means building their packages into a
+private Reef registry (`CHELIS_REEF_HOME`) — and every `chelis reef build` in
+that setup rewrites `reef.lock` with *your local build's* hashes, which are not
+the release's. Those must never be committed: they assert integrity for bytes
+nobody else will ever produce, and the giveaway is a `local_registry` dependency
+with no `remote_origin` line. Check `git diff reef.lock` before every commit in a
+cascade bump, and regenerate the lock for real only after the siblings tag.
+
 Two lanes of generated artifacts must be regenerated in the same change set:
 
 - `python3 scripts/regen_deep.py` after any `.ch` edit (the committed `.dp`
