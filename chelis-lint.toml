@@ -1,0 +1,12 @@
+version = 1
+spec = "docs/ci_evidence_policy.md"
+
+[[exclude]]
+pattern = "scripts/ci/domain_lint.sh"
+class = "infrastructure"
+cross_ref = "§1"
+
+[[exclude]]
+pattern = "scripts/ci/domain_nightly.sh"
+class = "infrastructure"
+cross_ref = "§1"
