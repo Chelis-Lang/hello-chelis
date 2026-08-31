@@ -2,7 +2,7 @@ name: nightly
 
 on:
   schedule:
-    - cron: '30 3 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -15,13 +15,12 @@ permissions:
 
 jobs:
   central:
-    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@384ba1c1bac37ba502686cac4885340250725e19
+    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@8774253ac229ca14b2d5ef131d540316b79e0518
     with:
-      profile: hello-chelis-nightly
+      profile: nightly
       chelis-version: 0.17.1
       chelis-linux-sha256: sha256:d3e6d057996622e3cc6bb1c063bc4d804c96553010b48ef42f98ef03328d078f
-      coral-version: 0.7.32
-      nautilus-version: 0.7.35
-      school-version: 0.1.11
+      chelis-darwin-sha256: sha256:549c0745bf995eb40a0bbed395c964e3b3c86e46c0ac14749237f3417a3cf569
+      domain-nightly: true
     secrets:
       CHELIS_RELEASE_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN }}
