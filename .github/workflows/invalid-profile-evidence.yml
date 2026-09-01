@@ -1,0 +1,14 @@
+name: invalid-profile evidence
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  central:
+    uses: Chelis-Lang/ci/.github/workflows/consumer.yml@49d55f7dee88e2227b07b16c335b40a5da105cee
+    with:
+      profile: invalid-evidence
+    secrets:
+      CHELIS_RELEASE_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN }}
