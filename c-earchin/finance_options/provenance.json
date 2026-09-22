@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/Chelis-Lang/c-earchin",
+  "release": "v0.3.5",
+  "commit": "ff4cbcf321ead8decd544a388f1212de32ca2214",
+  "release_workflow": "https://github.com/Chelis-Lang/c-earchin/actions/runs/35670498279",
+  "sha256": {
+    "options_rules.ears": "6beb9e3f2cdf8ffe8318fa4ae3861779e89ce5fa3456e8c0363973b883f149ea",
+    "options_rules.dp": "e1226bc9235ff3c93d3e41bbf57ceb18885a91a2cc0b686d0af7c0e492a94f46",
+    "options_rules.spans.json": "3e3eb9b08d39dd63b02beaeb9a5020fdc48745912fa638e6b681224dd28ef5e0",
+    "options_rules_fail.dp": "b90c867596228eb077b4892b91a806689985ca0e7fa6c97f9442f5964fe4d3dc"
+  }
+}

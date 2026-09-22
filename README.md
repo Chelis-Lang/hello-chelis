@@ -140,8 +140,8 @@ inventory of gaps with verbatim compiler error messages in
 The runnable in-repo corpus is pinned to **chelis `0.18.11`** with
 **`chelis-std` 0.4.0**, **coral 0.7.43**, **nautilus 0.7.46**,
 **octant 0.13.1**, and **school 0.1.14**. The committed c-earchin
-requirements-bridge fixtures are proven against the **c-earchin 0.3.2**
-release in the Python harness. The `compiler = "=0.18.11"` pin in
+requirements-bridge fixtures are byte-locked to and proven from the
+**c-earchin 0.3.5** release in the Python harness. The `compiler = "=0.18.11"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
 between minor versions.
 
@@ -159,7 +159,7 @@ import the corresponding `School.Nn.*` / `School.Loss.*` modules.
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject, error kind) | 3 |
 | `chelis test tests_neg --expect neg` (must-reject, diagnostic text) | 3 |
-| `pytest tests/test_c_earchin_artifacts.py` (EARS proof bridge) | 2 |
+| `pytest tests/test_c_earchin_artifacts.py` (release provenance + EARS proof bridge) | 3 |
 | `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 

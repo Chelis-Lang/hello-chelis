@@ -19,7 +19,7 @@ reach:
 | [`test_surf_deep_equivalence.py`](test_surf_deep_equivalence.py) | drift | every committed `.dp` is byte-identical to `chelis deep <ch>` |
 | [`test_negative_examples.py`](test_negative_examples.py) | reject | every `../tests_neg/check/*.ch` is rejected by `chelis check` with the kind declared in its `-- chelis-expect-fail: <kind>` header, and with the diagnostic substring pinned on line 1 of its `.expect` sidecar |
 | [`test_octant_pairs.py`](test_octant_pairs.py) | round-trip | every `octant/*.tex` re-translates to the committed `.dp`/`.spans.json`/`.ch` byte-equally |
-| [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | requirements proof | c-earchin finance-options property witnesses prove, and the failing witness maps to its EARS line |
+| [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | release provenance + requirements proof | c-earchin v0.3.5 finance-options bytes stay pinned, property witnesses prove, and the failing witness maps to its EARS line |
 | [`test_c_backend.py`](test_c_backend.py) | C backend | every `verify/*.ch` file builds, links, runs, and matches its golden output |
 
 Run them all:
