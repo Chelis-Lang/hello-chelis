@@ -3,6 +3,7 @@
   (export {} add_vec)
   (defsig {}
     add_vec
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -10,10 +11,8 @@
   (def {}
     add_vec
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (y {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:121..130"}
-        (var {span: "surf:121..124"} add)
-        (var {span: "surf:125..126"} x)
-        (var {span: "surf:128..129"} y)))))
+      (params {} (x {type: (t-var {} _)}) (y {type: (t-var {} _)}))
+      (app {span: "surf:124..133"}
+        (var {span: "surf:124..127"} add)
+        (var {span: "surf:128..129"} x)
+        (var {span: "surf:131..132"} y)))))

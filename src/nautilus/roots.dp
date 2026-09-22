@@ -6,7 +6,7 @@
   (def {}
     quad_minus_2
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:160..190"}
         (var {span: "surf:160..163"} sub)
         (app {span: "surf:164..173"}
@@ -20,7 +20,7 @@
   (def {}
     dquad_minus_2
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:226..248"}
         (var {span: "surf:226..229"} mul)
         (cast {span: "surf:230..244"}
@@ -32,7 +32,7 @@
     sqrt2_bisect
     (fn {}
       (params {})
-      (app {span: "surf:277..367"}
+      (app {span: "surf:277..365"}
         (var {span: "surf:277..286"} bisection)
         (var {span: "surf:287..299"} quad_minus_2)
         (cast {span: "surf:301..315"}
@@ -44,44 +44,44 @@
         (cast {span: "surf:333..348"}
           (lit {span: "surf:338..342", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00000001)
           (t-prim {} f32))
-        (cast {span: "surf:350..366"}
-          (lit {span: "surf:355..358", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 100)
-          (t-prim {} int64)))))
+        (cast {span: "surf:350..364"}
+          (lit {span: "surf:355..358", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64)))))
   (defsig {} sqrt2_brent (t-fn {} (t-prim {} f32)))
   (def {}
     sqrt2_brent
     (fn {}
       (params {})
-      (app {span: "surf:395..482"}
-        (var {span: "surf:395..400"} brent)
-        (var {span: "surf:401..413"} quad_minus_2)
-        (cast {span: "surf:415..429"}
-          (lit {span: "surf:420..423", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+      (app {span: "surf:393..478"}
+        (var {span: "surf:393..398"} brent)
+        (var {span: "surf:399..411"} quad_minus_2)
+        (cast {span: "surf:413..427"}
+          (lit {span: "surf:418..421", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:431..445"}
-          (lit {span: "surf:436..439", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+        (cast {span: "surf:429..443"}
+          (lit {span: "surf:434..437", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
           (t-prim {} f32))
-        (cast {span: "surf:447..463"}
-          (lit {span: "surf:452..457", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
+        (cast {span: "surf:445..461"}
+          (lit {span: "surf:450..455", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
           (t-prim {} f32))
-        (cast {span: "surf:465..481"}
-          (lit {span: "surf:470..473", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 100)
-          (t-prim {} int64)))))
+        (cast {span: "surf:463..477"}
+          (lit {span: "surf:468..471", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64)))))
   (defsig {} sqrt2_newton (t-fn {} (t-prim {} f32)))
   (def {}
     sqrt2_newton
     (fn {}
       (params {})
-      (app {span: "surf:511..597"}
-        (var {span: "surf:511..517"} newton)
-        (var {span: "surf:518..530"} quad_minus_2)
-        (var {span: "surf:532..545"} dquad_minus_2)
-        (cast {span: "surf:547..561"}
-          (lit {span: "surf:552..555", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
+      (app {span: "surf:507..591"}
+        (var {span: "surf:507..513"} newton)
+        (var {span: "surf:514..526"} quad_minus_2)
+        (var {span: "surf:528..541"} dquad_minus_2)
+        (cast {span: "surf:543..557"}
+          (lit {span: "surf:548..551", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
           (t-prim {} f32))
-        (cast {span: "surf:563..579"}
-          (lit {span: "surf:568..573", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
+        (cast {span: "surf:559..575"}
+          (lit {span: "surf:564..569", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
           (t-prim {} f32))
-        (cast {span: "surf:581..596"}
-          (lit {span: "surf:586..588", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 50)
-          (t-prim {} int64))))))
+        (cast {span: "surf:577..590"}
+          (lit {span: "surf:582..584", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 50)
+          (t-prim {} i64))))))

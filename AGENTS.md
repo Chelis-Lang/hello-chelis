@@ -14,7 +14,7 @@ that consumes `chelis-std`, `coral`, `nautilus`, `school`, `octant`, and
 shows up. It is also the **Docker shell** — its CI ships and tests inside an
 image built from the published release tarball rather than a host toolchain.
 
-<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.18.5 (sha256:758a5eb9aefb5c7e) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.18.11 (sha256:758a5eb9aefb5c7e) -->
 This repository is a downstream **shell** of the Chelis compiler. Its upstream
 of truth is `Chelis-Lang/chelis`: the monorepo `AGENTS.md` applies verbatim
 (machine-local environment sections excepted), and

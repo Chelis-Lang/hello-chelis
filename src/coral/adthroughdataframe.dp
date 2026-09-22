@@ -6,58 +6,61 @@
   (export {} frame_shape_check simple_loss dsimple_loss_dw)
   (defsig {}
     frame_shape_check
-    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} int64)))
+    (n)
+    (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} i64)))
   (def {}
     frame_shape_check
     (fn {}
-      (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (let {span: "surf:211..266"}
+      (params {} (w {type: (t-var {} _)}))
+      (let {span: "surf:212..267"}
         (bind {}
           df
-          (app {span: "surf:220..252"}
-            (var {span: "surf:220..230"} from_pairs)
-            (app {span: "surf:231..251"}
+          (app {span: "surf:221..253"}
+            (var {span: "surf:221..231"} from_pairs)
+            (app {span: "surf:232..252"}
               (var {} Cons)
-              (tuple {span: "surf:232..250"}
-                (lit {span: "surf:233..236", type: (t-prim {} string)} "w")
-                (app {span: "surf:238..249"}
-                  (var {span: "surf:238..246"} FloatCol)
-                  (var {span: "surf:247..248"} w)))
+              (tuple {span: "surf:233..251"}
+                (lit {span: "surf:234..237", type: (t-prim {} string)} "w")
+                (app {span: "surf:239..250"}
+                  (var {span: "surf:239..247"} FloatCol)
+                  (var {span: "surf:248..249"} w)))
               (var {} Nil))))
-        (app {span: "surf:255..264"}
-          (var {span: "surf:255..260"} nrows)
-          (var {span: "surf:261..263"} df)))))
+        (app {span: "surf:256..265"}
+          (var {span: "surf:256..261"} nrows)
+          (var {span: "surf:262..264"} df)))))
   (defsig {}
     simple_loss
+    (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (t-prim {} f32))))
   (def {}
     simple_loss
     (fn {}
-      (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (let {span: "surf:319..356"}
+      (params {} (w {type: (t-var {} _)}))
+      (let {span: "surf:323..360"}
         (bind {}
           prod
-          (app {span: "surf:330..339"}
-            (var {span: "surf:330..333"} mul)
-            (var {span: "surf:334..335"} w)
-            (var {span: "surf:337..338"} w)))
-        (app {span: "surf:342..354"}
-          (var {span: "surf:342..345"} sum)
-          (var {span: "surf:346..350"} prod)
-          (lit {span: "surf:352..353", type: (t-prim {} int32)} 0)))))
+          (app {span: "surf:334..343"}
+            (var {span: "surf:334..337"} mul)
+            (var {span: "surf:338..339"} w)
+            (var {span: "surf:341..342"} w)))
+        (app {span: "surf:346..358"}
+          (var {span: "surf:346..349"} sum)
+          (var {span: "surf:350..354"} prod)
+          (lit {span: "surf:356..357", type: (t-prim {} i32)} 0)))))
   (defsig {}
     dsimple_loss_dw
+    (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     dsimple_loss_dw
     (fn {}
-      (params {} (w {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {span: "surf:416..443"}
-        (grad {span: "surf:416..440", wrt: (var {} w)}
-          (var {span: "surf:421..432"} simple_loss)
-          (lit {type: (t-prim {} int32)} 0))
-        (var {span: "surf:441..442"} w)))))
+      (params {} (w {type: (t-var {} _)}))
+      (app {span: "surf:423..450"}
+        (grad {span: "surf:423..447", wrt: (var {} w)}
+          (var {span: "surf:428..439"} simple_loss)
+          (lit {type: (t-prim {} i32)} 0))
+        (var {span: "surf:448..449"} w)))))

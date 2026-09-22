@@ -7,7 +7,7 @@
     coral.join
     (inner_join left_join outer_join))
   (export {} left_frame right_frame inner left outer)
-  (defsig {} left_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (defsig {} left_frame (t-fn {} (t-adt {} Frame (d-lit {} 3))))
   (def {}
     left_frame
     (fn {}
@@ -55,7 +55,7 @@
                           (t-prim {} f32))
                         (var {} Nil)))))))
             (var {} Nil))))))
-  (defsig {} right_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (defsig {} right_frame (t-fn {} (t-adt {} Frame (d-lit {} 3))))
   (def {}
     right_frame
     (fn {}
@@ -103,7 +103,7 @@
                           (t-prim {} f32))
                         (var {} Nil)))))))
             (var {} Nil))))))
-  (defsig {} inner (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (defsig {} inner (t-fn {} (t-adt {} Frame (d-lit {} 2))))
   (def {}
     inner
     (fn {}
@@ -113,7 +113,7 @@
         (app {span: "surf:582..594"} (var {span: "surf:582..592"} left_frame))
         (app {span: "surf:596..609"} (var {span: "surf:596..607"} right_frame))
         (lit {span: "surf:611..621", type: (t-prim {} string)} "customer"))))
-  (defsig {} left (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (defsig {} left (t-fn {} (t-adt {} Frame (d-lit {} 3))))
   (def {}
     left
     (fn {}
@@ -123,7 +123,7 @@
         (app {span: "surf:658..670"} (var {span: "surf:658..668"} left_frame))
         (app {span: "surf:672..685"} (var {span: "surf:672..683"} right_frame))
         (lit {span: "surf:687..697", type: (t-prim {} string)} "customer"))))
-  (defsig {} outer (t-fn {} (t-adt {} Frame (t-var {} 4))))
+  (defsig {} outer (t-fn {} (t-adt {} Frame (d-lit {} 4))))
   (def {}
     outer
     (fn {}

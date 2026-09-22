@@ -1,6 +1,6 @@
 # Chelis Capability Surface (this shell)
 
-<!-- BEGIN CHELIS MANAGED BLOCK: chelis-surface-header chelis@0.18.5 (sha256:28011bed9ccb5778) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: chelis-surface-header chelis@0.18.11 (sha256:28011bed9ccb5778) -->
 This file is a domain-scoped view of the canonical Chelis capability surface,
 generated for the pinned toolchain. Each capability row is marked `@pin` (usable
 at the current pin) or `@upstream` (lands at the next bump). **Read it before
@@ -11,6 +11,10 @@ in `Chelis-Lang/chelis`.
 <!-- END CHELIS MANAGED BLOCK: chelis-surface-header -->
 
 ## How this shell's view is scoped
+
+The working 0.1.11 candidate targets Chelis 0.18.11. Existing `@pin` rows are
+historical evidence pending validation of the new dependency cascade; see
+[`chelis-0.18.11-migration.md`](chelis-0.18.11-migration.md).
 
 hello-chelis has no single library domain — it is the teaching corpus, so its
 "domain" is *whatever a reader is shown*. The rows below therefore track the

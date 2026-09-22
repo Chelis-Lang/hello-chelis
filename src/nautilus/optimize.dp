@@ -11,7 +11,7 @@
   (def {}
     parabola
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (let {span: "surf:222..287"}
         (bind {}
           d
@@ -34,7 +34,7 @@
   (def {}
     dparabola
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:319..362"}
         (var {span: "surf:319..322"} mul)
         (cast {span: "surf:323..337"}
@@ -50,7 +50,7 @@
   (def {}
     ddparabola
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (cast {span: "surf:395..409"}
         (lit {span: "surf:400..403", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
         (t-prim {} f32))))
@@ -59,7 +59,7 @@
     parabola_minimum_gss
     (fn {}
       (params {})
-      (app {span: "surf:446..545"}
+      (app {span: "surf:446..543"}
         (var {span: "surf:446..467"} golden_section_search)
         (var {span: "surf:468..476"} parabola)
         (cast {span: "surf:478..492"}
@@ -71,45 +71,45 @@
         (cast {span: "surf:511..526"}
           (lit {span: "surf:516..520", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00000001)
           (t-prim {} f32))
-        (cast {span: "surf:528..544"}
-          (lit {span: "surf:533..536", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 200)
-          (t-prim {} int64)))))
+        (cast {span: "surf:528..542"}
+          (lit {span: "surf:533..536", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 200)
+          (t-prim {} i64)))))
   (defsig {} parabola_minimum_brent (t-fn {} (t-prim {} f32)))
   (def {}
     parabola_minimum_brent
     (fn {}
       (params {})
-      (app {span: "surf:584..676"}
-        (var {span: "surf:584..598"} brent_minimize)
-        (var {span: "surf:599..607"} parabola)
-        (cast {span: "surf:609..623"}
-          (lit {span: "surf:614..617", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:582..672"}
+        (var {span: "surf:582..596"} brent_minimize)
+        (var {span: "surf:597..605"} parabola)
+        (cast {span: "surf:607..621"}
+          (lit {span: "surf:612..615", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:625..640"}
-          (lit {span: "surf:630..634", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
+        (cast {span: "surf:623..638"}
+          (lit {span: "surf:628..632", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
           (t-prim {} f32))
-        (cast {span: "surf:642..657"}
-          (lit {span: "surf:647..651", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00000001)
+        (cast {span: "surf:640..655"}
+          (lit {span: "surf:645..649", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00000001)
           (t-prim {} f32))
-        (cast {span: "surf:659..675"}
-          (lit {span: "surf:664..667", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 200)
-          (t-prim {} int64)))))
+        (cast {span: "surf:657..671"}
+          (lit {span: "surf:662..665", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 200)
+          (t-prim {} i64)))))
   (defsig {} parabola_minimum_newton (t-fn {} (t-prim {} f32)))
   (def {}
     parabola_minimum_newton
     (fn {}
       (params {})
-      (app {span: "surf:716..818"}
-        (var {span: "surf:716..734"} newton_minimize_1d)
-        (var {span: "surf:735..743"} parabola)
-        (var {span: "surf:745..754"} dparabola)
-        (var {span: "surf:756..766"} ddparabola)
-        (cast {span: "surf:768..782"}
-          (lit {span: "surf:773..776", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:712..812"}
+        (var {span: "surf:712..730"} newton_minimize_1d)
+        (var {span: "surf:731..739"} parabola)
+        (var {span: "surf:741..750"} dparabola)
+        (var {span: "surf:752..762"} ddparabola)
+        (cast {span: "surf:764..778"}
+          (lit {span: "surf:769..772", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:784..800"}
-          (lit {span: "surf:789..794", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
+        (cast {span: "surf:780..796"}
+          (lit {span: "surf:785..790", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
           (t-prim {} f32))
-        (cast {span: "surf:802..817"}
-          (lit {span: "surf:807..809", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 50)
-          (t-prim {} int64))))))
+        (cast {span: "surf:798..811"}
+          (lit {span: "surf:803..805", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 50)
+          (t-prim {} i64))))))

@@ -7,6 +7,13 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Prepare the existing 0.1.11 candidate for Chelis 0.18.11 across the Reef,
+  Docker, CI and Compose pin surfaces. Migrate maintained Surf and Deep pairs,
+  explicitly declare dimension binders, and rename the linearity example's
+  `residual` export to `double_shared` to avoid the standard prelude macro.
+  The dependency cascade and generated Octant triples still require validation;
+  see `docs/chelis-0.18.11-migration.md`.
+
 Two cascades land in this window. 0.1.11 was never tagged, so both are
 described here as one net change from 0.1.10.
 

@@ -10,58 +10,58 @@
     test_pivot_shape
     (fn {}
       (params {})
-      (let {span: "surf:188..356"}
+      (let {span: "surf:188..352"}
         (bind {}
           p
           (app {span: "surf:196..205"} (var {span: "surf:196..203"} pivoted)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp0
-            (app {span: "surf:212..279"}
+            (app {span: "surf:212..277"}
               (var {span: "surf:212..225"} assert_eq_int)
               (app {span: "surf:226..234"}
                 (var {span: "surf:226..231"} nrows)
                 (var {span: "surf:232..233"} p))
-              (cast {span: "surf:236..250"}
-                (lit {span: "surf:241..242", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
-                (t-prim {} int64))
-              (lit {span: "surf:252..278", type: (t-prim {} string)} "pivot: 2 distinct cities")))
-          (app {span: "surf:282..354"}
-            (var {span: "surf:282..295"} assert_eq_int)
-            (app {span: "surf:296..304"}
-              (var {span: "surf:296..301"} ncols)
-              (var {span: "surf:302..303"} p))
-            (cast {span: "surf:306..320"}
-              (lit {span: "surf:311..312", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-              (t-prim {} int64))
-            (lit {span: "surf:322..353", type: (t-prim {} string)} "pivot: city + x + y == 3 cols"))))))
+              (cast {span: "surf:236..248"}
+                (lit {span: "surf:241..242", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+                (t-prim {} i64))
+              (lit {span: "surf:250..276", type: (t-prim {} string)} "pivot: 2 distinct cities")))
+          (app {span: "surf:280..350"}
+            (var {span: "surf:280..293"} assert_eq_int)
+            (app {span: "surf:294..302"}
+              (var {span: "surf:294..299"} ncols)
+              (var {span: "surf:300..301"} p))
+            (cast {span: "surf:304..316"}
+              (lit {span: "surf:309..310", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (t-prim {} i64))
+            (lit {span: "surf:318..349", type: (t-prim {} string)} "pivot: city + x + y == 3 cols"))))))
   (defsig {} test_melt_shape (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_melt_shape
     (fn {}
       (params {})
-      (let {span: "surf:400..585"}
+      (let {span: "surf:396..577"}
         (bind {}
           m
-          (app {span: "surf:408..416"} (var {span: "surf:408..414"} melted)))
+          (app {span: "surf:404..412"} (var {span: "surf:404..410"} melted)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp1
-            (app {span: "surf:423..498"}
-              (var {span: "surf:423..436"} assert_eq_int)
-              (app {span: "surf:437..445"}
-                (var {span: "surf:437..442"} nrows)
-                (var {span: "surf:443..444"} m))
-              (cast {span: "surf:447..461"}
-                (lit {span: "surf:452..453", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 6)
-                (t-prim {} int64))
-              (lit {span: "surf:463..497", type: (t-prim {} string)} "melt: 3 rows * 2 value cols == 6")))
-          (app {span: "surf:501..583"}
-            (var {span: "surf:501..514"} assert_eq_int)
-            (app {span: "surf:515..523"}
-              (var {span: "surf:515..520"} ncols)
-              (var {span: "surf:521..522"} m))
-            (cast {span: "surf:525..539"}
-              (lit {span: "surf:530..531", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-              (t-prim {} int64))
-            (lit {span: "surf:541..582", type: (t-prim {} string)} "melt: city + variable + value == 3 cols")))))))
+            (app {span: "surf:419..492"}
+              (var {span: "surf:419..432"} assert_eq_int)
+              (app {span: "surf:433..441"}
+                (var {span: "surf:433..438"} nrows)
+                (var {span: "surf:439..440"} m))
+              (cast {span: "surf:443..455"}
+                (lit {span: "surf:448..449", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 6)
+                (t-prim {} i64))
+              (lit {span: "surf:457..491", type: (t-prim {} string)} "melt: 3 rows * 2 value cols == 6")))
+          (app {span: "surf:495..575"}
+            (var {span: "surf:495..508"} assert_eq_int)
+            (app {span: "surf:509..517"}
+              (var {span: "surf:509..514"} ncols)
+              (var {span: "surf:515..516"} m))
+            (cast {span: "surf:519..531"}
+              (lit {span: "surf:524..525", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (t-prim {} i64))
+            (lit {span: "surf:533..574", type: (t-prim {} string)} "melt: city + variable + value == 3 cols")))))))

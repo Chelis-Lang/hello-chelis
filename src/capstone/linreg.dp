@@ -12,9 +12,9 @@
     predict
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
-        (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
-        (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
+        (x {type: (t-var {} _)})
+        (w {type: (t-var {} _)})
+        (b {type: (t-var {} _)}))
       (pipe {span: "surf:168..210"}
         (var {span: "surf:168..169"} x)
         (fn {span: "surf:173..182", surf_pipe_stage: "call-first"}
@@ -31,8 +31,8 @@
             (app {span: "surf:190..209"}
               (var {span: "surf:190..196"} expand)
               (var {span: "surf:197..198"} b)
-              (lit {span: "surf:200..201", type: (t-prim {} int32)} 0)
-              (lit {span: "surf:203..208", type: (t-prim {} int64)} 64)))))))
+              (lit {span: "surf:200..201", type: (t-prim {} i32)} 0)
+              (lit {span: "surf:203..208", type: (t-prim {} i64)} 64)))))))
   (defsig {}
     mse_loss
     (t-fn {}
@@ -45,10 +45,10 @@
     mse_loss
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
-        (y {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
-        (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
-        (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))}))
+        (x {type: (t-var {} _)})
+        (y {type: (t-var {} _)})
+        (w {type: (t-var {} _)})
+        (b {type: (t-var {} _)}))
       (let {span: "surf:330..434"}
         (bind {}
           pred
@@ -76,8 +76,8 @@
                   (var {span: "surf:406..409"} mul)
                   (var {span: "surf:410..413"} err)
                   (var {span: "surf:415..423"} err_copy))
-                (lit {span: "surf:426..427", type: (t-prim {} int32)} 1))
-              (lit {span: "surf:430..431", type: (t-prim {} int32)} 0)))))))
+                (lit {span: "surf:426..427", type: (t-prim {} i32)} 1))
+              (lit {span: "surf:430..431", type: (t-prim {} i32)} 0)))))))
   (defsig {}
     sgd_step
     (t-fn {}
@@ -93,18 +93,18 @@
     sgd_step
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))})
-        (y {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
-        (w {type: (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))})
-        (b {type: (t-tensor {} (d-lit {} 1) (t-prim {} f32))})
-        (lr {type: (t-prim {} f32)}))
+        (x {type: (t-var {} _)})
+        (y {type: (t-var {} _)})
+        (w {type: (t-var {} _)})
+        (b {type: (t-var {} _)})
+        (lr {type: (t-var {} _)}))
       (let {span: "surf:588..814"}
         (bind {}
           dw
           (app {span: "surf:597..630"}
             (grad {span: "surf:597..618", wrt: (var {} w)}
               (var {span: "surf:602..610"} mse_loss)
-              (lit {type: (t-prim {} int32)} 2))
+              (lit {type: (t-prim {} i32)} 2))
             (var {span: "surf:619..620"} x)
             (var {span: "surf:622..623"} y)
             (var {span: "surf:625..626"} w)
@@ -115,7 +115,7 @@
             (app {span: "surf:638..671"}
               (grad {span: "surf:638..659", wrt: (var {} b)}
                 (var {span: "surf:643..651"} mse_loss)
-                (lit {type: (t-prim {} int32)} 3))
+                (lit {type: (t-prim {} i32)} 3))
               (var {span: "surf:660..661"} x)
               (var {span: "surf:663..664"} y)
               (var {span: "surf:666..667"} w)
@@ -142,10 +142,10 @@
                       (app {span: "surf:725..747"}
                         (var {span: "surf:725..731"} expand)
                         (var {span: "surf:732..736"} lr_t)
-                        (lit {span: "surf:738..739", type: (t-prim {} int32)} 0)
-                        (lit {span: "surf:741..746", type: (t-prim {} int64)} 64))
-                      (lit {span: "surf:749..750", type: (t-prim {} int32)} 1)
-                      (lit {span: "surf:752..756", type: (t-prim {} int64)} 1))
+                        (lit {span: "surf:738..739", type: (t-prim {} i32)} 0)
+                        (lit {span: "surf:741..746", type: (t-prim {} i64)} 64))
+                      (lit {span: "surf:749..750", type: (t-prim {} i32)} 1)
+                      (lit {span: "surf:752..756", type: (t-prim {} i64)} 1))
                     (var {span: "surf:759..761"} dw))))
               (let {}
                 (bind {}

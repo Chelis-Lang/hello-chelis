@@ -8,7 +8,7 @@
   (def {}
     sin_fn
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:197..203"}
         (var {span: "surf:197..200"} sin)
         (var {span: "surf:201..202"} x))))
@@ -25,43 +25,43 @@
     sin_integral_trap
     (fn {}
       (params {})
-      (app {span: "surf:278..339"}
+      (app {span: "surf:278..337"}
         (var {span: "surf:278..289"} trapezoidal)
         (var {span: "surf:290..296"} sin_fn)
         (cast {span: "surf:298..312"}
           (lit {span: "surf:303..306", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
         (app {span: "surf:314..320"} (var {span: "surf:314..318"} pi_f))
-        (cast {span: "surf:322..338"}
-          (lit {span: "surf:327..330", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 100)
-          (t-prim {} int64)))))
+        (cast {span: "surf:322..336"}
+          (lit {span: "surf:327..330", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64)))))
   (defsig {} sin_integral_simpson (t-fn {} (t-prim {} f32)))
   (def {}
     sin_integral_simpson
     (fn {}
       (params {})
-      (app {span: "surf:376..434"}
-        (var {span: "surf:376..384"} simpsons)
-        (var {span: "surf:385..391"} sin_fn)
-        (cast {span: "surf:393..407"}
-          (lit {span: "surf:398..401", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:374..430"}
+        (var {span: "surf:374..382"} simpsons)
+        (var {span: "surf:383..389"} sin_fn)
+        (cast {span: "surf:391..405"}
+          (lit {span: "surf:396..399", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (app {span: "surf:409..415"} (var {span: "surf:409..413"} pi_f))
-        (cast {span: "surf:417..433"}
-          (lit {span: "surf:422..425", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 100)
-          (t-prim {} int64)))))
+        (app {span: "surf:407..413"} (var {span: "surf:407..411"} pi_f))
+        (cast {span: "surf:415..429"}
+          (lit {span: "surf:420..423", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64)))))
   (defsig {} sin_integral_gl5 (t-fn {} (t-prim {} f32)))
   (def {}
     sin_integral_gl5
     (fn {}
       (params {})
-      (app {span: "surf:467..531"}
-        (var {span: "surf:467..483"} gauss_legendre_5)
-        (var {span: "surf:484..490"} sin_fn)
-        (cast {span: "surf:492..506"}
-          (lit {span: "surf:497..500", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:463..525"}
+        (var {span: "surf:463..479"} gauss_legendre_5)
+        (var {span: "surf:480..486"} sin_fn)
+        (cast {span: "surf:488..502"}
+          (lit {span: "surf:493..496", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (app {span: "surf:508..514"} (var {span: "surf:508..512"} pi_f))
-        (cast {span: "surf:516..530"}
-          (lit {span: "surf:521..522", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 5)
-          (t-prim {} int64))))))
+        (app {span: "surf:504..510"} (var {span: "surf:504..508"} pi_f))
+        (cast {span: "surf:512..524"}
+          (lit {span: "surf:517..518", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 5)
+          (t-prim {} i64))))))

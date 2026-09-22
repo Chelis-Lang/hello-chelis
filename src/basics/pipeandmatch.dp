@@ -4,6 +4,7 @@
   (deftype {} Activation () (variant {} Relu) (variant {} Sigmoid))
   (defsig {}
     activate
+    (n)
     (t-fn {}
       (t-adt {} Activation)
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -11,34 +12,32 @@
   (def {}
     activate
     (fn {}
-      (params {}
-        (act {type: (t-adt {} Activation)})
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (match {span: "surf:184..254"}
-        (var {span: "surf:190..193"} act)
+      (params {} (act {type: (t-var {} _)}) (x {type: (t-var {} _)}))
+      (match {span: "surf:187..257"}
+        (var {span: "surf:193..196"} act)
         (arm {}
           (pat-ctor {} Relu)
           ()
-          (app {span: "surf:215..222"}
-            (var {span: "surf:215..219"} relu)
-            (var {span: "surf:220..221"} x)))
+          (app {span: "surf:218..225"}
+            (var {span: "surf:218..222"} relu)
+            (var {span: "surf:223..224"} x)))
         (arm {}
           (pat-ctor {} Sigmoid)
           ()
-          (app {span: "surf:240..250"}
-            (var {span: "surf:240..247"} sigmoid)
-            (var {span: "surf:248..249"} x))))))
+          (app {span: "surf:243..253"}
+            (var {span: "surf:243..250"} sigmoid)
+            (var {span: "surf:251..252"} x))))))
   (defsig {}
     pipeline
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     pipeline
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (pipe {span: "surf:308..328"}
-        (var {span: "surf:308..309"} x)
-        (var {span: "surf:313..317"} relu)
-        (var {span: "surf:321..328"} sigmoid)))))
+      (params {} (x {type: (t-var {} _)}))
+      (pipe {span: "surf:314..334"}
+        (var {span: "surf:314..315"} x)
+        (var {span: "surf:319..323"} relu)
+        (var {span: "surf:327..334"} sigmoid)))))

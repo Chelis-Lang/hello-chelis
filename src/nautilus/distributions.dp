@@ -12,7 +12,7 @@
   (def {}
     std_normal_pdf
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:240..285"}
         (var {span: "surf:240..250"} normal_pdf)
         (var {span: "surf:251..252"} x)
@@ -26,7 +26,7 @@
   (def {}
     std_normal_cdf
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:322..367"}
         (var {span: "surf:322..332"} normal_cdf)
         (var {span: "surf:333..334"} x)
@@ -40,7 +40,7 @@
   (def {}
     std_normal_quantile
     (fn {}
-      (params {} (p {type: (t-prim {} f32)}))
+      (params {} (p {type: (t-var {} _)}))
       (app {span: "surf:409..458"}
         (var {span: "surf:409..423"} normal_inv_cdf)
         (var {span: "surf:424..425"} p)

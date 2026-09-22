@@ -11,9 +11,7 @@
   (def {}
     write_then_read
     (fn {}
-      (params {}
-        (path {type: (t-prim {} string)})
-        (contents {type: (t-prim {} string)}))
+      (params {} (path {type: (t-var {} _)}) (contents {type: (t-var {} _)}))
       (let {span: "surf:201..255"}
         (bind {destructure: true}
           __chelis_tmp0
@@ -33,9 +31,7 @@
   (def {}
     file_or_default
     (fn {}
-      (params {}
-        (path {type: (t-prim {} string)})
-        (fallback {type: (t-prim {} string)}))
+      (params {} (path {type: (t-var {} _)}) (fallback {type: (t-var {} _)}))
       (if {span: "surf:329..379"}
         (app {span: "surf:332..344"}
           (var {span: "surf:332..338"} exists)
@@ -53,9 +49,7 @@
   (def {}
     save_message
     (fn {}
-      (params {}
-        (path {type: (t-prim {} string)})
-        (message {type: (t-prim {} string)}))
+      (params {} (path {type: (t-var {} _)}) (message {type: (t-var {} _)}))
       (let {span: "surf:449..530"}
         (bind {}
           banner

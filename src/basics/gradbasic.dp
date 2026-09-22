@@ -10,9 +10,7 @@
   (def {}
     loss
     (fn {}
-      (params {}
-        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+      (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
       (let {span: "surf:128..243"}
         (bind {}
           err
@@ -47,7 +45,7 @@
           (app {span: "surf:229..241"}
             (var {span: "surf:229..232"} sum)
             (var {span: "surf:233..237"} prod)
-            (lit {span: "surf:239..240", type: (t-prim {} int32)} 0))))))
+            (lit {span: "surf:239..240", type: (t-prim {} i32)} 0))))))
   (defsig {}
     dloss_dw
     (t-fn {}
@@ -57,13 +55,11 @@
   (def {}
     dloss_dw
     (fn {}
-      (params {}
-        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+      (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
       (app {span: "surf:315..338"}
         (grad {span: "surf:315..332", wrt: (var {} w)}
           (var {span: "surf:320..324"} loss)
-          (lit {type: (t-prim {} int32)} 0))
+          (lit {type: (t-prim {} i32)} 0))
         (var {span: "surf:333..334"} w)
         (var {span: "surf:336..337"} x))))
   (defsig {}
@@ -75,12 +71,10 @@
   (def {}
     dloss_dx
     (fn {}
-      (params {}
-        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+      (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
       (app {span: "surf:410..433"}
         (grad {span: "surf:410..427", wrt: (var {} x)}
           (var {span: "surf:415..419"} loss)
-          (lit {type: (t-prim {} int32)} 1))
+          (lit {type: (t-prim {} i32)} 1))
         (var {span: "surf:428..429"} w)
         (var {span: "surf:431..432"} x)))))

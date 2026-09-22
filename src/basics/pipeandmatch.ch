@@ -3,9 +3,9 @@ export (Activation, activate, pipeline)
 type Activation =
   | Relu
   | Sigmoid
-def activate(act: Activation, x: &tensor[n, f32]) -> tensor[n, f32] =
+def activate[n](act: Activation, x: &tensor[n, f32]) -> tensor[n, f32] =
   match act with {
     | Relu => relu(x)
     | Sigmoid => sigmoid(x)
   }
-def pipeline(x: &tensor[n, f32]) -> tensor[n, f32] = x |> relu |> sigmoid
+def pipeline[n](x: &tensor[n, f32]) -> tensor[n, f32] = x |> relu |> sigmoid

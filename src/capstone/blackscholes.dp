@@ -17,11 +17,11 @@
     d1
     (fn {}
       (params {}
-        (s {type: (t-prim {} f32)})
-        (k {type: (t-prim {} f32)})
-        (r {type: (t-prim {} f32)})
-        (sigma {type: (t-prim {} f32)})
-        (t {type: (t-prim {} f32)}))
+        (s {type: (t-var {} _)})
+        (k {type: (t-var {} _)})
+        (r {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (t {type: (t-var {} _)}))
       (let {span: "surf:171..302"}
         (bind {}
           num
@@ -74,11 +74,11 @@
     d2
     (fn {}
       (params {}
-        (s {type: (t-prim {} f32)})
-        (k {type: (t-prim {} f32)})
-        (r {type: (t-prim {} f32)})
-        (sigma {type: (t-prim {} f32)})
-        (t {type: (t-prim {} f32)}))
+        (s {type: (t-var {} _)})
+        (k {type: (t-var {} _)})
+        (r {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (t {type: (t-var {} _)}))
       (app {span: "surf:363..410"}
         (var {span: "surf:363..366"} sub)
         (app {span: "surf:367..388"}
@@ -107,11 +107,11 @@
     call_price
     (fn {}
       (params {}
-        (s {type: (t-prim {} f32)})
-        (k {type: (t-prim {} f32)})
-        (r {type: (t-prim {} f32)})
-        (sigma {type: (t-prim {} f32)})
-        (t {type: (t-prim {} f32)}))
+        (s {type: (t-var {} _)})
+        (k {type: (t-var {} _)})
+        (r {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (t {type: (t-var {} _)}))
       (let {span: "surf:479..710"}
         (bind {}
           d_1
@@ -185,15 +185,15 @@
     delta
     (fn {}
       (params {}
-        (s {type: (t-prim {} f32)})
-        (k {type: (t-prim {} f32)})
-        (r {type: (t-prim {} f32)})
-        (sigma {type: (t-prim {} f32)})
-        (t {type: (t-prim {} f32)}))
+        (s {type: (t-var {} _)})
+        (k {type: (t-var {} _)})
+        (r {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (t {type: (t-var {} _)}))
       (app {span: "surf:774..816"}
         (grad {span: "surf:774..797", wrt: (var {} s)}
           (var {span: "surf:779..789"} call_price)
-          (lit {type: (t-prim {} int32)} 0))
+          (lit {type: (t-prim {} i32)} 0))
         (var {span: "surf:798..799"} s)
         (var {span: "surf:801..802"} k)
         (var {span: "surf:804..805"} r)
@@ -212,15 +212,15 @@
     vega
     (fn {}
       (params {}
-        (s {type: (t-prim {} f32)})
-        (k {type: (t-prim {} f32)})
-        (r {type: (t-prim {} f32)})
-        (sigma {type: (t-prim {} f32)})
-        (t {type: (t-prim {} f32)}))
+        (s {type: (t-var {} _)})
+        (k {type: (t-var {} _)})
+        (r {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (t {type: (t-var {} _)}))
       (app {span: "surf:879..925"}
         (grad {span: "surf:879..906", wrt: (var {} sigma)}
           (var {span: "surf:884..894"} call_price)
-          (lit {type: (t-prim {} int32)} 3))
+          (lit {type: (t-prim {} i32)} 3))
         (var {span: "surf:907..908"} s)
         (var {span: "surf:910..911"} k)
         (var {span: "surf:913..914"} r)

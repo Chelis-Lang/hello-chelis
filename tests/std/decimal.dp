@@ -92,7 +92,7 @@
     test_add_cents
     (fn {}
       (params {})
-      (let {span: "surf:823..962"}
+      (let {span: "surf:823..960"}
         (bind {}
           base
           (app {span: "surf:834..850"}
@@ -101,18 +101,18 @@
         (let {}
           (bind {}
             bumped
-            (app {span: "surf:862..893"}
+            (app {span: "surf:862..891"}
               (var {span: "surf:862..871"} add_cents)
               (var {span: "surf:872..876"} base)
-              (cast {span: "surf:878..892"}
-                (lit {span: "surf:883..884", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 7)
-                (t-prim {} int64))))
-          (app {span: "surf:896..960"}
-            (var {span: "surf:896..907"} assert_true)
-            (app {span: "surf:908..944"}
-              (var {span: "surf:908..918"} decimal_eq)
-              (var {span: "surf:919..925"} bumped)
-              (app {span: "surf:927..943"}
-                (var {span: "surf:927..934"} decimal)
-                (lit {span: "surf:935..942", type: (t-prim {} string)} "10.07")))
-            (lit {span: "surf:946..959", type: (t-prim {} string)} "add 7 cents")))))))
+              (cast {span: "surf:878..890"}
+                (lit {span: "surf:883..884", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 7)
+                (t-prim {} i64))))
+          (app {span: "surf:894..958"}
+            (var {span: "surf:894..905"} assert_true)
+            (app {span: "surf:906..942"}
+              (var {span: "surf:906..916"} decimal_eq)
+              (var {span: "surf:917..923"} bumped)
+              (app {span: "surf:925..941"}
+                (var {span: "surf:925..932"} decimal)
+                (lit {span: "surf:933..940", type: (t-prim {} string)} "10.07")))
+            (lit {span: "surf:944..957", type: (t-prim {} string)} "add 7 cents")))))))

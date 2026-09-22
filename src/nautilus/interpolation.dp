@@ -8,7 +8,7 @@
   (def {}
     linear_at_query
     (fn {}
-      (params {} (x_q {type: (t-prim {} f32)}))
+      (params {} (x_q {type: (t-var {} _)}))
       (let {span: "surf:209..360"}
         (bind {}
           ys
@@ -49,7 +49,7 @@
   (def {}
     hermite_unit_segment
     (fn {}
-      (params {} (x_q {type: (t-prim {} f32)}))
+      (params {} (x_q {type: (t-var {} _)}))
       (app {span: "surf:405..519"}
         (var {span: "surf:405..418"} cubic_hermite)
         (cast {span: "surf:419..433"}

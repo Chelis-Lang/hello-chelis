@@ -14,7 +14,7 @@
   (def {}
     parse_price
     (fn {}
-      (params {} (text {type: (t-prim {} string)}))
+      (params {} (text {type: (t-var {} _)}))
       (app {span: "surf:257..270"}
         (var {span: "surf:257..264"} decimal)
         (var {span: "surf:265..269"} text))))
@@ -24,7 +24,7 @@
   (def {}
     total_cents
     (fn {}
-      (params {} (a {type: (t-adt {} Decimal)}) (b {type: (t-adt {} Decimal)}))
+      (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
       (app {span: "surf:324..341"}
         (var {span: "surf:324..335"} decimal_add)
         (var {span: "surf:336..337"} a)
@@ -36,8 +36,8 @@
     price_with_tax
     (fn {}
       (params {}
-        (base {type: (t-adt {} Decimal)})
-        (tax_multiplier {type: (t-adt {} Decimal)}))
+        (base {type: (t-var {} _)})
+        (tax_multiplier {type: (t-var {} _)}))
       (app {span: "surf:414..447"}
         (var {span: "surf:414..425"} decimal_mul)
         (var {span: "surf:426..430"} base)
@@ -49,8 +49,8 @@
     format_total
     (fn {}
       (params {}
-        (subtotal {type: (t-adt {} Decimal)})
-        (discount {type: (t-adt {} Decimal)}))
+        (subtotal {type: (t-var {} _)})
+        (discount {type: (t-var {} _)}))
       (let {span: "surf:515..583"}
         (bind {}
           net
@@ -63,25 +63,23 @@
           (var {span: "surf:577..580"} net)))))
   (defsig {}
     add_cents
-    (t-fn {} (t-adt {} Decimal) (t-prim {} int64) (t-adt {} Decimal)))
+    (t-fn {} (t-adt {} Decimal) (t-prim {} i64) (t-adt {} Decimal)))
   (def {}
     add_cents
     (fn {}
-      (params {}
-        (price {type: (t-adt {} Decimal)})
-        (cents {type: (t-prim {} int64)}))
-      (let {span: "surf:641..736"}
+      (params {} (price {type: (t-var {} _)}) (cents {type: (t-var {} _)}))
+      (let {span: "surf:639..732"}
         (bind {}
           delta
-          (record {span: "surf:653..706"}
+          (record {span: "surf:651..702"}
             Decimal
-            (kv {} coefficient (var {span: "surf:676..681"} cents))
+            (kv {} coefficient (var {span: "surf:674..679"} cents))
             (kv {}
               scale
-              (cast {span: "surf:690..704"}
-                (lit {span: "surf:695..696", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
-                (t-prim {} int64)))))
-        (app {span: "surf:709..734"}
-          (var {span: "surf:709..720"} decimal_add)
-          (var {span: "surf:721..726"} price)
-          (var {span: "surf:728..733"} delta))))))
+              (cast {span: "surf:688..700"}
+                (lit {span: "surf:693..694", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+                (t-prim {} i64)))))
+        (app {span: "surf:705..730"}
+          (var {span: "surf:705..716"} decimal_add)
+          (var {span: "surf:717..722"} price)
+          (var {span: "surf:724..729"} delta))))))

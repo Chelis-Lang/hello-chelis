@@ -5,7 +5,7 @@
     (Frame Column FloatCol StringCol from_pairs nrows ncols))
   (import {surf_path: "Coral.Io"} coral.io (write_csv_frame read_csv_frame))
   (export {} sample_frame roundtrip_csv)
-  (defsig {} sample_frame (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (defsig {} sample_frame (t-fn {} (t-adt {} Frame (d-lit {} 2))))
   (def {}
     sample_frame
     (fn {}
@@ -49,11 +49,11 @@
     roundtrip_csv
     (t-fn {eff: (effects {} io)}
       (t-prim {} string)
-      (t-adt {} Frame (t-var {} 2))))
+      (t-adt {} Frame (d-lit {} 2))))
   (def {}
     roundtrip_csv
     (fn {}
-      (params {} (path {type: (t-prim {} string)}))
+      (params {} (path {type: (t-var {} _)}))
       (let {span: "surf:403..483"}
         (bind {}
           df

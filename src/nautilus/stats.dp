@@ -12,80 +12,81 @@
     sample_correlation)
   (defsig {}
     sample_mean
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     sample_mean
     (fn {}
-      (params {}
-        (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:276..287"}
-        (var {span: "surf:276..284"} mean_vec)
-        (var {span: "surf:285..286"} v))))
+      (params {} (v {type: (t-var {} _)}))
+      (app {span: "surf:279..290"}
+        (var {span: "surf:279..287"} mean_vec)
+        (var {span: "surf:288..289"} v))))
   (defsig {}
     sample_var
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     sample_var
     (fn {}
-      (params {}
-        (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:332..363"}
-        (var {span: "surf:332..344"} variance_vec)
-        (var {span: "surf:345..346"} v)
-        (cast {span: "surf:348..362"}
-          (lit {span: "surf:353..354", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
-          (t-prim {} int64)))))
+      (params {} (v {type: (t-var {} _)}))
+      (app {span: "surf:338..367"}
+        (var {span: "surf:338..350"} variance_vec)
+        (var {span: "surf:351..352"} v)
+        (cast {span: "surf:354..366"}
+          (lit {span: "surf:359..360", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+          (t-prim {} i64)))))
   (defsig {}
     sample_std
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     sample_std
     (fn {}
-      (params {}
-        (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:408..434"}
-        (var {span: "surf:408..415"} std_vec)
-        (var {span: "surf:416..417"} v)
-        (cast {span: "surf:419..433"}
-          (lit {span: "surf:424..425", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
-          (t-prim {} int64)))))
+      (params {} (v {type: (t-var {} _)}))
+      (app {span: "surf:415..439"}
+        (var {span: "surf:415..422"} std_vec)
+        (var {span: "surf:423..424"} v)
+        (cast {span: "surf:426..438"}
+          (lit {span: "surf:431..432", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+          (t-prim {} i64)))))
   (defsig {}
     sample_median
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     sample_median
     (fn {}
-      (params {}
-        (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:482..495"}
-        (var {span: "surf:482..492"} median_vec)
-        (var {span: "surf:493..494"} v))))
+      (params {} (v {type: (t-var {} _)}))
+      (app {span: "surf:490..503"}
+        (var {span: "surf:490..500"} median_vec)
+        (var {span: "surf:501..502"} v))))
   (defsig {}
     sample_quartile_low
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     sample_quartile_low
     (fn {}
-      (params {}
-        (v {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:549..581"}
-        (var {span: "surf:549..561"} quantile_vec)
-        (var {span: "surf:562..563"} v)
-        (cast {span: "surf:565..580"}
-          (lit {span: "surf:570..574", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.25)
+      (params {} (v {type: (t-var {} _)}))
+      (app {span: "surf:560..592"}
+        (var {span: "surf:560..572"} quantile_vec)
+        (var {span: "surf:573..574"} v)
+        (cast {span: "surf:576..591"}
+          (lit {span: "surf:581..585", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.25)
           (t-prim {} f32)))))
   (defsig {}
     sample_correlation
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -93,10 +94,8 @@
   (def {}
     sample_correlation
     (fn {}
-      (params {}
-        (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:654..678"}
-        (var {span: "surf:654..672"} correlation_scalar)
-        (var {span: "surf:673..674"} a)
-        (var {span: "surf:676..677"} b)))))
+      (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
+      (app {span: "surf:668..692"}
+        (var {span: "surf:668..686"} correlation_scalar)
+        (var {span: "surf:687..688"} a)
+        (var {span: "surf:690..691"} b)))))
