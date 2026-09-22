@@ -1,4 +1,4 @@
-# Compiler vs Interpreter Discrepancies (v0.18.5)
+# Compiler vs Interpreter Discrepancies (v0.18.11)
 
 Catalogued during the porting work. The compiler ships three distinct
 execution paths that don't all share the same primitive set:
@@ -7,7 +7,7 @@ execution paths that don't all share the same primitive set:
   checking. The most permissive: accepts every Surf form the spec
   describes.
 - **IR evaluator (host runtime)** — `chelis eval`, `chelis test`.
-  Interactive in-process execution. Limited primitive set on v0.18.5.
+  Interactive in-process execution. Limited primitive set on v0.18.11.
 - **C backend** — `chelis build --target c`. Production code path.
   Different (and on some primitives complementary) limitations.
 
@@ -25,7 +25,7 @@ message verbatim or a reproducible behavior.
 > Status: rejected by `chelis test`.
 > Workaround: exercise via the C backend (`verify/grad_works.ch`).
 
-### `grad`: C backend rejects the inline application form
+### `grad`: C backend rejects some transformed-callable forms
 > ```
 > error: `chelis build --target c` can't lower these defs — their
 > body applies/binds `grad` (or `vmap`) in a position the host lane
@@ -42,6 +42,12 @@ message verbatim or a reproducible behavior.
 > rejected by `chelis build`. The wrapper-fn-param form
 > (`fn (w_local) -> model(w_local, x)`) lowers cleanly.
 > See `verify/grad_works.ch` for the compiling form.
+
+The direct-expression scalar-gradient reproducer from chelis#405 now builds.
+A narrower residual remains: a scalar-gradient callee with ordinary local
+bindings still produces the same rejection (chelis#2379). That is the form in
+the capstone Black-Scholes `call_price`, so whole-package C builds remain
+blocked while standalone verifier programs build.
 
 ### `grad`: refactoring src/ to the wrapper form breaks `chelis test`
 > ```
@@ -97,20 +103,6 @@ through the C backend.
 
 ## Shape and dimension issues
 
-### `expand` broadcast shape divergence
-> ```
-> FAIL (tensor shapes must match for elementwise op, got [64, 1] vs [64])
-> ```
-> Status: `expand(b: tensor[1, f32], 0, 64)` is typed as
-> `tensor[64, 1, f32]` by `chelis check` but the IR evaluator
-> produces `tensor[64, f32]` at runtime, breaking
-> `add(matmul_output, expanded_bias)` whose matmul side really is
-> rank 2. Hit in `src/capstone/linreg.ch::predict`. The same shape
-> appears in upstream's own `examples/linreg.ch` (in the chelis
-> source repo, separate from this corpus), so the issue is tracked as a
-> general compiler/runtime divergence rather than a hello-chelis-only
-> fixture bug.
-
 ### `to_tensor` doesn't accept 2D Python-style literals
 > ```
 > error: to_tensor expects numeric or bool List elements, got List f32
@@ -119,7 +111,7 @@ through the C backend.
 > Workaround: `pad_sequences([[...], [...]], 0.0)` per upstream's
 > `tensor_structural_ops.ch`.
 
-### Fixed-shape C smoke fixtures lower on v0.18.5
+### Fixed-shape C smoke fixtures lower on v0.18.11
 
 The v0.7.6 symbolic-dimension C-codegen panic no longer applies to
 the current verify fixtures. `verify/grad_works.ch`,
@@ -127,7 +119,7 @@ the current verify fixtures. `verify/grad_works.ch`,
 `verify/sigmoid_lowers.ch` now build, link, run, and golden-diff in
 `tests/test_c_backend.py`.
 
-The v0.18.5 checker does reject signatures that declare a polymorphic
+The v0.18.11 checker does reject signatures that declare a polymorphic
 dimension while the function body fixes that dimension to a concrete
 literal, such as subtracting a length-3 literal vector from
 `tensor[n, f32]`. The current corpus makes those example shapes
@@ -189,7 +181,7 @@ explicit with `tensor[3, f32]`.
 > ```
 > chelis test tests/ --jobs auto
 > ```
-> Status: on v0.18.5 the full native tree passes under node-local
+> Status: on v0.18.11 the full native tree passes under node-local
 > concurrency. Use `chelis test tests/ --jobs 1` only as a serial
 > fallback for debugging output.
 
@@ -220,7 +212,7 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 | `realize` not in host runtime | (would-be `tests/basics/jitrealize.ch`) | `verify/realize_lowers.ch` exercises C backend |
 | Tensor activations not in host runtime | `tests/basics/pipeandmatch.ch` | Test file uses `neg`/`add` chain instead of `relu`/`sigmoid` |
 | v0.7.6 symbolic-dim C-codegen panic | historical `verify/grad_works.ch` and activation verify fixture shapes | resolved on v0.7.26; now normal golden-output C-backend tests |
-| `expand` shape divergence | `src/capstone/linreg.ch` | check-only; build-only via verify |
+| scalar-gradient callee with local bindings (chelis#2379) | `src/capstone/blackscholes.ch` | Build standalone `verify/` programs outside the Reef root |
 | `with seed` blocks `chelis build` | `src/basics/effectsrandom.ch` | Project-wide build limited; verify/ programs are bare modules |
 | `cast(t, bf16)` rejected | `src/basics/precisioncast.ch` | Test uses f32→f64→f32 round trip |
 
@@ -228,7 +220,8 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 
 The chelis_phase3_plan.md cited in error messages tracks several of
 these as "Acknowledged Limitations" (Batch 7b for the `with seed`
-gate). The `grad` lowering form is documented as the workaround in
+gate). The remaining local-binding scalar-gradient rejection is chelis#2379.
+The tensor `grad` lowering form is documented as the workaround in
 `crates/chelis-cli/tests/cli.rs::build_c_tensor_grad_local_wrapper_*`.
 The activation kernels still need broader host-runtime coverage, but
 their current C-backend lowering is covered by normal golden-output

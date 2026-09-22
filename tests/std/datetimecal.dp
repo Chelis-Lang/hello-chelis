@@ -4,109 +4,109 @@
     hello.std.datetimecal
     (days_until format_date after_30_days week_before new_years_day))
   (import {surf_path: "Std.Time"} std.time (date))
-  (import {surf_path: "Std.Test"} std.test (assert_eq_int assert_eq_string))
+  (import {surf_path: "Std.Test"} std.test (assert_eq))
   (defsig {} test_days_until (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_days_until
     (fn {}
       (params {})
-      (let {span: "surf:249..478"}
+      (let {span: "surf:227..452"}
         (bind {}
           jan_1
-          (app {span: "surf:261..310"}
-            (var {span: "surf:261..265"} date)
-            (cast {span: "surf:266..281"}
-              (lit {span: "surf:271..275", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
+          (app {span: "surf:239..288"}
+            (var {span: "surf:239..243"} date)
+            (cast {span: "surf:244..259"}
+              (lit {span: "surf:249..253", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
               (t-prim {} i64))
-            (cast {span: "surf:283..295"}
-              (lit {span: "surf:288..289", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+            (cast {span: "surf:261..273"}
+              (lit {span: "surf:266..267", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
               (t-prim {} i64))
-            (cast {span: "surf:297..309"}
-              (lit {span: "surf:302..303", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+            (cast {span: "surf:275..287"}
+              (lit {span: "surf:280..281", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
               (t-prim {} i64))))
         (let {}
           (bind {}
             jan_31
-            (app {span: "surf:322..372"}
-              (var {span: "surf:322..326"} date)
-              (cast {span: "surf:327..342"}
-                (lit {span: "surf:332..336", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
+            (app {span: "surf:300..350"}
+              (var {span: "surf:300..304"} date)
+              (cast {span: "surf:305..320"}
+                (lit {span: "surf:310..314", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
                 (t-prim {} i64))
-              (cast {span: "surf:344..356"}
-                (lit {span: "surf:349..350", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+              (cast {span: "surf:322..334"}
+                (lit {span: "surf:327..328", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
                 (t-prim {} i64))
-              (cast {span: "surf:358..371"}
-                (lit {span: "surf:363..365", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 31)
+              (cast {span: "surf:336..349"}
+                (lit {span: "surf:341..343", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 31)
                 (t-prim {} i64))))
           (let {}
             (bind {}
               diff
-              (app {span: "surf:382..407"}
-                (var {span: "surf:382..392"} days_until)
-                (var {span: "surf:393..398"} jan_1)
-                (var {span: "surf:400..406"} jan_31)))
-            (app {span: "surf:410..476"}
-              (var {span: "surf:410..423"} assert_eq_int)
-              (var {span: "surf:424..428"} diff)
-              (cast {span: "surf:430..443"}
-                (lit {span: "surf:435..437", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 30)
+              (app {span: "surf:360..385"}
+                (var {span: "surf:360..370"} days_until)
+                (var {span: "surf:371..376"} jan_1)
+                (var {span: "surf:378..384"} jan_31)))
+            (app {span: "surf:388..450"}
+              (var {span: "surf:388..397"} assert_eq)
+              (var {span: "surf:398..402"} diff)
+              (cast {span: "surf:404..417"}
+                (lit {span: "surf:409..411", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 30)
                 (t-prim {} i64))
-              (lit {span: "surf:445..475", type: (t-prim {} string)} "30 days from Jan 1 to Jan 31")))))))
+              (lit {span: "surf:419..449", type: (t-prim {} string)} "30 days from Jan 1 to Jan 31")))))))
   (defsig {} test_format_and_offset (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_format_and_offset
     (fn {}
       (params {})
-      (let {span: "surf:529..695"}
+      (let {span: "surf:503..662"}
         (bind {}
           d
-          (app {span: "surf:537..586"}
-            (var {span: "surf:537..541"} date)
-            (cast {span: "surf:542..557"}
-              (lit {span: "surf:547..551", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
+          (app {span: "surf:511..560"}
+            (var {span: "surf:511..515"} date)
+            (cast {span: "surf:516..531"}
+              (lit {span: "surf:521..525", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
               (t-prim {} i64))
-            (cast {span: "surf:559..571"}
-              (lit {span: "surf:564..565", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 5)
+            (cast {span: "surf:533..545"}
+              (lit {span: "surf:538..539", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 5)
               (t-prim {} i64))
-            (cast {span: "surf:573..585"}
-              (lit {span: "surf:578..579", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 7)
+            (cast {span: "surf:547..559"}
+              (lit {span: "surf:552..553", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 7)
               (t-prim {} i64))))
         (let {}
           (bind {}
             later
-            (app {span: "surf:597..613"}
-              (var {span: "surf:597..610"} after_30_days)
-              (var {span: "surf:611..612"} d)))
-          (app {span: "surf:616..693"}
-            (var {span: "surf:616..632"} assert_eq_string)
-            (app {span: "surf:633..651"}
-              (var {span: "surf:633..644"} format_date)
-              (var {span: "surf:645..650"} later))
-            (lit {span: "surf:653..665", type: (t-prim {} string)} "2026-06-06")
-            (lit {span: "surf:667..692", type: (t-prim {} string)} "May 7 + 30 days = Jun 6"))))))
+            (app {span: "surf:571..587"}
+              (var {span: "surf:571..584"} after_30_days)
+              (var {span: "surf:585..586"} d)))
+          (app {span: "surf:590..660"}
+            (var {span: "surf:590..599"} assert_eq)
+            (app {span: "surf:600..618"}
+              (var {span: "surf:600..611"} format_date)
+              (var {span: "surf:612..617"} later))
+            (lit {span: "surf:620..632", type: (t-prim {} string)} "2026-06-06")
+            (lit {span: "surf:634..659", type: (t-prim {} string)} "May 7 + 30 days = Jun 6"))))))
   (defsig {} test_week_before (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_week_before
     (fn {}
       (params {})
-      (let {span: "surf:740..907"}
+      (let {span: "surf:707..867"}
         (bind {}
           d
-          (app {span: "surf:748..778"}
-            (var {span: "surf:748..761"} new_years_day)
-            (cast {span: "surf:762..777"}
-              (lit {span: "surf:767..771", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
+          (app {span: "surf:715..745"}
+            (var {span: "surf:715..728"} new_years_day)
+            (cast {span: "surf:729..744"}
+              (lit {span: "surf:734..738", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2026)
               (t-prim {} i64))))
         (let {}
           (bind {}
             earlier
-            (app {span: "surf:791..805"}
-              (var {span: "surf:791..802"} week_before)
-              (var {span: "surf:803..804"} d)))
-          (app {span: "surf:808..905"}
-            (var {span: "surf:808..824"} assert_eq_string)
-            (app {span: "surf:825..845"}
-              (var {span: "surf:825..836"} format_date)
-              (var {span: "surf:837..844"} earlier))
-            (lit {span: "surf:847..859", type: (t-prim {} string)} "2025-12-25")
-            (lit {span: "surf:861..904", type: (t-prim {} string)} "7 days before Jan 1, 2026 is Dec 25, 2025")))))))
+            (app {span: "surf:758..772"}
+              (var {span: "surf:758..769"} week_before)
+              (var {span: "surf:770..771"} d)))
+          (app {span: "surf:775..865"}
+            (var {span: "surf:775..784"} assert_eq)
+            (app {span: "surf:785..805"}
+              (var {span: "surf:785..796"} format_date)
+              (var {span: "surf:797..804"} earlier))
+            (lit {span: "surf:807..819", type: (t-prim {} string)} "2025-12-25")
+            (lit {span: "surf:821..864", type: (t-prim {} string)} "7 days before Jan 1, 2026 is Dec 25, 2025")))))))

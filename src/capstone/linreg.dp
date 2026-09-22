@@ -29,7 +29,7 @@
             (var {span: "surf:186..189"} add)
             (var {span: "surf:186..210"} __chelis_pipe)
             (app {span: "surf:190..209"}
-              (var {span: "surf:190..196"} expand)
+              (var {span: "surf:190..196"} insert)
               (var {span: "surf:197..198"} b)
               (lit {span: "surf:200..201", type: (t-prim {} i32)} 0)
               (lit {span: "surf:203..208", type: (t-prim {} i64)} 64)))))))
@@ -98,7 +98,7 @@
         (w {type: (t-var {} _)})
         (b {type: (t-var {} _)})
         (lr {type: (t-var {} _)}))
-      (let {span: "surf:588..814"}
+      (let {span: "surf:588..799"}
         (bind {}
           dw
           (app {span: "surf:597..630"}
@@ -132,31 +132,31 @@
             (let {}
               (bind {}
                 new_w
-                (app {span: "surf:707..763"}
-                  (var {span: "surf:707..710"} sub)
-                  (var {span: "surf:711..712"} w)
-                  (app {span: "surf:714..762"}
-                    (var {span: "surf:714..717"} mul)
-                    (app {span: "surf:718..757"}
-                      (var {span: "surf:718..724"} expand)
-                      (app {span: "surf:725..747"}
-                        (var {span: "surf:725..731"} expand)
-                        (var {span: "surf:732..736"} lr_t)
-                        (lit {span: "surf:738..739", type: (t-prim {} i32)} 0)
-                        (lit {span: "surf:741..746", type: (t-prim {} i64)} 64))
-                      (lit {span: "surf:749..750", type: (t-prim {} i32)} 1)
-                      (lit {span: "surf:752..756", type: (t-prim {} i64)} 1))
-                    (var {span: "surf:759..761"} dw))))
+                (pipe {span: "surf:707..748"}
+                  (var {span: "surf:707..708"} w)
+                  (fn {span: "surf:712..748", surf_pipe_stage: "call-first"}
+                    (params {} __chelis_pipe)
+                    (app {span: "surf:712..748"}
+                      (var {span: "surf:712..715"} sub)
+                      (var {span: "surf:712..748"} __chelis_pipe)
+                      (app {span: "surf:716..747"}
+                        (var {span: "surf:716..719"} mul)
+                        (app {span: "surf:720..742"}
+                          (var {span: "surf:720..726"} insert)
+                          (var {span: "surf:727..731"} lr_t)
+                          (lit {span: "surf:733..734", type: (t-prim {} i32)} 0)
+                          (lit {span: "surf:736..741", type: (t-prim {} i64)} 64))
+                        (var {span: "surf:744..746"} dw))))))
               (let {}
                 (bind {}
                   new_b
-                  (app {span: "surf:774..795"}
-                    (var {span: "surf:774..777"} sub)
-                    (var {span: "surf:778..779"} b)
-                    (app {span: "surf:781..794"}
-                      (var {span: "surf:781..784"} mul)
-                      (var {span: "surf:785..789"} lr_t)
-                      (var {span: "surf:791..793"} db))))
-                (tuple {span: "surf:798..812"}
-                  (var {span: "surf:799..804"} new_w)
-                  (var {span: "surf:806..811"} new_b))))))))))
+                  (app {span: "surf:759..780"}
+                    (var {span: "surf:759..762"} sub)
+                    (var {span: "surf:763..764"} b)
+                    (app {span: "surf:766..779"}
+                      (var {span: "surf:766..769"} mul)
+                      (var {span: "surf:770..774"} lr_t)
+                      (var {span: "surf:776..778"} db))))
+                (tuple {span: "surf:783..797"}
+                  (var {span: "surf:784..789"} new_w)
+                  (var {span: "surf:791..796"} new_b))))))))))

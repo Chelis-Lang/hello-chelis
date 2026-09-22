@@ -4,40 +4,38 @@
     hello.coral.framebasics
     (build_frame add_score_col frame_after_rename frame_after_drop))
   (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols columns))
-  (import {surf_path: "Std.Test"}
-    std.test
-    (assert_eq_int assert_eq_string assert_true))
+  (import {surf_path: "Std.Test"} std.test (assert_eq assert_true))
   (defsig {} test_build_frame_shape (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_build_frame_shape
     (fn {}
       (params {})
-      (let {span: "surf:291..453"}
+      (let {span: "surf:269..423"}
         (bind {}
           df
-          (app {span: "surf:300..313"}
-            (var {span: "surf:300..311"} build_frame)))
+          (app {span: "surf:278..291"}
+            (var {span: "surf:278..289"} build_frame)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp0
-            (app {span: "surf:320..384"}
-              (var {span: "surf:320..333"} assert_eq_int)
-              (app {span: "surf:334..343"}
-                (var {span: "surf:334..339"} nrows)
-                (var {span: "surf:340..342"} df))
-              (cast {span: "surf:345..357"}
-                (lit {span: "surf:350..351", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+            (app {span: "surf:298..358"}
+              (var {span: "surf:298..307"} assert_eq)
+              (app {span: "surf:308..317"}
+                (var {span: "surf:308..313"} nrows)
+                (var {span: "surf:314..316"} df))
+              (cast {span: "surf:319..331"}
+                (lit {span: "surf:324..325", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
                 (t-prim {} i64))
-              (lit {span: "surf:359..383", type: (t-prim {} string)} "build_frame nrows == 3")))
-          (app {span: "surf:387..451"}
-            (var {span: "surf:387..400"} assert_eq_int)
-            (app {span: "surf:401..410"}
-              (var {span: "surf:401..406"} ncols)
-              (var {span: "surf:407..409"} df))
-            (cast {span: "surf:412..424"}
-              (lit {span: "surf:417..418", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (lit {span: "surf:333..357", type: (t-prim {} string)} "build_frame nrows == 3")))
+          (app {span: "surf:361..421"}
+            (var {span: "surf:361..370"} assert_eq)
+            (app {span: "surf:371..380"}
+              (var {span: "surf:371..376"} ncols)
+              (var {span: "surf:377..379"} df))
+            (cast {span: "surf:382..394"}
+              (lit {span: "surf:387..388", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
               (t-prim {} i64))
-            (lit {span: "surf:426..450", type: (t-prim {} string)} "build_frame ncols == 3"))))))
+            (lit {span: "surf:396..420", type: (t-prim {} string)} "build_frame ncols == 3"))))))
   (defsig {}
     test_with_column_grows_ncols
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -45,102 +43,102 @@
     test_with_column_grows_ncols
     (fn {}
       (params {})
-      (let {span: "surf:510..705"}
+      (let {span: "surf:480..667"}
         (bind {}
           df2
-          (app {span: "surf:520..548"}
-            (var {span: "surf:520..533"} add_score_col)
-            (app {span: "surf:534..547"}
-              (var {span: "surf:534..545"} build_frame))))
+          (app {span: "surf:490..518"}
+            (var {span: "surf:490..503"} add_score_col)
+            (app {span: "surf:504..517"}
+              (var {span: "surf:504..515"} build_frame))))
         (let {}
           (bind {destructure: true}
             __chelis_tmp1
-            (app {span: "surf:555..629"}
-              (var {span: "surf:555..568"} assert_eq_int)
-              (app {span: "surf:569..579"}
-                (var {span: "surf:569..574"} nrows)
-                (var {span: "surf:575..578"} df2))
-              (cast {span: "surf:581..593"}
-                (lit {span: "surf:586..587", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+            (app {span: "surf:525..595"}
+              (var {span: "surf:525..534"} assert_eq)
+              (app {span: "surf:535..545"}
+                (var {span: "surf:535..540"} nrows)
+                (var {span: "surf:541..544"} df2))
+              (cast {span: "surf:547..559"}
+                (lit {span: "surf:552..553", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
                 (t-prim {} i64))
-              (lit {span: "surf:595..628", type: (t-prim {} string)} "after with_column nrows still 3")))
-          (app {span: "surf:632..703"}
-            (var {span: "surf:632..645"} assert_eq_int)
-            (app {span: "surf:646..656"}
-              (var {span: "surf:646..651"} ncols)
-              (var {span: "surf:652..655"} df2))
-            (cast {span: "surf:658..670"}
-              (lit {span: "surf:663..664", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 4)
+              (lit {span: "surf:561..594", type: (t-prim {} string)} "after with_column nrows still 3")))
+          (app {span: "surf:598..665"}
+            (var {span: "surf:598..607"} assert_eq)
+            (app {span: "surf:608..618"}
+              (var {span: "surf:608..613"} ncols)
+              (var {span: "surf:614..617"} df2))
+            (cast {span: "surf:620..632"}
+              (lit {span: "surf:625..626", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 4)
               (t-prim {} i64))
-            (lit {span: "surf:672..702", type: (t-prim {} string)} "after with_column ncols == 4"))))))
+            (lit {span: "surf:634..664", type: (t-prim {} string)} "after with_column ncols == 4"))))))
   (defsig {} test_rename_and_drop (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_rename_and_drop
     (fn {}
       (params {})
-      (let {span: "surf:754..1172"}
+      (let {span: "surf:716..1126"}
         (bind {}
           renamed
-          (app {span: "surf:768..801"}
-            (var {span: "surf:768..786"} frame_after_rename)
-            (app {span: "surf:787..800"}
-              (var {span: "surf:787..798"} build_frame))))
+          (app {span: "surf:730..763"}
+            (var {span: "surf:730..748"} frame_after_rename)
+            (app {span: "surf:749..762"}
+              (var {span: "surf:749..760"} build_frame))))
         (let {}
           (bind {}
             dropped
-            (app {span: "surf:814..845"}
-              (var {span: "surf:814..830"} frame_after_drop)
-              (app {span: "surf:831..844"}
-                (var {span: "surf:831..842"} build_frame))))
+            (app {span: "surf:776..807"}
+              (var {span: "surf:776..792"} frame_after_drop)
+              (app {span: "surf:793..806"}
+                (var {span: "surf:793..804"} build_frame))))
           (let {}
             (bind {}
               names_r
-              (app {span: "surf:858..874"}
-                (var {span: "surf:858..865"} columns)
-                (var {span: "surf:866..873"} renamed)))
+              (app {span: "surf:820..836"}
+                (var {span: "surf:820..827"} columns)
+                (var {span: "surf:828..835"} renamed)))
             (let {}
               (bind {}
                 has_town
-                (app {span: "surf:888..961"}
-                  (var {span: "surf:888..892"} fold)
-                  (fn {span: "surf:893..944"}
+                (app {span: "surf:850..923"}
+                  (var {span: "surf:850..854"} fold)
+                  (fn {span: "surf:855..906"}
                     (params {}
                       (acc {type: (t-prim {} bool)})
                       (n {type: (t-prim {} string)}))
-                    (app {span: "surf:922..944"}
-                      (var {span: "surf:922..924"} or)
-                      (var {span: "surf:925..928"} acc)
-                      (app {span: "surf:930..943"}
-                        (var {span: "surf:930..932"} eq)
-                        (var {span: "surf:933..934"} n)
-                        (lit {span: "surf:936..942", type: (t-prim {} string)} "town"))))
-                  (lit {span: "surf:946..951", type: (t-prim {} bool)} false)
-                  (var {span: "surf:953..960"} names_r)))
+                    (app {span: "surf:884..906"}
+                      (var {span: "surf:884..886"} or)
+                      (var {span: "surf:887..890"} acc)
+                      (app {span: "surf:892..905"}
+                        (var {span: "surf:892..894"} eq)
+                        (var {span: "surf:895..896"} n)
+                        (lit {span: "surf:898..904", type: (t-prim {} string)} "town"))))
+                  (lit {span: "surf:908..913", type: (t-prim {} bool)} false)
+                  (var {span: "surf:915..922"} names_r)))
               (let {}
                 (bind {destructure: true}
                   __chelis_tmp3
-                  (app {span: "surf:968..1022"}
-                    (var {span: "surf:968..979"} assert_true)
-                    (var {span: "surf:980..988"} has_town)
-                    (lit {span: "surf:990..1021", type: (t-prim {} string)} "renamed frame contains 'town'")))
+                  (app {span: "surf:930..984"}
+                    (var {span: "surf:930..941"} assert_true)
+                    (var {span: "surf:942..950"} has_town)
+                    (lit {span: "surf:952..983", type: (t-prim {} string)} "renamed frame contains 'town'")))
                 (let {}
                   (bind {destructure: true}
                     __chelis_tmp2
-                    (app {span: "surf:1029..1095"}
-                      (var {span: "surf:1029..1042"} assert_eq_int)
-                      (app {span: "surf:1043..1057"}
-                        (var {span: "surf:1043..1048"} ncols)
-                        (var {span: "surf:1049..1056"} renamed))
-                      (cast {span: "surf:1059..1071"}
-                        (lit {span: "surf:1064..1065", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+                    (app {span: "surf:991..1053"}
+                      (var {span: "surf:991..1000"} assert_eq)
+                      (app {span: "surf:1001..1015"}
+                        (var {span: "surf:1001..1006"} ncols)
+                        (var {span: "surf:1007..1014"} renamed))
+                      (cast {span: "surf:1017..1029"}
+                        (lit {span: "surf:1022..1023", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
                         (t-prim {} i64))
-                      (lit {span: "surf:1073..1094", type: (t-prim {} string)} "rename keeps 3 cols")))
-                  (app {span: "surf:1098..1170"}
-                    (var {span: "surf:1098..1111"} assert_eq_int)
-                    (app {span: "surf:1112..1126"}
-                      (var {span: "surf:1112..1117"} ncols)
-                      (var {span: "surf:1118..1125"} dropped))
-                    (cast {span: "surf:1128..1140"}
-                      (lit {span: "surf:1133..1134", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+                      (lit {span: "surf:1031..1052", type: (t-prim {} string)} "rename keeps 3 cols")))
+                  (app {span: "surf:1056..1124"}
+                    (var {span: "surf:1056..1065"} assert_eq)
+                    (app {span: "surf:1066..1080"}
+                      (var {span: "surf:1066..1071"} ncols)
+                      (var {span: "surf:1072..1079"} dropped))
+                    (cast {span: "surf:1082..1094"}
+                      (lit {span: "surf:1087..1088", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
                       (t-prim {} i64))
-                    (lit {span: "surf:1142..1169", type: (t-prim {} string)} "drop_column qty -> 2 cols")))))))))))
+                    (lit {span: "surf:1096..1123", type: (t-prim {} string)} "drop_column qty -> 2 cols")))))))))))

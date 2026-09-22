@@ -11,32 +11,31 @@ version with the compiler and shell releases it is pinned to.
   Docker, CI and Compose pin surfaces. Migrate maintained Surf and Deep pairs,
   explicitly declare dimension binders, and rename the linearity example's
   `residual` export to `double_shared` to avoid the standard prelude macro.
-  The dependency cascade and generated Octant triples still require validation;
-  see `docs/chelis-0.18.11-migration.md`.
+- Finalize the released dependency cascade and artifact-backed lockfile, refresh
+  the Octant 0.13.1 triples, migrate tests to generic `Std.Test.assert_eq`, and
+  replace rank-increasing `expand` calls with `insert`. Chelis#1258 is verified
+  fixed; the bounded whole-package C residual is tracked as chelis#2379. See
+  `docs/chelis_0_18_11_migration.md`.
 
 Two cascades land in this window. 0.1.11 was never tagged, so both are
 described here as one net change from 0.1.10.
 
 #### Pin bumps (net, 0.1.10 -> this window)
 
-- compiler `=0.14.0` -> `=0.17.1` -> `=0.18.5`
-- `coral` `0.7.30` -> `0.7.32` -> `0.7.39`
-- `nautilus` `0.7.33` -> `0.7.35` -> `0.7.42`
-- `school` `0.1.9` -> `0.1.12` -> `0.1.13`
+- compiler `=0.14.0` -> `=0.17.1` -> `=0.18.5` -> `=0.18.11`
+- `coral` `0.7.30` -> `0.7.32` -> `0.7.39` -> `0.7.43`
+- `nautilus` `0.7.33` -> `0.7.35` -> `0.7.42` -> `0.7.46`
+- `school` `0.1.9` -> `0.1.12` -> `0.1.13` -> `0.1.14`
 - `chelis-std` stays `0.4.0`
 
-`coral` 0.7.39, `nautilus` 0.7.42, and `school` 0.1.13 are the versions
-**staged** in those shells' own bump PRs (coral#27, nautilus#43, school#190),
-not yet tagged. Pinning the staged numbers keeps this PR merge-ready as written
-once the cascade tags.
+The final Chelis 0.18.11 dependency set is released as Coral 0.7.43,
+Nautilus 0.7.46, and School 0.1.14; Octant 0.13.1 and C-earchin 0.3.5
+provide the companion CLI artifacts used by the corpus.
 
 The manifest, Docker `ARG` defaults, CI build-args, release workflow env,
 Compose image tag, README, and version-scoped discrepancy docs move together.
-`reef.lock` still records the last versions with real published artifacts
-(`coral` 0.7.38, `nautilus` 0.7.41, `school` 0.1.12). It cannot record the staged
-numbers honestly until those tags exist, because the lock stores artifact hashes
-and a locally built package's bytes are not the release's. Regenerate the whole
-file with `chelis reef build` as the last step of the cascade.
+`reef.lock` records the published artifacts and their release-byte hashes;
+`chelis reef build` regenerates it from those releases as the final cascade step.
 
 ### Chelis 0.18.5 cascade
 

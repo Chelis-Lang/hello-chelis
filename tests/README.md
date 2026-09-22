@@ -1,7 +1,7 @@
 # `tests/` — both Chelis-native and Python harnesses
 
 The repo keeps Chelis-native tests under `tests/<area>/<name>.ch`.
-The pinned Chelis v0.18.5 native runner runs the full test tree with
+The pinned Chelis v0.18.11 native runner runs the full test tree with
 node-local concurrency. Broader non-runtime invariants come from the
 Python drift, negative, Octant, c-earchin, and C-backend harnesses
 below. Run the native suite with:

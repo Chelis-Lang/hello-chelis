@@ -12,9 +12,9 @@ in `Chelis-Lang/chelis`.
 
 ## How this shell's view is scoped
 
-The working 0.1.11 candidate targets Chelis 0.18.11. Existing `@pin` rows are
-historical evidence pending validation of the new dependency cascade; see
-[`chelis-0.18.11-migration.md`](chelis-0.18.11-migration.md).
+The working 0.1.11 candidate targets Chelis 0.18.11; see
+[`chelis_0_18_11_migration.md`](chelis_0_18_11_migration.md) for the migration
+and validation record.
 
 hello-chelis has no single library domain — it is the teaching corpus, so its
 "domain" is *whatever a reader is shown*. The rows below therefore track the
@@ -54,7 +54,6 @@ around the reader. Every one cites its upstream issue; see
 
 | Gap | Effect on the corpus | Status |
 |---|---|---|
-| Host-lane C backend cannot lower `grad` w.r.t. a scalar f32 via inline `grad(f)(x)` (chelis#405) | `verify/` programs are built in isolation from `/tmp`; a whole-package `chelis build` aborts on the capstone Black-Scholes Greeks | `@upstream` |
-| A concrete dimension argument on a parameterized ADT (`Frame[N]`) desugars to `(t-var {} N)` (chelis#1258) | `chelis surf` and `chelis migrate surf` fail on the five `src/coral/` files; their v0.19 rewrites were hand-applied | `@upstream` |
+| Host-lane C backend rejects a scalar-gradient callee with local bindings (chelis#2379) | `verify/` programs are built in isolation from `/tmp`; a whole-package `chelis build` aborts on the capstone Black-Scholes Greeks | `@upstream` |
 | Integer type-application arguments are unenforced (chelis#1247) | `Frame[3]` is documentation, not a checked constraint; the corpus must not present it as one | `@upstream` |
 | Per-test-worker dependency recompilation | the native suite is compile-bound; CI's `chelis test` budget is 900s, not the 180s the suite's runtime warrants | `@upstream` |

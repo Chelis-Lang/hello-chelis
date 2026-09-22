@@ -2,11 +2,15 @@
   normal_pdf
   (fn {span: "__synthesized_nautilus_stub__"}
     (params {span: "__synthesized_nautilus_stub__"}
-      (x_1 {type: (t-prim {} f32)}))
+      (x_1 {type: (t-prim {} f32)})
+      (x_2 {type: (t-prim {} f32)})
+      (x_3 {type: (t-prim {} f32)}))
     (var {} x_1)))
 
 (def {span: "n_001"}
   y
   (app {span: "n_002"}
     (var {} normal_pdf)
-    (var {span: "n_003"} x)))
+    (var {span: "n_003"} x)
+    (lit {span: "n_004"} 0.0)
+    (lit {span: "n_005"} 1.0)))

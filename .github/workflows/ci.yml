@@ -41,9 +41,9 @@ jobs:
           # Without this, GHA layer cache can serve a stale chelis binary.
           build-args: |
             CHELIS_VERSION=0.18.11
-            CORAL_VERSION=0.7.39
-            NAUTILUS_VERSION=0.7.42
-            SCHOOL_VERSION=0.1.13
+            CORAL_VERSION=0.7.43
+            NAUTILUS_VERSION=0.7.46
+            SCHOOL_VERSION=0.1.14
 
       # Offline pin/conformance guard (shell contract §2). `bump-check` passes
       # trivially when the reef pin is unchanged vs the base; when it changed,

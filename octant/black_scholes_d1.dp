@@ -26,6 +26,4 @@
     (app {span: "n_017"}
       (var {} mul)
       (var {span: "n_018"} sigma)
-      (app {span: "n_019"}
-        (var {} sqrt)
-        (var {span: "n_020"} t)))))
+      (app {span: "n_019"} (var {} sqrt) (var {span: "n_020"} t)))))

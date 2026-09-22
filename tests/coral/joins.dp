@@ -2,7 +2,7 @@
   hello.tests.coral.joins
   (import {surf_path: "Hello.Coral.Joins"} hello.coral.joins (inner left outer))
   (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols))
-  (import {surf_path: "Std.Test"} std.test (assert_eq_int))
+  (import {surf_path: "Std.Test"} std.test (assert_eq))
   (defsig {}
     test_inner_join_intersection
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -10,31 +10,31 @@
     test_inner_join_intersection
     (fn {}
       (params {})
-      (let {span: "surf:199..379"}
+      (let {span: "surf:195..367"}
         (bind {}
           r
-          (app {span: "surf:207..214"} (var {span: "surf:207..212"} inner)))
+          (app {span: "surf:203..210"} (var {span: "surf:203..208"} inner)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp0
-            (app {span: "surf:221..294"}
-              (var {span: "surf:221..234"} assert_eq_int)
-              (app {span: "surf:235..243"}
-                (var {span: "surf:235..240"} nrows)
-                (var {span: "surf:241..242"} r))
-              (cast {span: "surf:245..257"}
-                (lit {span: "surf:250..251", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+            (app {span: "surf:217..286"}
+              (var {span: "surf:217..226"} assert_eq)
+              (app {span: "surf:227..235"}
+                (var {span: "surf:227..232"} nrows)
+                (var {span: "surf:233..234"} r))
+              (cast {span: "surf:237..249"}
+                (lit {span: "surf:242..243", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
                 (t-prim {} i64))
-              (lit {span: "surf:259..293", type: (t-prim {} string)} "inner join keeps 2 matching rows")))
-          (app {span: "surf:297..377"}
-            (var {span: "surf:297..310"} assert_eq_int)
-            (app {span: "surf:311..319"}
-              (var {span: "surf:311..316"} ncols)
-              (var {span: "surf:317..318"} r))
-            (cast {span: "surf:321..333"}
-              (lit {span: "surf:326..327", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (lit {span: "surf:251..285", type: (t-prim {} string)} "inner join keeps 2 matching rows")))
+          (app {span: "surf:289..365"}
+            (var {span: "surf:289..298"} assert_eq)
+            (app {span: "surf:299..307"}
+              (var {span: "surf:299..304"} ncols)
+              (var {span: "surf:305..306"} r))
+            (cast {span: "surf:309..321"}
+              (lit {span: "surf:314..315", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
               (t-prim {} i64))
-            (lit {span: "surf:335..376", type: (t-prim {} string)} "inner join: customer + qty + score == 3"))))))
+            (lit {span: "surf:323..364", type: (t-prim {} string)} "inner join: customer + qty + score == 3"))))))
   (defsig {}
     test_left_join_keeps_left_side
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -42,58 +42,58 @@
     test_left_join_keeps_left_side
     (fn {}
       (params {})
-      (let {span: "surf:438..615"}
+      (let {span: "surf:426..595"}
         (bind {}
           r
-          (app {span: "surf:446..452"} (var {span: "surf:446..450"} left)))
+          (app {span: "surf:434..440"} (var {span: "surf:434..438"} left)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp1
-            (app {span: "surf:459..531"}
-              (var {span: "surf:459..472"} assert_eq_int)
-              (app {span: "surf:473..481"}
-                (var {span: "surf:473..478"} nrows)
-                (var {span: "surf:479..480"} r))
-              (cast {span: "surf:483..495"}
-                (lit {span: "surf:488..489", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+            (app {span: "surf:447..515"}
+              (var {span: "surf:447..456"} assert_eq)
+              (app {span: "surf:457..465"}
+                (var {span: "surf:457..462"} nrows)
+                (var {span: "surf:463..464"} r))
+              (cast {span: "surf:467..479"}
+                (lit {span: "surf:472..473", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
                 (t-prim {} i64))
-              (lit {span: "surf:497..530", type: (t-prim {} string)} "left join keeps all 3 left rows")))
-          (app {span: "surf:534..613"}
-            (var {span: "surf:534..547"} assert_eq_int)
-            (app {span: "surf:548..556"}
-              (var {span: "surf:548..553"} ncols)
-              (var {span: "surf:554..555"} r))
-            (cast {span: "surf:558..570"}
-              (lit {span: "surf:563..564", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (lit {span: "surf:481..514", type: (t-prim {} string)} "left join keeps all 3 left rows")))
+          (app {span: "surf:518..593"}
+            (var {span: "surf:518..527"} assert_eq)
+            (app {span: "surf:528..536"}
+              (var {span: "surf:528..533"} ncols)
+              (var {span: "surf:534..535"} r))
+            (cast {span: "surf:538..550"}
+              (lit {span: "surf:543..544", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
               (t-prim {} i64))
-            (lit {span: "surf:572..612", type: (t-prim {} string)} "left join: customer + qty + score == 3"))))))
+            (lit {span: "surf:552..592", type: (t-prim {} string)} "left join: customer + qty + score == 3"))))))
   (defsig {} test_outer_join_union (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_outer_join_union
     (fn {}
       (params {})
-      (let {span: "surf:665..848"}
+      (let {span: "surf:645..820"}
         (bind {}
           r
-          (app {span: "surf:673..680"} (var {span: "surf:673..678"} outer)))
+          (app {span: "surf:653..660"} (var {span: "surf:653..658"} outer)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp2
-            (app {span: "surf:687..763"}
-              (var {span: "surf:687..700"} assert_eq_int)
-              (app {span: "surf:701..709"}
-                (var {span: "surf:701..706"} nrows)
-                (var {span: "surf:707..708"} r))
-              (cast {span: "surf:711..723"}
-                (lit {span: "surf:716..717", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 4)
+            (app {span: "surf:667..739"}
+              (var {span: "surf:667..676"} assert_eq)
+              (app {span: "surf:677..685"}
+                (var {span: "surf:677..682"} nrows)
+                (var {span: "surf:683..684"} r))
+              (cast {span: "surf:687..699"}
+                (lit {span: "surf:692..693", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 4)
                 (t-prim {} i64))
-              (lit {span: "surf:725..762", type: (t-prim {} string)} "outer join produces union of 4 rows")))
-          (app {span: "surf:766..846"}
-            (var {span: "surf:766..779"} assert_eq_int)
-            (app {span: "surf:780..788"}
-              (var {span: "surf:780..785"} ncols)
-              (var {span: "surf:786..787"} r))
-            (cast {span: "surf:790..802"}
-              (lit {span: "surf:795..796", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (lit {span: "surf:701..738", type: (t-prim {} string)} "outer join produces union of 4 rows")))
+          (app {span: "surf:742..818"}
+            (var {span: "surf:742..751"} assert_eq)
+            (app {span: "surf:752..760"}
+              (var {span: "surf:752..757"} ncols)
+              (var {span: "surf:758..759"} r))
+            (cast {span: "surf:762..774"}
+              (lit {span: "surf:767..768", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
               (t-prim {} i64))
-            (lit {span: "surf:804..845", type: (t-prim {} string)} "outer join: customer + qty + score == 3")))))))
+            (lit {span: "surf:776..817", type: (t-prim {} string)} "outer join: customer + qty + score == 3")))))))

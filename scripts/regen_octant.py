@@ -30,14 +30,26 @@ def main() -> int:
         raise SystemExit("chelis not on PATH")
 
     for tex in sorted(OCTANT.glob("*.tex")):
+        relative_tex = tex.relative_to(REPO)
         base = tex.with_suffix("")
         dp = base.with_suffix(".dp")
         spans = base.with_suffix(".spans.json")
         ch = base.with_suffix(".ch")
 
         r = subprocess.run(
-            ["octant", "translate", str(tex), "--output", str(dp), "--spans", str(spans)],
-            check=False, capture_output=True, text=True,
+            [
+                "octant",
+                "translate",
+                str(relative_tex),
+                "--output",
+                str(dp),
+                "--spans",
+                str(spans),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            cwd=REPO,
         )
         if r.returncode != 0:
             print(f"!! octant translate failed for {tex.name}:\n{r.stderr}", file=sys.stderr)

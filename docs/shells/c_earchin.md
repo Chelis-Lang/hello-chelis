@@ -13,7 +13,7 @@ can read the input in under a minute and see the value:
 The Docker image installs the released c-earchin package:
 
 ```sh
-chelis reef install --from-github Chelis-Lang/c-earchin@v0.3.3
+chelis reef install --from-github Chelis-Lang/c-earchin@v0.3.5
 ```
 
 This repo commits the v0.3.2 finance-options proof fixtures under
