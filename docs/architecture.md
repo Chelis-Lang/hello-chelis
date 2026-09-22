@@ -152,7 +152,7 @@ runs the `--check` mode and fails on any divergence. See
 | `pytest tests/test_surf_deep_equivalence.py` | `.dp` matches `chelis deep <ch>` | every Surf file |
 | `pytest tests/test_c_backend.py` | `chelis build` + link + run + golden-diff | `verify/*.ch` |
 | `pytest tests/test_octant_pairs.py` | LaTeX → Deep → Surf round-trip | every `octant/*.tex` |
-| `pytest tests/test_c_earchin_artifacts.py` | EARS → Deep property witnesses prove with span diagnostics | finance-options fixtures |
+| `pytest tests/test_c_earchin_artifacts.py` | v0.3.5 bytes stay pinned; EARS → Deep property witnesses prove with span diagnostics | finance-options fixtures |
 | `pytest tests/test_negative_examples.py` | programs that must be rejected, by error kind | `tests_neg/check/*.ch` |
 | `chelis test tests_neg --expect neg` | same corpus, by pinned diagnostic substring | `tests_neg/check/*.expect` |
 

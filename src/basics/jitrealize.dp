@@ -3,6 +3,7 @@
   (export {} eager with_realize)
   (defsig {}
     eager
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -10,39 +11,37 @@
   (def {}
     eager
     (fn {}
-      (params {}
-        (w {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:130..139"}
-        (var {span: "surf:130..133"} mul)
-        (var {span: "surf:134..135"} w)
-        (var {span: "surf:137..138"} x))))
+      (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
+      (app {span: "surf:133..142"}
+        (var {span: "surf:133..136"} mul)
+        (var {span: "surf:137..138"} w)
+        (var {span: "surf:140..141"} x))))
   (defsig {}
     with_realize
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     with_realize
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (let {span: "surf:197..253"}
+      (params {} (x {type: (t-var {} _)}))
+      (let {span: "surf:203..259"}
         (bind {}
           doubled
-          (pipe {span: "surf:211..233"}
-            (var {span: "surf:211..212"} x)
-            (fn {span: "surf:216..222", surf_pipe_stage: "call-first"}
+          (pipe {span: "surf:217..239"}
+            (var {span: "surf:217..218"} x)
+            (fn {span: "surf:222..228", surf_pipe_stage: "call-first"}
               (params {} __chelis_pipe)
-              (app {span: "surf:216..222"}
-                (var {span: "surf:216..219"} add)
-                (var {span: "surf:216..222"} __chelis_pipe)
-                (var {span: "surf:220..221"} x)))
-            (fn {span: "surf:226..233", surf_pipe_stage: "call-first"}
+              (app {span: "surf:222..228"}
+                (var {span: "surf:222..225"} add)
+                (var {span: "surf:222..228"} __chelis_pipe)
+                (var {span: "surf:226..227"} x)))
+            (fn {span: "surf:232..239", surf_pipe_stage: "call-first"}
               (params {} __chelis_pipe)
-              (realize {span: "surf:226..233"}
-                (var {span: "surf:226..233"} __chelis_pipe)))))
-        (app {span: "surf:236..251"}
-          (var {span: "surf:236..239"} add)
-          (var {span: "surf:240..247"} doubled)
-          (var {span: "surf:249..250"} x))))))
+              (realize {span: "surf:232..239"}
+                (var {span: "surf:232..239"} __chelis_pipe)))))
+        (app {span: "surf:242..257"}
+          (var {span: "surf:242..245"} add)
+          (var {span: "surf:246..253"} doubled)
+          (var {span: "surf:255..256"} x))))))

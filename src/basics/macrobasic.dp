@@ -1,55 +1,55 @@
 (module {surf_path: "Hello.Basics.MacroBasic"}
   hello.basics.macrobasic
-  (export {} with_residual doubled)
+  (export {} block with_residual doubled)
   (defsig {}
     block
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     block
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:113..122"}
-        (var {span: "surf:113..116"} add)
-        (var {span: "surf:117..118"} x)
-        (var {span: "surf:120..121"} x))))
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:123..132"}
+        (var {span: "surf:123..126"} add)
+        (var {span: "surf:127..128"} x)
+        (var {span: "surf:130..131"} x))))
   (defsig {}
     with_residual
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     with_residual
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
+      (params {} (x {type: (t-var {} _)}))
       (app {source: (residual
-                       (var {span: "surf:190..191"} x)
-                       (var {span: "surf:193..198"} block))
+                       (var {span: "surf:203..204"} x)
+                       (var {span: "surf:206..211"} block))
            }
-        (var {source: (residual (var {span: "surf:190..191"} x) (var {span: "surf:193..198"} block))} add)
-        (var {source: (residual (var {span: "surf:190..191"} x) (var {span: "surf:193..198"} block)), span: "surf:190..191"} x)
+        (var {source: (residual (var {span: "surf:203..204"} x) (var {span: "surf:206..211"} block))} add)
+        (var {source: (residual (var {span: "surf:203..204"} x) (var {span: "surf:206..211"} block)), span: "surf:203..204"} x)
         (app {source: (residual
-                         (var {span: "surf:190..191"} x)
-                         (var {span: "surf:193..198"} block))
+                         (var {span: "surf:203..204"} x)
+                         (var {span: "surf:206..211"} block))
              }
-          (var {source: (residual (var {span: "surf:190..191"} x) (var {span: "surf:193..198"} block)), span: "surf:193..198"} block)
-          (var {source: (residual (var {span: "surf:190..191"} x) (var {span: "surf:193..198"} block)), span: "surf:190..191"} x)))))
+          (var {source: (residual (var {span: "surf:203..204"} x) (var {span: "surf:206..211"} block)), span: "surf:206..211"} block)
+          (var {source: (residual (var {span: "surf:203..204"} x) (var {span: "surf:206..211"} block)), span: "surf:203..204"} x)))))
   (defsig {}
     doubled
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     doubled
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:252..268"}
-        (var {span: "surf:252..255"} add)
-        (var {span: "surf:256..257"} x)
-        (app {span: "surf:259..267"}
-          (var {span: "surf:259..264"} block)
-          (var {span: "surf:265..266"} x))))))
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:268..284"}
+        (var {span: "surf:268..271"} add)
+        (var {span: "surf:272..273"} x)
+        (app {span: "surf:275..283"}
+          (var {span: "surf:275..280"} block)
+          (var {span: "surf:281..282"} x))))))

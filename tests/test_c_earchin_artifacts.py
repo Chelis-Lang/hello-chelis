@@ -1,12 +1,13 @@
-"""c-earchin finance-options proof artifacts stay executable.
+"""Released c-earchin finance-options artifacts stay exact and executable.
 
-The fixtures are committed from the released c-earchin finance-options
-demo (pinned at v0.3.2) so hello-chelis can validate the final stack
-without cloning or building c-earchin from source.
+The fixtures are committed byte-for-byte from the c-earchin v0.3.5 release
+tag. A checked provenance manifest locks those bytes to the release commit;
+the proof tests then validate them with hello-chelis's pinned compiler.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -16,6 +17,23 @@ import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 FIXTURES = REPO / "c-earchin" / "finance_options"
+PROVENANCE = FIXTURES / "provenance.json"
+
+
+def test_c_earchin_finance_options_match_v035_release_fixture() -> None:
+    provenance = json.loads(PROVENANCE.read_text())
+    assert provenance["release"] == "v0.3.5"
+    assert provenance["commit"] == "ff4cbcf321ead8decd544a388f1212de32ca2214"
+    assert set(provenance["sha256"]) == {
+        "options_rules.ears",
+        "options_rules.dp",
+        "options_rules.spans.json",
+        "options_rules_fail.dp",
+    }
+
+    for name, expected in provenance["sha256"].items():
+        actual = hashlib.sha256((FIXTURES / name).read_bytes()).hexdigest()
+        assert actual == expected, f"{name}: drifted from c-earchin v0.3.5"
 
 
 @pytest.fixture(scope="session", autouse=True)

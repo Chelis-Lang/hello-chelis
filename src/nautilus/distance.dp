@@ -11,6 +11,7 @@
     self_distance_zero)
   (defsig {}
     euclid
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -18,15 +19,14 @@
   (def {}
     euclid
     (fn {}
-      (params {}
-        (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:248..263"}
-        (var {span: "surf:248..257"} euclidean)
-        (var {span: "surf:258..259"} a)
-        (var {span: "surf:261..262"} b))))
+      (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
+      (app {span: "surf:251..266"}
+        (var {span: "surf:251..260"} euclidean)
+        (var {span: "surf:261..262"} a)
+        (var {span: "surf:264..265"} b))))
   (defsig {}
     manhattan_dist
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -34,15 +34,14 @@
   (def {}
     manhattan_dist
     (fn {}
-      (params {}
-        (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:332..347"}
-        (var {span: "surf:332..341"} manhattan)
-        (var {span: "surf:342..343"} a)
-        (var {span: "surf:345..346"} b))))
+      (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
+      (app {span: "surf:338..353"}
+        (var {span: "surf:338..347"} manhattan)
+        (var {span: "surf:348..349"} a)
+        (var {span: "surf:351..352"} b))))
   (defsig {}
     chebyshev_dist
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -50,15 +49,14 @@
   (def {}
     chebyshev_dist
     (fn {}
-      (params {}
-        (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:416..431"}
-        (var {span: "surf:416..425"} chebyshev)
-        (var {span: "surf:426..427"} a)
-        (var {span: "surf:429..430"} b))))
+      (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
+      (app {span: "surf:425..440"}
+        (var {span: "surf:425..434"} chebyshev)
+        (var {span: "surf:435..436"} a)
+        (var {span: "surf:438..439"} b))))
   (defsig {}
     cosine_dist
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
@@ -66,24 +64,22 @@
   (def {}
     cosine_dist
     (fn {}
-      (params {}
-        (a {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))})
-        (b {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:497..518"}
-        (var {span: "surf:497..512"} cosine_distance)
-        (var {span: "surf:513..514"} a)
-        (var {span: "surf:516..517"} b))))
+      (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
+      (app {span: "surf:509..530"}
+        (var {span: "surf:509..524"} cosine_distance)
+        (var {span: "surf:525..526"} a)
+        (var {span: "surf:528..529"} b))))
   (defsig {}
     self_distance_zero
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
   (def {}
     self_distance_zero
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:571..586"}
-        (var {span: "surf:571..580"} euclidean)
-        (var {span: "surf:581..582"} x)
-        (var {span: "surf:584..585"} x)))))
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:586..601"}
+        (var {span: "surf:586..595"} euclidean)
+        (var {span: "surf:596..597"} x)
+        (var {span: "surf:599..600"} x)))))

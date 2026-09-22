@@ -6,7 +6,7 @@
   (def {}
     decay
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (app {span: "surf:161..167"}
         (var {span: "surf:161..164"} neg)
         (var {span: "surf:165..166"} y))))
@@ -14,14 +14,14 @@
   (def {}
     growth
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (var {span: "surf:204..205"} y)))
   (defsig {} decay_rk4 (t-fn {} (t-prim {} f32)))
   (def {}
     decay_rk4
     (fn {}
       (params {})
-      (app {span: "surf:231..313"}
+      (app {span: "surf:231..311"}
         (var {span: "surf:231..240"} rk4_solve)
         (var {span: "surf:241..246"} decay)
         (cast {span: "surf:248..262"}
@@ -33,46 +33,46 @@
         (cast {span: "surf:280..294"}
           (lit {span: "surf:285..288", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:296..312"}
-          (lit {span: "surf:301..304", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 100)
-          (t-prim {} int64)))))
+        (cast {span: "surf:296..310"}
+          (lit {span: "surf:301..304", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64)))))
   (defsig {} decay_euler (t-fn {} (t-prim {} f32)))
   (def {}
     decay_euler
     (fn {}
       (params {})
-      (app {span: "surf:341..426"}
-        (var {span: "surf:341..352"} euler_solve)
-        (var {span: "surf:353..358"} decay)
-        (cast {span: "surf:360..374"}
-          (lit {span: "surf:365..368", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+      (app {span: "surf:339..422"}
+        (var {span: "surf:339..350"} euler_solve)
+        (var {span: "surf:351..356"} decay)
+        (cast {span: "surf:358..372"}
+          (lit {span: "surf:363..366", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:376..390"}
-          (lit {span: "surf:381..384", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+        (cast {span: "surf:374..388"}
+          (lit {span: "surf:379..382", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:392..406"}
-          (lit {span: "surf:397..400", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+        (cast {span: "surf:390..404"}
+          (lit {span: "surf:395..398", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:408..425"}
-          (lit {span: "surf:413..417", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2000)
-          (t-prim {} int64)))))
+        (cast {span: "surf:406..421"}
+          (lit {span: "surf:411..415", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2000)
+          (t-prim {} i64)))))
   (defsig {} exp_growth_rk4 (t-fn {} (t-prim {} f32)))
   (def {}
     exp_growth_rk4
     (fn {}
       (params {})
-      (app {span: "surf:457..540"}
-        (var {span: "surf:457..466"} rk4_solve)
-        (var {span: "surf:467..473"} growth)
-        (cast {span: "surf:475..489"}
-          (lit {span: "surf:480..483", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+      (app {span: "surf:453..534"}
+        (var {span: "surf:453..462"} rk4_solve)
+        (var {span: "surf:463..469"} growth)
+        (cast {span: "surf:471..485"}
+          (lit {span: "surf:476..479", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:491..505"}
-          (lit {span: "surf:496..499", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+        (cast {span: "surf:487..501"}
+          (lit {span: "surf:492..495", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:507..521"}
-          (lit {span: "surf:512..515", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+        (cast {span: "surf:503..517"}
+          (lit {span: "surf:508..511", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32))
-        (cast {span: "surf:523..539"}
-          (lit {span: "surf:528..531", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 100)
-          (t-prim {} int64))))))
+        (cast {span: "surf:519..533"}
+          (lit {span: "surf:524..527", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64))))))

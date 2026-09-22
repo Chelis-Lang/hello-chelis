@@ -8,7 +8,7 @@
   (def {}
     gbm_drift
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (app {span: "surf:156..178"}
         (var {span: "surf:156..159"} mul)
         (cast {span: "surf:160..174"}
@@ -21,7 +21,7 @@
   (def {}
     gbm_diffusion
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (app {span: "surf:222..244"}
         (var {span: "surf:222..225"} mul)
         (cast {span: "surf:226..240"}
@@ -34,7 +34,7 @@
   (def {}
     decay_drift
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (app {span: "surf:286..292"}
         (var {span: "surf:286..289"} neg)
         (var {span: "surf:290..291"} y))))
@@ -44,7 +44,7 @@
   (def {}
     zero_diffusion
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (cast {span: "surf:337..351"}
         (lit {span: "surf:342..345", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
         (t-prim {} f32))))

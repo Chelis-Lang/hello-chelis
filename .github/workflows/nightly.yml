@@ -45,18 +45,17 @@ jobs:
       #
       # We copy the standalone grad file out of the reef root and build it from
       # /tmp so the build lowers ONLY that file. Two independent reasons make
-      # that necessary, and both were re-confirmed at chelis 0.18.5:
+      # that necessary, and both were re-confirmed at chelis 0.18.11:
       #
       #   1. `verify/` is not a declared source root, so naming a verify file
       #      from the reef root rejects with "not a source file under any
       #      declared root ... (roots: [src])".
       #   2. Naming an in-root file instead lowers the WHOLE hello-chelis
       #      package, which includes the capstone BlackScholes.delta/.vega.
-      #      Those differentiate w.r.t. a scalar f32 via inline `grad(f)(x)`,
-      #      and chelis's host-lane C backend can only lower grad w.r.t. a
-      #      tensor (chelis#405), so the build aborts with "can't lower these
-      #      defs ... applies/binds grad ... in a position the host lane can't
-      #      resolve".
+      #      Those differentiate scalar functions containing local bindings.
+      #      The host-lane C backend rejects that form (chelis#2379), so the
+      #      build aborts with "can't lower these defs ... applies/binds grad
+      #      ... in a position the host lane can't resolve".
       #
       # grad_quadratic.ch uses the supported grad-over-function-parameter /
       # tensor-wrt form, so built in isolation it lowers and runs cleanly. This

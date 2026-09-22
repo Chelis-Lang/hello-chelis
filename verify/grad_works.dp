@@ -9,9 +9,7 @@
   (def {}
     loss_fn
     (fn {}
-      (params {}
-        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+      (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
       (let {span: "surf:76..233"}
         (bind {}
           one_vec
@@ -54,7 +52,7 @@
                 (app {span: "surf:205..211"}
                   (var {span: "surf:205..208"} sum)
                   (var {span: "surf:205..211"} __chelis_pipe)
-                  (lit {span: "surf:209..210", type: (t-prim {} int32)} 0)))
+                  (lit {span: "surf:209..210", type: (t-prim {} i32)} 0)))
               (var {span: "surf:215..231"} tensor_to_scalar)))))))
   (defsig {}
     dloss_dw
@@ -70,14 +68,9 @@
     dloss_dw
     (fn {}
       (params {}
-        (model
-          {type: (t-fn {}
-                    (t-tensor {} (d-lit {} 3) (t-prim {} f32))
-                    (t-tensor {} (d-lit {} 3) (t-prim {} f32))
-                    (t-prim {} f32))
-          })
-        (w {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))})
-        (x {type: (t-tensor {} (d-lit {} 3) (t-prim {} f32))}))
+        (model {type: (t-var {} _)})
+        (w {type: (t-var {} _)})
+        (x {type: (t-var {} _)}))
       (let {span: "surf:353..448"}
         (bind {}
           target
@@ -91,7 +84,7 @@
         (app {span: "surf:418..446"}
           (grad {span: "surf:418..443", wrt: (var {} w_local)}
             (var {span: "surf:423..429"} target)
-            (lit {type: (t-prim {} int32)} 0))
+            (lit {type: (t-prim {} i32)} 0))
           (var {span: "surf:444..445"} w)))))
   (def {}
     w0

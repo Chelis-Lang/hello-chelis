@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.2",
   "source_format": "latex",
   "source": "octant/normal_pdf.tex",
   "source_hash": "sha256:d52bc89aed8274762157fbe1b5b523e2000f07bd818635453ee8358c68ddc581",
@@ -66,6 +66,38 @@
         "label": null
       },
       "latex_text": "x",
+      "faithfulness": "deterministic-faithful"
+    },
+    {
+      "deep_node_id": "n_004",
+      "deep_path": "/__top[1]/def[1]/app[2]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 140,
+        "end_byte": 147,
+        "start_line": 5,
+        "start_column": 5,
+        "end_line": 5,
+        "end_column": 12,
+        "label": null
+      },
+      "latex_text": "\\phi(x)",
+      "faithfulness": "deterministic-faithful"
+    },
+    {
+      "deep_node_id": "n_005",
+      "deep_path": "/__top[1]/def[1]/app[3]",
+      "latex": {
+        "source_id": 0,
+        "start_byte": 140,
+        "end_byte": 147,
+        "start_line": 5,
+        "start_column": 5,
+        "end_line": 5,
+        "end_column": 12,
+        "label": null
+      },
+      "latex_text": "\\phi(x)",
       "faithfulness": "deterministic-faithful"
     }
   ]

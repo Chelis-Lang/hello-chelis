@@ -8,7 +8,7 @@
   (def {}
     erf_pipe
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:215..221"}
         (var {span: "surf:215..218"} erf)
         (var {span: "surf:219..220"} x))))
@@ -16,7 +16,7 @@
   (def {}
     erf_round_trip
     (fn {}
-      (params {} (y {type: (t-prim {} f32)}))
+      (params {} (y {type: (t-var {} _)}))
       (app {span: "surf:258..272"}
         (var {span: "surf:258..261"} erf)
         (app {span: "surf:262..271"}
@@ -36,7 +36,7 @@
   (def {}
     complementary_erf
     (fn {}
-      (params {} (x {type: (t-prim {} f32)}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:367..387"}
         (var {span: "surf:367..370"} add)
         (app {span: "surf:371..377"}

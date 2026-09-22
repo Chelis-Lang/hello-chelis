@@ -1,34 +1,34 @@
 (module {surf_path: "Hello.Basics.Linearity"}
   hello.basics.linearity
-  (export {} residual fan_out)
+  (export {} double_shared fan_out)
   (defsig {}
-    residual
+    double_shared
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
-    residual
+    double_shared
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:110..119"}
-        (var {span: "surf:110..113"} add)
-        (var {span: "surf:114..115"} x)
-        (var {span: "surf:117..118"} x))))
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:123..132"}
+        (var {span: "surf:123..126"} add)
+        (var {span: "surf:127..128"} x)
+        (var {span: "surf:130..131"} x))))
   (defsig {}
     fan_out
+    (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     fan_out
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))}))
-      (app {span: "surf:172..189"}
-        (var {span: "surf:172..175"} add)
-        (var {span: "surf:176..177"} x)
-        (app {span: "surf:179..188"}
-          (var {span: "surf:179..182"} add)
-          (var {span: "surf:183..184"} x)
-          (var {span: "surf:186..187"} x))))))
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:188..205"}
+        (var {span: "surf:188..191"} add)
+        (var {span: "surf:192..193"} x)
+        (app {span: "surf:195..204"}
+          (var {span: "surf:195..198"} add)
+          (var {span: "surf:199..200"} x)
+          (var {span: "surf:202..203"} x))))))

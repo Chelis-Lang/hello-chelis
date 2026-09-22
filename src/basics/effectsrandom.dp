@@ -4,6 +4,7 @@
   (export {} sample_normal deterministic_pair)
   (defsig {}
     sample_normal
+    (n)
     (t-fn {eff: (effects {} random)}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
@@ -11,14 +12,14 @@
     sample_normal
     (fn {}
       (params {} (template {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {span: "surf:256..309"}
-        (var {span: "surf:256..267"} normal_like)
-        (var {span: "surf:268..276"} template)
-        (cast {span: "surf:278..292"}
-          (lit {span: "surf:283..286", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+      (app {span: "surf:259..312"}
+        (var {span: "surf:259..270"} normal_like)
+        (var {span: "surf:271..279"} template)
+        (cast {span: "surf:281..295"}
+          (lit {span: "surf:286..289", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
           (t-prim {} f32))
-        (cast {span: "surf:294..308"}
-          (lit {span: "surf:299..302", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+        (cast {span: "surf:297..311"}
+          (lit {span: "surf:302..305", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
           (t-prim {} f32)))))
   (defsig {}
     deterministic_pair
@@ -27,25 +28,25 @@
     deterministic_pair
     (fn {}
       (params {})
-      (handle-effect {effect: random, span: "surf:355..450"}
-        (lit {span: "surf:365..370", type: (t-prim {} int64)} 42)
-        (app {span: "surf:372..450"}
-          (var {span: "surf:374..387"} sample_normal)
-          (app {span: "surf:388..447"}
-            (var {span: "surf:388..397"} to_tensor)
-            (app {span: "surf:398..446"}
+      (handle-effect {effect: random, span: "surf:358..453"}
+        (lit {span: "surf:368..373", type: (t-prim {} i64)} 42)
+        (app {span: "surf:375..453"}
+          (var {span: "surf:377..390"} sample_normal)
+          (app {span: "surf:391..450"}
+            (var {span: "surf:391..400"} to_tensor)
+            (app {span: "surf:401..449"}
               (var {} Cons)
-              (cast {span: "surf:399..413"}
-                (lit {span: "surf:404..407", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+              (cast {span: "surf:402..416"}
+                (lit {span: "surf:407..410", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:415..429"}
-                  (lit {span: "surf:420..423", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+                (cast {span: "surf:418..432"}
+                  (lit {span: "surf:423..426", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:431..445"}
-                    (lit {span: "surf:436..439", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+                  (cast {span: "surf:434..448"}
+                    (lit {span: "surf:439..442", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
                     (t-prim {} f32))
                   (var {} Nil))))))))))

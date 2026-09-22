@@ -1,7 +1,7 @@
 # c-earchin — EARS Requirements Bridge
 
 `c-earchin` translates EARS-style requirements into Chelis Deep property
-witnesses. The committed v0.3.2 demo is intentionally finance-flavored so a stakeholder
+witnesses. The committed v0.3.5 demo is intentionally finance-flavored so a stakeholder
 can read the input in under a minute and see the value:
 
 - a single `.ears` source covering ubiquitous, `WHEN`, `WHILE`,
@@ -13,13 +13,14 @@ can read the input in under a minute and see the value:
 The Docker image installs the released c-earchin package:
 
 ```sh
-chelis reef install --from-github Chelis-Lang/c-earchin@v0.3.3
+chelis reef install --from-github Chelis-Lang/c-earchin@v0.3.5
 ```
 
-This repo commits the v0.3.2 finance-options proof fixtures under
+This repo commits the v0.3.5 finance-options proof fixtures under
 [`c-earchin/finance_options/`](../../c-earchin/finance_options/) so CI
-does not need to clone or build c-earchin from source. From this repo
-root, use:
+does not need to clone or build c-earchin from source. The adjacent
+`provenance.json` locks every fixture to the v0.3.5 release commit and
+successful release workflow. From this repo root, use:
 
 ```sh
 chelis prove c-earchin/finance_options/options_rules.dp \
@@ -51,4 +52,4 @@ full EARS corpus, but unresolved vocabulary in non-strict mode is marked
 `c-earchin translate --strict` for artifacts you intend to verify.
 
 For the exact stakeholder contract, read `docs/verification-scope.md`
-in the c-earchin v0.3.2 release source.
+in the c-earchin v0.3.5 release source.

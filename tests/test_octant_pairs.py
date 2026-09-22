@@ -52,7 +52,7 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
             [
                 "octant",
                 "translate",
-                str(tex),
+                str(tex.relative_to(REPO)),
                 "--output",
                 str(rdp),
                 "--spans",
@@ -61,6 +61,7 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
             check=False,
             capture_output=True,
             text=True,
+            cwd=REPO,
         )
         assert r.returncode == 0, f"octant translate failed for {tex.name}:\n{r.stderr}"
 
@@ -74,21 +75,9 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
         rch.write_text(s.stdout)
 
         for committed, regenerated in ((dp, rdp), (spans, rspans), (ch, rch)):
-            # The .spans.json embeds an absolute path to the source .tex
-            # which differs between the committed copy and this temp run;
-            # filter that one field before comparing.
-            if committed.suffix == ".json":
-                import json
-
-                a = json.loads(committed.read_text())
-                b = json.loads(regenerated.read_text())
-                a.pop("source", None)
-                b.pop("source", None)
-                assert a == b, f"{committed.name}: spans drift (excluding source path)"
-            else:
-                assert committed.read_text().rstrip(
-                    "\n"
-                ) == regenerated.read_text().rstrip("\n"), (
-                    f"{committed.name} drifted from regenerated output for {tex.name}. "
-                    f"Re-run `python3 scripts/regen_octant.py` to bring back into sync."
-                )
+            assert committed.read_text().rstrip("\n") == regenerated.read_text().rstrip(
+                "\n"
+            ), (
+                f"{committed.name} drifted from regenerated output for {tex.name}. "
+                f"Re-run `python3 scripts/regen_octant.py` to bring back into sync."
+            )

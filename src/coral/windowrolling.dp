@@ -42,34 +42,34 @@
     mean3
     (fn {}
       (params {})
-      (app {span: "surf:296..341"}
+      (app {span: "surf:296..339"}
         (var {span: "surf:296..308"} rolling_mean)
         (app {span: "surf:309..324"}
           (var {span: "surf:309..322"} sample_series))
-        (cast {span: "surf:326..340"}
-          (lit {span: "surf:331..332", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-          (t-prim {} int64)))))
+        (cast {span: "surf:326..338"}
+          (lit {span: "surf:331..332", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+          (t-prim {} i64)))))
   (defsig {} std3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     std3
     (fn {}
       (params {})
-      (app {span: "surf:373..417"}
-        (var {span: "surf:373..384"} rolling_std)
-        (app {span: "surf:385..400"}
-          (var {span: "surf:385..398"} sample_series))
-        (cast {span: "surf:402..416"}
-          (lit {span: "surf:407..408", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-          (t-prim {} int64)))))
+      (app {span: "surf:371..413"}
+        (var {span: "surf:371..382"} rolling_std)
+        (app {span: "surf:383..398"}
+          (var {span: "surf:383..396"} sample_series))
+        (cast {span: "surf:400..412"}
+          (lit {span: "surf:405..406", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+          (t-prim {} i64)))))
   (defsig {} ewm_half (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
   (def {}
     ewm_half
     (fn {}
       (params {})
-      (app {span: "surf:453..489"}
-        (var {span: "surf:453..456"} ewm)
-        (app {span: "surf:457..472"}
-          (var {span: "surf:457..470"} sample_series))
-        (cast {span: "surf:474..488"}
-          (lit {span: "surf:479..482", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+      (app {span: "surf:449..485"}
+        (var {span: "surf:449..452"} ewm)
+        (app {span: "surf:453..468"}
+          (var {span: "surf:453..466"} sample_series))
+        (cast {span: "surf:470..484"}
+          (lit {span: "surf:475..478", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
           (t-prim {} f32))))))

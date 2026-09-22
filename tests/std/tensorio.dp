@@ -3,7 +3,7 @@
   (import {surf_path: "Hello.Std.TensorIo"}
     hello.std.tensorio
     (write_then_read file_or_default save_message))
-  (import {surf_path: "Std.Test"} std.test (assert_eq_string))
+  (import {surf_path: "Std.Test"} std.test (assert_eq))
   (defsig {}
     test_write_then_read
     (t-fn {eff: (effects {} test io)} (t-unit {})))
@@ -11,18 +11,18 @@
     test_write_then_read
     (fn {}
       (params {})
-      (let {span: "surf:194..343"}
+      (let {span: "surf:187..329"}
         (bind {}
           result
-          (app {span: "surf:207..276"}
-            (var {span: "surf:207..222"} write_then_read)
-            (lit {span: "surf:223..260", type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-test.txt")
-            (lit {span: "surf:262..275", type: (t-prim {} string)} "round-trip!")))
-        (app {span: "surf:279..341"}
-          (var {span: "surf:279..295"} assert_eq_string)
-          (var {span: "surf:296..302"} result)
-          (lit {span: "surf:304..317", type: (t-prim {} string)} "round-trip!")
-          (lit {span: "surf:319..340", type: (t-prim {} string)} "round-trip text I/O")))))
+          (app {span: "surf:200..269"}
+            (var {span: "surf:200..215"} write_then_read)
+            (lit {span: "surf:216..253", type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-test.txt")
+            (lit {span: "surf:255..268", type: (t-prim {} string)} "round-trip!")))
+        (app {span: "surf:272..327"}
+          (var {span: "surf:272..281"} assert_eq)
+          (var {span: "surf:282..288"} result)
+          (lit {span: "surf:290..303", type: (t-prim {} string)} "round-trip!")
+          (lit {span: "surf:305..326", type: (t-prim {} string)} "round-trip text I/O")))))
   (defsig {}
     test_file_or_default_missing
     (t-fn {eff: (effects {} test io)} (t-unit {})))
@@ -30,32 +30,32 @@
     test_file_or_default_missing
     (fn {}
       (params {})
-      (let {span: "surf:404..555"}
+      (let {span: "surf:390..534"}
         (bind {}
           fallback
-          (app {span: "surf:419..485"}
-            (var {span: "surf:419..434"} file_or_default)
-            (lit {span: "surf:435..473", type: (t-prim {} string)} "/tmp/hello-chelis-does-not-exist.txt")
-            (lit {span: "surf:475..484", type: (t-prim {} string)} "default")))
-        (app {span: "surf:488..553"}
-          (var {span: "surf:488..504"} assert_eq_string)
-          (var {span: "surf:505..513"} fallback)
-          (lit {span: "surf:515..524", type: (t-prim {} string)} "default")
-          (lit {span: "surf:526..552", type: (t-prim {} string)} "missing path -> fallback")))))
+          (app {span: "surf:405..471"}
+            (var {span: "surf:405..420"} file_or_default)
+            (lit {span: "surf:421..459", type: (t-prim {} string)} "/tmp/hello-chelis-does-not-exist.txt")
+            (lit {span: "surf:461..470", type: (t-prim {} string)} "default")))
+        (app {span: "surf:474..532"}
+          (var {span: "surf:474..483"} assert_eq)
+          (var {span: "surf:484..492"} fallback)
+          (lit {span: "surf:494..503", type: (t-prim {} string)} "default")
+          (lit {span: "surf:505..531", type: (t-prim {} string)} "missing path -> fallback")))))
   (defsig {} test_save_message (t-fn {eff: (effects {} test io)} (t-unit {})))
   (def {}
     test_save_message
     (fn {}
       (params {})
-      (let {span: "surf:605..743"}
+      (let {span: "surf:584..715"}
         (bind {}
           out
-          (app {span: "surf:615..671"}
-            (var {span: "surf:615..627"} save_message)
-            (lit {span: "surf:628..664", type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-msg.txt")
-            (lit {span: "surf:666..670", type: (t-prim {} string)} "hi")))
-        (app {span: "surf:674..741"}
-          (var {span: "surf:674..690"} assert_eq_string)
-          (var {span: "surf:691..694"} out)
-          (lit {span: "surf:696..708", type: (t-prim {} string)} "[hello] hi")
-          (lit {span: "surf:710..740", type: (t-prim {} string)} "save_message persists banner"))))))
+          (app {span: "surf:594..650"}
+            (var {span: "surf:594..606"} save_message)
+            (lit {span: "surf:607..643", type: (t-prim {} string)} "/tmp/hello-chelis-tensorio-msg.txt")
+            (lit {span: "surf:645..649", type: (t-prim {} string)} "hi")))
+        (app {span: "surf:653..713"}
+          (var {span: "surf:653..662"} assert_eq)
+          (var {span: "surf:663..666"} out)
+          (lit {span: "surf:668..680", type: (t-prim {} string)} "[hello] hi")
+          (lit {span: "surf:682..712", type: (t-prim {} string)} "save_message persists banner"))))))

@@ -13,80 +13,80 @@
     new_years_day)
   (defsig {}
     anniversary
-    (t-fn {} (t-adt {} Date) (t-prim {} int64) (t-adt {} Date)))
+    (t-fn {} (t-adt {} Date) (t-prim {} i64) (t-adt {} Date)))
   (def {}
     anniversary
     (fn {}
-      (params {} (d {type: (t-adt {} Date)}) (years {type: (t-prim {} int64)}))
-      (app {span: "surf:278..319"}
-        (var {span: "surf:278..286"} add_days)
-        (var {span: "surf:287..288"} d)
-        (app {span: "surf:290..318"}
-          (var {span: "surf:290..293"} mul)
-          (var {span: "surf:294..299"} years)
-          (cast {span: "surf:301..317"}
-            (lit {span: "surf:306..309", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 365)
-            (t-prim {} int64))))))
+      (params {} (d {type: (t-var {} _)}) (years {type: (t-var {} _)}))
+      (app {span: "surf:276..315"}
+        (var {span: "surf:276..284"} add_days)
+        (var {span: "surf:285..286"} d)
+        (app {span: "surf:288..314"}
+          (var {span: "surf:288..291"} mul)
+          (var {span: "surf:292..297"} years)
+          (cast {span: "surf:299..313"}
+            (lit {span: "surf:304..307", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 365)
+            (t-prim {} i64))))))
   (defsig {} weekday_name (t-fn {} (t-adt {} Date) (t-prim {} string)))
   (def {}
     weekday_name
     (fn {}
-      (params {} (d {type: (t-adt {} Date)}))
-      (app {span: "surf:358..377"}
-        (var {span: "surf:358..374"} day_of_week_name)
-        (var {span: "surf:375..376"} d))))
+      (params {} (d {type: (t-var {} _)}))
+      (app {span: "surf:354..373"}
+        (var {span: "surf:354..370"} day_of_week_name)
+        (var {span: "surf:371..372"} d))))
   (defsig {}
     days_until
-    (t-fn {} (t-adt {} Date) (t-adt {} Date) (t-prim {} int64)))
+    (t-fn {} (t-adt {} Date) (t-adt {} Date) (t-prim {} i64)))
   (def {}
     days_until
     (fn {}
-      (params {} (from {type: (t-adt {} Date)}) (to {type: (t-adt {} Date)}))
-      (app {span: "surf:426..448"}
-        (var {span: "surf:426..438"} days_between)
-        (var {span: "surf:439..443"} from)
-        (var {span: "surf:445..447"} to))))
+      (params {} (from {type: (t-var {} _)}) (to {type: (t-var {} _)}))
+      (app {span: "surf:420..442"}
+        (var {span: "surf:420..432"} days_between)
+        (var {span: "surf:433..437"} from)
+        (var {span: "surf:439..441"} to))))
   (defsig {} format_date (t-fn {} (t-adt {} Date) (t-prim {} string)))
   (def {}
     format_date
     (fn {}
-      (params {} (d {type: (t-adt {} Date)}))
-      (app {span: "surf:486..503"}
-        (var {span: "surf:486..500"} date_to_string)
-        (var {span: "surf:501..502"} d))))
+      (params {} (d {type: (t-var {} _)}))
+      (app {span: "surf:480..497"}
+        (var {span: "surf:480..494"} date_to_string)
+        (var {span: "surf:495..496"} d))))
   (defsig {} after_30_days (t-fn {} (t-adt {} Date) (t-adt {} Date)))
   (def {}
     after_30_days
     (fn {}
-      (params {} (d {type: (t-adt {} Date)}))
-      (app {span: "surf:541..569"}
-        (var {span: "surf:541..549"} add_days)
-        (var {span: "surf:550..551"} d)
-        (cast {span: "surf:553..568"}
-          (lit {span: "surf:558..560", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 30)
-          (t-prim {} int64)))))
+      (params {} (d {type: (t-var {} _)}))
+      (app {span: "surf:535..561"}
+        (var {span: "surf:535..543"} add_days)
+        (var {span: "surf:544..545"} d)
+        (cast {span: "surf:547..560"}
+          (lit {span: "surf:552..554", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 30)
+          (t-prim {} i64)))))
   (defsig {} week_before (t-fn {} (t-adt {} Date) (t-adt {} Date)))
   (def {}
     week_before
     (fn {}
-      (params {} (d {type: (t-adt {} Date)}))
-      (app {span: "surf:605..632"}
-        (var {span: "surf:605..613"} sub_days)
-        (var {span: "surf:614..615"} d)
-        (cast {span: "surf:617..631"}
-          (lit {span: "surf:622..623", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 7)
-          (t-prim {} int64)))))
-  (defsig {} new_years_day (t-fn {} (t-prim {} int64) (t-adt {} Date)))
+      (params {} (d {type: (t-var {} _)}))
+      (app {span: "surf:597..622"}
+        (var {span: "surf:597..605"} sub_days)
+        (var {span: "surf:606..607"} d)
+        (cast {span: "surf:609..621"}
+          (lit {span: "surf:614..615", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 7)
+          (t-prim {} i64)))))
+  (defsig {} new_years_day (t-fn {} (t-prim {} i64) (t-adt {} Date)))
   (def {}
     new_years_day
     (fn {}
-      (params {} (year {type: (t-prim {} int64)}))
-      (app {span: "surf:674..716"}
-        (var {span: "surf:674..678"} date)
-        (var {span: "surf:679..683"} year)
-        (cast {span: "surf:685..699"}
-          (lit {span: "surf:690..691", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
-          (t-prim {} int64))
-        (cast {span: "surf:701..715"}
-          (lit {span: "surf:706..707", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
-          (t-prim {} int64))))))
+      (params {} (year {type: (t-var {} _)}))
+      (app {span: "surf:662..700"}
+        (var {span: "surf:662..666"} date)
+        (var {span: "surf:667..671"} year)
+        (cast {span: "surf:673..685"}
+          (lit {span: "surf:678..679", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+          (t-prim {} i64))
+        (cast {span: "surf:687..699"}
+          (lit {span: "surf:692..693", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+          (t-prim {} i64))))))

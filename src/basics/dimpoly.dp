@@ -3,31 +3,32 @@
   (export {} identity_dim scaled double_apply)
   (defsig {}
     identity_dim
+    (a)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))
       (t-tensor {} (d-var {} a) (t-prim {} f32))))
   (def {}
     identity_dim
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
+      (params {} (x {type: (t-var {} _)}))
       (var {span: "surf:132..133"} x)))
   (defsig {}
     scaled
+    (a)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))
       (t-tensor {} (d-var {} a) (t-prim {} f32))))
   (def {}
     scaled
     (fn {}
-      (params {}
-        (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:188..197"}
         (var {span: "surf:188..191"} add)
         (var {span: "surf:192..193"} x)
         (var {span: "surf:195..196"} x))))
   (defsig {}
     double_apply
+    (a)
     (t-fn {}
       (t-fn {}
         (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))
@@ -37,13 +38,7 @@
   (def {}
     double_apply
     (fn {}
-      (params {}
-        (f
-          {type: (t-fn {}
-                    (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))
-                    (t-tensor {} (d-var {} a) (t-prim {} f32)))
-          })
-        (x {type: (t-ref {} (t-tensor {} (d-var {} a) (t-prim {} f32)))}))
+      (params {} (f {type: (t-var {} _)}) (x {type: (t-var {} _)}))
       (pipe {span: "surf:296..307"}
         (var {span: "surf:296..297"} x)
         (var {span: "surf:301..302"} f)

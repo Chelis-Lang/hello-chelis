@@ -1,4 +1,4 @@
 module Hello.Basics.Linearity
-export (residual, fan_out)
-def residual(x: &tensor[n, f32]) -> tensor[n, f32] = add(x, x)
-def fan_out(x: &tensor[n, f32]) -> tensor[n, f32] = add(x, add(x, x))
+export (double_shared, fan_out)
+def double_shared[n](x: &tensor[n, f32]) -> tensor[n, f32] = add(x, x)
+def fan_out[n](x: &tensor[n, f32]) -> tensor[n, f32] = add(x, add(x, x))

@@ -1,6 +1,6 @@
 module Hello.Capstone.LinReg
 export (predict, mse_loss, sgd_step)
-def predict(x: tensor[64, 64, f32], w: tensor[64, 1, f32], b: tensor[1, f32]) -> tensor[64, 1, f32] = x |> matmul(w) |> add(expand(b, 0, 64i64))
+def predict(x: tensor[64, 64, f32], w: tensor[64, 1, f32], b: tensor[1, f32]) -> tensor[64, 1, f32] = x |> matmul(w) |> add(insert(b, 0, 64i64))
 def mse_loss(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32], b: tensor[1, f32]) -> tensor[f32] = {
   pred = predict(x, w, b)
   err = sub(pred, y)
@@ -11,7 +11,7 @@ def sgd_step(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32
   dw = grad(mse_loss, wrt=w)(x, y, w, b)
   db = grad(mse_loss, wrt=b)(x, y, w, b)
   lr_t = to_tensor([lr])
-  new_w = sub(w, mul(expand(expand(lr_t, 0, 64i64), 1, 1i64), dw))
+  new_w = w |> sub(mul(insert(lr_t, 0, 64i64), dw))
   new_b = sub(b, mul(lr_t, db))
   (new_w, new_b)
 }

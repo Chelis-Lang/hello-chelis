@@ -9,9 +9,7 @@
   (def {}
     process
     (fn {}
-      (params {}
-        (x
-          {type: (t-ref {} (t-tensor {} (d-name {} features) (t-prim {} f32)))}))
+      (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:123..132"}
         (var {span: "surf:123..126"} add)
         (var {span: "surf:127..128"} x)
@@ -25,16 +23,9 @@
   (def {}
     batch_process
     (fn {}
-      (params {}
-        (xs
-          {type: (t-ref {}
-                    (t-tensor {}
-                      (d-name {} batch)
-                      (d-name {} features)
-                      (t-prim {} f32)))
-          }))
+      (params {} (xs {type: (t-var {} _)}))
       (app {span: "surf:220..237"}
         (vmap {span: "surf:220..233"}
           (var {span: "surf:225..232"} process)
-          (lit {type: (t-prim {} int32)} 0))
+          (lit {type: (t-prim {} i32)} 0))
         (var {span: "surf:234..236"} xs)))))

@@ -4,7 +4,7 @@ The neural-network library. Holds the `Nn.*` and `Loss.*` modules that
 shipped inside `chelis-std` before 0.4.0 moved them out into their own
 package.
 
-Pinned to `0.1.13`. Reef declaration in our [`reef.toml`](../../reef.toml)
+Pinned to `0.1.14`. Reef declaration in our [`reef.toml`](../../reef.toml)
 under `[dependencies]`.
 
 ## Why it exists

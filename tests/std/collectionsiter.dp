@@ -3,197 +3,210 @@
   (import {surf_path: "Hello.Std.CollectionsIter"}
     hello.std.collectionsiter
     (sum_evens increments take_first_three build_vocab lookup_or_default))
-  (import {surf_path: "Std.Test"} std.test (assert_eq_int))
+  (import {surf_path: "Std.Test"} std.test (assert_eq))
   (defsig {} test_sum_evens (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_sum_evens
     (fn {}
       (params {})
-      (let {span: "surf:220..415"}
+      (let {span: "surf:216..393"}
         (bind {}
           xs
-          (app {span: "surf:242..322", type: (t-adt {} List (t-prim {} int64))}
+          (app {span: "surf:236..306",
+                 surf_binding_type: "explicit",
+                 type: (t-adt {} List (t-prim {} i64))
+               }
             (var {} Cons)
-            (cast {span: "surf:243..257"}
-              (lit {span: "surf:248..249", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
-              (t-prim {} int64))
+            (cast {span: "surf:237..249"}
+              (lit {span: "surf:242..243", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+              (t-prim {} i64))
             (app {}
               (var {} Cons)
-              (cast {span: "surf:259..273"}
-                (lit {span: "surf:264..265", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
-                (t-prim {} int64))
+              (cast {span: "surf:251..263"}
+                (lit {span: "surf:256..257", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+                (t-prim {} i64))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:275..289"}
-                  (lit {span: "surf:280..281", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-                  (t-prim {} int64))
+                (cast {span: "surf:265..277"}
+                  (lit {span: "surf:270..271", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+                  (t-prim {} i64))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:291..305"}
-                    (lit {span: "surf:296..297", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 4)
-                    (t-prim {} int64))
+                  (cast {span: "surf:279..291"}
+                    (lit {span: "surf:284..285", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 4)
+                    (t-prim {} i64))
                   (app {}
                     (var {} Cons)
-                    (cast {span: "surf:307..321"}
-                      (lit {span: "surf:312..313", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 5)
-                      (t-prim {} int64))
+                    (cast {span: "surf:293..305"}
+                      (lit {span: "surf:298..299", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 5)
+                      (t-prim {} i64))
                     (var {} Nil)))))))
         (let {}
           (bind {}
             result
-            (app {span: "surf:334..347"}
-              (var {span: "surf:334..343"} sum_evens)
-              (var {span: "surf:344..346"} xs)))
-          (app {span: "surf:350..413"}
-            (var {span: "surf:350..363"} assert_eq_int)
-            (var {span: "surf:364..370"} result)
-            (cast {span: "surf:372..386"}
-              (lit {span: "surf:377..378", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 6)
-              (t-prim {} int64))
-            (lit {span: "surf:388..412", type: (t-prim {} string)} "sum of evens in [1..5]"))))))
+            (app {span: "surf:318..331"}
+              (var {span: "surf:318..327"} sum_evens)
+              (var {span: "surf:328..330"} xs)))
+          (app {span: "surf:334..391"}
+            (var {span: "surf:334..343"} assert_eq)
+            (var {span: "surf:344..350"} result)
+            (cast {span: "surf:352..364"}
+              (lit {span: "surf:357..358", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 6)
+              (t-prim {} i64))
+            (lit {span: "surf:366..390", type: (t-prim {} string)} "sum of evens in [1..5]"))))))
   (defsig {} test_increments_length (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_increments_length
     (fn {}
       (params {})
-      (let {span: "surf:466..643"}
+      (let {span: "surf:444..607"}
         (bind {}
           xs
-          (app {span: "surf:488..539", type: (t-adt {} List (t-prim {} int64))}
+          (app {span: "surf:464..509",
+                 surf_binding_type: "explicit",
+                 type: (t-adt {} List (t-prim {} i64))
+               }
             (var {} Cons)
-            (cast {span: "surf:489..504"}
-              (lit {span: "surf:494..496", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 10)
-              (t-prim {} int64))
+            (cast {span: "surf:465..478"}
+              (lit {span: "surf:470..472", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 10)
+              (t-prim {} i64))
             (app {}
               (var {} Cons)
-              (cast {span: "surf:506..521"}
-                (lit {span: "surf:511..513", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 20)
-                (t-prim {} int64))
+              (cast {span: "surf:480..493"}
+                (lit {span: "surf:485..487", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 20)
+                (t-prim {} i64))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:523..538"}
-                  (lit {span: "surf:528..530", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 30)
-                  (t-prim {} int64))
+                (cast {span: "surf:495..508"}
+                  (lit {span: "surf:500..502", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 30)
+                  (t-prim {} i64))
                 (var {} Nil)))))
         (let {}
           (bind {}
             bumped
-            (app {span: "surf:551..565"}
-              (var {span: "surf:551..561"} increments)
-              (var {span: "surf:562..564"} xs)))
-          (app {span: "surf:568..641"}
-            (var {span: "surf:568..581"} assert_eq_int)
-            (app {span: "surf:582..593"}
-              (var {span: "surf:582..585"} len)
-              (var {span: "surf:586..592"} bumped))
-            (cast {span: "surf:595..609"}
-              (lit {span: "surf:600..601", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-              (t-prim {} int64))
-            (lit {span: "surf:611..640", type: (t-prim {} string)} "increments preserves length"))))))
+            (app {span: "surf:521..535"}
+              (var {span: "surf:521..531"} increments)
+              (var {span: "surf:532..534"} xs)))
+          (app {span: "surf:538..605"}
+            (var {span: "surf:538..547"} assert_eq)
+            (app {span: "surf:548..559"}
+              (var {span: "surf:548..551"} len)
+              (var {span: "surf:552..558"} bumped))
+            (cast {span: "surf:561..573"}
+              (lit {span: "surf:566..567", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (t-prim {} i64))
+            (lit {span: "surf:575..604", type: (t-prim {} string)} "increments preserves length"))))))
   (defsig {} test_take_three (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_take_three
     (fn {}
       (params {})
-      (let {span: "surf:687..871"}
+      (let {span: "surf:651..819"}
         (bind {}
           xs
-          (app {span: "surf:709..777", type: (t-adt {} List (t-prim {} int64))}
+          (app {span: "surf:671..731",
+                 surf_binding_type: "explicit",
+                 type: (t-adt {} List (t-prim {} i64))
+               }
             (var {} Cons)
-            (cast {span: "surf:710..725"}
-              (lit {span: "surf:715..717", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 10)
-              (t-prim {} int64))
+            (cast {span: "surf:672..685"}
+              (lit {span: "surf:677..679", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 10)
+              (t-prim {} i64))
             (app {}
               (var {} Cons)
-              (cast {span: "surf:727..742"}
-                (lit {span: "surf:732..734", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 20)
-                (t-prim {} int64))
+              (cast {span: "surf:687..700"}
+                (lit {span: "surf:692..694", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 20)
+                (t-prim {} i64))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:744..759"}
-                  (lit {span: "surf:749..751", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 30)
-                  (t-prim {} int64))
+                (cast {span: "surf:702..715"}
+                  (lit {span: "surf:707..709", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 30)
+                  (t-prim {} i64))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:761..776"}
-                    (lit {span: "surf:766..768", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 40)
-                    (t-prim {} int64))
+                  (cast {span: "surf:717..730"}
+                    (lit {span: "surf:722..724", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 40)
+                    (t-prim {} i64))
                   (var {} Nil))))))
         (let {}
           (bind {}
             taken
-            (app {span: "surf:788..808"}
-              (var {span: "surf:788..804"} take_first_three)
-              (var {span: "surf:805..807"} xs)))
-          (app {span: "surf:811..869"}
-            (var {span: "surf:811..824"} assert_eq_int)
-            (app {span: "surf:825..835"}
-              (var {span: "surf:825..828"} len)
-              (var {span: "surf:829..834"} taken))
-            (cast {span: "surf:837..851"}
-              (lit {span: "surf:842..843", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-              (t-prim {} int64))
-            (lit {span: "surf:853..868", type: (t-prim {} string)} "take 3 from 4"))))))
+            (app {span: "surf:742..762"}
+              (var {span: "surf:742..758"} take_first_three)
+              (var {span: "surf:759..761"} xs)))
+          (app {span: "surf:765..817"}
+            (var {span: "surf:765..774"} assert_eq)
+            (app {span: "surf:775..785"}
+              (var {span: "surf:775..778"} len)
+              (var {span: "surf:779..784"} taken))
+            (cast {span: "surf:787..799"}
+              (lit {span: "surf:792..793", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+              (t-prim {} i64))
+            (lit {span: "surf:801..816", type: (t-prim {} string)} "take 3 from 4"))))))
   (defsig {} test_vocab_lookup (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_vocab_lookup
     (fn {}
       (params {})
-      (let {span: "surf:917..1181"}
+      (let {span: "surf:865..1113"}
         (bind {}
           keys
-          (app {span: "surf:942..968", type: (t-adt {} List (t-prim {} string))}
+          (app {span: "surf:890..916",
+                 surf_binding_type: "explicit",
+                 type: (t-adt {} List (t-prim {} string))
+               }
             (var {} Cons)
-            (lit {span: "surf:943..950", type: (t-prim {} string)} "alpha")
+            (lit {span: "surf:891..898", type: (t-prim {} string)} "alpha")
             (app {}
               (var {} Cons)
-              (lit {span: "surf:952..958", type: (t-prim {} string)} "beta")
+              (lit {span: "surf:900..906", type: (t-prim {} string)} "beta")
               (app {}
                 (var {} Cons)
-                (lit {span: "surf:960..967", type: (t-prim {} string)} "gamma")
+                (lit {span: "surf:908..915", type: (t-prim {} string)} "gamma")
                 (var {} Nil)))))
         (let {}
           (bind {}
             ids
-            (app {span: "surf:990..1038",
-                   type: (t-adt {} List (t-prim {} int64))
+            (app {span: "surf:936..978",
+                   surf_binding_type: "explicit",
+                   type: (t-adt {} List (t-prim {} i64))
                  }
               (var {} Cons)
-              (cast {span: "surf:991..1005"}
-                (lit {span: "surf:996..997", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 1)
-                (t-prim {} int64))
+              (cast {span: "surf:937..949"}
+                (lit {span: "surf:942..943", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
+                (t-prim {} i64))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:1007..1021"}
-                  (lit {span: "surf:1012..1013", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
-                  (t-prim {} int64))
+                (cast {span: "surf:951..963"}
+                  (lit {span: "surf:956..957", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+                  (t-prim {} i64))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:1023..1037"}
-                    (lit {span: "surf:1028..1029", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 3)
-                    (t-prim {} int64))
+                  (cast {span: "surf:965..977"}
+                    (lit {span: "surf:970..971", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
+                    (t-prim {} i64))
                   (var {} Nil)))))
           (let {}
             (bind {}
               vocab
-              (app {span: "surf:1049..1071"}
-                (var {span: "surf:1049..1060"} build_vocab)
-                (var {span: "surf:1061..1065"} keys)
-                (var {span: "surf:1067..1070"} ids)))
+              (app {span: "surf:989..1011"}
+                (var {span: "surf:989..1000"} build_vocab)
+                (var {span: "surf:1001..1005"} keys)
+                (var {span: "surf:1007..1010"} ids)))
             (let {}
               (bind {}
                 hit
-                (app {span: "surf:1080..1129"}
-                  (var {span: "surf:1080..1097"} lookup_or_default)
-                  (var {span: "surf:1098..1103"} vocab)
-                  (lit {span: "surf:1105..1111", type: (t-prim {} string)} "beta")
-                  (cast {span: "surf:1113..1128"}
-                    (lit {span: "surf:1118..1120", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} -1)
-                    (t-prim {} int64))))
-              (app {span: "surf:1132..1179"}
-                (var {span: "surf:1132..1145"} assert_eq_int)
-                (var {span: "surf:1146..1149"} hit)
-                (cast {span: "surf:1151..1165"}
-                  (lit {span: "surf:1156..1157", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
-                  (t-prim {} int64))
-                (lit {span: "surf:1167..1178", type: (t-prim {} string)} "beta -> 2")))))))))
+                (app {span: "surf:1020..1067"}
+                  (var {span: "surf:1020..1037"} lookup_or_default)
+                  (var {span: "surf:1038..1043"} vocab)
+                  (lit {span: "surf:1045..1051", type: (t-prim {} string)} "beta")
+                  (cast {span: "surf:1053..1066"}
+                    (lit {span: "surf:1058..1060", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} -1)
+                    (t-prim {} i64))))
+              (app {span: "surf:1070..1111"}
+                (var {span: "surf:1070..1079"} assert_eq)
+                (var {span: "surf:1080..1083"} hit)
+                (cast {span: "surf:1085..1097"}
+                  (lit {span: "surf:1090..1091", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+                  (t-prim {} i64))
+                (lit {span: "surf:1099..1110", type: (t-prim {} string)} "beta -> 2")))))))))

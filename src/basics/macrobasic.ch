@@ -1,5 +1,5 @@
 module Hello.Basics.MacroBasic
-export (with_residual, doubled)
-def block(x: &tensor[n, f32]) -> tensor[n, f32] = add(x, x)
-def with_residual(x: &tensor[n, f32]) -> tensor[n, f32] = residual(x, block)
-def doubled(x: &tensor[n, f32]) -> tensor[n, f32] = add(x, block(x))
+export (block, with_residual, doubled)
+def block[n](x: &tensor[n, f32]) -> tensor[n, f32] = add(x, x)
+def with_residual[n](x: &tensor[n, f32]) -> tensor[n, f32] = residual(x, block)
+def doubled[n](x: &tensor[n, f32]) -> tensor[n, f32] = add(x, block(x))

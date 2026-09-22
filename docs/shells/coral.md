@@ -4,7 +4,7 @@ Typed dataframes for Chelis. Numeric columns are tensors, which means
 dataframe pipelines compose with the rest of the Chelis tensor DAG:
 `grad` flows through a `group_by`, AD flows through a join.
 
-Pinned to `0.7.39`. Reef declaration in our [`reef.toml`](../../reef.toml).
+Pinned to `0.7.43`. Reef declaration in our [`reef.toml`](../../reef.toml).
 
 ## What's here
 

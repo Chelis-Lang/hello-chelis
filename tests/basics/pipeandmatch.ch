@@ -10,7 +10,7 @@ def test_pipe_neg_add() -> unit ! { Test } = {
 type Op =
   | Plus
   | Minus
-def apply(op: Op, x: &tensor[n, f32], y: &tensor[n, f32]) -> tensor[n, f32] =
+def apply[n](op: Op, x: &tensor[n, f32], y: &tensor[n, f32]) -> tensor[n, f32] =
   match op with {
     | Plus => add(x, y)
     | Minus => add(x, neg(y))

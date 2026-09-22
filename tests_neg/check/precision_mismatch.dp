@@ -1,5 +1,6 @@
 (defsig {}
   bad
+  (n)
   (t-fn {}
     (t-tensor {} (d-var {} n) (t-prim {} f32))
     (t-tensor {} (d-var {} n) (t-prim {} f64))
@@ -8,10 +9,8 @@
 (def {}
   bad
   (fn {}
-    (params {}
-      (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-      (y {type: (t-tensor {} (d-var {} n) (t-prim {} f64))}))
-    (app {span: "surf:107..116"}
-      (var {span: "surf:107..110"} add)
-      (var {span: "surf:111..112"} x)
-      (var {span: "surf:114..115"} y))))
+    (params {} (x {type: (t-var {} _)}) (y {type: (t-var {} _)}))
+    (app {span: "surf:110..119"}
+      (var {span: "surf:110..113"} add)
+      (var {span: "surf:114..115"} x)
+      (var {span: "surf:117..118"} y))))

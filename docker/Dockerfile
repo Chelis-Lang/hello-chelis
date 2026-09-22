@@ -64,7 +64,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.18.5
+ARG CHELIS_VERSION=0.18.11
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -79,11 +79,11 @@ RUN --mount=type=secret,id=github_token \
     && chelis --version
 
 # --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.39
-ARG NAUTILUS_VERSION=0.7.42
-ARG OCTANT_VERSION=0.10.1
-ARG C_EARCHIN_VERSION=0.3.3
-ARG SCHOOL_VERSION=0.1.13
+ARG CORAL_VERSION=0.7.43
+ARG NAUTILUS_VERSION=0.7.46
+ARG OCTANT_VERSION=0.13.1
+ARG C_EARCHIN_VERSION=0.3.5
+ARG SCHOOL_VERSION=0.1.14
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
@@ -111,7 +111,8 @@ COPY . /workspace
 
 # Sanity check: the project must check clean against the pinned Chelis, AND the
 # C backend must be able to lower a non-trivial program (grad over a
-# concrete tensor reduction) and run it.
+# concrete tensor reduction) and run it. Build the standalone verifier outside
+# the Reef root while chelis#2379 blocks the whole-package Black-Scholes Greeks.
 RUN chelis check src/basics/hellotensor.ch \
     && cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch \
     && chelis build /tmp/grad_quadratic.ch --output /tmp/v_grad \

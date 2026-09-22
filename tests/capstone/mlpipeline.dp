@@ -3,7 +3,7 @@
   (import {surf_path: "Hello.Capstone.MlPipeline"}
     hello.capstone.mlpipeline
     (mean_grouped summary_stat))
-  (import {surf_path: "Std.Test"} std.test (assert_eq_int assert_close))
+  (import {surf_path: "Std.Test"} std.test (assert_eq assert_close))
   (defsig {}
     test_grouped_two_cities
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -11,123 +11,123 @@
     test_grouped_two_cities
     (fn {}
       (params {})
-      (let {span: "surf:198..426"}
+      (let {span: "surf:194..416"}
         (bind {}
           prices
-          (app {span: "surf:211..290"}
-            (var {span: "surf:211..220"} to_tensor)
-            (app {span: "surf:221..289"}
+          (app {span: "surf:207..286"}
+            (var {span: "surf:207..216"} to_tensor)
+            (app {span: "surf:217..285"}
               (var {} Cons)
-              (cast {span: "surf:222..237"}
-                (lit {span: "surf:227..231", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
+              (cast {span: "surf:218..233"}
+                (lit {span: "surf:223..227", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:239..254"}
-                  (lit {span: "surf:244..248", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 20.0)
+                (cast {span: "surf:235..250"}
+                  (lit {span: "surf:240..244", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 20.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:256..271"}
-                    (lit {span: "surf:261..265", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 15.0)
+                  (cast {span: "surf:252..267"}
+                    (lit {span: "surf:257..261", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 15.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {span: "surf:273..288"}
-                      (lit {span: "surf:278..282", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 25.0)
+                    (cast {span: "surf:269..284"}
+                      (lit {span: "surf:274..278", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 25.0)
                       (t-prim {} f32))
                     (var {} Nil)))))))
         (let {}
           (bind {}
             cities
-            (app {span: "surf:302..340"}
+            (app {span: "surf:298..336"}
               (var {} Cons)
-              (lit {span: "surf:303..311", type: (t-prim {} string)} "london")
+              (lit {span: "surf:299..307", type: (t-prim {} string)} "london")
               (app {}
                 (var {} Cons)
-                (lit {span: "surf:313..320", type: (t-prim {} string)} "paris")
+                (lit {span: "surf:309..316", type: (t-prim {} string)} "paris")
                 (app {}
                   (var {} Cons)
-                  (lit {span: "surf:322..330", type: (t-prim {} string)} "london")
+                  (lit {span: "surf:318..326", type: (t-prim {} string)} "london")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:332..339", type: (t-prim {} string)} "paris")
+                    (lit {span: "surf:328..335", type: (t-prim {} string)} "paris")
                     (var {} Nil))))))
-          (app {span: "surf:343..424"}
-            (var {span: "surf:343..356"} assert_eq_int)
-            (app {span: "surf:357..385"}
-              (var {span: "surf:357..369"} mean_grouped)
-              (var {span: "surf:370..376"} prices)
-              (var {span: "surf:378..384"} cities))
-            (cast {span: "surf:387..401"}
-              (lit {span: "surf:392..393", surf_literal_style: "unsuffixed", type: (t-prim {} int64)} 2)
-              (t-prim {} int64))
-            (lit {span: "surf:403..423", type: (t-prim {} string)} "groupby_two_cities"))))))
+          (app {span: "surf:339..414"}
+            (var {span: "surf:339..348"} assert_eq)
+            (app {span: "surf:349..377"}
+              (var {span: "surf:349..361"} mean_grouped)
+              (var {span: "surf:362..368"} prices)
+              (var {span: "surf:370..376"} cities))
+            (cast {span: "surf:379..391"}
+              (lit {span: "surf:384..385", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
+              (t-prim {} i64))
+            (lit {span: "surf:393..413", type: (t-prim {} string)} "groupby_two_cities"))))))
   (defsig {} test_summary_stat (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_summary_stat
     (fn {}
       (params {})
-      (let {span: "surf:472..713"}
+      (let {span: "surf:462..703"}
         (bind {}
           prices
-          (app {span: "surf:485..576"}
-            (var {span: "surf:485..494"} to_tensor)
-            (app {span: "surf:495..575"}
+          (app {span: "surf:475..566"}
+            (var {span: "surf:475..484"} to_tensor)
+            (app {span: "surf:485..565"}
               (var {} Cons)
-              (cast {span: "surf:496..510"}
-                (lit {span: "surf:501..504", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:486..500"}
+                (lit {span: "surf:491..494", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:512..526"}
-                  (lit {span: "surf:517..520", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:502..516"}
+                  (lit {span: "surf:507..510", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:528..542"}
-                    (lit {span: "surf:533..536", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:518..532"}
+                    (lit {span: "surf:523..526", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (app {}
                     (var {} Cons)
-                    (cast {span: "surf:544..558"}
-                      (lit {span: "surf:549..552", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
+                    (cast {span: "surf:534..548"}
+                      (lit {span: "surf:539..542", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
                       (t-prim {} f32))
                     (app {}
                       (var {} Cons)
-                      (cast {span: "surf:560..574"}
-                        (lit {span: "surf:565..568", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
+                      (cast {span: "surf:550..564"}
+                        (lit {span: "surf:555..558", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.0)
                         (t-prim {} f32))
                       (var {} Nil))))))))
         (let {}
           (bind {}
             cities
-            (app {span: "surf:588..613"}
+            (app {span: "surf:578..603"}
               (var {} Cons)
-              (lit {span: "surf:589..592", type: (t-prim {} string)} "a")
+              (lit {span: "surf:579..582", type: (t-prim {} string)} "a")
               (app {}
                 (var {} Cons)
-                (lit {span: "surf:594..597", type: (t-prim {} string)} "b")
+                (lit {span: "surf:584..587", type: (t-prim {} string)} "b")
                 (app {}
                   (var {} Cons)
-                  (lit {span: "surf:599..602", type: (t-prim {} string)} "c")
+                  (lit {span: "surf:589..592", type: (t-prim {} string)} "c")
                   (app {}
                     (var {} Cons)
-                    (lit {span: "surf:604..607", type: (t-prim {} string)} "d")
+                    (lit {span: "surf:594..597", type: (t-prim {} string)} "d")
                     (app {}
                       (var {} Cons)
-                      (lit {span: "surf:609..612", type: (t-prim {} string)} "e")
+                      (lit {span: "surf:599..602", type: (t-prim {} string)} "e")
                       (var {} Nil)))))))
-          (app {span: "surf:616..711"}
-            (var {span: "surf:616..628"} assert_close)
-            (app {span: "surf:629..657"}
-              (var {span: "surf:629..641"} summary_stat)
-              (var {span: "surf:642..648"} prices)
-              (var {span: "surf:650..656"} cities))
-            (cast {span: "surf:659..676"}
-              (lit {span: "surf:664..670", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.5811)
+          (app {span: "surf:606..701"}
+            (var {span: "surf:606..618"} assert_close)
+            (app {span: "surf:619..647"}
+              (var {span: "surf:619..631"} summary_stat)
+              (var {span: "surf:632..638"} prices)
+              (var {span: "surf:640..646"} cities))
+            (cast {span: "surf:649..666"}
+              (lit {span: "surf:654..660", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.5811)
               (t-prim {} f32))
-            (cast {span: "surf:678..693"}
-              (lit {span: "surf:683..687", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
+            (cast {span: "surf:668..683"}
+              (lit {span: "surf:673..677", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
               (t-prim {} f32))
-            (lit {span: "surf:695..710", type: (t-prim {} string)} "mean_plus_std")))))))
+            (lit {span: "surf:685..700", type: (t-prim {} string)} "mean_plus_std")))))))

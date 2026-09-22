@@ -16,15 +16,13 @@
     block
     (fn {}
       (params {}
-        (x {type: (t-tensor {} (d-name {} seq) (d-lit {} 256) (t-prim {} f32))})
-        (wq {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
-        (wk {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
-        (wv {type: (t-tensor {} (d-lit {} 256) (d-lit {} 64) (t-prim {} f32))})
-        (wo {type: (t-tensor {} (d-lit {} 64) (d-lit {} 256) (t-prim {} f32))})
-        (ff1
-          {type: (t-tensor {} (d-lit {} 256) (d-lit {} 1024) (t-prim {} f32))})
-        (ff2
-          {type: (t-tensor {} (d-lit {} 1024) (d-lit {} 256) (t-prim {} f32))}))
+        (x {type: (t-var {} _)})
+        (wq {type: (t-var {} _)})
+        (wk {type: (t-var {} _)})
+        (wv {type: (t-var {} _)})
+        (wo {type: (t-var {} _)})
+        (ff1 {type: (t-var {} _)})
+        (ff2 {type: (t-var {} _)}))
       (let {span: "surf:279..550"}
         (bind {}
           q
@@ -55,15 +53,15 @@
                   (app {span: "surf:362..378"}
                     (var {span: "surf:362..369"} permute)
                     (var {span: "surf:370..371"} k)
-                    (lit {span: "surf:373..374", type: (t-prim {} int32)} 1)
-                    (lit {span: "surf:376..377", type: (t-prim {} int32)} 0))))
+                    (lit {span: "surf:373..374", type: (t-prim {} i32)} 1)
+                    (lit {span: "surf:376..377", type: (t-prim {} i32)} 0))))
               (let {}
                 (bind {}
                   probs
                   (app {span: "surf:390..408"}
                     (var {span: "surf:390..397"} softmax)
                     (var {span: "surf:398..404"} scores)
-                    (lit {span: "surf:406..407", type: (t-prim {} int32)} 1)))
+                    (lit {span: "surf:406..407", type: (t-prim {} i32)} 1)))
                 (let {}
                   (bind {}
                     attn_out

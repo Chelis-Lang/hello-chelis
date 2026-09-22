@@ -11,35 +11,15 @@ Probe commands live in [`../tests_blocked/README.md`](../tests_blocked/README.md
 
 ## Actively blocking
 
-### chelis#1258 — `Frame[N]` breaks `chelis surf` and `chelis migrate surf`
+### chelis#2379 — C scalar `grad` rejects a callee with local bindings
 
-A concrete dimension argument on a parameterized ADT desugars to `(t-var {} N)`,
-a `t-var` whose child is an integer rather than a name. The typed Deep-to-Surf
-resugaring boundary correctly refuses it, so both `chelis surf` and
-`chelis migrate surf` fail on any file that mentions such a type — even though
-`chelis fmt --check`, `chelis check`, `chelis deep`, and `chelis test` all
-accept the same file.
-
-**Bites** `src/coral/{framebasics,groupbyagg,io,joins,reshape}.ch`, which use
-Coral's `Frame[N]`.
-
-**Workaround:** those five files are excluded from `chelis migrate surf
---inplace` batches and their rewrites are hand-applied. `migrate --inplace` is a
-whole-batch transaction, so leaving them in aborts the migration of every other
-file too.
-
-**Filed** 2026-08-22 during the 0.18.5 bump, with a self-contained reproducer.
-Parented to chelis#1024; the same desugar arm is named from the checker side by
-chelis#1247.
-
-**De-narrow when fixed:** drop the exclusion and migrate the whole tree in one
-batch.
-
-### chelis#405 — host-lane C backend cannot lower scalar-`wrt` `grad`
-
-`chelis build --target c` cannot lower `grad(f)(x)` differentiating w.r.t. a
-scalar f32, which the capstone Black-Scholes `delta`/`vega` use. A whole-package
-build therefore aborts regardless of the entry file. Re-confirmed on 0.18.5.
+`chelis build --target c` supports the direct-expression scalar-gradient case
+that closed chelis#405, but still rejects an equivalent differentiated function
+when ordinary local bindings name intermediate values. The capstone
+Black-Scholes `call_price` uses such bindings, so its `delta`/`vega` still make a
+whole-package build abort regardless of the entry file. Re-confirmed on 0.18.11
+with both the package build and a minimized local-binding reproducer; the
+equivalent direct-expression control builds.
 
 **Workaround:** `verify/*.ch` are copied to `/tmp` and built in isolation so the
 build lowers only that file. Cited at the site in
@@ -78,6 +58,20 @@ at the site in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 (none yet)
 
 ## Archived
+
+### chelis#1258 — `Frame[N]` Deep resugaring
+
+Closed upstream and verified fixed on Chelis 0.18.11. Both `chelis migrate surf
+--from 0.18 --check src/coral/framebasics.ch` and the independent `chelis deep`
+then `chelis surf` route pass. The complete 93-file migration check also passes,
+so the old five-file manual exclusion is retired.
+
+### chelis#405 — scalar-`wrt` `grad` in the C backend
+
+Closed upstream and its verbatim direct-expression reproducer now builds on
+Chelis 0.18.11. The hello-chelis whole-package failure had a narrower residual:
+local bindings inside the differentiated scalar function, now filed as
+chelis#2379.
 
 ### chelis#406 — runtime leaks under valgrind
 

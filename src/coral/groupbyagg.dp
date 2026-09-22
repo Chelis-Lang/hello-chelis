@@ -7,7 +7,7 @@
     coral.groupby
     (group_by agg_sum agg_mean))
   (export {} sales_frame total_per_city mean_per_city)
-  (defsig {} sales_frame (t-fn {} (t-adt {} Frame (t-var {} 4))))
+  (defsig {} sales_frame (t-fn {} (t-adt {} Frame (d-lit {} 4))))
   (def {}
     sales_frame
     (fn {}
@@ -63,7 +63,7 @@
                             (t-prim {} f32))
                           (var {} Nil))))))))
             (var {} Nil))))))
-  (defsig {} total_per_city (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (defsig {} total_per_city (t-fn {} (t-adt {} Frame (d-lit {} 2))))
   (def {}
     total_per_city
     (fn {}
@@ -76,7 +76,7 @@
             (var {span: "surf:468..479"} sales_frame))
           (lit {span: "surf:483..489", type: (t-prim {} string)} "city"))
         (lit {span: "surf:492..497", type: (t-prim {} string)} "qty"))))
-  (defsig {} mean_per_city (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (defsig {} mean_per_city (t-fn {} (t-adt {} Frame (d-lit {} 2))))
   (def {}
     mean_per_city
     (fn {}

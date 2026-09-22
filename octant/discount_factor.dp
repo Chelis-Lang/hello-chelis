@@ -4,9 +4,7 @@
     (var {} exp)
     (app {span: "n_003"}
       (var {} mul)
-      (app {span: "n_004"}
-        (var {} log)
-        (var {span: "n_005"} e))
+      (app {span: "n_004"} (var {} log) (var {span: "n_005"} e))
       (app {span: "n_006"}
         (var {} mul)
         (app {span: "n_007"}

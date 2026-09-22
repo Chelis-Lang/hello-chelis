@@ -5,7 +5,7 @@
     (Frame Column FloatCol StringCol from_pairs))
   (import {surf_path: "Coral.Reshape"} coral.reshape (pivot melt))
   (export {} long_frame wide_frame pivoted melted)
-  (defsig {} long_frame (t-fn {} (t-adt {} Frame (t-var {} 4))))
+  (defsig {} long_frame (t-fn {} (t-adt {} Frame (d-lit {} 4))))
   (def {}
     long_frame
     (fn {}
@@ -80,7 +80,7 @@
                               (t-prim {} f32))
                             (var {} Nil))))))))
               (var {} Nil)))))))
-  (defsig {} wide_frame (t-fn {} (t-adt {} Frame (t-var {} 3))))
+  (defsig {} wide_frame (t-fn {} (t-adt {} Frame (d-lit {} 3))))
   (def {}
     wide_frame
     (fn {}
@@ -152,7 +152,7 @@
                             (t-prim {} f32))
                           (var {} Nil)))))))
               (var {} Nil)))))))
-  (defsig {} pivoted (t-fn {} (t-adt {} Frame (t-var {} 2))))
+  (defsig {} pivoted (t-fn {} (t-adt {} Frame (d-lit {} 2))))
   (def {}
     pivoted
     (fn {}
@@ -163,7 +163,7 @@
         (lit {span: "surf:705..711", type: (t-prim {} string)} "city")
         (lit {span: "surf:713..722", type: (t-prim {} string)} "product")
         (lit {span: "surf:724..731", type: (t-prim {} string)} "price"))))
-  (defsig {} melted (t-fn {} (t-adt {} Frame (t-var {} 6))))
+  (defsig {} melted (t-fn {} (t-adt {} Frame (d-lit {} 6))))
   (def {}
     melted
     (fn {}

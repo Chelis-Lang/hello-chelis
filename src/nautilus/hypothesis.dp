@@ -21,10 +21,10 @@
     z_score
     (fn {}
       (params {}
-        (sample_mean {type: (t-prim {} f32)})
-        (pop_mean {type: (t-prim {} f32)})
-        (pop_std {type: (t-prim {} f32)})
-        (n {type: (t-prim {} f32)}))
+        (sample_mean {type: (t-var {} _)})
+        (pop_mean {type: (t-var {} _)})
+        (pop_std {type: (t-var {} _)})
+        (n {type: (t-var {} _)}))
       (app {span: "surf:282..328"}
         (var {span: "surf:282..293"} z_statistic)
         (var {span: "surf:294..305"} sample_mean)
@@ -72,10 +72,10 @@
     t_one_sample
     (fn {}
       (params {}
-        (sample_mean {type: (t-prim {} f32)})
-        (sample_std {type: (t-prim {} f32)})
-        (n {type: (t-prim {} f32)})
-        (pop_mean {type: (t-prim {} f32)}))
+        (sample_mean {type: (t-var {} _)})
+        (sample_std {type: (t-var {} _)})
+        (n {type: (t-var {} _)})
+        (pop_mean {type: (t-var {} _)}))
       (app {span: "surf:594..654"}
         (var {span: "surf:594..616"} t_statistic_one_sample)
         (var {span: "surf:617..628"} sample_mean)

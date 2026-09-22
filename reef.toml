@@ -1,13 +1,13 @@
 [package]
 name = "hello-chelis"
 version = "0.1.11"
-compiler = "=0.18.5"
+compiler = "=0.18.11"
 module_prefix = "Hello"
 
 [dependencies]
 chelis-std = { version = "0.4.0" }
-coral = { version = "0.7.39" }
-nautilus = { version = "0.7.42" }
-school = { version = "0.1.13" }
+coral = { version = "0.7.43" }
+nautilus = { version = "0.7.46" }
+school = { version = "0.1.14" }
 # Octant is consumed via the `octant` CLI binary, not as an importable
 # Chelis library. See examples/05_octant/ for the LaTeX -> Deep workflow.
