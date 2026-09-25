@@ -18,8 +18,7 @@ Pinned to chelis 0.18.11, `chelis-std` 0.4.0, `coral` 0.7.43, `nautilus`
   `double_shared` so it no longer shadows the prelude macro.
 - Every `.dp` sidecar and octant triple regenerated for the new toolchain.
 - CI builds the Docker image once per run and runs every lane in one job;
-  `chelis lint --check` is a blocking step there. `chelis test` runs with
-  `--batch-mode file` (chelis#1391).
+  `chelis lint --check` is a blocking step there.
 - The Python harness is a uv project (`pyproject.toml` dependency groups and
   `uv.lock`); the image carries uv and a uv-managed Python.
 - Documentation rewritten to describe the current toolchain. Limitations are

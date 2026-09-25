@@ -4,10 +4,10 @@ Chelis tests live in `tests/<area>/<name>.ch`, one module per module in
 `src/<area>/`. Run them with:
 
 ```sh
-chelis test tests/ --jobs auto --batch-mode file
+chelis test tests/ --jobs auto
 ```
 
-`--batch-mode file` is about twice as fast as the default on this suite
+On a many-core machine, adding `--batch-mode file` can halve the run time
 ([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
 
 The Python files here cover what `chelis test` does not:

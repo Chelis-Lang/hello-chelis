@@ -51,4 +51,4 @@ than around the reader. Each cites its upstream issue; see
 |---|---|---|
 | C-backend scalar `grad` rejects some differentiated functions; the Black-Scholes Greeks trip it (chelis#2379) | `verify/` programs are built standalone from `/tmp`; a whole-package `chelis build` fails on the capstone Greeks, which are tested in the host runtime instead | `@upstream` |
 | Host-runtime `grad` cannot lower a function that uses a string literal (chelis#2552) | differentiating through a Coral frame (string-keyed column lookup) is not demonstrated; the Coral gradient example differentiates the tensor directly | `@upstream` |
-| `chelis test` default batch mode is about 2x slower than `--batch-mode file` (chelis#1391) | CI and the docs pass `--batch-mode file` | `@upstream` |
+| `chelis test` default batch mode can be slower than `--batch-mode file` (chelis#1391) | the docs mention `--batch-mode file` for local runs; CI keeps the default | `@upstream` |

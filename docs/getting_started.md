@@ -54,13 +54,13 @@ whole package, so one invocation covers every module. It prints a JSON report;
 ## 4. Run the tests: `chelis test`
 
 ```sh
-chelis test tests/ --jobs auto --batch-mode file
+chelis test tests/ --jobs auto
 chelis test tests/basics/gradbasic.ch            # a single file
 chelis test tests_neg --expect neg               # programs that must be rejected
 ```
 
 Each `tests/<area>/<name>.ch` exercises the matching `src/<area>/<name>.ch`.
-`--batch-mode file` is about twice as fast as the default on this suite
+On a many-core machine, adding `--batch-mode file` can halve the run time
 ([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
 
 ## 5. Lint

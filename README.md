@@ -39,7 +39,7 @@ Inside the container, your checkout is mounted at `/workspace`:
 
 ```sh
 chelis check src/basics/hellotensor.ch                 # type-check the package
-chelis test tests/ --jobs auto --batch-mode file       # runtime assertions
+chelis test tests/ --jobs auto                        # runtime assertions
 chelis test tests_neg --expect neg                     # programs that must be rejected
 uv run --group test pytest tests/                      # drift, C backend, octant, c-earchin
 ```
@@ -110,10 +110,12 @@ records how each one is re-checked at every toolchain bump.
   cannot evaluate a function that looks up a column by its string name
   ([chelis#2552](https://github.com/Chelis-Lang/chelis/issues/2552)). The
   Coral gradient example differentiates the underlying tensor instead.
-- **`chelis test`'s default batch mode is about twice as slow** as
-  `--batch-mode file` on this suite
-  ([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)), so
-  the commands here pass `--batch-mode file`.
+- **`chelis test`'s default batch mode can be slower than
+  `--batch-mode file`**
+  ([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)). On a
+  10-core machine this suite runs in about half the time with
+  `--batch-mode file`; on a 4-vCPU CI runner it did not help, so CI uses
+  the default.
 - **`nautilus` is f32-only**
   ([nautilus#70](https://github.com/Chelis-Lang/nautilus/issues/70)), and
   `Nautilus.Signal`'s transforms are placeholders that return NaN

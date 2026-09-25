@@ -58,15 +58,17 @@ FloatCol(w))]), "w"), ...))` under `chelis test`. Re-probe: fails on 0.18.11
 
 ### chelis#1391: `chelis test --batch-mode auto` is slower than `--batch-mode file`
 
-On this suite (113 tests, 10 cores), `--jobs auto` takes 68s by default and
-32s with `--batch-mode file`; `--jobs 1` takes 67s. Measured on 0.18.11,
-2026-09-25.
+On a 10-core machine this suite (113 tests) takes 68s with `--jobs auto` and
+the default batch mode, 32s with `--batch-mode file`, and 67s with
+`--jobs 1` (0.18.11, 2026-09-25). On the 4-vCPU GitHub runner,
+`--batch-mode file` did not help: 205s for 113 tests, against 152s for 105
+tests with the default at the base commit.
 
-**Workaround:** CI and the docs pass `--batch-mode file`, cited at the site in
-[`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+**Workaround:** none in CI, which keeps the default. The docs mention
+`--batch-mode file` as a local speed-up.
 
-**De-narrow when fixed:** drop `--batch-mode file` once the default is no
-slower.
+**De-narrow when fixed:** drop the `--batch-mode file` tip from
+`docs/getting_started.md` and `tests/README.md`.
 
 ## Parked
 

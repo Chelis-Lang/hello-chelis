@@ -71,12 +71,10 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis check src/basics/hellotensor.ch
 
-      # --batch-mode file: the default batch mode is roughly twice as slow
-      # on this suite (chelis#1391).
       - name: chelis test tests/
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            timeout 600s chelis test tests/ --jobs auto --batch-mode file
+            timeout 600s chelis test tests/ --jobs auto
 
       # Negative suite (shell contract §6). Each tests_neg/**/*.ch must be
       # rejected with the diagnostic substring pinned on line 1 of its
