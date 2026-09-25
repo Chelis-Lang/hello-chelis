@@ -9,21 +9,20 @@ real programs.
 
 Equivalence is enforced by the **drift check**: the committed `.dp`
 must be byte-identical to the output of `chelis deep <name>.ch`. CI
-fails on any divergence; running `python3 scripts/regen_deep.py`
+fails on any divergence; running `uv run scripts/regen_deep.py`
 brings the two surfaces back into sync.
 
-The drift check is the load-bearing guarantee — by construction, the
-`.dp` is whatever the compiler emits when desugaring the `.ch`, so
-the two files cannot disagree about what the program means. A second
-"both surfaces parse independently" check is conceptually appealing
-but redundant in practice and prohibitively expensive in CI (each
-`chelis check` recompiles the full 225K-typed-node project tree),
-so we don't run it.
+The drift check is the equivalence guarantee: by construction, the
+`.dp` is whatever the compiler emits when desugaring the `.ch`, so the
+two files cannot disagree about what the program means. There is no
+separate "check both surfaces independently" test: `chelis check` on a
+`.dp` checks it as a standalone program without loading the package,
+so a sidecar that imports names reports them as unbound.
 
 The decompile direction (`chelis surf <name>.dp`) is best-effort: list
 literals decompile to Cons/Nil chains, `cast(x, f32)` to `(x as f32)`,
 etc. The result is semantically equivalent but not byte-stable, so we
-don't enforce round-trip identity. See `docs/surf-and-deep.md` for
+don't enforce round-trip identity. See `docs/surf_and_deep.md` for
 the full design rationale.
 """
 
@@ -93,6 +92,6 @@ def test_committed_dp_matches_chelis_deep(ch: Path) -> None:
     assert r.returncode == 0, f"chelis deep {ch} failed:\n{r.stderr}"
     assert dp.read_text() == r.stdout, (
         f"{dp.relative_to(REPO)} drifted from `chelis deep "
-        f"{ch.relative_to(REPO)}`. Re-run `python3 scripts/regen_deep.py` "
+        f"{ch.relative_to(REPO)}`. Re-run `uv run scripts/regen_deep.py` "
         f"to bring them back into sync."
     )

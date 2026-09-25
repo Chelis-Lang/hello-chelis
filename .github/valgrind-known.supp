@@ -2,14 +2,6 @@
 # step. Each entry must be scoped to one specific known frame and cite the
 # upstream issue that makes it provisional. Remove an entry when its cited
 # issue is fixed; do NOT broaden these to whole-library wildcards.
-#
-# The two chelis#406 entries (chelis_list_from_values / chelis_contiguous)
-# were removed during the 0.18.5 bump: chelis#406 closed COMPLETED on
-# 2026-06-19 and had been carried through two pin bumps since. Both frames
-# are reachable in this lane's grad_quadratic program, so the nightly is a
-# real re-probe rather than a formality. If it goes red, the leak is a live
-# residual -- file it and cite the new issue here, do not re-add a
-# suppression for a closed one.
 
 # Not a chelis bug: libgomp allocates per-thread TLS in the OpenMP worker pool
 # (GOMP_parallel) that is never freed at process exit. This is the standard

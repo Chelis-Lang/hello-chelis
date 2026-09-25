@@ -79,5 +79,5 @@ def test_octant_triple_byte_equal(tex: Path) -> None:
                 "\n"
             ), (
                 f"{committed.name} drifted from regenerated output for {tex.name}. "
-                f"Re-run `python3 scripts/regen_octant.py` to bring back into sync."
+                f"Re-run `uv run scripts/regen_octant.py` to bring back into sync."
             )

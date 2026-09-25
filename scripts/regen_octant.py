@@ -9,7 +9,7 @@ translation as Chelis. CI's tests/test_octant_pairs.py runs the same
 pipeline and asserts byte-equality.
 
 Usage:
-    python3 scripts/regen_octant.py
+    uv run scripts/regen_octant.py
 """
 
 from __future__ import annotations

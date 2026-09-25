@@ -11,12 +11,13 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Primary gate: the released Chelis toolchain must check and test the corpus,
-# regenerate Deep sidecars byte-for-byte, and lower the C-backend examples.
+# The corpus gate. Everything runs inside the image built from
+# docker/Dockerfile, which installs the pinned Chelis release, the Octant
+# CLI, and the shell packages from their GitHub release assets.
 
 jobs:
-  chelis-native:
-    name: chelis inventory + check + test
+  corpus:
+    name: check + lint + test
     runs-on: ubuntu-24.04
     timeout-minutes: 45
 
@@ -25,6 +26,9 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      # Built fresh on every run so a toolchain or shell bump can never be
+      # served from a stale layer. The version build-args must match
+      # reef.toml (see AGENTS.md, Toolchain Policy).
       - name: Build hello-chelis Docker image
         uses: docker/build-push-action@v5
         with:
@@ -34,102 +38,59 @@ jobs:
           load: true
           secrets: |
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          # cache-from: type=gha (disabled: force fresh build after version bump)
           no-cache: true
           cache-to: type=gha,mode=max
-          # Pass CHELIS_VERSION as build-arg to bust the cache on version bumps.
-          # Without this, GHA layer cache can serve a stale chelis binary.
           build-args: |
             CHELIS_VERSION=0.18.11
             CORAL_VERSION=0.7.43
             NAUTILUS_VERSION=0.7.46
             SCHOOL_VERSION=0.1.14
 
-      # Offline pin/conformance guard (shell contract §2). `bump-check` passes
-      # trivially when the reef pin is unchanged vs the base; when it changed,
-      # it requires a green conformance audit, so a raw pin edit that skips the
-      # Pin Bump Checklist fails the PR. It needs the base ref to diff against,
-      # hence the unshallow fetch.
+      # Offline pin guard (shell contract §2). Passes trivially when the reef
+      # pin is unchanged against main; when it changed, it requires a green
+      # conformance audit, so a raw pin edit that skips the Pin Bump
+      # Checklist fails the PR.
       - name: Fetch base ref for the pin guard
         run: git fetch --no-tags --depth=1 origin main:refs/remotes/origin/main
 
       - name: chelis reef conform bump-check
         run: |
-          # The checkout is owned by the runner uid; git inside the container
-          # refuses it as dubious without a safe.directory grant, which
-          # bump-check surfaces as "could not resolve `origin/main`".
+          # git inside the container refuses the runner-owned checkout
+          # without a safe.directory grant.
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             bash -lc 'git config --global --add safe.directory /workspace && chelis reef conform bump-check --base origin/main'
 
-      - name: chelis lint inventory (non-blocking)
+      - name: chelis lint --check
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            chelis lint .
+            chelis lint --check .
 
-      - name: chelis check (front-end gate)
+      # Checking one file type-checks the whole package it belongs to.
+      - name: chelis check
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis check src/basics/hellotensor.ch
 
-      - name: chelis test native suite
+      # --batch-mode file: the default batch mode is roughly twice as slow
+      # on this suite (chelis#1391).
+      - name: chelis test tests/
         run: |
-          # The `school` dependency for the ML examples, combined with
-          # per-test-worker dep recompilation (a known chelis slowness), makes the
-          # 105-test suite compile-bound well past the old 180s budget. The suite is
-          # correct (105/0 locally); raise the wall-clock to 900s. Real fix lives
-          # upstream (cross-worker compiled-dep caching), not in this gate.
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            timeout 900s chelis test tests/ --jobs auto
+            timeout 600s chelis test tests/ --jobs auto --batch-mode file
 
       # Negative suite (shell contract §6). Each tests_neg/**/*.ch must be
-      # REJECTED, with the diagnostic substring pinned on line 1 of its .expect
-      # sidecar. A case that starts PASSING fails the run loudly -- that is a
-      # regression in the checker, not a fixture to update.
-      - name: chelis test tests_neg (--expect neg)
+      # rejected with the diagnostic substring pinned on line 1 of its
+      # .expect sidecar. A case that starts passing is a checker regression,
+      # not a fixture to update.
+      - name: chelis test tests_neg --expect neg
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis test tests_neg --expect neg
 
-      - name: Deep s-expression drift check (every .ch must match its .dp)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            python3 scripts/regen_deep.py --check
-
-      # The IR evaluator doesn't ship every primitive. This lane builds
-      # supported verify/*.ch files through `chelis build`, links against
-      # libchelis_runtime + OpenBLAS, and golden-diffs native output.
-      - name: chelis build (C-backend coverage)
-        run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
-            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
-            python3 -m pytest -q tests/test_c_backend.py
-          '
-
-  fallback-orchestration:
-    name: pytest (fallback)
-    runs-on: ubuntu-24.04
-    needs: chelis-native
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - name: Reuse hello-chelis image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: docker/Dockerfile
-          tags: hello-chelis:ci
-          load: true
-          secrets: |
-            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-          # cache-from: type=gha (disabled: force fresh build after version bump)
-          no-cache: true
-
-      # Negative examples + Octant pair regeneration + C-backend
-      # audit-chain greps. See tests/README.md.
+      # Surf/Deep drift, negative error kinds, C-backend build + run +
+      # golden diff, Octant round-trips, and c-earchin proofs.
+      # See tests/README.md.
       - name: pytest tests/
         run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci bash -c '
-            pip install pytest --break-system-packages 2>/dev/null || pip install pytest
-            python3 -m pytest -q tests/
-          '
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            uv run --frozen --group test pytest -q tests/
