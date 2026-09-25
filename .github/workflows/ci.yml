@@ -60,6 +60,13 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             bash -lc 'git config --global --add safe.directory /workspace && chelis reef conform bump-check --base origin/main'
 
+      # Shell contract conformance. Fails on any MUST-tier row; MANUAL and
+      # NA rows (row 5, hello-chelis#26) are reported but do not fail.
+      - name: chelis reef conform audit
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            chelis reef conform audit
+
       - name: chelis lint --check
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
