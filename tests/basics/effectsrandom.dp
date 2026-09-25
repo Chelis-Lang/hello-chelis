@@ -1,0 +1,23 @@
+(module {surf_path: "Hello.Tests.Basics.EffectsRandom"}
+  hello.tests.basics.effectsrandom
+  (import {surf_path: "Hello.Basics.EffectsRandom"}
+    hello.basics.effectsrandom
+    (deterministic_pair))
+  (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
+  (defsig {}
+    test_seeded_draw_is_repeatable
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_seeded_draw_is_repeatable
+    (fn {}
+      (params {})
+      (app {span: "surf:191..291"}
+        (var {span: "surf:191..210"} assert_close_tensor)
+        (app {span: "surf:211..231"}
+          (var {span: "surf:211..229"} deterministic_pair))
+        (app {span: "surf:233..253"}
+          (var {span: "surf:233..251"} deterministic_pair))
+        (cast {span: "surf:255..269"}
+          (lit {span: "surf:260..263", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (lit {span: "surf:271..290", type: (t-prim {} string)} "seeded_repeatable")))))
