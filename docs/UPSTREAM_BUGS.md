@@ -60,9 +60,9 @@ FloatCol(w))]), "w"), ...))` under `chelis test`. Re-probe: fails on 0.18.11
 
 On a 10-core machine this suite (113 tests) takes 68s with `--jobs auto` and
 the default batch mode, 32s with `--batch-mode file`, and 67s with
-`--jobs 1` (0.18.11, 2026-09-25). On the 4-vCPU GitHub runner,
-`--batch-mode file` did not help: 205s for 113 tests, against 152s for 105
-tests with the default at the base commit.
+`--jobs 1` (0.18.11, 2026-09-25). On the 4-vCPU GitHub runner the two
+modes are equivalent for the same 113 tests: 203s with the default and 205s
+with `--batch-mode file`.
 
 **Workaround:** none in CI, which keeps the default. The docs mention
 `--batch-mode file` as a local speed-up.
