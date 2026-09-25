@@ -1,26 +1,23 @@
-# c-earchin — EARS Requirements Bridge
+# `c-earchin/`: requirements to proofs
 
-`c-earchin` translates EARS-style requirements into Chelis Deep property
-witnesses. The committed v0.3.5 demo is intentionally finance-flavored so a stakeholder
-can read the input in under a minute and see the value:
+[c-earchin](https://github.com/Chelis-Lang/c-earchin) translates requirements
+written in EARS (the "Easy Approach to Requirements Syntax") into Chelis Deep
+property witnesses, which `chelis prove` then checks. The example here is a
+small set of finance rules, readable in under a minute:
 
-- a single `.ears` source covering ubiquitous, `WHEN`, `WHILE`,
-  `IF ... THEN`, `WHERE`, and one Complex requirement;
-- generated `.dp` witnesses with Chelis property metadata;
-- `.spans.json` provenance back to the original EARS lines;
-- `chelis prove` coverage for both pass and fail cases.
+- [`options_rules.ears`](finance_options/options_rules.ears): one ubiquitous
+  requirement plus `WHEN`, `WHILE`, `IF ... THEN`, `WHERE`, and one complex
+  requirement;
+- [`options_rules.dp`](finance_options/options_rules.dp): the generated
+  witnesses, one Chelis property per requirement;
+- [`options_rules.spans.json`](finance_options/options_rules.spans.json):
+  provenance from each property back to its EARS line;
+- [`options_rules_fail.dp`](finance_options/options_rules_fail.dp): the same
+  witnesses with the portfolio-delta rule deliberately broken.
 
-The Docker image installs the released c-earchin package:
+## Run it
 
-```sh
-chelis reef install --from-github Chelis-Lang/c-earchin@v0.3.5
-```
-
-This repo commits the v0.3.5 finance-options proof fixtures under
-[`c-earchin/finance_options/`](../../c-earchin/finance_options/) so CI
-does not need to clone or build c-earchin from source. The adjacent
-`provenance.json` locks every fixture to the v0.3.5 release commit and
-successful release workflow. From this repo root, use:
+From the repo root:
 
 ```sh
 chelis prove c-earchin/finance_options/options_rules.dp \
@@ -28,15 +25,13 @@ chelis prove c-earchin/finance_options/options_rules.dp \
   --json
 ```
 
-The failure fixture deliberately mutates the portfolio-delta rule:
+All six properties pass. The broken variant fails, and the diagnostic points
+at the requirement's source line:
 
 ```sh
 chelis prove c-earchin/finance_options/options_rules_fail.dp \
   --spans c-earchin/finance_options/options_rules.spans.json
 ```
-
-The important part is the diagnostic, which resolves the Deep property back to
-the EARS author's source line:
 
 ```text
 property failure: req_FIN_003
@@ -44,12 +39,26 @@ property failure: req_FIN_003
   | WHILE the exchange is open, the portfolio delta shall be at most the limit.
 ```
 
+The path in the diagnostic is where the file lives in the c-earchin
+repository, because the spans were generated there.
+
+## Why these files are copied from the release
+
+The fixtures are byte-for-byte copies from the c-earchin v0.3.5 release
+source, and [`provenance.json`](finance_options/provenance.json) records the
+release commit and a SHA-256 for each file.
+[`tests/test_c_earchin_artifacts.py`](../tests/test_c_earchin_artifacts.py)
+checks those hashes, then runs both proofs above.
+
+They are copied rather than regenerated because c-earchin does not publish a
+command-line binary this repo could run (Octant does, which is why
+`octant/` is regenerated in CI instead), and the installed Reef package
+contains the library, not these reference fixtures.
+
 ## Scope
 
-The v1 bridge verifies resolved pure-boolean property witnesses. It accepts a
-full EARS corpus, but unresolved vocabulary in non-strict mode is marked
-`recorded_only` and is not emitted as a Chelis proof property. Use
-`c-earchin translate --strict` for artifacts you intend to verify.
-
-For the exact stakeholder contract, read `docs/verification-scope.md`
-in the c-earchin v0.3.5 release source.
+The bridge verifies resolved, pure-boolean properties. It accepts a full
+EARS document, but in non-strict mode a requirement that uses vocabulary it
+cannot resolve is marked `recorded_only` and is not emitted as a property;
+use `c-earchin translate --strict` for artifacts you intend to verify. The
+full contract is `docs/verification-scope.md` in the c-earchin repository.

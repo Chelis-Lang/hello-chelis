@@ -4,33 +4,50 @@ One expected-to-fail reproducer per open upstream blocker
 (`<area>/<name>.ch` + `<name>.expect`; line 1 = pinned diagnostic substring,
 lines 2+ = the `chelis#NNN` citation + on-pass de-narrowing instructions).
 Run with `chelis test tests_blocked/ --expect blocked`. Blockers the harness
-cannot express (check-context-only, cross-module) are listed here for manual
-re-probe.
+cannot express (check-context-only, cross-module, package-build-context) are
+listed here for manual re-probe.
+
+This directory currently holds no `.ch` probes: the one open blocker fails
+only under `chelis build --target c`, which the `chelis test` runner cannot
+express.
 
 ## Manual re-probes
 
-This repo's open blocker fails in the C backend, outside `chelis test`, so the
-runner cannot pin its diagnostic. Re-probe it with the command below at every
-pin bump. Record the outcome in
+Run these at every pin bump and record the outcome in
 [`../docs/UPSTREAM_BUGS.md`](../docs/UPSTREAM_BUGS.md).
 
-### chelis#2379 — whole-package C build with local-binding scalar `grad`
+### chelis#2379: whole-package C build with scalar `grad`
 
 ```sh
 chelis build --target c src/capstone/blackscholes.ch -o /tmp/grad_build
 ```
 
-Run this **from the reef root**, with any in-root entry file — the entry does
-not matter, because the whole package is lowered.
+Run this **from the reef root** with any entry under `src/`. The entry does
+not matter, because the whole package is lowered. (Naming a `verify/*.ch`
+file from the reef root fails earlier, for an unrelated reason: `verify/` is
+not a declared source root.)
 
-- **Blocked (expected today, re-confirmed on 0.18.11):** aborts with
+- **Blocked (re-confirmed on 0.18.11):** aborts with
   ``error: `chelis build --target c` can't lower these defs. Their body applies/binds `grad` (or `vmap`) in a position the host lane can't resolve``,
   naming `...BlackScholes__delta` and `...BlackScholes__vega`.
 - **Fixed:** the build succeeds. Then drop the copy-to-`/tmp` step from
-  `.github/workflows/nightly.yml` and `docker/Dockerfile`, and add the capstone
-  Greeks to `tests/test_c_backend.py`.
+  `.github/workflows/nightly.yml` and `docker/Dockerfile`, and add the
+  capstone Greeks to `tests/test_c_backend.py`.
 
-Use an entry under `src/`. As of 0.18.11, naming a `verify/*.ch` file from the
-reef root rejects earlier and for an unrelated reason —
-`verify/grad_quadratic.ch is not a source file under any declared root ... (roots: [src])`
-— which masks this probe rather than answering it.
+On 0.18.11 the rejection follows a `cast(<literal>, f32)` constant inside the
+differentiated function rather than the local bindings the issue names; see
+the probe table on the issue. A standalone check of that narrower shape:
+
+```sh
+printf 'module V\ndef f(s: f32, k: f32) -> f32 = add(s, cast(1.0, f32))\ndef df(s: f32, k: f32) -> f32 = grad(f, wrt=s)(s, k)\nout = df(cast(2.0, f32), cast(3.0, f32))\n' > /tmp/v.ch
+chelis build --target c /tmp/v.ch -o /tmp/v
+```
+
+### chelis#2552: host-runtime `grad` through a string literal
+
+Add a test that differentiates a function calling
+`get_float_col(from_pairs([("w", FloatCol(w))]), "w")` and run it with
+`chelis test`. **Blocked (re-confirmed on 0.18.11):** fails with "a string
+literal has no numeric IR constant and cannot be lowered into the RISC DAG".
+**Fixed:** the gradient evaluates; follow the de-narrowing step in
+`docs/UPSTREAM_BUGS.md`.

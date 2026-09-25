@@ -29,25 +29,20 @@ only through a `chelis reef conform bump` PR (never a direct edit to `main`).
 ## Toolchain Policy
 
 Install the pinned toolchain via `chelisup`; never hand-symlink a machine-global
-default. Python is uv-managed. See the managed block above for the upstream contract.
+default. Python is uv-managed (`uv run`, dependency groups in `pyproject.toml`,
+`uv.lock` committed). See the managed block above for the upstream contract.
 
-**Divergence — CI does not use `chelisup`.** `conform audit` reports row 5
-(`toolchain-installer`) as MANUAL here, and the honest answer is that CI installs
-the toolchain by unpacking the release tarball into the image rather than through
-a pin-resolving installer. That is the point of the Docker shell: the image *is*
-the pin, it is built fresh on every bump (`no-cache: true`), and a stale binary
-cannot survive a `CHELIS_VERSION` change because that ARG is a build-arg. Use
-`chelisup` for local work; do not add it to the image.
-
-The image in [`docker/Dockerfile`](docker/Dockerfile) is the authoritative
-execution environment: it downloads `chelis-v<version>-linux-x86_64.tar.gz` from
-the chelis release and installs the shell releases into the Reef registry. When
-you bump the pin, `ARG CHELIS_VERSION` in the Dockerfile, the `build-args:` block
-in [`ci.yml`](.github/workflows/ci.yml), the `image:` tag in
-[`docker-compose.yml`](docker/docker-compose.yml), and `env.CHELIS_VERSION` in
-[`release.yml`](.github/workflows/release.yml) all move together. `conform bump`
-rewrites the reef and release-workflow pins only; the three Docker-lane locations
-are this repo's own and are checked by hand.
+CI runs inside the image built from [`docker/Dockerfile`](docker/Dockerfile),
+which installs the toolchain, the Octant CLI, and the shell packages from their
+release assets. That image carries its own copy of the pins, which
+`conform bump` does not rewrite. When the pin moves, update together:
+`ARG CHELIS_VERSION` and the shell `ARG`s in the Dockerfile, the `build-args:`
+block in [`ci.yml`](.github/workflows/ci.yml), and the `image:` tag in
+[`docker-compose.yml`](docker/docker-compose.yml). (`conform bump` handles
+`reef.toml` and `env.CHELIS_VERSION` in [`release.yml`](.github/workflows/release.yml).)
+Because CI does not install through `chelisup`, `conform audit` row 5
+(`toolchain-installer`) reports MANUAL; hello-chelis#26 tracks resolving the
+image's pins from `reef.toml` instead.
 
 ## Pin Bump Checklist
 
@@ -73,9 +68,9 @@ cascade bump, and regenerate the lock for real only after the siblings tag.
 
 Two lanes of generated artifacts must be regenerated in the same change set:
 
-- `python3 scripts/regen_deep.py` after any `.ch` edit (the committed `.dp`
+- `uv run scripts/regen_deep.py` after any `.ch` edit (the committed `.dp`
   sidecars are byte-compared in CI).
-- `python3 scripts/regen_octant.py` when the octant pin moves or the Surf
+- `uv run scripts/regen_octant.py` when the octant pin moves or the Surf
   printer changes; the `.ch` third of each octant triple is `chelis surf`
   output and moves with the compiler even when the `.tex` and `.dp` do not.
 

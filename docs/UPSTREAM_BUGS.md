@@ -1,57 +1,72 @@
 # Upstream Bugs
 
-Track suspected chelis bugs and capability gaps here. File upstream and cite by
-`chelis#NNN` (never a prose name). Re-probe at every pin bump.
+Chelis bugs and capability gaps that shape this corpus. Each is filed
+upstream and cited by number (`chelis#NNN`, or `<shell>#NNN` for a sibling
+package), both here and at every place the corpus works around it.
 
-Every workaround in this repo cites its issue **at the site**. If you find a
-narrowing with no citation, that is the defect — either find the issue or file
-one.
-
-Probe commands live in [`../tests_blocked/README.md`](../tests_blocked/README.md).
+**Re-probe cadence.** Every entry in *Actively blocking* and *Tracking* is
+re-probed at each toolchain pin bump, per surface, using its probe below.
+*Parked* entries are re-probed when their stated trigger fires. *Archived*
+entries are not re-probed; each records the verdict that archived it.
+Commands for the manual probes live in
+[`../tests_blocked/README.md`](../tests_blocked/README.md).
 
 ## Actively blocking
 
-### chelis#2379 — C scalar `grad` rejects a callee with local bindings
+### chelis#2379: C-backend scalar `grad` rejects some differentiated functions
 
-`chelis build --target c` supports the direct-expression scalar-gradient case
-that closed chelis#405, but still rejects an equivalent differentiated function
-when ordinary local bindings name intermediate values. The capstone
-Black-Scholes `call_price` uses such bindings, so its `delta`/`vega` still make a
-whole-package build abort regardless of the entry file. Re-confirmed on 0.18.11
-with both the package build and a minimized local-binding reproducer; the
-equivalent direct-expression control builds.
+`chelis build --target c` rejects `grad(f, wrt=s)(...)` for some scalar
+functions `f` with "can't lower these defs ... applies/binds `grad` (or
+`vmap`) in a position the host lane can't resolve". Building from the package
+root lowers the whole package, and the capstone
+`Hello.Capstone.BlackScholes.delta` / `vega` trip it, so a whole-package C
+build fails regardless of the entry file.
 
-**Workaround:** `verify/*.ch` are copied to `/tmp` and built in isolation so the
-build lowers only that file. Cited at the site in
-[`.github/workflows/nightly.yml`](../.github/workflows/nightly.yml) and
-[`docker/Dockerfile`](../docker/Dockerfile).
+**Re-probe (0.18.11, 2026-09-25):** still blocked. The issue attributes the
+failure to local bindings, but on 0.18.11 the rejection follows a
+`cast(<literal>, f32)` constant inside the differentiated function instead:
+local bindings without a cast build, and the issue's own direct-expression
+control (which contains `cast(1.0, f32)`) is rejected. Probe table posted on
+the issue. The Greeks run and are tested in the host runtime
+(`tests/capstone/blackscholes.ch`).
 
-**De-narrow when fixed:** build `verify/` in place and add the capstone Greeks
-to the C-backend lane.
+**Workaround:** `verify/*.ch` are copied to `/tmp` and built alone. Cited at
+the site in [`.github/workflows/nightly.yml`](../.github/workflows/nightly.yml)
+and [`docker/Dockerfile`](../docker/Dockerfile).
+
+**De-narrow when fixed:** build the capstone Greeks through the C backend and
+add them to `tests/test_c_backend.py`.
 
 ## Tracking
 
-### chelis#1247 — integer type-application arguments are unenforced
+### chelis#2552: host-runtime `grad` cannot lower a function that uses a string literal
 
-`Frame[3]` constrains nothing: the declared extent is never checked against the
-value, and on a type parameter the integer is a wildcard that unifies with
-anything. The corpus uses `Frame[N]` throughout `src/coral/`.
+`chelis test` fails `grad` over any function whose body passes a string
+literal, even when the string only selects a branch. Every Coral column
+lookup is keyed by a string name, so differentiating through a frame fails.
 
-**Effect here:** documentation-only. The corpus must not present `Frame[3]` as a
-checked constraint until this lands.
+**Effect here:** `src/coral/adthroughdataframe.ch` builds a frame from a
+tensor, but its gradient example differentiates the tensor loss directly. The
+Coral README and the feature matrix say so.
 
-**De-narrow when fixed:** add a negative example under `tests_neg/check/`
-asserting that a `Frame[3]` holding two rows is rejected.
+**Probe:** `grad` of `fn w -> sum(mul(get_float_col(from_pairs([("w",
+FloatCol(w))]), "w"), ...))` under `chelis test`. Re-probe: fails on 0.18.11
+(2026-09-25).
 
-### `docs/issue_drafts/per_worker_dep_recompilation.md` — native suite is compile-bound
+**De-narrow when fixed:** make the Coral example differentiate through
+`get_float_col`, and describe it as gradient flow through a frame.
 
-The native test runner recompiles dependencies per test worker, which makes the
-~105-test tree compile-bound rather than runtime-bound. CI's `chelis test` step
-carries a 900s budget rather than the ~180s the tests themselves warrant. Cited
-at the site in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+### chelis#1391: `chelis test --batch-mode auto` is slower than `--batch-mode file`
 
-**Not yet filed** — see
-[the draft](issue_drafts/per_worker_dep_recompilation.md) for the filing condition.
+On this suite (113 tests, 10 cores), `--jobs auto` takes 68s by default and
+32s with `--batch-mode file`; `--jobs 1` takes 67s. Measured on 0.18.11,
+2026-09-25.
+
+**Workaround:** CI and the docs pass `--batch-mode file`, cited at the site in
+[`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+
+**De-narrow when fixed:** drop `--batch-mode file` once the default is no
+slower.
 
 ## Parked
 
@@ -59,30 +74,26 @@ at the site in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 
 ## Archived
 
-### chelis#1258 — `Frame[N]` Deep resugaring
+### chelis#1247: integer type-application arguments are unenforced
 
-Closed upstream and verified fixed on Chelis 0.18.11. Both `chelis migrate surf
---from 0.18 --check src/coral/framebasics.ch` and the independent `chelis deep`
-then `chelis surf` route pass. The complete 93-file migration check also passes,
-so the old five-file manual exclusion is retired.
+Closed upstream. Re-probed on 0.18.11 (2026-09-25): a `Column[3]` built from
+a two-element tensor is rejected with `DimensionMismatch`. Pinned by
+[`tests_neg/check/adt_extent_mismatch.ch`](../tests_neg/check/adt_extent_mismatch.ch).
 
-### chelis#405 — scalar-`wrt` `grad` in the C backend
+### chelis#1258: `Frame[N]` Deep resugaring
 
-Closed upstream and its verbatim direct-expression reproducer now builds on
-Chelis 0.18.11. The hello-chelis whole-package failure had a narrower residual:
-local bindings inside the differentiated scalar function, now filed as
+Closed upstream. Re-probed on 0.18.11 (2026-09-25): `chelis migrate surf
+--from 0.18 --check` passes on all 92 maintained `.ch` files, and
+`chelis deep` then `chelis surf` succeeds on every `src/coral/` file.
+
+### chelis#405: scalar-`wrt` `grad` in the C backend
+
+Closed upstream. Re-probed on 0.18.11 (2026-09-25): the issue's reproducer
+builds and prints `out = 3.0`. The remaining C-backend `grad` rejection is
 chelis#2379.
 
-### chelis#406 — runtime leaks under valgrind
+### chelis#406: runtime leaks under valgrind
 
-Closed upstream COMPLETED on 2026-06-19. The two suppressions this repo carried
-for it were removed during the 0.18.5 bump, after the staleness audit found they
-had survived two pin bumps past the fix. Both frames are reachable in the
-nightly's `grad_quadratic` program, so the next nightly is the real re-probe. A
-red nightly there means a live residual: file a new issue and cite it, never
-re-add a suppression for a closed one.
-
-### Manual layer-norm false positive
-
-Resolved upstream. Record retained at
-[`upstream_resolved/manual_layer_norm_false_positive.md`](upstream_resolved/manual_layer_norm_false_positive.md).
+Closed upstream. Re-probed on 0.18.11 (2026-09-25): the nightly valgrind
+lane on `verify/grad_quadratic.ch` reports 0 errors and 0 bytes lost, with
+only the libgomp thread-pool suppression applied.

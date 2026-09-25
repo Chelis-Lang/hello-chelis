@@ -1,41 +1,41 @@
-# `tests/` — both Chelis-native and Python harnesses
+# `tests/`
 
-The repo keeps Chelis-native tests under `tests/<area>/<name>.ch`.
-The pinned Chelis v0.18.11 native runner runs the full test tree with
-node-local concurrency. Broader non-runtime invariants come from the
-Python drift, negative, Octant, c-earchin, and C-backend harnesses
-below. Run the native suite with:
+Chelis tests live in `tests/<area>/<name>.ch`, one module per module in
+`src/<area>/`. Run them with:
 
 ```sh
-chelis test tests/ --jobs auto
-chelis test tests/ --jobs 1   # serial fallback for debugging
+chelis test tests/ --jobs auto --batch-mode file
 ```
 
-Python under `tests/` covers the lanes the native runner doesn't
-reach:
+`--batch-mode file` is about twice as fast as the default on this suite
+([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
 
-| File | Lane | What it asserts |
-|---|---|---|
-| [`test_surf_deep_equivalence.py`](test_surf_deep_equivalence.py) | drift | every committed `.dp` is byte-identical to `chelis deep <ch>` |
-| [`test_negative_examples.py`](test_negative_examples.py) | reject | every `../tests_neg/check/*.ch` is rejected by `chelis check` with the kind declared in its `-- chelis-expect-fail: <kind>` header, and with the diagnostic substring pinned on line 1 of its `.expect` sidecar |
-| [`test_octant_pairs.py`](test_octant_pairs.py) | round-trip | every `octant/*.tex` re-translates to the committed `.dp`/`.spans.json`/`.ch` byte-equally |
-| [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | release provenance + requirements proof | c-earchin v0.3.5 finance-options bytes stay pinned, property witnesses prove, and the failing witness maps to its EARS line |
-| [`test_c_backend.py`](test_c_backend.py) | C backend | every `verify/*.ch` file builds, links, runs, and matches its golden output |
+The Python files here cover what `chelis test` does not:
 
-Run them all:
-
-```sh
-python3 -m pytest tests/
-```
-
-## Adding test cases
-
-| To add | Drop |
+| File | What it checks |
 |---|---|
-| A Chelis-native runtime test | a new `def test_*() -> unit ! { Test }` in `tests/<area>/<name>.ch`, then run `chelis test tests/ --jobs auto` |
-| A program that must be rejected | a `.ch` under `tests_neg/check/` with `-- chelis-expect-fail: <ErrorKind>` as the first content line, plus a `.expect` sidecar whose line 1 is the required diagnostic substring |
-| A LaTeX → Deep test | a `.tex` under `octant/`, then `python3 scripts/regen_octant.py` to capture the triple |
-| A C-backend full-lowering test | a `.ch` under `verify/` with a top-level expression, capture stdout into `verify/expected/<name>.txt` |
+| [`test_surf_deep_equivalence.py`](test_surf_deep_equivalence.py) | every committed `.dp` equals `chelis deep` of its `.ch` |
+| [`test_negative_examples.py`](test_negative_examples.py) | every `../tests_neg/check/*.ch` is rejected by `chelis check` with the error kind in its `-- chelis-expect-fail: <kind>` header |
+| [`test_c_backend.py`](test_c_backend.py) | every `../verify/*.ch` compiles to C, links, runs, and prints its golden output |
+| [`test_octant_pairs.py`](test_octant_pairs.py) | every `../octant/*.tex` retranslates to the committed `.dp`, `.spans.json`, and `.ch` |
+| [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | the c-earchin fixtures match their release hashes, the witnesses prove, and the failing witness is reported against its EARS line |
 
-Each new addition is picked up automatically by the existing
-parametrized harnesses. No registry to update.
+Run them with:
+
+```sh
+uv run --group test pytest tests/
+```
+
+A test whose tool is missing from `PATH` (`chelis`, `octant`, or `gcc`) is
+skipped, so run them inside the Docker image for full coverage.
+
+## Adding a test
+
+| To add | Do this |
+|---|---|
+| A runtime test | add a `def test_*() -> unit ! { Test }` to `tests/<area>/<name>.ch`, then `uv run scripts/regen_deep.py` |
+| A program that must be rejected | add a `.ch` under `tests_neg/check/` whose first line is `-- chelis-expect-fail: <ErrorKind>`, plus a `.expect` file whose first line is a substring of the expected diagnostic |
+| A LaTeX example | add a `.tex` under `octant/`, then `uv run scripts/regen_octant.py` |
+| A compiled-C example | add a standalone `.ch` under `verify/` and save its output as `verify/expected/<name>.txt` |
+
+The harnesses discover new files automatically.

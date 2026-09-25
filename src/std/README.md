@@ -1,28 +1,20 @@
-# `src/std/` — chelis-std surfaces
+# `src/std/`: the standard library
 
-Tour of the standard-library surface bundled with compiler v0.18.11, plus the
-School 0.1.14 neural-network/loss modules that moved out of `chelis-std` 0.4.0.
-The collection, tensor, time, decimal, and I/O examples use the bundled
-runtime; activation and loss examples import the pinned School package.
+A tour of `chelis-std` (bundled with the compiler) and of the neural-network
+and loss modules from the [`school`](https://github.com/Chelis-Lang/school)
+package.
 
-## Files
-
-| File | Surface | Notes |
+| File | Uses | What it shows |
 |---|---|---|
-| [`activationsnorms.ch`](activationsnorms.ch) | tensor builtins + `School.Nn.*` | tensor `relu`/`sigmoid`/`silu`/`gelu`/`tanh`, RMS / layer norm |
-| [`reductionslosses.ch`](reductionslosses.ch) | tensor reductions + `School.Loss.*` | sum/mean/prod axis reductions, cross-entropy, BCE, KL, perplexity |
-| [`decimal.ch`](decimal.ch) | `Std.Decimal` | `Decimal[P, S]` exact arithmetic for prices, tax, currency |
-| [`datetimecal.ch`](datetimecal.ch) | `Std.Time` | `DateTime`, `Duration`, weekday lookup, formatting |
-| [`collectionsiter.ch`](collectionsiter.ch) | `Std.List`, `Std.Dict`, `Std.Iter` | `List[T]` + `Dict[K, V]` + `map`/`filter`/`fold`/`scan` |
-| [`tensorio.ch`](tensorio.ch) | `Std.Io` | text I/O round-trip with the `! { IO }` effect declared at every boundary |
+| [`activationsnorms.ch`](activationsnorms.ch) | tensor builtins, `School.Nn.*` | tensor `relu` / `sigmoid`; GELU, SiLU, and tanh via School's scalar functions; RMS norm; a hand-written layer norm |
+| [`reductionslosses.ch`](reductionslosses.ch) | tensor reductions, `School.Loss.*` | sum / mean / product along an axis; cross-entropy, BCE with logits, KL divergence, perplexity |
+| [`decimal.ch`](decimal.ch) | `Std.Decimal` | exact decimal arithmetic for prices and tax |
+| [`datetimecal.ch`](datetimecal.ch) | `Std.Time` | dates, day arithmetic, weekday names, formatting |
+| [`collectionsiter.ch`](collectionsiter.ch) | `List`, `Dict`, iteration | `map` / `filter` / `fold` / `scan`, a vocabulary dictionary |
+| [`tensorio.ch`](tensorio.ch) | `Std.Io` | text file I/O, with `! { IO }` on every function that touches the filesystem |
 
-The full export list of `chelis-std` is in
-[`docs/shells/std.md`](../../docs/shells/std.md).
+Each file has a test of the same name under [`tests/std/`](../../tests/std/).
 
-## What's verified
-
-| Lane | Coverage |
-|---|---|
-| `chelis check src/std/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/std/` | 20 runtime assertions across 6 modules |
-| Surf-Deep equivalence | every `.ch` paired with a machine-generated `.dp` |
+For the full API, see the `chelis-std` reference,
+[`packages/chelis-std/SKILL.md`](https://github.com/Chelis-Lang/chelis/blob/main/packages/chelis-std/SKILL.md),
+and the [`school` documentation](https://github.com/Chelis-Lang/school).
