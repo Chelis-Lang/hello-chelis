@@ -36,7 +36,7 @@ Do not re-derive them here.
 | Effects (`Random`, `IO`, `Test`) + handlers | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
 | Linearity: `copy`, `&borrow`, implicit auto-borrow | `src/basics/linearity.ch` | `@pin` |
 | `grad`, `vmap`, `jit` + `realize`, macros | `src/basics/{vmap,jitrealize,macrobasic}.ch` | `@pin` |
-| `chelis-std`: activations, norms, reductions, losses | `src/std/` | `@pin` |
+| `chelis-std`: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
 | `chelis-std`: `Decimal[P, S]`, `DateTime`, `List`/`Dict`/iter | `src/std/` | `@pin` |
 | `coral` typed dataframes, `group_by`, joins, reshape, CSV/JSON | `src/coral/` | `@pin` |
 | AD through dataframe ops | `src/coral/adthroughdataframe.ch` | `@pin` |

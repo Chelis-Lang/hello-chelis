@@ -49,8 +49,8 @@ The bundled chelis-std lock hashes come from the 0.18.11 toolchain.
   `python3 -m pytest -q tests/` passes 108/108, including all seven C-backend
   compile/run goldens, the Octant triples, and the c-earchin fixtures.
 - The negative suite passes 3/3; Deep drift, canonical formatting, lint,
-  conformance audit, and pin bump-check are green. Lint retains only the
-  pre-existing advisory in `src/capstone/transformerblock.ch`.
+  conformance audit, and pin bump-check are green. Lint retained only one
+  pre-existing advisory, in a capstone since removed by #28.
 
 The whole-package C build remains intentionally bounded by chelis#2379;
 standalone `verify/` programs are the proven compiled subset. A fresh red-team
