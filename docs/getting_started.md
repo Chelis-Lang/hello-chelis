@@ -103,12 +103,13 @@ root of the package; see [`../verify/README.md`](../verify/README.md).
 ## 7. Regenerate generated files
 
 ```sh
-uv run scripts/regen_deep.py      # every .dp from its .ch
+uv run scripts/regen_deep.py      # maintained Surf/Deep pairs
 uv run scripts/regen_octant.py    # every octant/ triple from its .tex
 ```
 
-Run the first after editing any `.ch`. CI fails if a committed `.dp` differs
-from what `chelis deep` produces.
+Run the first after editing a `.ch` in the
+[maintained paired corpus](surf_and_deep.md). CI fails if a paired `.dp`
+differs from what `chelis deep` produces.
 
 ## 8. The Python harness
 
@@ -127,5 +128,5 @@ and c-earchin proofs. See [`../tests/README.md`](../tests/README.md).
   the directories
 - [`feature_matrix.md`](feature_matrix.md): each language feature and the
   file that exercises it
-- [`surf_and_deep.md`](surf_and_deep.md): why every program ships in both
-  syntaxes
+- [`surf_and_deep.md`](surf_and_deep.md): where Surf and Deep are paired and
+  how the pair is checked

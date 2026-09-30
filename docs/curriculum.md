@@ -9,9 +9,8 @@ teach. To get the corpus running first, see
 ## 0. Mental model (5 min)
 
 Read [`surf_and_deep.md`](surf_and_deep.md). Chelis has two syntaxes over
-one AST: Surf for people and Deep for tools. Every program here ships in
-both, and the pairing is the quickest way to see what a Surf construct
-means.
+one AST: Surf for people and Deep for tools. The paired examples show
+what a Surf construct means.
 
 ## 1. Three ways to run a program (10 min)
 

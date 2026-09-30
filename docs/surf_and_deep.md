@@ -27,7 +27,7 @@ above so that a reader can:
 ## How the pairs stay in sync
 
 ```sh
-uv run scripts/regen_deep.py            # regenerate every .dp
+uv run scripts/regen_deep.py            # regenerate paired .dp files
 uv run scripts/regen_deep.py --check    # report drift, change nothing
 ```
 

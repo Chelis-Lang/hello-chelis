@@ -14,7 +14,7 @@ The Python files here cover what `chelis test` does not:
 
 | File | What it checks |
 |---|---|
-| [`test_surf_deep_equivalence.py`](test_surf_deep_equivalence.py) | every committed `.dp` equals `chelis deep` of its `.ch` |
+| [`test_surf_deep_equivalence.py`](test_surf_deep_equivalence.py) | each [maintained Surf/Deep pair](../docs/surf_and_deep.md) matches `chelis deep` |
 | [`test_negative_examples.py`](test_negative_examples.py) | every `../tests_neg/check/*.ch` is rejected by `chelis check` with the error kind in its `-- chelis-expect-fail: <kind>` header |
 | [`test_c_backend.py`](test_c_backend.py) | every `../verify/*.ch` compiles to C, links, runs, and prints its golden output |
 | [`test_octant_pairs.py`](test_octant_pairs.py) | every `../octant/*.tex` retranslates to the committed `.dp`, `.spans.json`, and `.ch` |
