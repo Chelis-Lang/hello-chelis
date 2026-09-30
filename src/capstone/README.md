@@ -10,15 +10,14 @@ and the relevant shells.
 |---|---|---|
 | [`blackscholes.ch`](blackscholes.ch) | `nautilus` | Black-Scholes call price + Greeks (delta, vega) via `grad`. Mirrors the LaTeX in [`octant/black_scholes_d1.tex`](../../octant/black_scholes_d1.tex). |
 | [`linreg.ch`](linreg.ch) | `chelis-std` | Linear regression: design matrix, `predict`, MSE loss, single SGD step. |
-| [`mlpipeline.ch`](mlpipeline.ch) | `chelis-std` + `coral` + `nautilus` | End-to-end ML: load CSV via Coral → feature engineering → loss → Nautilus statistical evaluation. |
-| [`transformerblock.ch`](transformerblock.ch) | `chelis-std` | The primer's transformer-block walkthrough: self-attention with explicit `copy(x)` at every fan-out, residual + layer-norm, MLP. |
+| [`returnsrisk.ch`](returnsrisk.ch) | `coral` + `nautilus` | Returns and risk: prices → simple returns → a Coral frame grouped by ticker → Sharpe ratio, rolling volatility (`Coral.Window`), and parametric value-at-risk from the Nautilus normal quantile. |
 
 ## What's verified
 
 | Lane | Coverage |
 |---|---|
 | `chelis check src/capstone/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/capstone/` | runtime assertions for `blackscholes::call_atm`, `mlpipeline::*`, `transformerblock::block_module_loads` |
+| `chelis test tests/capstone/` | runtime assertions for `blackscholes::call_atm` and `returnsrisk::*` |
 | C-backend full lowering | [`verify/grad_quadratic.ch`](../../verify/grad_quadratic.ch) and [`verify/grad_works.ch`](../../verify/grad_works.ch) prove `grad` reaches native execution |
 
 ## Why some capstone tests are smoke-only

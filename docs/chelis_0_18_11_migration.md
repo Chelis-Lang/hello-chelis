@@ -1,8 +1,7 @@
 # Chelis 0.18.11 migration
 
 The unreleased hello-chelis 0.1.11 candidate now consumes Chelis 0.18.11,
-Coral 0.7.43, Nautilus 0.7.46, School 0.1.14, Octant 0.13.1, and C-earchin
-0.3.5. Reef, release-workflow, Docker build arguments, CI build arguments and
+Coral 0.7.43, Nautilus 0.7.46, Octant 0.13.1, and C-earchin 0.3.5. Reef, release-workflow, Docker build arguments, CI build arguments and
 the Compose image tag name those releases consistently. `chelis-std` remains
 compiler-bundled at 0.4.0.
 
@@ -38,7 +37,6 @@ are:
 |---|---|---|
 | Coral 0.7.43 | `0dc97f32fc1e8f22a592762f144fe89632c52879da77e2869029b67c13f39852` | `ce1cd84906996feae3adae75253c709d025cebbcc39e956447fd70298eade592` |
 | Nautilus 0.7.46 | `8a37bccd8c57e8d0b727a0f23f8de7082008aef43ebc77f899e647290fb0b71f` | `b581332e726ebec25a851bb7d453882dfa0c39c2cb5f640a4327d51d1b821b7a` |
-| School 0.1.14 | `36d93dbe08cb42297cd49fe63bfdfded72d34e6987f33dd19260e023a6c40096` | `a44d947466605a6cf5ac7c9374259ab5aeb5663fe24c17f53a9d05d886b2ba56` |
 
 The bundled chelis-std lock hashes come from the 0.18.11 toolchain.
 

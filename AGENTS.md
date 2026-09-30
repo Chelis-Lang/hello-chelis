@@ -4,13 +4,13 @@
 
 hello-chelis is the **executable teaching corpus** for Chelis. Someone who has
 never seen the language should be able to clone this repo, run everything in it,
-and read their way from a first tensor to a transformer block. Every example is
+and read their way from a first tensor to a returns-and-risk pipeline. Every example is
 a real program the pinned toolchain checks, tests, and (where the C backend
 supports it) lowers and runs. Nothing here is illustrative pseudo-code.
 
 That makes this repo the ecosystem's **integration canary**: it is the only shell
-that consumes `chelis-std`, `coral`, `nautilus`, `school`, `octant`, and
-`c-earchin` together, so it is the first place a cascade that does not compose
+that consumes `chelis-std`, `coral`, `nautilus`, `octant`, and `c-earchin`
+together, so it is the first place a cascade that does not compose
 shows up. It is also the **Docker shell** — its CI ships and tests inside an
 image built from the published release tarball rather than a host toolchain.
 
@@ -55,8 +55,8 @@ A pin bump is a de-narrowing event. Bump only through a `chelis reef conform bum
 PR that runs the blocked-probe suite, the staleness/narrowing audit, and restamps
 `docs/CHELIS_SURFACE.md`. Never edit the pin directly on `main`.
 
-This repo is the **leaf** of the cascade: it pins released `coral`, `nautilus`,
-and `school` packages, and reef rejects a dependency whose `package.compiler`
+This repo is the **leaf** of the cascade: it pins released `coral` and `nautilus`
+packages, and reef rejects a dependency whose `package.compiler`
 does not equal the running compiler. A chelis bump therefore cannot land here
 until every one of those shells has published a release pinned to the same
 version. Bump this repo last.

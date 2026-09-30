@@ -3,7 +3,7 @@
 A complete, runnable example project for the
 [Chelis](https://github.com/Chelis-Lang/chelis) language v0.18.x and
 its shipped shells (`chelis-std`, `coral`, `nautilus`, `octant`,
-`c-earchin`, `school`).
+`c-earchin`).
 Designed as a self-education tool: clone, run, read.
 
 If you've never seen Chelis before, start with
@@ -15,12 +15,12 @@ through the corpus.
 | Area | Folder | Demonstrates |
 |---|---|---|
 | Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs + match, modules, dim polymorphism, precision + cast, effects (`Random`) + handlers, linearity (`copy` + `&borrow`), `grad`, `vmap`, `jit` + `realize`, macros |
-| `chelis-std` | [`src/std/`](src/std/) | activations + norms, reductions + losses, `Decimal[P, S]`, `DateTime`, `List` / `Dict` / iter, text I/O |
+| `chelis-std` | [`src/std/`](src/std/) | elementwise math + normalization, axis reductions, `Decimal[P, S]`, `DateTime`, `List` / `Dict` / iter, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O, AD through frame ops |
-| `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
+| `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting, entropy + KL divergence |
 | `octant` (LaTeX bridge) | [`octant/`](octant/) | `.tex` inputs translated to canonical Deep + provenance + decompiled Surf |
 | `c-earchin` (requirements bridge) | [`docs/shells/c_earchin.md`](docs/shells/c_earchin.md) | finance-flavored EARS requirements translated to Chelis property witnesses, proven with span diagnostics back to the EARS line |
-| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes Greeks via `grad`, linear regression with SGD, transformer block, end-to-end ML pipeline across the code-import shells |
+| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes Greeks via `grad`, linear regression with SGD, a returns/risk pipeline over a `coral` frame with `nautilus` statistics |
 
 ## Layout
 
@@ -33,8 +33,8 @@ hello-chelis/
 │   ├── basics/                Hello.Basics.*           (11 files)
 │   ├── std/                   Hello.Std.*              ( 6 files)
 │   ├── coral/                 Hello.Coral.*            ( 7 files)
-│   ├── nautilus/              Hello.Nautilus.*         (13 files)
-│   └── capstone/              Hello.Capstone.*         ( 4 files)
+│   ├── nautilus/              Hello.Nautilus.*         (14 files)
+│   └── capstone/              Hello.Capstone.*         ( 3 files)
 │
 ├── tests/                     Chelis-native tests (Hello.Tests.*)
 │   ├── basics/, std/, coral/, nautilus/, capstone/
@@ -139,35 +139,28 @@ inventory of gaps with verbatim compiler error messages in
 
 The runnable in-repo corpus is pinned to **chelis `0.18.11`** with
 **`chelis-std` 0.4.0**, **coral 0.7.43**, **nautilus 0.7.46**,
-**octant 0.13.1**, and **school 0.1.14**. The committed c-earchin
+and **octant 0.13.1**. The committed c-earchin
 requirements-bridge fixtures are byte-locked to and proven from the
 **c-earchin 0.3.5** release in the Python harness. The `compiler = "=0.18.11"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
 between minor versions.
 
-The neural-network and loss modules (`Nn.*`, `Loss.*`) moved out of
-`chelis-std` and into the new **`school`** package as of chelis-std
-0.4.0. Programs that previously imported `Std.Nn.*` / `Std.Loss.*` now
-import the corresponding `School.Nn.*` / `School.Loss.*` modules.
-
 ## Test status
 
 | Lane | Pass count |
 |---|---:|
-| `pytest tests/test_surf_deep_equivalence.py` (drift) | 89 |
+| `pytest tests/test_surf_deep_equivalence.py` (drift) | 91 |
 | `pytest tests/test_c_backend.py` (C lowering + golden outputs) | 7 |
 | `pytest tests/test_octant_pairs.py` (LaTeX/Deep/Surf round-trip) | 4 |
 | `pytest tests/test_negative_examples.py` (must-reject, error kind) | 3 |
 | `chelis test tests_neg --expect neg` (must-reject, diagnostic text) | 3 |
 | `pytest tests/test_c_earchin_artifacts.py` (release provenance + EARS proof bridge) | 3 |
-| `chelis test tests/ --jobs auto` (native runtime suite) | 105 |
+| `chelis test tests/ --jobs auto` (native runtime suite) | 115 |
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 
 `chelis lint --check .` is now a blocking CI gate. The corpus reports
-zero error-severity findings under chelis 0.18.11. One existing advisory
-`prefer-pipe-operator` finding remains in
-`src/capstone/transformerblock.ch`; advisory diagnostics do not fail
-`lint --check`. Every upstream rule that previously blocked this gate
+zero findings under chelis 0.18.11, advisory ones included (advisory
+diagnostics would not fail `lint --check`). Every upstream rule that previously blocked this gate
 landed in chelis 0.7.8:
 
 - The `module-pascal-components` allowlist now recognizes `Linearity`,

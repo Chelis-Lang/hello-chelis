@@ -1,0 +1,66 @@
+(module {surf_path: "Hello.Std.Reductions"}
+  hello.std.reductions
+  (export {} sum_axis0 mean_axis0 prod_axis0 sum_rows)
+  (defsig {}
+    sum_axis0
+    (r c)
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+      (t-tensor {} (d-var {} c) (t-prim {} f32))))
+  (def {}
+    sum_axis0
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:144..164"}
+        (var {span: "surf:144..147"} sum)
+        (var {span: "surf:148..149"} x)
+        (cast {span: "surf:151..163"}
+          (lit {span: "surf:156..157", surf_literal_style: "unsuffixed", type: (t-prim {} i32)} 0)
+          (t-prim {} i32)))))
+  (defsig {}
+    mean_axis0
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
+      (t-tensor {} (d-lit {} 4) (t-prim {} f32))))
+  (def {}
+    mean_axis0
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:223..244"}
+        (var {span: "surf:223..227"} mean)
+        (var {span: "surf:228..229"} x)
+        (cast {span: "surf:231..243"}
+          (lit {span: "surf:236..237", surf_literal_style: "unsuffixed", type: (t-prim {} i32)} 0)
+          (t-prim {} i32)))))
+  (defsig {}
+    prod_axis0
+    (r c)
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+      (t-tensor {} (d-var {} c) (t-prim {} f32))))
+  (def {}
+    prod_axis0
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:309..337"}
+        (var {span: "surf:309..320"} prod_reduce)
+        (var {span: "surf:321..322"} x)
+        (cast {span: "surf:324..336"}
+          (lit {span: "surf:329..330", surf_literal_style: "unsuffixed", type: (t-prim {} i32)} 0)
+          (t-prim {} i32)))))
+  (defsig {}
+    sum_rows
+    (r c)
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
+      (t-tensor {} (d-var {} r) (t-prim {} f32))))
+  (def {}
+    sum_rows
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:400..420"}
+        (var {span: "surf:400..403"} sum)
+        (var {span: "surf:404..405"} x)
+        (cast {span: "surf:407..419"}
+          (lit {span: "surf:412..413", surf_literal_style: "unsuffixed", type: (t-prim {} i32)} 1)
+          (t-prim {} i32))))))

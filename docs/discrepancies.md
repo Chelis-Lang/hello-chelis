@@ -83,7 +83,9 @@ through the C backend.
 > ```
 > Status: tensor `relu`, `sigmoid`, and (per chelis-std SKILL.md)
 > `gelu`, `silu`, `tanh` are check-clean but the IR evaluator
-> doesn't ship them. C backend handles them.
+> doesn't ship them. C backend handles them. The scalar forms of
+> `sigmoid` and `tanh` do run in the evaluator, which is how
+> `tests/std/elementwise.ch` exercises them.
 
 ### Tensor `cast` precision restrictions
 > ```

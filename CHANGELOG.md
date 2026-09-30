@@ -7,6 +7,16 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Remove the `school` dependency and the neural-net lessons ahead of the
+  public release (#28). The capstones `mlpipeline` and `transformerblock` are
+  replaced by `returnsrisk` (a returns/risk pipeline over a Coral frame with
+  Nautilus statistics and distributions). The std lessons are reframed on
+  builtins only: `activationsnorms` becomes `elementwise` (clamp, logistic,
+  tanh, z-score standardization, RMS scaling) and `reductionslosses` becomes
+  `reductions`; KL divergence moves to the new `src/nautilus/info.ch` over
+  `Nautilus.Info`. `school` leaves `reef.toml`, `reef.lock`, the Docker image
+  and CI build-args, and the School shell page is deleted. The native suite
+  goes from 105 to 115 tests.
 - Prepare the existing 0.1.11 candidate for Chelis 0.18.11 across the Reef,
   Docker, CI and Compose pin surfaces. Migrate maintained Surf and Deep pairs,
   explicitly declare dimension binders, and rename the linearity example's

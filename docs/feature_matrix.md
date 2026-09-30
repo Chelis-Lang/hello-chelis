@@ -43,15 +43,16 @@ that exercises it, plus the test lane that proves it works.
 
 | Surface | Source file | Test |
 |---|---|---|
-| Activations / norms | [`src/std/activationsnorms.ch`](../src/std/activationsnorms.ch) | [`tests/std/activationsnorms.ch`](../tests/std/activationsnorms.ch) |
-| Reductions / losses | [`src/std/reductionslosses.ch`](../src/std/reductionslosses.ch) | [`tests/std/reductionslosses.ch`](../tests/std/reductionslosses.ch) |
+| Elementwise math / normalization | [`src/std/elementwise.ch`](../src/std/elementwise.ch) | [`tests/std/elementwise.ch`](../tests/std/elementwise.ch) |
+| Axis reductions | [`src/std/reductions.ch`](../src/std/reductions.ch) | [`tests/std/reductions.ch`](../tests/std/reductions.ch) |
 | `Decimal[P, S]` | [`src/std/decimal.ch`](../src/std/decimal.ch) | [`tests/std/decimal.ch`](../tests/std/decimal.ch) |
 | `DateTime` / `Duration` | [`src/std/datetimecal.ch`](../src/std/datetimecal.ch) | [`tests/std/datetimecal.ch`](../tests/std/datetimecal.ch) |
 | `List` / `Dict` / `Iter` | [`src/std/collectionsiter.ch`](../src/std/collectionsiter.ch) | [`tests/std/collectionsiter.ch`](../tests/std/collectionsiter.ch) |
 | Text I/O `! { IO }` | [`src/std/tensorio.ch`](../src/std/tensorio.ch) | [`tests/std/tensorio.ch`](../tests/std/tensorio.ch) |
 
-Tensor `relu`, `sigmoid`, `gelu`, `silu`, `tanh` are exercised via the
-C backend in [`verify/relu_lowers.ch`](../verify/relu_lowers.ch),
+Scalar `sigmoid` and `tanh` run in the IR evaluator via
+[`tests/std/elementwise.ch`](../tests/std/elementwise.ch). Tensor `relu`
+and `sigmoid` are exercised via the C backend in [`verify/relu_lowers.ch`](../verify/relu_lowers.ch),
 [`verify/sigmoid_lowers.ch`](../verify/sigmoid_lowers.ch),
 [`verify/relu_then_sigmoid.ch`](../verify/relu_then_sigmoid.ch).
 
@@ -75,6 +76,7 @@ C backend in [`verify/relu_lowers.ch`](../verify/relu_lowers.ch),
 | Distributions: Normal, Exponential | [`src/nautilus/distributions.ch`](../src/nautilus/distributions.ch) | [`tests/nautilus/distributions.ch`](../tests/nautilus/distributions.ch) |
 | Linear algebra | [`src/nautilus/linalg.ch`](../src/nautilus/linalg.ch) | [`tests/nautilus/linalg.ch`](../tests/nautilus/linalg.ch) |
 | Statistics | [`src/nautilus/stats.ch`](../src/nautilus/stats.ch) | [`tests/nautilus/stats.ch`](../tests/nautilus/stats.ch) |
+| Information theory: entropy, KL divergence | [`src/nautilus/info.ch`](../src/nautilus/info.ch) | [`tests/nautilus/info.ch`](../tests/nautilus/info.ch) |
 | Distance metrics | [`src/nautilus/distance.ch`](../src/nautilus/distance.ch) | [`tests/nautilus/distance.ch`](../tests/nautilus/distance.ch) |
 | Root-finding | [`src/nautilus/roots.ch`](../src/nautilus/roots.ch) | [`tests/nautilus/roots.ch`](../tests/nautilus/roots.ch) |
 | Numerical integration | [`src/nautilus/integration.ch`](../src/nautilus/integration.ch) | [`tests/nautilus/integration.ch`](../tests/nautilus/integration.ch) |
@@ -104,8 +106,7 @@ output (modulo the absolute-path field in `.spans.json`).
 |---|---|---|---|
 | Black-Scholes call + Greeks | nautilus | [`src/capstone/blackscholes.ch`](../src/capstone/blackscholes.ch) | [`tests/capstone/blackscholes.ch`](../tests/capstone/blackscholes.ch) |
 | Linear regression | std | [`src/capstone/linreg.ch`](../src/capstone/linreg.ch) | check-only |
-| Transformer block | std | [`src/capstone/transformerblock.ch`](../src/capstone/transformerblock.ch) | [`tests/capstone/transformerblock.ch`](../tests/capstone/transformerblock.ch) |
-| End-to-end ML pipeline | std + coral + nautilus | [`src/capstone/mlpipeline.ch`](../src/capstone/mlpipeline.ch) | [`tests/capstone/mlpipeline.ch`](../tests/capstone/mlpipeline.ch) |
+| Returns and risk pipeline | coral + nautilus | [`src/capstone/returnsrisk.ch`](../src/capstone/returnsrisk.ch) | [`tests/capstone/returnsrisk.ch`](../tests/capstone/returnsrisk.ch) |
 
 ## Verification lanes
 

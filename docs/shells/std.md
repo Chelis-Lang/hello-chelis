@@ -3,9 +3,7 @@
 The standard library. Always available, no extra `[dependencies]` line
 needed beyond the implicit one in `reef.toml`.
 
-Pinned to `0.4.0`. The neural-network and loss modules (`Std.Nn.*`,
-`Std.Loss.*`) moved to the `school` package as of 0.4.0; see
-[`school.md`](school.md).
+Pinned to `0.4.0`.
 
 ## What's here
 

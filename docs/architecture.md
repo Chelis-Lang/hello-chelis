@@ -78,7 +78,7 @@ modules, just raw Deep + decompiled Surf snippets.
 
 1. **Each Chelis feature has a narrow blast radius.** A bug in
    linearity doesn't break dimension inference; a regressed
-   `cross_entropy` doesn't break ADTs. Splitting the corpus by
+   `rolling_std` doesn't break ADTs. Splitting the corpus by
    feature lets you triage which subsystem regressed when something
    fails.
 2. **The compiler's fitness score is per-program.** A single
@@ -92,28 +92,28 @@ modules, just raw Deep + decompiled Surf snippets.
 `src/<area>/<name>.ch`:
 
 ```chelis-surf
-module Hello.Std.ActivationsNorms
+module Hello.Std.Elementwise
 
 import Std.Tensor.Construct (to_tensor)
 
-export (relu_then_sigmoid)
+export (clamp_then_logistic)
 
-def relu_then_sigmoid(x: tensor[n, f32]) -> tensor[n, f32] =
+def clamp_then_logistic(x: tensor[n, f32]) -> tensor[n, f32] =
   sigmoid(relu(x))
 ```
 
 `tests/<area>/<name>.ch`:
 
 ```chelis-surf
-module Hello.Tests.Std.ActivationsNorms
+module Hello.Tests.Std.Elementwise
 
-import Hello.Std.ActivationsNorms (relu_then_sigmoid)
+import Hello.Std.Elementwise (clamp_then_logistic)
 import Std.Test (assert_close_tensor)
 
-def test_relu_sigmoid_on_zeros() -> unit ! { Test } = {
+def test_clamp_logistic_on_zeros() -> unit ! { Test } = {
   zeros = to_tensor([cast(0.0, f32), cast(0.0, f32), cast(0.0, f32)])
   expected = to_tensor([cast(0.5, f32), cast(0.5, f32), cast(0.5, f32)])
-  assert_close_tensor(relu_then_sigmoid(zeros), expected, cast(1e-6, f32), "rs_zeros")
+  assert_close_tensor(clamp_then_logistic(zeros), expected, cast(1e-6, f32), "rs_zeros")
 }
 ```
 
