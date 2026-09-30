@@ -10,6 +10,11 @@ version with the compiler and shell releases it is pinned to.
 Pinned to chelis 0.18.11, `chelis-std` 0.4.0, `coral` 0.7.43, `nautilus`
 0.7.46, `school` 0.1.14, `octant` 0.13.1, and `c-earchin` 0.3.5.
 
+### Security
+
+- Add a pinned Git-history secret scan to pull-request and push checks, with
+  contract tests.
+
 ### Changed
 
 - Sources migrated to canonical Surf v0.19: explicit dimension binders,
