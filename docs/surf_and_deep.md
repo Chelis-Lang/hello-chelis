@@ -1,7 +1,9 @@
 # Surf and Deep
 
-Chelis has two syntaxes for the same AST. Every program in this repo ships
-in both, as paired files in the same directory.
+Chelis has two syntaxes for the same AST. Programs under `src/`, `tests/`,
+`tests_neg/`, and `verify/` ship in both, as paired files in the same
+directory. Blocked probes under `tests_blocked/` pair Surf with an
+expected-failure sidecar instead.
 
 | Syntax | File | Audience | Role |
 |---|---|---|---|
@@ -11,7 +13,8 @@ in both, as paired files in the same directory.
 ## Why ship both
 
 A normal Chelis project commits only `.ch`; its Deep form is derived on
-demand with `chelis deep`. This repo commits both so that a reader can:
+demand with `chelis deep`. This repo commits both for the paired directories
+above so that a reader can:
 
 - see what the desugaring rules in
   [`spec/02-surf-syntax.md`](https://github.com/Chelis-Lang/chelis/blob/main/spec/02-surf-syntax.md)

@@ -49,9 +49,9 @@ lookup is keyed by a string name, so differentiating through a frame fails.
 tensor, but its gradient example differentiates the tensor loss directly. The
 Coral README and the feature matrix say so.
 
-**Probe:** `grad` of `fn w -> sum(mul(get_float_col(from_pairs([("w",
-FloatCol(w))]), "w"), ...))` under `chelis test`. Re-probe: fails on 0.18.11
-(2026-09-25).
+**Probe:** [`../tests_blocked/coral/grad_string_key.ch`](../tests_blocked/coral/grad_string_key.ch)
+under `chelis test tests_blocked --expect blocked`. Re-probe: fails with the
+pinned diagnostic on 0.18.11 (2026-09-30).
 
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.

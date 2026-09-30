@@ -92,6 +92,13 @@ jobs:
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             chelis test tests_neg --expect neg
 
+      # Expected upstream failures. A fixed or drifted failure must trigger
+      # the de-narrowing instructions in its .expect sidecar.
+      - name: chelis test tests_blocked --expect blocked
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            chelis test tests_blocked --expect blocked
+
       # Surf/Deep drift, negative error kinds, C-backend build + run +
       # golden diff, Octant round-trips, and c-earchin proofs.
       # See tests/README.md.

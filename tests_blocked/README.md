@@ -7,9 +7,11 @@ Run with `chelis test tests_blocked/ --expect blocked`. Blockers the harness
 cannot express (check-context-only, cross-module, package-build-context) are
 listed here for manual re-probe.
 
-This directory currently holds no `.ch` probes: the one open blocker fails
-only under `chelis build --target c`, which the `chelis test` runner cannot
-express.
+[`coral/grad_string_key.ch`](coral/grad_string_key.ch) pins chelis#2552: the
+host runtime cannot evaluate `grad` through a string-keyed Coral column
+lookup. Its [sidecar](coral/grad_string_key.expect) names the diagnostic and
+the de-narrowing steps. The other open blocker, chelis#2379, fails only under
+`chelis build --target c`, which the `chelis test` runner cannot express.
 
 ## Manual re-probes
 
@@ -42,12 +44,3 @@ the probe table on the issue. A standalone check of that narrower shape:
 printf 'module V\ndef f(s: f32, k: f32) -> f32 = add(s, cast(1.0, f32))\ndef df(s: f32, k: f32) -> f32 = grad(f, wrt=s)(s, k)\nout = df(cast(2.0, f32), cast(3.0, f32))\n' > /tmp/v.ch
 chelis build --target c /tmp/v.ch -o /tmp/v
 ```
-
-### chelis#2552: host-runtime `grad` through a string literal
-
-Add a test that differentiates a function calling
-`get_float_col(from_pairs([("w", FloatCol(w))]), "w")` and run it with
-`chelis test`. **Blocked (re-confirmed on 0.18.11):** fails with "a string
-literal has no numeric IR constant and cannot be lowered into the RISC DAG".
-**Fixed:** the gradient evaluates; follow the de-narrowing step in
-`docs/UPSTREAM_BUGS.md`.
