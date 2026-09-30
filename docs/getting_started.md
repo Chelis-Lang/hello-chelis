@@ -19,7 +19,7 @@ The image is `ubuntu:24.04` plus:
 - The `chelis` and `octant` CLIs from prebuilt release tarballs
 - `libchelis_runtime.a` installed at `/usr/local/lib/`
 - The shells `chelis-std` 0.4.0, `coral` 0.7.43, `nautilus` 0.7.46,
-  `octant` 0.13.1, `c-earchin` 0.3.5, and `school` 0.1.14 installed into
+  `octant` 0.13.1, and `c-earchin` 0.3.5 installed into
   the local Reef registry from GitHub release assets
 
 First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
@@ -61,10 +61,9 @@ chelis lint .                              # non-blocking nomenclature inventory
 chelis lint --check .                      # blocking lint gate
 ```
 
-The strict gate passes under chelis 0.18.11 with zero error-severity
-findings. One existing `prefer-pipe-operator` advisory remains in
-`src/capstone/transformerblock.ch`; advisory diagnostics do not fail
-`lint --check`. Treat new or edited examples as style-clean.
+The strict gate passes under chelis 0.18.11 with zero findings.
+Advisory diagnostics would not fail `lint --check`, but the corpus
+carries none. Treat new or edited examples as style-clean.
 
 ## 5. C backend (full lowering)
 

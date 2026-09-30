@@ -1,0 +1,32 @@
+(module {surf_path: "Hello.Nautilus.Info"}
+  hello.nautilus.info
+  (import {surf_path: "Nautilus.Info"} nautilus.info (entropy kl_divergence))
+  (export {} shannon_entropy relative_entropy)
+  (defsig {}
+    shannon_entropy
+    (n)
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-prim {} f32)))
+  (def {}
+    shannon_entropy
+    (fn {}
+      (params {} (p {type: (t-var {} _)}))
+      (app {span: "surf:168..178"}
+        (var {span: "surf:168..175"} entropy)
+        (var {span: "surf:176..177"} p))))
+  (defsig {}
+    relative_entropy
+    (n)
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-prim {} f32)))
+  (def {}
+    relative_entropy
+    (fn {}
+      (params {} (p {type: (t-var {} _)}) (q {type: (t-var {} _)}))
+      (app {span: "surf:252..271"}
+        (var {span: "surf:252..265"} kl_divergence)
+        (var {span: "surf:266..267"} p)
+        (var {span: "surf:269..270"} q)))))

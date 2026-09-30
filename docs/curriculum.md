@@ -69,8 +69,8 @@ play out on real programs.
 
 [`src/std/`](../src/std/) tours `chelis-std`'s six biggest surfaces:
 
-- activations + normalizations
-- reductions + losses
+- elementwise math + normalization (standardize, RMS scaling)
+- axis reductions
 - decimal arithmetic with compile-time precision
 - datetime / calendar
 - collections + iteration combinators
@@ -95,9 +95,10 @@ window functions. See
 
 ### Nautilus — numerics
 
-[`src/nautilus/`](../src/nautilus/) — scipy-equivalent. 13 modules
+[`src/nautilus/`](../src/nautilus/) — scipy-equivalent. 14 modules
 covering special functions, distributions, linear algebra, ODE/SDE
-integration, optimization, hypothesis testing, curve fitting. Pure
+integration, optimization, hypothesis testing, curve fitting,
+information theory. Pure
 Chelis, so AD flows through every method via tensor-op composition.
 
 ### Octant — LaTeX bridge
@@ -124,12 +125,10 @@ with failure diagnostics resolving back to the EARS line.
   at [`octant/black_scholes_d1.tex`](../octant/black_scholes_d1.tex).
 - [`linreg.ch`](../src/capstone/linreg.ch): linear regression with
   predict / loss / SGD step.
-- [`mlpipeline.ch`](../src/capstone/mlpipeline.ch): end-to-end CSV
-  → features → loss → statistics across `chelis-std` + `coral` +
-  `nautilus`.
-- [`transformerblock.ch`](../src/capstone/transformerblock.ch): the
-  primer's transformer block, with explicit `copy(x)` at fan-out sites
-  retained as migration-compatible style.
+- [`returnsrisk.ch`](../src/capstone/returnsrisk.ch): a returns and
+  risk pipeline — prices → simple returns → a `coral` frame grouped by
+  ticker → Sharpe ratio, rolling volatility, and parametric VaR from
+  `nautilus` statistics and distributions.
 
 ## 6. Verifying full lowering (20 min)
 

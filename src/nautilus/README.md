@@ -15,6 +15,7 @@ precision.
 | [`distributions.ch`](distributions.ch) | `Nautilus.Distributions` | Normal pdf/cdf/quantile, Exponential at half-life |
 | [`linalg.ch`](linalg.ch) | `Nautilus.LinAlg` | L2 norm, inner product, `solve_2x2` |
 | [`stats.ch`](stats.ch) | `Nautilus.Stats` | sample mean/var/std/median/correlation |
+| [`info.ch`](info.ch) | `Nautilus.Info` | Shannon entropy, KL divergence (relative entropy) |
 | [`distance.ch`](distance.ch) | `Nautilus.Distance` | Euclidean / Manhattan / Chebyshev / cosine / self-distance |
 | [`roots.ch`](roots.ch) | `Nautilus.Roots` | `bisect` / `brent` / `newton` on √2 |
 | [`integration.ch`](integration.ch) | `Nautilus.Integrate` | trapezoid / Simpson / Gauss-Legendre on ∫₀^π sin |
@@ -33,7 +34,7 @@ The full export list lives in
 | Lane | Coverage |
 |---|---|
 | `chelis check src/nautilus/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/nautilus/` | 47 runtime assertions across 13 modules |
+| `chelis test tests/nautilus/` | 50 runtime assertions across 14 modules |
 | Surf-Deep equivalence | every `.ch` paired with a machine-generated `.dp` |
 
 ## Module naming gotchas
