@@ -1,6 +1,6 @@
 # Chelis Capability Surface (this shell)
 
-<!-- BEGIN CHELIS MANAGED BLOCK: chelis-surface-header chelis@0.18.11 (sha256:28011bed9ccb5778) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: chelis-surface-header chelis@0.18.12 (sha256:28011bed9ccb5778) -->
 This file is a domain-scoped view of the canonical Chelis capability surface,
 generated for the pinned toolchain. Each capability row is marked `@pin` (usable
 at the current pin) or `@upstream` (lands at the next bump). **Read it before
@@ -12,9 +12,7 @@ in `Chelis-Lang/chelis`.
 
 ## How this shell's view is scoped
 
-The working 0.1.11 candidate targets Chelis 0.18.11; see
-[`chelis_0_18_11_migration.md`](chelis_0_18_11_migration.md) for the migration
-and validation record.
+The compiler version is pinned in [`reef.toml`](../reef.toml).
 
 hello-chelis has no single library domain — it is the teaching corpus, so its
 "domain" is *whatever a reader is shown*. The rows below therefore track the
@@ -33,7 +31,7 @@ Do not re-derive them here.
 | Named tensor dimensions, dim polymorphism | `src/basics/hellotensor.ch`, `dimpoly.ch` | `@pin` |
 | ADTs + `match`, modules + imports | `src/basics/pipeandmatch.ch`, `modulesandimports.ch` | `@pin` |
 | Precision + explicit `cast` (no implicit promotion) | `src/basics/precisioncast.ch` | `@pin` |
-| Effects (`Random`, `IO`, `Test`) + handlers | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
+| Explicit random keys; `IO` and `Test` effects | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
 | Linearity: `copy`, `&borrow`, implicit auto-borrow | `src/basics/linearity.ch` | `@pin` |
 | `grad`, `vmap`, `jit` + `realize`, macros | `src/basics/{vmap,jitrealize,macrobasic}.ch` | `@pin` |
 | `chelis-std`: activations, norms, reductions, losses | `src/std/` | `@pin` |

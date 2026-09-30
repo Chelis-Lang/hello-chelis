@@ -1,26 +1,26 @@
 (module {surf_path: "Hello.Basics.EffectsRandom"}
   hello.basics.effectsrandom
   (import {surf_path: "Std.Init.Random"} std.init.random (normal_like))
-  (export {} sample_normal deterministic_pair)
+  (export {} sample_normal deterministic_pair independent_pair)
   (defsig {}
     sample_normal
     (n)
-    (t-fn {eff: (effects {} random)}
+    (t-fn {}
+      (t-prim {} key)
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     sample_normal
     (fn {}
-      (params {} (template {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {span: "surf:259..312"}
-        (var {span: "surf:259..270"} normal_like)
-        (var {span: "surf:271..279"} template)
-        (cast {span: "surf:281..295"}
-          (lit {span: "surf:286..289", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-          (t-prim {} f32))
-        (cast {span: "surf:297..311"}
-          (lit {span: "surf:302..305", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-          (t-prim {} f32)))))
+      (params {}
+        (rng_key {type: (t-prim {} key)})
+        (template {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
+      (app {span: "surf:272..318"}
+        (var {span: "surf:272..283"} normal_like)
+        (var {span: "surf:284..291"} rng_key)
+        (var {span: "surf:293..301"} template)
+        (lit {span: "surf:303..309", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:311..317", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
   (defsig {}
     deterministic_pair
     (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
@@ -28,25 +28,83 @@
     deterministic_pair
     (fn {}
       (params {})
-      (handle-effect {effect: random, span: "surf:358..453"}
-        (lit {span: "surf:368..373", type: (t-prim {} i64)} 42)
-        (app {span: "surf:375..453"}
-          (var {span: "surf:377..390"} sample_normal)
-          (app {span: "surf:391..450"}
-            (var {span: "surf:391..400"} to_tensor)
-            (app {span: "surf:401..449"}
+      (app {span: "surf:364..436"}
+        (var {span: "surf:364..377"} sample_normal)
+        (app {span: "surf:378..398"}
+          (var {span: "surf:378..391"} key_from_seed)
+          (lit {span: "surf:392..397", type: (t-prim {} i64)} 42))
+        (app {span: "surf:400..435"}
+          (var {span: "surf:400..409"} to_tensor)
+          (app {span: "surf:410..434"}
+            (var {} Cons)
+            (lit {span: "surf:411..417", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (app {}
               (var {} Cons)
-              (cast {span: "surf:402..416"}
-                (lit {span: "surf:407..410", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-                (t-prim {} f32))
+              (lit {span: "surf:419..425", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:418..432"}
-                  (lit {span: "surf:423..426", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-                  (t-prim {} f32))
-                (app {}
-                  (var {} Cons)
-                  (cast {span: "surf:434..448"}
-                    (lit {span: "surf:439..442", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-                    (t-prim {} f32))
-                  (var {} Nil))))))))))
+                (lit {span: "surf:427..433", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                (var {} Nil))))))))
+  (defsig {}
+    independent_pair
+    (t-fn {}
+      (t-tuple {}
+        (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+        (t-tensor {} (d-lit {} 3) (t-prim {} f32)))))
+  (def {}
+    independent_pair
+    (fn {}
+      (params {})
+      (let {span: "surf:498..692"}
+        (bind {destructure: true}
+          __chelis_tmp0
+          (app {span: "surf:528..559"}
+            (var {span: "surf:528..537"} split_key)
+            (app {span: "surf:538..558"}
+              (var {span: "surf:538..551"} key_from_seed)
+              (lit {span: "surf:552..557", type: (t-prim {} i64)} 42))))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp2
+            (tuple-get {}
+              (var {} __chelis_tmp0)
+              (lit {type: (t-prim {} i32)} 0)))
+          (let {}
+            (bind {destructure: true}
+              first_key
+              (var {} __chelis_tmp2))
+            (let {}
+              (bind {destructure: true}
+                __chelis_tmp1
+                (tuple-get {}
+                  (var {} __chelis_tmp0)
+                  (lit {type: (t-prim {} i32)} 1)))
+              (let {}
+                (bind {destructure: true}
+                  second_key
+                  (var {} __chelis_tmp1))
+                (let {}
+                  (bind {}
+                    template
+                    (app {span: "surf:573..608"}
+                      (var {span: "surf:573..582"} to_tensor)
+                      (app {span: "surf:583..607"}
+                        (var {} Cons)
+                        (lit {span: "surf:584..590", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:592..598", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:600..606", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                            (var {} Nil))))))
+                  (tuple {span: "surf:611..690"}
+                    (app {span: "surf:612..652"}
+                      (var {span: "surf:612..625"} sample_normal)
+                      (var {span: "surf:626..635"} first_key)
+                      (copy {span: "surf:637..651"}
+                        (var {span: "surf:642..650"} template)))
+                    (app {span: "surf:654..689"}
+                      (var {span: "surf:654..667"} sample_normal)
+                      (var {span: "surf:668..678"} second_key)
+                      (var {span: "surf:680..688"} template))))))))))))

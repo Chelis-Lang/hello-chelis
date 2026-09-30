@@ -8,8 +8,7 @@ toolchain supports it. The IR evaluator
 backend covers the supported lowering examples.
 
 Each verify/<name>.ch is a self-contained module (no `Hello.*` prefix)
-because `chelis build` rejects projects that contain `with seed(...)`
-anywhere in the source tree.
+because this lane checks isolated C examples outside the teaching package.
 """
 
 from __future__ import annotations
@@ -102,8 +101,7 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         pytest.skip("gcc not on PATH")
 
     with tempfile.TemporaryDirectory() as tmp:
-        # Copy outside the project so `chelis build` doesn't pull the
-        # full src tree (which would trip `with seed` rejection).
+        # Copy outside the project so each build lowers only this C example.
         ch_copy = Path(tmp) / source.name
         ch_copy.write_text(source.read_text())
         out_dir = Path(tmp) / source.stem

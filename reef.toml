@@ -1,7 +1,7 @@
 [package]
 name = "hello-chelis"
 version = "0.1.11"
-compiler = "=0.18.11"
+compiler = "=0.18.12"
 module_prefix = "Hello"
 
 [dependencies]

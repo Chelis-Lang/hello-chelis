@@ -1,0 +1,254 @@
+(module {surf_path: "Hello.Tests.Basics.EffectsRandom"}
+  hello.tests.basics.effectsrandom
+  (import {surf_path: "Hello.Basics.EffectsRandom"}
+    hello.basics.effectsrandom
+    (sample_normal deterministic_pair independent_pair))
+  (import {surf_path: "Std.Test"} std.test (assert_true))
+  (defsig {} template (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {}
+    template
+    (fn {}
+      (params {})
+      (app {span: "surf:193..228"}
+        (var {span: "surf:193..202"} to_tensor)
+        (app {span: "surf:203..227"}
+          (var {} Cons)
+          (lit {span: "surf:204..210", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (app {}
+            (var {} Cons)
+            (lit {span: "surf:212..218", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:220..226", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (var {} Nil)))))))
+  (defsig {}
+    test_explicit_key_replay
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_explicit_key_replay
+    (fn {}
+      (params {})
+      (let {span: "surf:281..613"}
+        (bind {}
+          a
+          (app {span: "surf:289..336"}
+            (var {span: "surf:289..302"} sample_normal)
+            (app {span: "surf:303..323"}
+              (var {span: "surf:303..316"} key_from_seed)
+              (lit {span: "surf:317..322", type: (t-prim {} i64)} 42))
+            (app {span: "surf:325..335"} (var {span: "surf:325..333"} template))))
+        (let {}
+          (bind {}
+            b
+            (app {span: "surf:343..390"}
+              (var {span: "surf:343..356"} sample_normal)
+              (app {span: "surf:357..377"}
+                (var {span: "surf:357..370"} key_from_seed)
+                (lit {span: "surf:371..376", type: (t-prim {} i64)} 42))
+              (app {span: "surf:379..389"}
+                (var {span: "surf:379..387"} template))))
+          (let {}
+            (bind {}
+              aa
+              (app {span: "surf:398..408"}
+                (var {span: "surf:398..405"} to_list)
+                (var {span: "surf:406..407"} a)))
+            (let {}
+              (bind {}
+                bb
+                (app {span: "surf:416..426"}
+                  (var {span: "surf:416..423"} to_list)
+                  (var {span: "surf:424..425"} b)))
+              (let {}
+                (bind {destructure: true}
+                  __chelis_tmp0
+                  (app {span: "surf:433..521"}
+                    (var {span: "surf:433..444"} assert_true)
+                    (app {span: "surf:445..481"}
+                      (var {span: "surf:445..447"} eq)
+                      (app {span: "surf:448..463"}
+                        (var {span: "surf:448..453"} index)
+                        (var {span: "surf:454..456"} aa)
+                        (lit {span: "surf:458..462", type: (t-prim {} i64)} 0))
+                      (app {span: "surf:465..480"}
+                        (var {span: "surf:465..470"} index)
+                        (var {span: "surf:471..473"} bb)
+                        (lit {span: "surf:475..479", type: (t-prim {} i64)} 0)))
+                    (lit {span: "surf:483..520", type: (t-prim {} string)} "equal seeds replay the first sample")))
+                (app {span: "surf:524..611"}
+                  (var {span: "surf:524..535"} assert_true)
+                  (app {span: "surf:536..572"}
+                    (var {span: "surf:536..538"} eq)
+                    (app {span: "surf:539..554"}
+                      (var {span: "surf:539..544"} index)
+                      (var {span: "surf:545..547"} aa)
+                      (lit {span: "surf:549..553", type: (t-prim {} i64)} 2))
+                    (app {span: "surf:556..571"}
+                      (var {span: "surf:556..561"} index)
+                      (var {span: "surf:562..564"} bb)
+                      (lit {span: "surf:566..570", type: (t-prim {} i64)} 2)))
+                  (lit {span: "surf:574..610", type: (t-prim {} string)} "equal seeds replay the last sample")))))))))
+  (defsig {}
+    test_split_keys_make_independent_draws
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_split_keys_make_independent_draws
+    (fn {}
+      (params {})
+      (let {span: "surf:680..918"}
+        (bind {destructure: true}
+          __chelis_tmp1
+          (app {span: "surf:702..732"}
+            (var {span: "surf:702..711"} split_key)
+            (app {span: "surf:712..731"}
+              (var {span: "surf:712..725"} key_from_seed)
+              (lit {span: "surf:726..730", type: (t-prim {} i64)} 7))))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp3
+            (tuple-get {}
+              (var {} __chelis_tmp1)
+              (lit {type: (t-prim {} i32)} 0)))
+          (let {}
+            (bind {destructure: true}
+              first
+              (var {} __chelis_tmp3))
+            (let {}
+              (bind {destructure: true}
+                __chelis_tmp2
+                (tuple-get {}
+                  (var {} __chelis_tmp1)
+                  (lit {type: (t-prim {} i32)} 1)))
+              (let {}
+                (bind {destructure: true}
+                  second
+                  (var {} __chelis_tmp2))
+                (let {}
+                  (bind {}
+                    a
+                    (app {span: "surf:739..771"}
+                      (var {span: "surf:739..752"} sample_normal)
+                      (var {span: "surf:753..758"} first)
+                      (app {span: "surf:760..770"}
+                        (var {span: "surf:760..768"} template))))
+                  (let {}
+                    (bind {}
+                      b
+                      (app {span: "surf:778..811"}
+                        (var {span: "surf:778..791"} sample_normal)
+                        (var {span: "surf:792..798"} second)
+                        (app {span: "surf:800..810"}
+                          (var {span: "surf:800..808"} template))))
+                    (app {span: "surf:814..916"}
+                      (var {span: "surf:814..825"} assert_true)
+                      (app {span: "surf:826..879"}
+                        (var {span: "surf:826..829"} neq)
+                        (app {span: "surf:830..853"}
+                          (var {span: "surf:830..835"} index)
+                          (app {span: "surf:836..846"}
+                            (var {span: "surf:836..843"} to_list)
+                            (var {span: "surf:844..845"} a))
+                          (lit {span: "surf:848..852", type: (t-prim {} i64)} 0))
+                        (app {span: "surf:855..878"}
+                          (var {span: "surf:855..860"} index)
+                          (app {span: "surf:861..871"}
+                            (var {span: "surf:861..868"} to_list)
+                            (var {span: "surf:869..870"} b))
+                          (lit {span: "surf:873..877", type: (t-prim {} i64)} 0)))
+                      (lit {span: "surf:881..915", type: (t-prim {} string)} "child keys choose distinct draws")))))))))))
+  (defsig {}
+    test_deterministic_pair_replays
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_deterministic_pair_replays
+    (fn {}
+      (params {})
+      (let {span: "surf:978..1137"}
+        (bind {}
+          a
+          (app {span: "surf:986..1006"}
+            (var {span: "surf:986..1004"} deterministic_pair)))
+        (let {}
+          (bind {}
+            b
+            (app {span: "surf:1013..1033"}
+              (var {span: "surf:1013..1031"} deterministic_pair)))
+          (app {span: "surf:1036..1135"}
+            (var {span: "surf:1036..1047"} assert_true)
+            (app {span: "surf:1048..1100"}
+              (var {span: "surf:1048..1050"} eq)
+              (app {span: "surf:1051..1074"}
+                (var {span: "surf:1051..1056"} index)
+                (app {span: "surf:1057..1067"}
+                  (var {span: "surf:1057..1064"} to_list)
+                  (var {span: "surf:1065..1066"} a))
+                (lit {span: "surf:1069..1073", type: (t-prim {} i64)} 1))
+              (app {span: "surf:1076..1099"}
+                (var {span: "surf:1076..1081"} index)
+                (app {span: "surf:1082..1092"}
+                  (var {span: "surf:1082..1089"} to_list)
+                  (var {span: "surf:1090..1091"} b))
+                (lit {span: "surf:1094..1098", type: (t-prim {} i64)} 1)))
+            (lit {span: "surf:1102..1134", type: (t-prim {} string)} "the curriculum example replays"))))))
+  (defsig {}
+    test_independent_pair_replays_both_children
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_independent_pair_replays_both_children
+    (fn {}
+      (params {})
+      (let {span: "surf:1209..1484"}
+        (bind {}
+          first
+          (app {span: "surf:1221..1239"}
+            (var {span: "surf:1221..1237"} independent_pair)))
+        (let {}
+          (bind {}
+            replay
+            (app {span: "surf:1251..1269"}
+              (var {span: "surf:1251..1267"} independent_pair)))
+          (let {}
+            (bind {destructure: true}
+              __chelis_tmp4
+              (app {span: "surf:1276..1377"}
+                (var {span: "surf:1276..1287"} assert_true)
+                (app {span: "surf:1288..1353"}
+                  (var {span: "surf:1288..1290"} eq)
+                  (app {span: "surf:1291..1320"}
+                    (var {span: "surf:1291..1296"} index)
+                    (app {span: "surf:1297..1313"}
+                      (var {span: "surf:1297..1304"} to_list)
+                      (tuple-get {span: "surf:1305..1312"}
+                        (var {span: "surf:1305..1310"} first)
+                        (lit {type: (t-prim {} i32)} 0)))
+                    (lit {span: "surf:1315..1319", type: (t-prim {} i64)} 0))
+                  (app {span: "surf:1322..1352"}
+                    (var {span: "surf:1322..1327"} index)
+                    (app {span: "surf:1328..1345"}
+                      (var {span: "surf:1328..1335"} to_list)
+                      (tuple-get {span: "surf:1336..1344"}
+                        (var {span: "surf:1336..1342"} replay)
+                        (lit {type: (t-prim {} i32)} 0)))
+                    (lit {span: "surf:1347..1351", type: (t-prim {} i64)} 0)))
+                (lit {span: "surf:1355..1376", type: (t-prim {} string)} "first child replays")))
+            (app {span: "surf:1380..1482"}
+              (var {span: "surf:1380..1391"} assert_true)
+              (app {span: "surf:1392..1457"}
+                (var {span: "surf:1392..1394"} eq)
+                (app {span: "surf:1395..1424"}
+                  (var {span: "surf:1395..1400"} index)
+                  (app {span: "surf:1401..1417"}
+                    (var {span: "surf:1401..1408"} to_list)
+                    (tuple-get {span: "surf:1409..1416"}
+                      (var {span: "surf:1409..1414"} first)
+                      (lit {type: (t-prim {} i32)} 1)))
+                  (lit {span: "surf:1419..1423", type: (t-prim {} i64)} 0))
+                (app {span: "surf:1426..1456"}
+                  (var {span: "surf:1426..1431"} index)
+                  (app {span: "surf:1432..1449"}
+                    (var {span: "surf:1432..1439"} to_list)
+                    (tuple-get {span: "surf:1440..1448"}
+                      (var {span: "surf:1440..1446"} replay)
+                      (lit {type: (t-prim {} i32)} 1)))
+                  (lit {span: "surf:1451..1455", type: (t-prim {} i64)} 0)))
+              (lit {span: "surf:1459..1481", type: (t-prim {} string)} "second child replays"))))))))

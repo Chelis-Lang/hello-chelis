@@ -47,10 +47,7 @@ automatically.
 
 ## Why a separate directory?
 
-`chelis build` rejects any project source tree containing `with
-seed(...)` because the C backend doesn't yet plumb the seeded RNG.
-`src/basics/effectsrandom.ch` uses `with seed(42i64)`, which trips the
-gate for the whole project. Putting verification programs outside
-`src/` (and giving them bare module names like `module GradWorks`
-instead of `module Hello.*`) sidesteps the gate without sacrificing
-coverage of the `src/` corpus.
+The C lane builds each verification program in isolation. A whole-package
+C build still fails on the local-binding scalar gradients tracked by
+chelis#2379. Giving these programs bare module names such as `GradWorks`
+keeps them usable outside the teaching package.

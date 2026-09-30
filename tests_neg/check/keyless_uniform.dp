@@ -1,0 +1,16 @@
+(module {surf_path: "Hello.Tests_Neg.Check.KeylessUniform"}
+  hello.tests_neg.check.keylessuniform
+  (defsig {}
+    keyless
+    (t-fn {}
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {}
+    keyless
+    (fn {}
+      (params {} (template {type: (t-var {} _)}))
+      (app {span: "surf:139..177"}
+        (var {span: "surf:139..151"} uniform_like)
+        (var {span: "surf:152..160"} template)
+        (lit {span: "surf:162..168", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:170..176", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))))
