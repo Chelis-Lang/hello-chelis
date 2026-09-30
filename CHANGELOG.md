@@ -17,6 +17,12 @@ version with the compiler and shell releases it is pinned to.
   `Nautilus.Info`. `school` leaves `reef.toml`, `reef.lock`, the Docker image
   and CI build-args, and the School shell page is deleted. The native suite
   goes from 105 to 115 tests.
+
+### Security
+
+- Add a pinned Git-history secret scan to pull-request and push checks, with
+  contract tests.
+
 - Prepare the existing 0.1.11 candidate for Chelis 0.18.11 across the Reef,
   Docker, CI and Compose pin surfaces. Migrate maintained Surf and Deep pairs,
   explicitly declare dimension binders, and rename the linearity example's
