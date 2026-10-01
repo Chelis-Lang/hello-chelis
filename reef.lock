@@ -15,14 +15,14 @@ compiler_version = "0.18.12"
 
 [[dependencies]]
 name = "coral"
-version = "0.7.43"
-compiler = "=0.18.11"
-archive_sha256 = "0dc97f32fc1e8f22a592762f144fe89632c52879da77e2869029b67c13f39852"
-shell_sha256 = "ce1cd84906996feae3adae75253c709d025cebbcc39e956447fd70298eade592"
+version = "0.7.44"
+compiler = "=0.18.12"
+archive_sha256 = "7cc0ed3ede5ab754615465704ec0f9bd01bb7ccabba10cb50770c6c78c3e3ba5"
+shell_sha256 = "5e69584d3e967aef72c6ae18b0204b00b155804876ece8d7feda604c6c0263b3"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/coral@v0.7.43"
+remote_origin = "github://Chelis-Lang/coral@v0.7.44"
 
 [[dependencies]]
 name = "nautilus"

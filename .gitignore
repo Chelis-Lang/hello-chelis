@@ -25,3 +25,6 @@ venv/
 
 # CI
 .cache/
+.reef-write.lock
+.*.reef-tmp-*
+.*.reef-backup-*

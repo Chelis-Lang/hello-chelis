@@ -5,9 +5,6 @@ order, see [`curriculum.md`](curriculum.md).
 
 ## 1. Build the image
 
-This 0.18.12 draft is awaiting a compiler-matching Coral release. The
-Docker build currently stops at its full-package check.
-
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis

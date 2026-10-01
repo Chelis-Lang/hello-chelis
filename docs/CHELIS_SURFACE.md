@@ -21,9 +21,6 @@ a gap; add it to [`curriculum.md`](curriculum.md).
 Language semantics come from the upstream canonical file and the numbered
 specs. Do not re-derive them here.
 
-The 0.18.12 draft still awaits a compiler-matching Coral release before
-whole-package checks can run.
-
 ## Capabilities exercised by the corpus
 
 | Capability | Where | Status |

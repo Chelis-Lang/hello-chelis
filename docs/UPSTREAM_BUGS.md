@@ -73,29 +73,27 @@ tensor, but its gradient example differentiates the tensor loss directly. The
 Coral README and the feature matrix say so.
 
 **Probe:** [`../tests_blocked/coral/grad_string_key.ch`](../tests_blocked/coral/grad_string_key.ch)
-under `chelis test tests_blocked --expect blocked`. Re-probe: fails with the
-pinned diagnostic on 0.18.11 (2026-09-30). The 0.18.12 re-probe awaits a
-compiler-matching Coral release.
+under `chelis test tests_blocked --expect blocked`.
+**Re-probe (2026-10-01):** chelis#2552 still fails with its pinned diagnostic
+on Coral 0.7.44 and Chelis 0.18.12.
 
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.
 
 ### chelis#1391: `chelis test --batch-mode auto` is slower than `--batch-mode file`
 
-On a 10-core machine, the 113-test corpus measured on 2026-09-25 took
-68s with `--jobs auto` and
-the default batch mode, 32s with `--batch-mode file`, and 67s with
-`--jobs 1` (0.18.11, 2026-09-25). On the 4-vCPU GitHub runner the two
-modes are equivalent for the same 113 tests: 203s with the default and 205s
-with `--batch-mode file`.
+**Re-probe (0.18.12, 2026-10-01):** the 120-test corpus passed in both
+modes on a 10-core machine with `--jobs auto`: 15.48s with the default
+batch mode and 8.09s with `--batch-mode file`. On the 4-vCPU GitHub
+runner at 0.18.11, the two modes were equivalent for 113 tests: 203s
+with the default and 205s with `--batch-mode file`. A new CI timing
+comparison has not been run.
 
 **Workaround:** none in CI, which keeps the default. The docs mention
 `--batch-mode file` as a local speed-up.
 
 **De-narrow when fixed:** drop the `--batch-mode file` tip from
 `docs/getting_started.md` and `tests/README.md`.
-
-The full 0.18.12 timing re-probe awaits a compiler-matching Coral release.
 
 ## Parked
 

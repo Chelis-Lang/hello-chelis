@@ -2,9 +2,9 @@
 
 A runnable tour of the [Chelis](https://github.com/Chelis-Lang/chelis)
 language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
-`octant`, and `c-earchin`. Every package example under `src/` is a real program intended for
-type-checking; many also have runtime tests, and a subset is compiled to C
-and run once the compiler-matching Coral release is available. Nothing here is pseudo-code.
+`octant`, and `c-earchin`. Every package example under `src/` is a real
+program that type-checks; many also have runtime tests. Standalone programs
+under `verify/` exercise C lowering. Nothing here is pseudo-code.
 
 If you have never seen Chelis, start with
 [`docs/curriculum.md`](docs/curriculum.md), a reading path from a first
@@ -93,12 +93,10 @@ and c-earchin proofs). A nightly job runs a compiled program under valgrind.
 
 ## Versions
 
-This draft pins **chelis 0.18.12**, bundled `chelis-std` 0.4.0,
-`nautilus` 0.7.47, `coral` 0.7.43, `octant` 0.13.1, and `c-earchin` 0.3.5.
-Nautilus 0.7.47 matches the compiler. Coral 0.7.43 still targets 0.18.11,
-so the full package and Docker image cannot build until a compiler-matching
-Coral release is published. The `compiler = "=0.18.12"` pin in `reef.toml`
-is exact: Chelis is pre-1.0, and minor versions can break source compatibility.
+The corpus pins **chelis 0.18.12**, bundled `chelis-std` 0.4.0,
+`coral` 0.7.44, `nautilus` 0.7.47, `octant` 0.13.2, and `c-earchin` 0.3.5.
+The `compiler = "=0.18.12"` pin in `reef.toml` is exact: Chelis is pre-1.0,
+and minor versions can break source compatibility.
 
 ## Known limitations
 

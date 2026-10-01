@@ -44,7 +44,7 @@ jobs:
           no-cache: true
           build-args: |
             CHELIS_VERSION=0.18.12
-            CORAL_VERSION=0.7.43
+            CORAL_VERSION=0.7.44
             NAUTILUS_VERSION=0.7.47
       - name: Check Chelis lint
         run: |

@@ -3,9 +3,9 @@
 ## Repo Identity
 
 hello-chelis is the **executable teaching corpus** for Chelis. Someone who has
-never seen the language should be able to clone this repo, run everything in it,
-and read their way from a first tensor to a returns-and-risk pipeline once the
-compiler-matching shell packages publish. Every example is a real program
+never seen the language should be able to clone this repo, run the supported
+lessons, and read their way from a first tensor to a returns-and-risk pipeline.
+Every example is a real program
 intended for checking, testing, and (where the C backend supports it) lowering
 and running. Nothing here is illustrative pseudo-code.
 
