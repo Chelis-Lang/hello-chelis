@@ -104,14 +104,18 @@ validation pass, or verification of a fix that a red team reported.
    in the PR. Do not substitute an external agent CLI.
 2. For every worktree handoff, run `git rev-parse HEAD` and
    `git status --porcelain --untracked-files=all` in that worktree. Run
-   `git worktree list --porcelain` from the shell repository. Inspect
-   `ps -axo pid,ppid,command` for `chelis`, `python`, `uv`, `pytest`, `docker`,
-   and gate processes; use `lsof -a -d cwd -p PID` when ownership is unclear.
-   Paste the timestamp and command output into the brief. A dirty tree,
-   concurrent owner, or uncertain process scope forbids reuse. Use an isolated
-   worktree or target in that case. Author and reviewer never write or build
-   in the same worktree concurrently. A reviewer planning probes that mutate
-   tracked source uses its own worktree.
+   `git worktree list --porcelain` from the shell repository. Inventory all
+   processes whose working directory is under the worktree with
+   `lsof -nP -a -d cwd +D "$PWD"`; check a shared target separately with
+   `lsof -nP +D "$target"`. Do not filter by executable name before this
+   ownership check. Use `ps -p PID -o pid,ppid,command` to identify each
+   returned PID, disregarding only scan processes after they exit. Inspect
+   `lsof` output even when it exits nonzero. Paste the timestamp and command
+   output into the brief. A dirty tree, concurrent owner, unavailable scan,
+   or uncertain process scope forbids reuse; use an isolated worktree and
+   target. Author and reviewer never write or build in the same worktree
+   concurrently. A reviewer planning probes that mutate tracked source uses
+   its own worktree.
 3. A new-round brief names the PR and round, pushed SHA, changed paths,
    bounded claims, worktree and target, handoff evidence, report budget,
    delivery channel, executed positive and negative probes, and restoration
