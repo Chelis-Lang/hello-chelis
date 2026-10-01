@@ -146,22 +146,6 @@ explicit with `tensor[3, f32]`.
 > output. Use direct calls: `sigmoid(relu(xs))` works. Affects only
 > the C backend; `chelis check` accepts the pipe form.
 
-## Effect handlers
-
-### `with seed(...)` rejected by C backend, project-wide
-> ```
-> error: `chelis build --target c` does not yet plumb `with
-> seed(...)` into the generated runtime; rejecting rather than
-> silently dropping the seed. Run the seeded program through
-> `chelis eval` instead.
-> ```
-> Status: ANY `with seed(...)` anywhere in the project source tree
-> blocks `chelis build` of EVERY file. Affects
-> `src/basics/effectsrandom.ch::deterministic_pair` — even building
-> a sibling capstone fails because the project as a whole contains
-> the gate-tripping construct. Per the message, fully exercising
-> seeded RNG requires `chelis eval`.
-
 ## CLI and harness ergonomics
 
 ### `chelis check` is single-file only
@@ -215,14 +199,11 @@ round-trip identity; the drift check (`.dp` matches `chelis deep
 | Tensor activations not in host runtime | `tests/basics/pipeandmatch.ch` | Test file uses `neg`/`add` chain instead of `relu`/`sigmoid` |
 | v0.7.6 symbolic-dim C-codegen panic | historical `verify/grad_works.ch` and activation verify fixture shapes | resolved on v0.7.26; now normal golden-output C-backend tests |
 | scalar-gradient callee with local bindings (chelis#2379) | `src/capstone/blackscholes.ch` | Build standalone `verify/` programs outside the Reef root |
-| `with seed` blocks `chelis build` | `src/basics/effectsrandom.ch` | Project-wide build limited; verify/ programs are bare modules |
 | `cast(t, bf16)` rejected | `src/basics/precisioncast.ch` | Test uses f32→f64→f32 round trip |
 
 ## Status of each item upstream
 
-The chelis_phase3_plan.md cited in error messages tracks several of
-these as "Acknowledged Limitations" (Batch 7b for the `with seed`
-gate). The remaining local-binding scalar-gradient rejection is chelis#2379.
+The remaining local-binding scalar-gradient rejection is chelis#2379.
 The tensor `grad` lowering form is documented as the workaround in
 `crates/chelis-cli/tests/cli.rs::build_c_tensor_grad_local_wrapper_*`.
 The activation kernels still need broader host-runtime coverage, but

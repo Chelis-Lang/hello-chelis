@@ -4,9 +4,10 @@
 
 hello-chelis is the **executable teaching corpus** for Chelis. Someone who has
 never seen the language should be able to clone this repo, run everything in it,
-and read their way from a first tensor to a returns-and-risk pipeline. Every example is
-a real program the pinned toolchain checks, tests, and (where the C backend
-supports it) lowers and runs. Nothing here is illustrative pseudo-code.
+and read their way from a first tensor to a returns-and-risk pipeline once the
+compiler-matching shell packages publish. Every example is a real program
+intended for checking, testing, and (where the C backend supports it) lowering
+and running. Nothing here is illustrative pseudo-code.
 
 That makes this repo the ecosystem's **integration canary**: it is the only shell
 that consumes `chelis-std`, `coral`, `nautilus`, `octant`, and `c-earchin`
@@ -14,7 +15,17 @@ together, so it is the first place a cascade that does not compose
 shows up. It is also the **Docker shell** — its CI ships and tests inside an
 image built from the published release tarball rather than a host toolchain.
 
-<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.18.12 (sha256:a423908a8be7e4f0) -->
+<!-- shell-local:exclude:begin -->
+<!-- ### Pull Request Lifecycle -->
+<!-- ### Numeric Surface Discipline -->
+<!-- ### OpenSpec -->
+<!-- ### Python And Scripts -->
+<!-- ### Build And Gate Commands -->
+<!-- ## The Chelis-Lang Repositories -->
+<!-- ## Pointers -->
+<!-- shell-local:exclude:end -->
+
+<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.18.12 (sha256:8758a35ed63fd0bf) -->
 # Chelis Agent Contract
 
 Keep this file concise and relevant to every agent working in this repository.
@@ -151,48 +162,6 @@ It carries the brief shape, the worktree-reuse rules, and the verify mode.
   infrastructure, errors, or comes back broken, retire it and retry until you have a
   working fresh local subagent, or state that red-team validation is blocked.
 
-### Pull Request Lifecycle
-
-The mechanics are expensive to get wrong, and
-[the PR-author guide](docs/guard_changes_for_pr_authors.md) owns them. Read it before
-starting and again before merging, and use the acknowledgement lines it requires.
-
-1. Fetch `origin/main` and base the branch on it. Run `python3 scripts/gate.py --fast`,
-   push, and open the pull request before the first red-team round so CI runs in
-   parallel. Add a `changelog.d/` fragment. Record the reviewed head and CI evidence in
-   the pull request.
-2. During a round, consolidate repairs into a local commit and hand that unpushed head to
-   the standing reviewer. Push only when the round is closed. If a push or CI rerun is
-   already needed, fix every known P2-or-lower finding before it.
-3. Do not rebase or merge the base merely because `main` advanced. Fetch, check GitHub's
-   mergeability, and inspect the prospective merge with `git merge-tree`. Rebase only
-   when that result differs, is unsafe or unclear, or an identified semantic or
-   structural issue requires a changed head. If a rebase is already planned, do it before
-   any other pushed change.
-4. Every base merge, base-changing rebase, or other force-pushed rewrite is declared in
-   the PR body with exactly one head-bound line before it is pushed:
-   `Candidate-base-update: <new-head-sha> <specific conflict or semantic reason>` for a
-   base update, or `Candidate-history-rewrite: <new-head-sha> <specific approved reason>`
-   for any other rewrite. The preflight rejects a missing, duplicate, stale-head, or
-   empty line. If it rejects an already-pushed head, repair the body and rerun that same
-   workflow; do not manufacture another change to satisfy the guard.
-5. Never force-push a red gate. Obtain explicit approval before any force push, then
-   use an exact-head `--force-with-lease`.
-6. Documentation-only changes still require applicable CI on the candidate head.
-7. When reviews and repairs are complete and no further content change is planned,
-   dispatch `PR Package Expansion` with the pull request number and exact head SHA,
-   alongside the final required checks. Merge only after both the required checks and
-   the expansion report have been inspected; read its introduced, inherited, and unrun
-   counts as the guide describes. An ordinary content change, a base retarget, or a
-   rebase the trusted verifier does not accept requires a fresh dispatch. Record the
-   reviewed SHA and run link in the pull request.
-8. Retargeting the base is an implementation change: `PR Base Retarget Validation`
-   holds the head pending fresh compiler and Hull runs. A title or body edit reruns only
-   `PR Contract Acknowledgements`.
-9. Merge with a squash. Merging closes no issue; close the issues the pull request
-   actually resolved as a separate step (see [Issue Tracking](#issue-tracking)), then
-   remove the pull request's worktree and task-owned target once no follow-up needs them.
-
 ## Spec Authority And Design Discipline
 
 ### Documentation Authority
@@ -260,67 +229,12 @@ irrespective of how completely any compiler version implements them.
   bias never overrides a normative semantic rule; amend that rule first when the
   language decision must change.
 
-### Numeric Surface Discipline
-
-`spec/design/dtype_semantics.md` §C6 binds every change that touches numeric data,
-whether or not you have read it. The census failure messages name the sanctioned
-actions; the census, tripwire, and oracle files are guard artifacts, and editing one to
-make your change pass is never the fix.
-
-- No numeric channel outside the tagged carrier. A public ADT variant, wire field,
-  exported C signature or data declaration, or binding parameter or result that carries
-  numbers as bare `f64`/`double`, or takes a raw integer dtype id, is a review-blocking
-  finding with no citation or override path: redesign it onto the tagged carrier or
-  remove it. Opening a fresh issue does not authorize capacity debt.
-  No grandfather, permanent-disposition, successor-override, or integer-plumbing path
-  is part of the final contract. Every discovered row ends in exactly one class:
-  structurally nonnumeric, a recognized exact tagged carrier, or an exact numeric
-  operation registration.
-- Every new or changed numeric op, every stdlib ADT constructor with a numeric field
-  included, requires an exact semantic registration in the same change set, binding its
-  canonical identity to one verbatim existing `[05-OP-N]` atom
-  (a definition line beginning `> **[05-OP-N]**`) in `spec/05-risc-primitives.md`. No
-  governing atom means you author the atom first; re-check the highest existing number
-  on current `main` before allocating. Then run
-  `.venv/bin/python scripts/generate_rejection_registries.py --write` and commit the
-  generated registry; that artifact is required in addition to the registration.
-- Never silently narrow at ingress. A lossy dtype for ingested data is a decision: use
-  the named lossy form (the chelis#759 pattern) or the exact dtype, and preserve source
-  numeric distinctions as ADT variants (`JsonInt(i64)` beside `JsonFloat(f64)`), never
-  one float funnel.
-- A new surface kind that can carry numbers (serialization format, IPC channel, export
-  mechanism) extends the §C6 enumerators in the same change set, or does not land.
-- Published C ABI is configuration-invariant and every declaration is attributable: no
-  preprocessor-varying public declarations, no `#line` directives, every published
-  header reachable from a declared root. A built-in arithmetic type, bare `int`
-  included, makes a callable `numeric-op`; names and parameter-name heuristics never
-  turn a callable into plumbing; extents, allocation sizes, indices, and dtype
-  selectors are numeric operations, and raw dtype selectors are forbidden. A
-  conditional macro definition taints its whole connected local-include component.
-  An arithmetic spelling the census does not recognize is a build failure, and so is
-  an unclassified new `chelis_types::Prim` variant. PR #956's negative controls lock
-  these rules; weakening one changes this contract and those controls together.
-- An exported stdlib `def` declares its signature via `defsig`, or stops being exported.
-
 ### Public-Surface Change Rule
 
 When behavior changes, update the owning code, tests, docs, and examples in the same
 change set: parser, type system, IR, and backend tests; CLI integration tests; the
 executable examples in `examples/`; and the active specs and current-state docs. The
 [`spec-sync` skill](agent-skills/spec-sync/SKILL.md) walks the surfaces.
-
-### OpenSpec
-
-Chelis plans live in [Chelis-Lang/openspec](https://github.com/Chelis-Lang/openspec),
-under `chelis-*` change and capability IDs. This checkout's `openspec/config.yaml`
-is only a `chelis-plans` store pointer; `openspec/store.lock.yaml` pins the revision
-validated by CI. Register the store before using `openspec`; a missing store is an
-error, not permission to recreate a local planning tree. Author and submit planning
-changes in a dedicated store worktree; implementation PRs cite the change ID and
-accepted store commit. Planning remains optional and Phase 0 remains inactive.
-`README.md` owns setup, review order, and the document-only acceptance boundary.
-Do not run `openspec init`'s tool generation: `.claude/skills` and `.codex/skills`
-are symlinks to `agent-skills/`.
 
 ## Change Hygiene
 
@@ -426,61 +340,6 @@ when picking one up.
   and no process owns the target. Squash merges mean "commits ahead of `origin/main`"
   proves nothing; compare patch ids when in doubt. Branch deletion is a separate decision.
 
-### Python And Scripts
-
-- A uv-managed Python 3.11 is a hard prerequisite on every platform. Create each
-  checkout's environment once with `uv venv --python 3.11`; `README.md` has the setup.
-  Every script is `.venv/bin/python scripts/<name>.py` (`python scripts/<name>.py`
-  inside Devenv), and every ad-hoc invocation uses that interpreter too, never the
-  system Python. `python3` appears only as the gate bootstrap and for the two
-  bootstrap-free diagnostics `scripts/reap_orphans.py` and
-  `scripts/preflight_exec_probe.py`, which stay standard-library only.
-- Scripts, utilities, report generators, and automation helpers are Python, with tests.
-  Rust where the task fits a compiled workspace member. Never shell: the only permitted
-  `.sh` is `crates/chelisup/bootstrap/chelisup.sh`. A new `scripts/*.py` needs a
-  `[[path_rule]]` or the CI planner fails closed on it.
-
-### Build And Gate Commands
-
-[`docs/local_gate.md`](docs/local_gate.md) records everything `scripts/gate.py` does.
-The rules:
-
-```sh
-python3 scripts/gate.py --fast         # before every push: fixes in place, then checks
-python3 scripts/gate.py --validation   # optional troubleshooting and extra validation
-python3 scripts/gate.py --detach --validation   # optional run, detached
-python3 scripts/gate.py --status [HANDLE]  # the detached run's real verdict
-python3 scripts/gate.py --list         # the canonical command list with ownership annotations
-```
-
-- Fetch `origin/main` before any long local validation. Run `--fast` before every push
-  of a non-documentation change; trivial changes may warrant focused tests or none.
-  `--fast` passing means "no unrouted path and no failing tripwire in my tree", not
-  "CI will accept this". CI on the pushed candidate owns routine validation, and the
-  workspace suite runs only there and nightly; passing PR checks never certifies a
-  phase acceptance oracle, so dispatch `heavy-e2e.yml` on the candidate when claiming
-  completion.
-- Use focused `cargo check -p <crate> --tests` and `cargo nextest run -p <crate>
-  --test <file>` for the inner loop; never a workspace-wide `cargo test`. The same
-  applies to a check you want early evidence for: run its owning test locally, for
-  example `cargo nextest run -p chelis-cli --test capacity_census_tripwire`, rather
-  than dispatching a large workflow such as `heavy-e2e.yml` ad hoc because it happens
-  to contain that test. `.config/ci-test-targets.toml` names each test's owner.
-- On failure the gate keeps the transcript under `target/gate-failures/` and prints the
-  exact rerun command. A detached run's verdict comes from `--status`, never from the
-  launch exit code.
-- Concurrent builds use an isolated target: `CARGO_TARGET_DIR=target/agents/<name>` as
-  an absolute path, or a separate worktree. Before building, run
-  `python3 scripts/reap_orphans.py`, review the listing, and reap with `--kill`; at
-  session end confirm your cargo, rustc, and nextest processes are gone. Several
-  unrelated tests failing at near-identical wall-clock times is CPU starvation, not
-  code breakage; rerun on a quiet machine.
-- HIP manual gates run only through `scripts/hip_test.py` (or `chelis-hip-test` in
-  Devenv); plain `cargo test --ignored` segfaults at exit and looks like a regression.
-  [`docs/local_hip_environment.md`](docs/local_hip_environment.md) is the runbook,
-  and [`docs/local_macos_environment.md`](docs/local_macos_environment.md) covers the
-  macOS first-exec stall (chelis#356).
-
 ## Subagents
 
 [`docs/investigations/agent_contract_rationale.md`](docs/investigations/agent_contract_rationale.md)
@@ -538,75 +397,6 @@ AST contract. `spec/02-surf-syntax.md` §0.1 is the authority.
 - `chelis build` emits C, a header, runtime artifacts, and compile flags; `--target hip`
   emits host code with embedded kernel strings. Neither invokes the native compiler.
 
-## The Chelis-Lang Repositories
-
-One line each, as of 2026-09-21; `gh repo list Chelis-Lang` is the live set, and the
-conformance `REGISTRY` in `crates/chelis-conformance` is the authority on which shells
-the conformance tooling binds. Every shell consumes the compiler-bundled `chelis-std`
-runtime and is bound by the shell contract; the registry records whether it does so
-through reef, a Cargo workspace, or Docker.
-
-| Repository | Contains |
-|---|---|
-| `chelis` | This repository: the compiler, runtime, CLI, `chelis-std`, `reef`, `chelisup`, the numbered spec, and the conformance tooling. |
-| `nautilus` | Shell: numerical methods, statistics, linear algebra, optimization, ODE/SDE solvers, special functions. The scipy analogue. |
-| `coral` | Shell: typed dataframes whose numeric columns are tensors. The pandas analogue. |
-| `shoals` | Shell: quantitative finance on nautilus and coral: pricing, risk, curves, stochastic processes. |
-| `school` | Shell: machine learning, sole home of the NN surface (layers, losses, optimizers, training loop, model zoo). Reference implementation of the shell contract. |
-| `octant` | Shell: LaTeX-to-Chelis bridge with provenance tracking; a notation adapter, not a CAS. |
-| `c-earchin` | Shell: EARS requirements-to-Chelis bridge with property-witness metadata. |
-| `calcify` | Shell: Python-to-Chelis translation. |
-| `hydronnx` | Shell: ONNX import into Chelis IR. |
-| `whale` | Shell: reusable betting models. |
-| `hull` | Shell: the executable language specification, a self-hosted reference checker and evaluator differential-tested against the compiler. |
-| `hello-chelis` | Example programs; the smallest conforming shell. |
-| `beacon` | Shell, early and not yet registered: sound bound-propagation verification over lowered RISC DAGs. |
-| `LaCaDiLE` | Lean development of the typing rules: tensor derivatives, ownership, randomness and resource protocols. Supports the soundness work; does not certify the compiler. |
-| `buoy` | Rust tracer from normative requirement atoms to evidence, models, proofs, and implementation sites. |
-| `sonar` | Neural-network verification in C Note: reconnaissance, corpus, decision briefs. |
-| `economoist` | Verified economic and dynamic-programming models in Chelis. |
-| `c-note` | The verified-computing web notebook for finance, built on the Chelis stack. |
-| `ci` | Reusable CI/CD workflows and pinned actions consumed by every repository. |
-| `barnacle` | Standalone Dylint lint libraries maintained by the project. |
-| `arb-sys` | Rust bindings to the Arb arbitrary-precision library. |
-| `sand-dollar` | S3 cache configuration. |
-| `openspec` | Shared OpenSpec planning store, including Chelis's `chelis-*` domain; no compiler or numbered-spec authority. |
-| `.github` | Default community health files for the organization. |
-| `website` | Astro monorepo for chelis.ch and cproof.ai. |
-| `gtm` | C Proof go-to-market: brand, content, sales deck, talk tooling. |
-| `Voyage` | Agent-authoring benchmark: quantitative-finance program tasks against shoals. |
-| `Benchmarking-grading` | Answer keys for the benchmark, kept out of the solver-visible task repo. |
-| `ref-check` | Source-backed bibliography imports and offline LaTeX reference gates. |
-| `school-bootstrap` | Clean-room typed-Python references for sklearn algorithms, translated via calcify and vendored into school. |
-| `flukeball`, `flukeball_2`, `flukeball_house` | Private betting-model experiments; `_house` is the orchestrator side holding results the authoring agents must not see. |
-
-## Pointers
-
-- **Shared skills** live in `agent-skills/`; `.claude/skills` and `.codex/skills` are
-  symlinks to that one authored tree, `.claude/commands/` and `.codex/commands/` stay byte-identical, and the
-  `red-team` alias is wired to `redteam-exec` with its fresh-round and verify modes. The
-  set: `redteam-exec`, `spec-sync`, `phase-gate`, `backend-numerics`, `example-corpus`,
-  `cli-surface`, `packaging-install`, `issue-resolution`.
-- **Toolchain and packaging.** `chelisup` is the installer and pin-resolving `chelis`
-  shim; `chelis reef setup` is the orchestrator. Use the
-  [`packaging-install` skill](agent-skills/packaging-install/SKILL.md) for any change
-  there. One trap it enforces at compile time: `reef setup` subprocesses the real
-  `chelisup` binary, never `chelisup::install::install` in-process, because that helper
-  copies `current_exe()` over the shim. Design:
-  [`spec/design/chelis_packaging_and_install.md`](spec/design/chelis_packaging_and_install.md).
-- **Downstream shells** inherit this complete contract through a stamped managed block
-  and must satisfy [`spec/design/shell_repo_contract.md`](spec/design/shell_repo_contract.md),
-  shipped in the toolchain as `chelis reef conform`. Full inheritance is the default,
-  but each shell decides which portions apply. Shell-owned additions stay outside the
-  block and should remain when they are relevant and current. To omit an inherited
-  section, put its exact ATX heading in a shell-owned span such as
-  `<!-- shell-local:exclude:begin -->`,
-  `<!-- ### Numeric Surface Discipline -->`, `<!-- shell-local:exclude:end -->`; sync
-  removes that heading and its section, while deleting the selector restores it. The
-  root `# Chelis Agent Contract` selector omits the entire inherited body.
-  Contract changes land here first, editing the doc and the conformance
-  `MANIFEST`/`REGISTRY` in lockstep. §7.1 of that doc is the audit a `conform bump` wave
-  still owes after the mechanical starter runs.
 <!-- END CHELIS MANAGED BLOCK: agents-inheritance -->
 
 ## Toolchain Policy

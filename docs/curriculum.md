@@ -43,8 +43,8 @@ and self-contained:
    parameters `[a, b]` for polymorphic functions.
 5. [`precisioncast.ch`](../src/basics/precisioncast.ch) — no implicit
    precision promotion.
-6. [`effectsrandom.ch`](../src/basics/effectsrandom.ch) — `! { Random
-   }` effect rows; `with seed(...)` algebraic handler.
+6. [`effectsrandom.ch`](../src/basics/effectsrandom.ch) — explicit
+   affine keys, deterministic replay, and independent draws with `split_key`.
 7. [`linearity.ch`](../src/basics/linearity.ch) — consume-by-default,
    explicit `copy(x)` compatibility, and `&borrow` for read-only use.
 8. [`gradbasic.ch`](../src/basics/gradbasic.ch) — `grad(f, wrt=w)`

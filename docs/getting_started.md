@@ -61,7 +61,7 @@ chelis lint .                              # non-blocking nomenclature inventory
 chelis lint --check .                      # blocking lint gate
 ```
 
-The strict gate passes under chelis 0.18.11 with zero findings.
+The last full strict-gate run passed under chelis 0.18.11 with zero findings.
 Advisory diagnostics would not fail `lint --check`, but the corpus
 carries none. Treat new or edited examples as style-clean.
 

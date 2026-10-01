@@ -31,9 +31,8 @@ python3 -m pytest -q tests/test_c_backend.py
 
 Each supported-lowering test:
 
-1. Copies `verify/<name>.ch` to a temp dir (so `chelis build` doesn't
-   pull in the rest of the project — Reef projects with `with seed(...)`
-   anywhere in `src/` are rejected by the C backend).
+1. Copies `verify/<name>.ch` to a temp dir so the C lane builds each
+   verification program in isolation.
 2. Runs `chelis build <name>.ch --output <tmp>/<name>`.
 3. Links the emitted C with `gcc -fopenmp <name>.c -L<tmp>/<name>
    -lchelis_runtime -lopenblas -lm -lpthread -ldl`.

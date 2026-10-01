@@ -24,7 +24,7 @@ that exercises it, plus the test lane that proves it works.
 | Named dimensions, no broadcasting | [`src/basics/hellotensor.ch`](../src/basics/hellotensor.ch), [`src/basics/dimpoly.ch`](../src/basics/dimpoly.ch) | corresponding tests |
 | Dimension polymorphism `[a, b]` | [`src/basics/dimpoly.ch`](../src/basics/dimpoly.ch) | `tests/basics/dimpoly.ch` |
 | No implicit precision promotion | [`src/basics/precisioncast.ch`](../src/basics/precisioncast.ch) | `tests/basics/precisioncast.ch` |
-| Effect rows: `Random` + `with seed` | [`src/basics/effectsrandom.ch`](../src/basics/effectsrandom.ch) | type-only via `chelis check` (C backend rejects `with seed` per [`docs/discrepancies.md`](discrepancies.md)) |
+| Explicit random keys and `uniform_like` | [`src/basics/effectsrandom.ch`](../src/basics/effectsrandom.ch) | isolated 0.18.12 check and 5 runtime tests; full package awaits matching Coral and Nautilus releases |
 | Effect rows: `IO` | [`src/std/tensorio.ch`](../src/std/tensorio.ch) | `tests/std/tensorio.ch` (`! { Test, IO }`) |
 | Effect rows: `Test` | every test file | by definition |
 | Linearity: consume / `copy` / `&borrow` | [`src/basics/linearity.ch`](../src/basics/linearity.ch) | `tests/basics/linearity.ch` |

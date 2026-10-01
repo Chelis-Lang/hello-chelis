@@ -14,7 +14,7 @@ through the corpus.
 
 | Area | Folder | Demonstrates |
 |---|---|---|
-| Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs + match, modules, dim polymorphism, precision + cast, effects (`Random`) + handlers, linearity (`copy` + `&borrow`), `grad`, `vmap`, `jit` + `realize`, macros |
+| Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs + match, modules, dim polymorphism, precision + cast, explicit random keys, linearity (`copy` + `&borrow`), `grad`, `vmap`, `jit` + `realize`, macros |
 | `chelis-std` | [`src/std/`](src/std/) | elementwise math + normalization, axis reductions, `Decimal[P, S]`, `DateTime`, `List` / `Dict` / iter, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O, AD through frame ops |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linalg, stats, distance, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting, entropy + KL divergence |
@@ -129,7 +129,7 @@ The compiler ships three distinct acceptors with non-identical primitive sets:
 |---|---|---|---|
 | Front-end | `chelis check <file>` | Most permissive: every spec form | Doesn't run the program |
 | IR evaluator | `chelis test`, `chelis eval` | In-process, fast iteration | Has documented primitive gaps on the pinned toolchain |
-| C backend | `chelis build --target c` | Lowers everything `chelis check` accepts | Some lowering forms; rejects `with seed(...)` project-wide |
+| C backend | `chelis build --target c` | Lowers supported checked programs | Some lowering forms remain unsupported |
 
 Each test in this corpus runs in the lane that supports it. Full
 inventory of gaps with verbatim compiler error messages in
@@ -137,15 +137,17 @@ inventory of gaps with verbatim compiler error messages in
 
 ## Compiler version
 
-The runnable in-repo corpus is pinned to **chelis `0.18.11`** with
+This draft pins the compiler to **chelis `0.18.12`** and keeps
 **`chelis-std` 0.4.0**, **coral 0.7.43**, **nautilus 0.7.46**,
-and **octant 0.13.1**. The committed c-earchin
+and **octant 0.13.1**. Coral and Nautilus have not yet published
+compiler-matching 0.18.12 packages, so the full project cannot build or test
+at this candidate pin. The committed c-earchin
 requirements-bridge fixtures are byte-locked to and proven from the
-**c-earchin 0.3.5** release in the Python harness. The `compiler = "=0.18.11"` pin in
+**c-earchin 0.3.5** release in the Python harness. The `compiler = "=0.18.12"` pin in
 `reef.toml` is hard: the language is pre-1.0 and breaking changes ship
 between minor versions.
 
-## Test status
+## Last full test run at 0.18.11
 
 | Lane | Pass count |
 |---|---:|
@@ -158,7 +160,7 @@ between minor versions.
 | `chelis test tests/ --jobs auto` (native runtime suite) | 115 |
 | **Blocking CI outcomes** | **includes native runtime suite, drift, C backend, Octant, c-earchin, and negative checks** |
 
-`chelis lint --check .` is now a blocking CI gate. The corpus reports
+`chelis lint --check .` is a blocking CI gate. The last full run reported
 zero findings under chelis 0.18.11, advisory ones included (advisory
 diagnostics would not fail `lint --check`). Every upstream rule that previously blocked this gate
 landed in chelis 0.7.8:
@@ -187,13 +189,13 @@ by renaming `docs/feature-matrix.md`, `docs/getting-started.md`,
 New or touched Chelis examples should still be formatted and linted
 before they are added.
 
-All green on the Docker image installed from
+These results came from the Docker image installed from
 [Chelis-Lang/chelis@v0.18.11](https://github.com/Chelis-Lang/chelis/releases/tag/v0.18.11)
 release artifacts.
 
 ## Caveats
 
-- The IR evaluator (`chelis test`) still has primitive gaps at
+- The IR evaluator (`chelis test`) had primitive gaps at
   v0.18.11. `relu`, `sigmoid`, `gelu`, `silu`, tensor-form `exp` /
   `log`, some `grad`/activation shapes, `realize`, and some
   higher-order transform forms compile cleanly via `chelis check` and
@@ -211,10 +213,9 @@ release artifacts.
   library. `.tex` inputs live at the repo root in `octant/`, with
   `.dp`/`.spans.json`/`.ch` siblings produced by `octant translate`
   and `chelis surf`.
-- `with seed(...)` blocks `chelis build` of the entire project tree
-  (it's gated upstream pending RNG plumbing through codegen). Affects
-  one src file (`src/basics/effectsrandom.ch`); demonstrated through
-  `chelis test` only.
+- The 0.18.12 random-key lesson uses the built-in `uniform_like`. Its
+  five runtime tests passed in an isolated 0.18.12 package; full-project
+  checks await compiler-matching Coral and Nautilus releases.
 
 ## License
 

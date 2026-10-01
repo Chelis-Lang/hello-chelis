@@ -1,6 +1,6 @@
 # `src/std/` — chelis-std surfaces
 
-Tour of the standard-library surface bundled with compiler v0.18.11. Every
+Tour of the standard-library surface intended for compiler v0.18.12. Every
 example here uses only the bundled runtime and the language builtins.
 
 ## Files

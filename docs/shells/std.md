@@ -12,7 +12,6 @@ Pinned to `0.4.0`.
 | `Std.Tensor.Construct` | `to_tensor`, literal-list construction, `expand`, `pad_sequences` |
 | `Std.Tensor.Reduce` | `sum`, `mean`, `max_reduce`, `softmax`, `argmax`, `argmin`, `all`, `any` |
 | `Std.Tensor.Mask` | `where`, `where_indices`, `cmplt`, `eq`, `neq`, `gt`, `lte`, `gte` |
-| `Std.Init.Random` | `uniform`, `normal`, `normal_like`, `bernoulli`, `categorical` (effect-typed `! { Random }`) |
 | `Std.LinAlg` | `transpose`, `inverse`, `det`, `trace`, `eye`, `diag` |
 | `Std.Time` | `DateTime`, `Duration`, `Period`, `BusinessDay` |
 | `Std.Decimal` | `Decimal[P, S]` with compile-time precision tracking |
