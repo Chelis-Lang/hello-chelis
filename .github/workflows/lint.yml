@@ -24,3 +24,29 @@ jobs:
 
       - name: black --check
         run: uv run --frozen --group lint black --check tests/
+
+  required-chelis-lint:
+    name: chelis lint inventory
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build hello-chelis Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile
+          tags: hello-chelis:ci
+          load: true
+          secrets: |
+            github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
+          no-cache: true
+          build-args: |
+            CHELIS_VERSION=0.18.11
+            CORAL_VERSION=0.7.43
+            NAUTILUS_VERSION=0.7.46
+      - name: Check Chelis lint
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
+            chelis lint --check .
