@@ -105,8 +105,8 @@ validation pass, or verification of a fix that a red team reported.
 2. For every worktree handoff, run `git rev-parse HEAD` and
    `git status --porcelain --untracked-files=all` in that worktree. Run
    `git worktree list --porcelain` from the shell repository. Inventory all
-   processes whose working directory is under the worktree with
-   `lsof -nP -a -d cwd -x f +D "$PWD"`; `-x f` includes mounted
+   processes with a working directory or open file under the worktree with
+   `lsof -nP -x f +D "$PWD"`; `-x f` includes mounted
    subdirectories. Check a shared target separately with
    `lsof -nP -x f +D "$target"`. Do not filter by executable name before this
    ownership check. Use `ps -p PID -o pid,ppid,command` to identify each
