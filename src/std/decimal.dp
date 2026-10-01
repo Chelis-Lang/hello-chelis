@@ -68,18 +68,14 @@
     add_cents
     (fn {}
       (params {} (price {type: (t-var {} _)}) (cents {type: (t-var {} _)}))
-      (let {span: "surf:639..732"}
+      (let {span: "surf:639..724"}
         (bind {}
           delta
-          (record {span: "surf:651..702"}
+          (record {span: "surf:651..694"}
             Decimal
             (kv {} coefficient (var {span: "surf:674..679"} cents))
-            (kv {}
-              scale
-              (cast {span: "surf:688..700"}
-                (lit {span: "surf:693..694", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 2)
-                (t-prim {} i64)))))
-        (app {span: "surf:705..730"}
-          (var {span: "surf:705..716"} decimal_add)
-          (var {span: "surf:717..722"} price)
-          (var {span: "surf:724..729"} delta))))))
+            (kv {} scale (lit {span: "surf:688..692", type: (t-prim {} i64)} 2))))
+        (app {span: "surf:697..722"}
+          (var {span: "surf:697..708"} decimal_add)
+          (var {span: "surf:709..714"} price)
+          (var {span: "surf:716..721"} delta))))))

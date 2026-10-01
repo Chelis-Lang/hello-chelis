@@ -11,17 +11,13 @@
     test_fit_exp_decay_recovers_half
     (fn {}
       (params {})
-      (app {span: "surf:202..307"}
+      (app {span: "surf:202..291"}
         (var {span: "surf:202..214"} assert_close)
         (app {span: "surf:215..230"}
           (var {span: "surf:215..228"} fit_exp_decay))
-        (cast {span: "surf:232..246"}
-          (lit {span: "surf:237..240", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-          (t-prim {} f32))
-        (cast {span: "surf:248..264"}
-          (lit {span: "surf:253..258", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.001)
-          (t-prim {} f32))
-        (lit {span: "surf:266..306", type: (t-prim {} string)} "y = exp(-theta*x) recovers theta = 0.5"))))
+        (lit {span: "surf:232..238", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
+        (lit {span: "surf:240..248", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:250..290", type: (t-prim {} string)} "y = exp(-theta*x) recovers theta = 0.5"))))
   (defsig {}
     test_fit_linear_recovers_two
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -29,14 +25,10 @@
     test_fit_linear_recovers_two
     (fn {}
       (params {})
-      (app {span: "surf:364..474"}
-        (var {span: "surf:364..376"} assert_close)
-        (app {span: "surf:377..404"}
-          (var {span: "surf:377..402"} fit_linear_through_origin))
-        (cast {span: "surf:406..420"}
-          (lit {span: "surf:411..414", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (cast {span: "surf:422..439"}
-          (lit {span: "surf:427..433", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
-          (t-prim {} f32))
-        (lit {span: "surf:441..473", type: (t-prim {} string)} "y = theta*x recovers theta = 2")))))
+      (app {span: "surf:348..442"}
+        (var {span: "surf:348..360"} assert_close)
+        (app {span: "surf:361..388"}
+          (var {span: "surf:361..386"} fit_linear_through_origin))
+        (lit {span: "surf:390..396", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (lit {span: "surf:398..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+        (lit {span: "surf:409..441", type: (t-prim {} string)} "y = theta*x recovers theta = 2")))))

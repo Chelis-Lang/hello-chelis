@@ -11,17 +11,13 @@
     test_parabola_minimum_gss
     (fn {}
       (params {})
-      (app {span: "surf:224..332"}
+      (app {span: "surf:224..316"}
         (var {span: "surf:224..236"} assert_close)
         (app {span: "surf:237..259"}
           (var {span: "surf:237..257"} parabola_minimum_gss))
-        (cast {span: "surf:261..275"}
-          (lit {span: "surf:266..269", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
-          (t-prim {} f32))
-        (cast {span: "surf:277..294"}
-          (lit {span: "surf:282..288", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0005)
-          (t-prim {} f32))
-        (lit {span: "surf:296..331", type: (t-prim {} string)} "golden-section min of (x-3)^2 + 7"))))
+        (lit {span: "surf:261..267", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+        (lit {span: "surf:269..278", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0005)
+        (lit {span: "surf:280..315", type: (t-prim {} string)} "golden-section min of (x-3)^2 + 7"))))
   (defsig {}
     test_parabola_minimum_brent
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -29,17 +25,13 @@
     test_parabola_minimum_brent
     (fn {}
       (params {})
-      (app {span: "surf:388..489"}
-        (var {span: "surf:388..400"} assert_close)
-        (app {span: "surf:401..425"}
-          (var {span: "surf:401..423"} parabola_minimum_brent))
-        (cast {span: "surf:427..441"}
-          (lit {span: "surf:432..435", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
-          (t-prim {} f32))
-        (cast {span: "surf:443..460"}
-          (lit {span: "surf:448..454", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0005)
-          (t-prim {} f32))
-        (lit {span: "surf:462..488", type: (t-prim {} string)} "brent min of (x-3)^2 + 7"))))
+      (app {span: "surf:372..457"}
+        (var {span: "surf:372..384"} assert_close)
+        (app {span: "surf:385..409"}
+          (var {span: "surf:385..407"} parabola_minimum_brent))
+        (lit {span: "surf:411..417", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+        (lit {span: "surf:419..428", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0005)
+        (lit {span: "surf:430..456", type: (t-prim {} string)} "brent min of (x-3)^2 + 7"))))
   (defsig {}
     test_parabola_minimum_newton
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -47,14 +39,10 @@
     test_parabola_minimum_newton
     (fn {}
       (params {})
-      (app {span: "surf:546..653"}
-        (var {span: "surf:546..558"} assert_close)
-        (app {span: "surf:559..584"}
-          (var {span: "surf:559..582"} parabola_minimum_newton))
-        (cast {span: "surf:586..600"}
-          (lit {span: "surf:591..594", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
-          (t-prim {} f32))
-        (cast {span: "surf:602..620"}
-          (lit {span: "surf:607..614", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:622..652", type: (t-prim {} string)} "newton 1D min of (x-3)^2 + 7")))))
+      (app {span: "surf:514..605"}
+        (var {span: "surf:514..526"} assert_close)
+        (app {span: "surf:527..552"}
+          (var {span: "surf:527..550"} parabola_minimum_newton))
+        (lit {span: "surf:554..560", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+        (lit {span: "surf:562..572", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:574..604", type: (t-prim {} string)} "newton 1D min of (x-3)^2 + 7")))))

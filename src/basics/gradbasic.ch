@@ -1,7 +1,7 @@
 module Hello.Basics.GradBasic
 export (loss, dloss_dw, dloss_dx)
 def loss(w: tensor[3, f32], x: tensor[3, f32]) -> tensor[f32] = {
-  err = sub(w, to_tensor([cast(1.0, f32), cast(1.0, f32), cast(1.0, f32)]))
+  err = sub(w, to_tensor([1.0f32, 1.0f32, 1.0f32]))
   prod = mul(err, x)
   sum(prod, 0)
 }

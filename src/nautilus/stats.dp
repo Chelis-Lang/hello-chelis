@@ -33,12 +33,10 @@
     sample_var
     (fn {}
       (params {} (v {type: (t-var {} _)}))
-      (app {span: "surf:338..367"}
+      (app {span: "surf:338..359"}
         (var {span: "surf:338..350"} variance_vec)
         (var {span: "surf:351..352"} v)
-        (cast {span: "surf:354..366"}
-          (lit {span: "surf:359..360", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-          (t-prim {} i64)))))
+        (lit {span: "surf:354..358", type: (t-prim {} i64)} 1))))
   (defsig {}
     sample_std
     (n)
@@ -49,12 +47,10 @@
     sample_std
     (fn {}
       (params {} (v {type: (t-var {} _)}))
-      (app {span: "surf:415..439"}
-        (var {span: "surf:415..422"} std_vec)
-        (var {span: "surf:423..424"} v)
-        (cast {span: "surf:426..438"}
-          (lit {span: "surf:431..432", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-          (t-prim {} i64)))))
+      (app {span: "surf:407..423"}
+        (var {span: "surf:407..414"} std_vec)
+        (var {span: "surf:415..416"} v)
+        (lit {span: "surf:418..422", type: (t-prim {} i64)} 1))))
   (defsig {}
     sample_median
     (n)
@@ -65,9 +61,9 @@
     sample_median
     (fn {}
       (params {} (v {type: (t-var {} _)}))
-      (app {span: "surf:490..503"}
-        (var {span: "surf:490..500"} median_vec)
-        (var {span: "surf:501..502"} v))))
+      (app {span: "surf:474..487"}
+        (var {span: "surf:474..484"} median_vec)
+        (var {span: "surf:485..486"} v))))
   (defsig {}
     sample_quartile_low
     (n)
@@ -78,12 +74,10 @@
     sample_quartile_low
     (fn {}
       (params {} (v {type: (t-var {} _)}))
-      (app {span: "surf:560..592"}
-        (var {span: "surf:560..572"} quantile_vec)
-        (var {span: "surf:573..574"} v)
-        (cast {span: "surf:576..591"}
-          (lit {span: "surf:581..585", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.25)
-          (t-prim {} f32)))))
+      (app {span: "surf:544..568"}
+        (var {span: "surf:544..556"} quantile_vec)
+        (var {span: "surf:557..558"} v)
+        (lit {span: "surf:560..567", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.25))))
   (defsig {}
     sample_correlation
     (n)
@@ -95,7 +89,7 @@
     sample_correlation
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
-      (app {span: "surf:668..692"}
-        (var {span: "surf:668..686"} correlation_scalar)
-        (var {span: "surf:687..688"} a)
-        (var {span: "surf:690..691"} b)))))
+      (app {span: "surf:644..668"}
+        (var {span: "surf:644..662"} correlation_scalar)
+        (var {span: "surf:663..664"} a)
+        (var {span: "surf:666..667"} b)))))

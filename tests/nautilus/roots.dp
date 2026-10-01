@@ -9,43 +9,31 @@
     test_sqrt2_bisect
     (fn {}
       (params {})
-      (app {span: "surf:180..271"}
+      (app {span: "surf:180..255"}
         (var {span: "surf:180..192"} assert_close)
         (app {span: "surf:193..207"} (var {span: "surf:193..205"} sqrt2_bisect))
-        (cast {span: "surf:209..229"}
-          (lit {span: "surf:214..223", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.4142135)
-          (t-prim {} f32))
-        (cast {span: "surf:231..249"}
-          (lit {span: "surf:236..243", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:251..270", type: (t-prim {} string)} "bisection sqrt(2)"))))
+        (lit {span: "surf:209..221", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.4142135)
+        (lit {span: "surf:223..233", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:235..254", type: (t-prim {} string)} "bisection sqrt(2)"))))
   (defsig {} test_sqrt2_brent (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_sqrt2_brent
     (fn {}
       (params {})
-      (app {span: "surf:316..402"}
-        (var {span: "surf:316..328"} assert_close)
-        (app {span: "surf:329..342"} (var {span: "surf:329..340"} sqrt2_brent))
-        (cast {span: "surf:344..364"}
-          (lit {span: "surf:349..358", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.4142135)
-          (t-prim {} f32))
-        (cast {span: "surf:366..384"}
-          (lit {span: "surf:371..378", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:386..401", type: (t-prim {} string)} "brent sqrt(2)"))))
+      (app {span: "surf:300..370"}
+        (var {span: "surf:300..312"} assert_close)
+        (app {span: "surf:313..326"} (var {span: "surf:313..324"} sqrt2_brent))
+        (lit {span: "surf:328..340", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.4142135)
+        (lit {span: "surf:342..352", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:354..369", type: (t-prim {} string)} "brent sqrt(2)"))))
   (defsig {} test_sqrt2_newton (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_sqrt2_newton
     (fn {}
       (params {})
-      (app {span: "surf:448..536"}
-        (var {span: "surf:448..460"} assert_close)
-        (app {span: "surf:461..475"} (var {span: "surf:461..473"} sqrt2_newton))
-        (cast {span: "surf:477..497"}
-          (lit {span: "surf:482..491", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.4142135)
-          (t-prim {} f32))
-        (cast {span: "surf:499..517"}
-          (lit {span: "surf:504..511", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:519..535", type: (t-prim {} string)} "newton sqrt(2)")))))
+      (app {span: "surf:416..488"}
+        (var {span: "surf:416..428"} assert_close)
+        (app {span: "surf:429..443"} (var {span: "surf:429..441"} sqrt2_newton))
+        (lit {span: "surf:445..457", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.4142135)
+        (lit {span: "surf:459..469", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:471..487", type: (t-prim {} string)} "newton sqrt(2)")))))

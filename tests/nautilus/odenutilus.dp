@@ -9,44 +9,32 @@
     test_decay_rk4
     (fn {}
       (params {})
-      (app {span: "surf:186..283"}
+      (app {span: "surf:186..267"}
         (var {span: "surf:186..198"} assert_close)
         (app {span: "surf:199..210"} (var {span: "surf:199..208"} decay_rk4))
-        (cast {span: "surf:212..233"}
-          (lit {span: "surf:217..227", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.36787944)
-          (t-prim {} f32))
-        (cast {span: "surf:235..252"}
-          (lit {span: "surf:240..246", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
-          (t-prim {} f32))
-        (lit {span: "surf:254..282", type: (t-prim {} string)} "rk4 dy/dt = -y, y(1) = 1/e"))))
+        (lit {span: "surf:212..225", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.36787944)
+        (lit {span: "surf:227..236", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+        (lit {span: "surf:238..266", type: (t-prim {} string)} "rk4 dy/dt = -y, y(1) = 1/e"))))
   (defsig {} test_decay_euler (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_decay_euler
     (fn {}
       (params {})
-      (app {span: "surf:328..428"}
-        (var {span: "surf:328..340"} assert_close)
-        (app {span: "surf:341..354"} (var {span: "surf:341..352"} decay_euler))
-        (cast {span: "surf:356..377"}
-          (lit {span: "surf:361..371", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.36787944)
-          (t-prim {} f32))
-        (cast {span: "surf:379..395"}
-          (lit {span: "surf:384..389", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.001)
-          (t-prim {} f32))
-        (lit {span: "surf:397..427", type: (t-prim {} string)} "euler dy/dt = -y, y(1) ~ 1/e"))))
+      (app {span: "surf:312..396"}
+        (var {span: "surf:312..324"} assert_close)
+        (app {span: "surf:325..338"} (var {span: "surf:325..336"} decay_euler))
+        (lit {span: "surf:340..353", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.36787944)
+        (lit {span: "surf:355..363", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:365..395", type: (t-prim {} string)} "euler dy/dt = -y, y(1) ~ 1/e"))))
   (defsig {} test_exp_growth_rk4 (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_exp_growth_rk4
     (fn {}
       (params {})
-      (app {span: "surf:476..574"}
-        (var {span: "surf:476..488"} assert_close)
-        (app {span: "surf:489..505"}
-          (var {span: "surf:489..503"} exp_growth_rk4))
-        (cast {span: "surf:507..527"}
-          (lit {span: "surf:512..521", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.7182817)
-          (t-prim {} f32))
-        (cast {span: "surf:529..546"}
-          (lit {span: "surf:534..540", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
-          (t-prim {} f32))
-        (lit {span: "surf:548..573", type: (t-prim {} string)} "rk4 dy/dt = y, y(1) = e")))))
+      (app {span: "surf:444..526"}
+        (var {span: "surf:444..456"} assert_close)
+        (app {span: "surf:457..473"}
+          (var {span: "surf:457..471"} exp_growth_rk4))
+        (lit {span: "surf:475..487", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.7182817)
+        (lit {span: "surf:489..498", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+        (lit {span: "surf:500..525", type: (t-prim {} string)} "rk4 dy/dt = y, y(1) = e")))))

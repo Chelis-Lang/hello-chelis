@@ -24,51 +24,47 @@
     simple_returns
     (fn {}
       (params {} (prices {type: (t-var {} _)}))
-      (let {span: "surf:458..637"}
+      (let {span: "surf:458..621"}
         (bind {}
           steps
-          (app {span: "surf:470..500"}
+          (app {span: "surf:470..492"}
             (var {span: "surf:470..473"} sub)
             (app {span: "surf:474..485"}
               (var {span: "surf:474..477"} len)
               (var {span: "surf:478..484"} prices))
-            (cast {span: "surf:487..499"}
-              (lit {span: "surf:492..493", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-              (t-prim {} i64))))
+            (lit {span: "surf:487..491", type: (t-prim {} i64)} 1)))
         (let {}
           (bind {}
             pairs
-            (app {span: "surf:511..563"}
-              (var {span: "surf:511..514"} zip)
-              (app {span: "surf:515..534"}
-                (var {span: "surf:515..519"} take)
-                (var {span: "surf:520..526"} prices)
-                (var {span: "surf:528..533"} steps))
-              (app {span: "surf:536..562"}
-                (var {span: "surf:536..540"} skip)
-                (var {span: "surf:541..547"} prices)
-                (cast {span: "surf:549..561"}
-                  (lit {span: "surf:554..555", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-                  (t-prim {} i64)))))
-          (app {span: "surf:566..635"}
-            (var {span: "surf:566..569"} map)
-            (fn {span: "surf:570..627"}
+            (app {span: "surf:503..547"}
+              (var {span: "surf:503..506"} zip)
+              (app {span: "surf:507..526"}
+                (var {span: "surf:507..511"} take)
+                (var {span: "surf:512..518"} prices)
+                (var {span: "surf:520..525"} steps))
+              (app {span: "surf:528..546"}
+                (var {span: "surf:528..532"} skip)
+                (var {span: "surf:533..539"} prices)
+                (lit {span: "surf:541..545", type: (t-prim {} i64)} 1))))
+          (app {span: "surf:550..619"}
+            (var {span: "surf:550..553"} map)
+            (fn {span: "surf:554..611"}
               (params {}
                 (pair {type: (t-tuple {} (t-prim {} f32) (t-prim {} f32))}))
-              (app {span: "surf:595..627"}
-                (var {span: "surf:595..598"} div)
-                (app {span: "surf:599..618"}
-                  (var {span: "surf:599..602"} sub)
-                  (tuple-get {span: "surf:603..609"}
-                    (var {span: "surf:603..607"} pair)
+              (app {span: "surf:579..611"}
+                (var {span: "surf:579..582"} div)
+                (app {span: "surf:583..602"}
+                  (var {span: "surf:583..586"} sub)
+                  (tuple-get {span: "surf:587..593"}
+                    (var {span: "surf:587..591"} pair)
                     (lit {type: (t-prim {} i32)} 1))
-                  (tuple-get {span: "surf:611..617"}
-                    (var {span: "surf:611..615"} pair)
+                  (tuple-get {span: "surf:595..601"}
+                    (var {span: "surf:595..599"} pair)
                     (lit {type: (t-prim {} i32)} 0)))
-                (tuple-get {span: "surf:620..626"}
-                  (var {span: "surf:620..624"} pair)
+                (tuple-get {span: "surf:604..610"}
+                  (var {span: "surf:604..608"} pair)
                   (lit {type: (t-prim {} i32)} 0))))
-            (var {span: "surf:629..634"} pairs))))))
+            (var {span: "surf:613..618"} pairs))))))
   (defsig {}
     returns_frame
     (n)
@@ -80,22 +76,22 @@
     returns_frame
     (fn {}
       (params {} (tickers {type: (t-var {} _)}) (rets {type: (t-var {} _)}))
-      (app {span: "surf:718..787"}
-        (var {span: "surf:718..728"} from_pairs)
-        (app {span: "surf:729..786"}
+      (app {span: "surf:702..771"}
+        (var {span: "surf:702..712"} from_pairs)
+        (app {span: "surf:713..770"}
           (var {} Cons)
-          (tuple {span: "surf:730..760"}
-            (lit {span: "surf:731..739", type: (t-prim {} string)} "ticker")
-            (app {span: "surf:741..759"}
-              (var {span: "surf:741..750"} StringCol)
-              (var {span: "surf:751..758"} tickers)))
+          (tuple {span: "surf:714..744"}
+            (lit {span: "surf:715..723", type: (t-prim {} string)} "ticker")
+            (app {span: "surf:725..743"}
+              (var {span: "surf:725..734"} StringCol)
+              (var {span: "surf:735..742"} tickers)))
           (app {}
             (var {} Cons)
-            (tuple {span: "surf:762..785"}
-              (lit {span: "surf:763..768", type: (t-prim {} string)} "ret")
-              (app {span: "surf:770..784"}
-                (var {span: "surf:770..778"} FloatCol)
-                (var {span: "surf:779..783"} rets)))
+            (tuple {span: "surf:746..769"}
+              (lit {span: "surf:747..752", type: (t-prim {} string)} "ret")
+              (app {span: "surf:754..768"}
+                (var {span: "surf:754..762"} FloatCol)
+                (var {span: "surf:763..767"} rets)))
             (var {} Nil))))))
   (defsig {}
     tickers_covered
@@ -108,18 +104,18 @@
     tickers_covered
     (fn {}
       (params {} (tickers {type: (t-var {} _)}) (rets {type: (t-var {} _)}))
-      (app {span: "surf:865..937"}
-        (var {span: "surf:865..870"} nrows)
-        (app {span: "surf:871..936"}
-          (var {span: "surf:871..879"} agg_mean)
-          (app {span: "surf:880..928"}
-            (var {span: "surf:880..888"} group_by)
-            (app {span: "surf:889..917"}
-              (var {span: "surf:889..902"} returns_frame)
-              (var {span: "surf:903..910"} tickers)
-              (var {span: "surf:912..916"} rets))
-            (lit {span: "surf:919..927", type: (t-prim {} string)} "ticker"))
-          (lit {span: "surf:930..935", type: (t-prim {} string)} "ret")))))
+      (app {span: "surf:849..921"}
+        (var {span: "surf:849..854"} nrows)
+        (app {span: "surf:855..920"}
+          (var {span: "surf:855..863"} agg_mean)
+          (app {span: "surf:864..912"}
+            (var {span: "surf:864..872"} group_by)
+            (app {span: "surf:873..901"}
+              (var {span: "surf:873..886"} returns_frame)
+              (var {span: "surf:887..894"} tickers)
+              (var {span: "surf:896..900"} rets))
+            (lit {span: "surf:903..911", type: (t-prim {} string)} "ticker"))
+          (lit {span: "surf:914..919", type: (t-prim {} string)} "ret")))))
   (defsig {}
     sharpe_ratio
     (n)
@@ -131,20 +127,18 @@
     sharpe_ratio
     (fn {}
       (params {} (rets {type: (t-var {} _)}) (risk_free {type: (t-var {} _)}))
-      (app {span: "surf:1006..1070"}
-        (var {span: "surf:1006..1009"} div)
-        (app {span: "surf:1010..1040"}
-          (var {span: "surf:1010..1013"} sub)
-          (app {span: "surf:1014..1028"}
-            (var {span: "surf:1014..1022"} mean_vec)
-            (var {span: "surf:1023..1027"} rets))
-          (var {span: "surf:1030..1039"} risk_free))
-        (app {span: "surf:1042..1069"}
-          (var {span: "surf:1042..1049"} std_vec)
-          (var {span: "surf:1050..1054"} rets)
-          (cast {span: "surf:1056..1068"}
-            (lit {span: "surf:1061..1062", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-            (t-prim {} i64))))))
+      (app {span: "surf:990..1046"}
+        (var {span: "surf:990..993"} div)
+        (app {span: "surf:994..1024"}
+          (var {span: "surf:994..997"} sub)
+          (app {span: "surf:998..1012"}
+            (var {span: "surf:998..1006"} mean_vec)
+            (var {span: "surf:1007..1011"} rets))
+          (var {span: "surf:1014..1023"} risk_free))
+        (app {span: "surf:1026..1045"}
+          (var {span: "surf:1026..1033"} std_vec)
+          (var {span: "surf:1034..1038"} rets)
+          (lit {span: "surf:1040..1044", type: (t-prim {} i64)} 1)))))
   (defsig {}
     portfolio_sharpe
     (n)
@@ -160,20 +154,20 @@
         (tickers {type: (t-var {} _)})
         (rets {type: (t-var {} _)})
         (risk_free {type: (t-var {} _)}))
-      (let {span: "surf:1165..1256"}
+      (let {span: "surf:1141..1232"}
         (bind {}
           df
-          (app {span: "surf:1174..1202"}
-            (var {span: "surf:1174..1187"} returns_frame)
-            (var {span: "surf:1188..1195"} tickers)
-            (var {span: "surf:1197..1201"} rets)))
-        (app {span: "surf:1205..1254"}
-          (var {span: "surf:1205..1217"} sharpe_ratio)
-          (app {span: "surf:1218..1242"}
-            (var {span: "surf:1218..1231"} get_float_col)
-            (var {span: "surf:1232..1234"} df)
-            (lit {span: "surf:1236..1241", type: (t-prim {} string)} "ret"))
-          (var {span: "surf:1244..1253"} risk_free)))))
+          (app {span: "surf:1150..1178"}
+            (var {span: "surf:1150..1163"} returns_frame)
+            (var {span: "surf:1164..1171"} tickers)
+            (var {span: "surf:1173..1177"} rets)))
+        (app {span: "surf:1181..1230"}
+          (var {span: "surf:1181..1193"} sharpe_ratio)
+          (app {span: "surf:1194..1218"}
+            (var {span: "surf:1194..1207"} get_float_col)
+            (var {span: "surf:1208..1210"} df)
+            (lit {span: "surf:1212..1217", type: (t-prim {} string)} "ret"))
+          (var {span: "surf:1220..1229"} risk_free)))))
   (defsig {}
     rolling_volatility
     (n)
@@ -185,10 +179,10 @@
     rolling_volatility
     (fn {}
       (params {} (rets {type: (t-var {} _)}) (window {type: (t-var {} _)}))
-      (app {span: "surf:1338..1363"}
-        (var {span: "surf:1338..1349"} rolling_std)
-        (var {span: "surf:1350..1354"} rets)
-        (var {span: "surf:1356..1362"} window))))
+      (app {span: "surf:1314..1339"}
+        (var {span: "surf:1314..1325"} rolling_std)
+        (var {span: "surf:1326..1330"} rets)
+        (var {span: "surf:1332..1338"} window))))
   (defsig {}
     parametric_var
     (n)
@@ -200,36 +194,28 @@
     parametric_var
     (fn {}
       (params {} (rets {type: (t-var {} _)}) (confidence {type: (t-var {} _)}))
-      (let {span: "surf:1435..1588"}
+      (let {span: "surf:1411..1532"}
         (bind {}
           z
-          (app {span: "surf:1443..1522"}
-            (var {span: "surf:1443..1457"} normal_inv_cdf)
-            (app {span: "surf:1458..1489"}
-              (var {span: "surf:1458..1461"} sub)
-              (cast {span: "surf:1462..1476"}
-                (lit {span: "surf:1467..1470", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-                (t-prim {} f32))
-              (var {span: "surf:1478..1488"} confidence))
-            (cast {span: "surf:1491..1505"}
-              (lit {span: "surf:1496..1499", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-              (t-prim {} f32))
-            (cast {span: "surf:1507..1521"}
-              (lit {span: "surf:1512..1515", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-              (t-prim {} f32))))
-        (app {span: "surf:1525..1586"}
-          (var {span: "surf:1525..1528"} neg)
-          (app {span: "surf:1529..1585"}
-            (var {span: "surf:1529..1532"} add)
-            (app {span: "surf:1533..1547"}
-              (var {span: "surf:1533..1541"} mean_vec)
-              (var {span: "surf:1542..1546"} rets))
-            (app {span: "surf:1549..1584"}
-              (var {span: "surf:1549..1552"} mul)
-              (var {span: "surf:1553..1554"} z)
-              (app {span: "surf:1556..1583"}
-                (var {span: "surf:1556..1563"} std_vec)
-                (var {span: "surf:1564..1568"} rets)
-                (cast {span: "surf:1570..1582"}
-                  (lit {span: "surf:1575..1576", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-                  (t-prim {} i64))))))))))
+          (app {span: "surf:1419..1474"}
+            (var {span: "surf:1419..1433"} normal_inv_cdf)
+            (app {span: "surf:1434..1457"}
+              (var {span: "surf:1434..1437"} sub)
+              (lit {span: "surf:1438..1444", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+              (var {span: "surf:1446..1456"} confidence))
+            (lit {span: "surf:1459..1465", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:1467..1473", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+        (app {span: "surf:1477..1530"}
+          (var {span: "surf:1477..1480"} neg)
+          (app {span: "surf:1481..1529"}
+            (var {span: "surf:1481..1484"} add)
+            (app {span: "surf:1485..1499"}
+              (var {span: "surf:1485..1493"} mean_vec)
+              (var {span: "surf:1494..1498"} rets))
+            (app {span: "surf:1501..1528"}
+              (var {span: "surf:1501..1504"} mul)
+              (var {span: "surf:1505..1506"} z)
+              (app {span: "surf:1508..1527"}
+                (var {span: "surf:1508..1515"} std_vec)
+                (var {span: "surf:1516..1520"} rets)
+                (lit {span: "surf:1522..1526", type: (t-prim {} i64)} 1)))))))))
