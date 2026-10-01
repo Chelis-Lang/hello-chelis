@@ -9,6 +9,6 @@ def format_total(subtotal: Decimal, discount: Decimal) -> string = {
   decimal_to_string(net)
 }
 def add_cents(price: Decimal, cents: i64) -> Decimal = {
-  delta = Decimal { coefficient: cents, scale: cast(2, i64) }
+  delta = Decimal { coefficient: cents, scale: 2i64 }
   decimal_add(price, delta)
 }

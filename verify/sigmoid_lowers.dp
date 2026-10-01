@@ -2,26 +2,22 @@
   sigmoidlowers
   (def {}
     xs
-    (app {span: "surf:26..86"}
+    (app {span: "surf:26..62"}
       (var {span: "surf:26..35"} to_tensor)
-      (app {span: "surf:36..85"}
+      (app {span: "surf:36..61"}
         (var {} Cons)
-        (cast {span: "surf:37..52"}
-          (lit {span: "surf:42..46", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} -2.0)
-          (t-prim {} f32))
+        (app {span: "surf:37..44"}
+          (var {} neg)
+          (lit {span: "surf:38..44", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0))
         (app {}
           (var {} Cons)
-          (cast {span: "surf:54..68"}
-            (lit {span: "surf:59..62", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-            (t-prim {} f32))
+          (lit {span: "surf:46..52", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
           (app {}
             (var {} Cons)
-            (cast {span: "surf:70..84"}
-              (lit {span: "surf:75..78", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-              (t-prim {} f32))
+            (lit {span: "surf:54..60", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
             (var {} Nil))))))
   (def {}
     ys
-    (app {span: "surf:92..103"}
-      (var {span: "surf:92..99"} sigmoid)
-      (var {span: "surf:100..102"} xs))))
+    (app {span: "surf:68..79"}
+      (var {span: "surf:68..75"} sigmoid)
+      (var {span: "surf:76..78"} xs))))

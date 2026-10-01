@@ -9,91 +9,49 @@
     test_call_atm
     (fn {}
       (params {})
-      (app {span: "surf:174..335"}
+      (app {span: "surf:174..279"}
         (var {span: "surf:174..186"} assert_close)
-        (app {span: "surf:187..282"}
+        (app {span: "surf:187..242"}
           (var {span: "surf:187..197"} call_price)
-          (cast {span: "surf:198..214"}
-            (lit {span: "surf:203..208", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
-            (t-prim {} f32))
-          (cast {span: "surf:216..232"}
-            (lit {span: "surf:221..226", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
-            (t-prim {} f32))
-          (cast {span: "surf:234..249"}
-            (lit {span: "surf:239..243", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.05)
-            (t-prim {} f32))
-          (cast {span: "surf:251..265"}
-            (lit {span: "surf:256..259", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.2)
-            (t-prim {} f32))
-          (cast {span: "surf:267..281"}
-            (lit {span: "surf:272..275", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-            (t-prim {} f32)))
-        (cast {span: "surf:284..302"}
-          (lit {span: "surf:289..296", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 10.4506)
-          (t-prim {} f32))
-        (cast {span: "surf:304..319"}
-          (lit {span: "surf:309..313", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.05)
-          (t-prim {} f32))
-        (lit {span: "surf:321..334", type: (t-prim {} string)} "bs_call_atm"))))
+          (lit {span: "surf:198..206", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:208..216", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:218..225", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:227..233", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:235..241", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:244..254", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.4506)
+        (lit {span: "surf:256..263", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+        (lit {span: "surf:265..278", type: (t-prim {} string)} "bs_call_atm"))))
   (defsig {} test_delta_atm (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_delta_atm
     (fn {}
       (params {})
-      (app {span: "surf:378..536"}
-        (var {span: "surf:378..390"} assert_close)
-        (app {span: "surf:391..481"}
-          (var {span: "surf:391..396"} delta)
-          (cast {span: "surf:397..413"}
-            (lit {span: "surf:402..407", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
-            (t-prim {} f32))
-          (cast {span: "surf:415..431"}
-            (lit {span: "surf:420..425", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
-            (t-prim {} f32))
-          (cast {span: "surf:433..448"}
-            (lit {span: "surf:438..442", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.05)
-            (t-prim {} f32))
-          (cast {span: "surf:450..464"}
-            (lit {span: "surf:455..458", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.2)
-            (t-prim {} f32))
-          (cast {span: "surf:466..480"}
-            (lit {span: "surf:471..474", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-            (t-prim {} f32)))
-        (cast {span: "surf:483..501"}
-          (lit {span: "surf:488..495", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.63683)
-          (t-prim {} f32))
-        (cast {span: "surf:503..519"}
-          (lit {span: "surf:508..513", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.001)
-          (t-prim {} f32))
-        (lit {span: "surf:521..535", type: (t-prim {} string)} "bs_delta_atm"))))
+      (app {span: "surf:322..424"}
+        (var {span: "surf:322..334"} assert_close)
+        (app {span: "surf:335..385"}
+          (var {span: "surf:335..340"} delta)
+          (lit {span: "surf:341..349", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:351..359", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:361..368", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:370..376", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:378..384", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:387..397", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.63683)
+        (lit {span: "surf:399..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:409..423", type: (t-prim {} string)} "bs_delta_atm"))))
   (defsig {} test_vega_atm (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_vega_atm
     (fn {}
       (params {})
-      (app {span: "surf:578..732"}
-        (var {span: "surf:578..590"} assert_close)
-        (app {span: "surf:591..680"}
-          (var {span: "surf:591..595"} vega)
-          (cast {span: "surf:596..612"}
-            (lit {span: "surf:601..606", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
-            (t-prim {} f32))
-          (cast {span: "surf:614..630"}
-            (lit {span: "surf:619..624", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 100.0)
-            (t-prim {} f32))
-          (cast {span: "surf:632..647"}
-            (lit {span: "surf:637..641", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.05)
-            (t-prim {} f32))
-          (cast {span: "surf:649..663"}
-            (lit {span: "surf:654..657", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.2)
-            (t-prim {} f32))
-          (cast {span: "surf:665..679"}
-            (lit {span: "surf:670..673", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-            (t-prim {} f32)))
-        (cast {span: "surf:682..699"}
-          (lit {span: "surf:687..693", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 37.524)
-          (t-prim {} f32))
-        (cast {span: "surf:701..716"}
-          (lit {span: "surf:706..710", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
-          (t-prim {} f32))
-        (lit {span: "surf:718..731", type: (t-prim {} string)} "bs_vega_atm")))))
+      (app {span: "surf:466..564"}
+        (var {span: "surf:466..478"} assert_close)
+        (app {span: "surf:479..528"}
+          (var {span: "surf:479..483"} vega)
+          (lit {span: "surf:484..492", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:494..502", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:504..511", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:513..519", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:521..527", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:530..539", surf_literal_style: "explicit", type: (t-prim {} f32)} 37.524)
+        (lit {span: "surf:541..548", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+        (lit {span: "surf:550..563", type: (t-prim {} string)} "bs_vega_atm")))))

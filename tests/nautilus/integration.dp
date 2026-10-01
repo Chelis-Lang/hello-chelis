@@ -9,17 +9,13 @@
     test_sin_integral_trap
     (fn {}
       (params {})
-      (app {span: "surf:215..302"}
+      (app {span: "surf:215..286"}
         (var {span: "surf:215..227"} assert_close)
         (app {span: "surf:228..247"}
           (var {span: "surf:228..245"} sin_integral_trap))
-        (cast {span: "surf:249..263"}
-          (lit {span: "surf:254..257", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (cast {span: "surf:265..281"}
-          (lit {span: "surf:270..275", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.001)
-          (t-prim {} f32))
-        (lit {span: "surf:283..301", type: (t-prim {} string)} "trap int sin = 2"))))
+        (lit {span: "surf:249..255", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (lit {span: "surf:257..265", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:267..285", type: (t-prim {} string)} "trap int sin = 2"))))
   (defsig {}
     test_sin_integral_simpson
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -27,30 +23,22 @@
     test_sin_integral_simpson
     (fn {}
       (params {})
-      (app {span: "surf:356..451"}
-        (var {span: "surf:356..368"} assert_close)
-        (app {span: "surf:369..391"}
-          (var {span: "surf:369..389"} sin_integral_simpson))
-        (cast {span: "surf:393..407"}
-          (lit {span: "surf:398..401", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (cast {span: "surf:409..427"}
-          (lit {span: "surf:414..421", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:429..450", type: (t-prim {} string)} "simpson int sin = 2"))))
+      (app {span: "surf:340..419"}
+        (var {span: "surf:340..352"} assert_close)
+        (app {span: "surf:353..375"}
+          (var {span: "surf:353..373"} sin_integral_simpson))
+        (lit {span: "surf:377..383", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (lit {span: "surf:385..395", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:397..418", type: (t-prim {} string)} "simpson int sin = 2"))))
   (defsig {} test_sin_integral_gl5 (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_sin_integral_gl5
     (fn {}
       (params {})
-      (app {span: "surf:501..586"}
-        (var {span: "surf:501..513"} assert_close)
-        (app {span: "surf:514..532"}
-          (var {span: "surf:514..530"} sin_integral_gl5))
-        (cast {span: "surf:534..548"}
-          (lit {span: "surf:539..542", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (cast {span: "surf:550..566"}
-          (lit {span: "surf:555..560", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.001)
-          (t-prim {} f32))
-        (lit {span: "surf:568..585", type: (t-prim {} string)} "gl5 int sin ~ 2")))))
+      (app {span: "surf:469..538"}
+        (var {span: "surf:469..481"} assert_close)
+        (app {span: "surf:482..500"}
+          (var {span: "surf:482..498"} sin_integral_gl5))
+        (lit {span: "surf:502..508", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (lit {span: "surf:510..518", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:520..537", type: (t-prim {} string)} "gl5 int sin ~ 2")))))

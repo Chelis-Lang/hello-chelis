@@ -18,23 +18,21 @@
     anniversary
     (fn {}
       (params {} (d {type: (t-var {} _)}) (years {type: (t-var {} _)}))
-      (app {span: "surf:276..315"}
+      (app {span: "surf:276..307"}
         (var {span: "surf:276..284"} add_days)
         (var {span: "surf:285..286"} d)
-        (app {span: "surf:288..314"}
+        (app {span: "surf:288..306"}
           (var {span: "surf:288..291"} mul)
           (var {span: "surf:292..297"} years)
-          (cast {span: "surf:299..313"}
-            (lit {span: "surf:304..307", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 365)
-            (t-prim {} i64))))))
+          (lit {span: "surf:299..305", type: (t-prim {} i64)} 365)))))
   (defsig {} weekday_name (t-fn {} (t-adt {} Date) (t-prim {} string)))
   (def {}
     weekday_name
     (fn {}
       (params {} (d {type: (t-var {} _)}))
-      (app {span: "surf:354..373"}
-        (var {span: "surf:354..370"} day_of_week_name)
-        (var {span: "surf:371..372"} d))))
+      (app {span: "surf:346..365"}
+        (var {span: "surf:346..362"} day_of_week_name)
+        (var {span: "surf:363..364"} d))))
   (defsig {}
     days_until
     (t-fn {} (t-adt {} Date) (t-adt {} Date) (t-prim {} i64)))
@@ -42,51 +40,43 @@
     days_until
     (fn {}
       (params {} (from {type: (t-var {} _)}) (to {type: (t-var {} _)}))
-      (app {span: "surf:420..442"}
-        (var {span: "surf:420..432"} days_between)
-        (var {span: "surf:433..437"} from)
-        (var {span: "surf:439..441"} to))))
+      (app {span: "surf:412..434"}
+        (var {span: "surf:412..424"} days_between)
+        (var {span: "surf:425..429"} from)
+        (var {span: "surf:431..433"} to))))
   (defsig {} format_date (t-fn {} (t-adt {} Date) (t-prim {} string)))
   (def {}
     format_date
     (fn {}
       (params {} (d {type: (t-var {} _)}))
-      (app {span: "surf:480..497"}
-        (var {span: "surf:480..494"} date_to_string)
-        (var {span: "surf:495..496"} d))))
+      (app {span: "surf:472..489"}
+        (var {span: "surf:472..486"} date_to_string)
+        (var {span: "surf:487..488"} d))))
   (defsig {} after_30_days (t-fn {} (t-adt {} Date) (t-adt {} Date)))
   (def {}
     after_30_days
     (fn {}
       (params {} (d {type: (t-var {} _)}))
-      (app {span: "surf:535..561"}
-        (var {span: "surf:535..543"} add_days)
-        (var {span: "surf:544..545"} d)
-        (cast {span: "surf:547..560"}
-          (lit {span: "surf:552..554", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 30)
-          (t-prim {} i64)))))
+      (app {span: "surf:527..545"}
+        (var {span: "surf:527..535"} add_days)
+        (var {span: "surf:536..537"} d)
+        (lit {span: "surf:539..544", type: (t-prim {} i64)} 30))))
   (defsig {} week_before (t-fn {} (t-adt {} Date) (t-adt {} Date)))
   (def {}
     week_before
     (fn {}
       (params {} (d {type: (t-var {} _)}))
-      (app {span: "surf:597..622"}
-        (var {span: "surf:597..605"} sub_days)
-        (var {span: "surf:606..607"} d)
-        (cast {span: "surf:609..621"}
-          (lit {span: "surf:614..615", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 7)
-          (t-prim {} i64)))))
+      (app {span: "surf:581..598"}
+        (var {span: "surf:581..589"} sub_days)
+        (var {span: "surf:590..591"} d)
+        (lit {span: "surf:593..597", type: (t-prim {} i64)} 7))))
   (defsig {} new_years_day (t-fn {} (t-prim {} i64) (t-adt {} Date)))
   (def {}
     new_years_day
     (fn {}
       (params {} (year {type: (t-var {} _)}))
-      (app {span: "surf:662..700"}
-        (var {span: "surf:662..666"} date)
-        (var {span: "surf:667..671"} year)
-        (cast {span: "surf:673..685"}
-          (lit {span: "surf:678..679", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-          (t-prim {} i64))
-        (cast {span: "surf:687..699"}
-          (lit {span: "surf:692..693", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 1)
-          (t-prim {} i64))))))
+      (app {span: "surf:638..660"}
+        (var {span: "surf:638..642"} date)
+        (var {span: "surf:643..647"} year)
+        (lit {span: "surf:649..653", type: (t-prim {} i64)} 1)
+        (lit {span: "surf:655..659", type: (t-prim {} i64)} 1)))))

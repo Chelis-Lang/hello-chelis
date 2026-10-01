@@ -1,4 +1,4 @@
 module CastLowers
-xs = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(4.0, f32)])
+xs = to_tensor([1.0f32, 2.0f32, 4.0f32])
 hi = cast(xs, f64)
 back = cast(hi, f32)

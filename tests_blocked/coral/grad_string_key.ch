@@ -8,7 +8,7 @@ def loss(w: tensor[3, f32]) -> tensor[f32] = {
 }
 def dloss(w: tensor[3, f32]) -> tensor[3, f32] = grad(loss, wrt=w)(w)
 def test_grad_through_string_key() -> unit ! { Test } = {
-  w = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])
-  expected = to_tensor([cast(2.0, f32), cast(4.0, f32), cast(6.0, f32)])
-  assert_close_tensor(dloss(w), expected, cast(0.00001, f32), "grad_string_key")
+  w = to_tensor([1.0f32, 2.0f32, 3.0f32])
+  expected = to_tensor([2.0f32, 4.0f32, 6.0f32])
+  assert_close_tensor(dloss(w), expected, 0.00001f32, "grad_string_key")
 }

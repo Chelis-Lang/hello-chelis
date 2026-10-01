@@ -1,4 +1,4 @@
 module ReluThenSigmoid
-xs = to_tensor([cast(-1.0, f32), cast(0.0, f32), cast(1.0, f32)])
+xs = to_tensor([-1.0f32, 0.0f32, 1.0f32])
 relud = relu(xs)
 out = sigmoid(relud)

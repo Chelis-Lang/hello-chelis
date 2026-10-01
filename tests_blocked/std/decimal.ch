@@ -20,6 +20,6 @@ def test_format_total_with_discount() -> unit ! { Test } = {
 }
 def test_add_cents() -> unit ! { Test } = {
   base = decimal("10.00")
-  bumped = add_cents(base, cast(7, i64))
+  bumped = add_cents(base, 7i64)
   assert_true(decimal_eq(bumped, decimal("10.07")), "add 7 cents")
 }

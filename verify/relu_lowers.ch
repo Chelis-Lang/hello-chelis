@@ -1,3 +1,3 @@
 module ReluLowers
-xs = to_tensor([cast(-2.0, f32), cast(-0.5, f32), cast(0.0, f32), cast(0.5, f32), cast(2.0, f32)])
+xs = to_tensor([-2.0f32, -0.5f32, 0.0f32, 0.5f32, 2.0f32])
 ys = relu(xs)
