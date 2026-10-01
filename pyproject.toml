@@ -5,11 +5,12 @@ description = "Python harness for the hello-chelis example corpus"
 requires-python = ">=3.10"
 dependencies = []
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-xdist>=3.0",
-]
+[dependency-groups]
+test = ["pytest>=8"]
+lint = ["ruff==0.6.*", "black==24.*"]
+
+[tool.uv]
+package = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

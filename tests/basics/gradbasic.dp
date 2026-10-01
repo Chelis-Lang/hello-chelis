@@ -1,0 +1,166 @@
+(module {surf_path: "Hello.Tests.Basics.GradBasic"}
+  hello.tests.basics.gradbasic
+  (import {surf_path: "Hello.Basics.GradBasic"}
+    hello.basics.gradbasic
+    (dloss_dw dloss_dx))
+  (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
+  (defsig {} test_dloss_dw_is_x (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_dloss_dw_is_x
+    (fn {}
+      (params {})
+      (let {span: "surf:171..456"}
+        (bind {}
+          w
+          (app {span: "surf:179..238"}
+            (var {span: "surf:179..188"} to_tensor)
+            (app {span: "surf:189..237"}
+              (var {} Cons)
+              (cast {span: "surf:190..204"}
+                (lit {span: "surf:195..198", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+                (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {span: "surf:206..220"}
+                  (lit {span: "surf:211..214", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:222..236"}
+                    (lit {span: "surf:227..230", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+                    (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            x
+            (app {span: "surf:245..304"}
+              (var {span: "surf:245..254"} to_tensor)
+              (app {span: "surf:255..303"}
+                (var {} Cons)
+                (cast {span: "surf:256..270"}
+                  (lit {span: "surf:261..264", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:272..286"}
+                    (lit {span: "surf:277..280", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:288..302"}
+                      (lit {span: "surf:293..296", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
+                      (t-prim {} f32))
+                    (var {} Nil))))))
+          (let {}
+            (bind {}
+              expected
+              (app {span: "surf:318..377"}
+                (var {span: "surf:318..327"} to_tensor)
+                (app {span: "surf:328..376"}
+                  (var {} Cons)
+                  (cast {span: "surf:329..343"}
+                    (lit {span: "surf:334..337", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:345..359"}
+                      (lit {span: "surf:350..353", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                      (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {span: "surf:361..375"}
+                        (lit {span: "surf:366..369", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
+                        (t-prim {} f32))
+                      (var {} Nil))))))
+            (app {span: "surf:380..454"}
+              (var {span: "surf:380..399"} assert_close_tensor)
+              (app {span: "surf:400..414"}
+                (var {span: "surf:400..408"} dloss_dw)
+                (var {span: "surf:409..410"} w)
+                (var {span: "surf:412..413"} x))
+              (var {span: "surf:416..424"} expected)
+              (cast {span: "surf:426..441"}
+                (lit {span: "surf:431..435", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
+                (t-prim {} f32))
+              (lit {span: "surf:443..453", type: (t-prim {} string)} "dloss_dw")))))))
+  (defsig {}
+    test_dloss_dx_is_w_minus_one
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_dloss_dx_is_w_minus_one
+    (fn {}
+      (params {})
+      (let {span: "surf:513..799"}
+        (bind {}
+          w
+          (app {span: "surf:521..580"}
+            (var {span: "surf:521..530"} to_tensor)
+            (app {span: "surf:531..579"}
+              (var {} Cons)
+              (cast {span: "surf:532..546"}
+                (lit {span: "surf:537..540", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+                (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {span: "surf:548..562"}
+                  (lit {span: "surf:553..556", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:564..578"}
+                    (lit {span: "surf:569..572", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
+                    (t-prim {} f32))
+                  (var {} Nil))))))
+        (let {}
+          (bind {}
+            x
+            (app {span: "surf:587..646"}
+              (var {span: "surf:587..596"} to_tensor)
+              (app {span: "surf:597..645"}
+                (var {} Cons)
+                (cast {span: "surf:598..612"}
+                  (lit {span: "surf:603..606", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:614..628"}
+                    (lit {span: "surf:619..622", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:630..644"}
+                      (lit {span: "surf:635..638", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
+                      (t-prim {} f32))
+                    (var {} Nil))))))
+          (let {}
+            (bind {}
+              expected
+              (app {span: "surf:660..720"}
+                (var {span: "surf:660..669"} to_tensor)
+                (app {span: "surf:670..719"}
+                  (var {} Cons)
+                  (cast {span: "surf:671..686"}
+                    (lit {span: "surf:676..680", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} -0.5)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:688..702"}
+                      (lit {span: "surf:693..696", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+                      (t-prim {} f32))
+                    (app {}
+                      (var {} Cons)
+                      (cast {span: "surf:704..718"}
+                        (lit {span: "surf:709..712", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                        (t-prim {} f32))
+                      (var {} Nil))))))
+            (app {span: "surf:723..797"}
+              (var {span: "surf:723..742"} assert_close_tensor)
+              (app {span: "surf:743..757"}
+                (var {span: "surf:743..751"} dloss_dx)
+                (var {span: "surf:752..753"} w)
+                (var {span: "surf:755..756"} x))
+              (var {span: "surf:759..767"} expected)
+              (cast {span: "surf:769..784"}
+                (lit {span: "surf:774..778", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
+                (t-prim {} f32))
+              (lit {span: "surf:786..796", type: (t-prim {} string)} "dloss_dx"))))))))

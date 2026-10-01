@@ -1,10 +1,7 @@
 name: nightly
 
-# Slimmed to its one unique value over the per-PR ci.yml gate: a valgrind
-# memory-safety pass on built C output. The check/test/pytest steps the
-# older sweep ran all duplicate what ci.yml already covers per PR, so they
-# are dropped. The Docker image build stays because valgrind needs the
-# chelis toolchain plus the image's C toolchain.
+# A valgrind memory-safety pass on a chelis-built C binary. Everything else
+# runs per PR in ci.yml.
 
 on:
   schedule:
@@ -37,38 +34,17 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Valgrind a real chelis-built C binary. `chelis build --target c` emits
-      # a DIRECTORY of C sources + headers (not an executable, and it does not
-      # invoke the C compiler); we gcc-compile + link that against the image's
-      # libchelis_runtime.a, then valgrind the resulting binary. This mirrors
-      # the Dockerfile's sanity build.
+      # `chelis build --target c` emits C sources plus libchelis_runtime.a;
+      # gcc links them against OpenBLAS and the binary runs under valgrind.
       #
-      # We copy the standalone grad file out of the reef root and build it from
-      # /tmp so the build lowers ONLY that file. Two independent reasons make
-      # that necessary, and both were re-confirmed at chelis 0.18.11:
+      # The program is copied to /tmp and built there because verify/ is
+      # not a declared Reef source root, and building from inside the
+      # package lowers the whole package, which chelis#2379 blocks
+      # (Black-Scholes Greeks). See tests_blocked/README.md.
       #
-      #   1. `verify/` is not a declared source root, so naming a verify file
-      #      from the reef root rejects with "not a source file under any
-      #      declared root ... (roots: [src])".
-      #   2. Naming an in-root file instead lowers the WHOLE hello-chelis
-      #      package, which includes the capstone BlackScholes.delta/.vega.
-      #      Those differentiate scalar functions containing local bindings.
-      #      The host-lane C backend rejects that form (chelis#2379), so the
-      #      build aborts with "can't lower these defs ... applies/binds grad
-      #      ... in a position the host lane can't resolve".
-      #
-      # grad_quadratic.ch uses the supported grad-over-function-parameter /
-      # tensor-wrt form, so built in isolation it lowers and runs cleanly. This
-      # is a "(subset)" pass by design; it is not the place to exercise the
-      # whole package. Re-probe both reasons per tests_blocked/README.md.
-      #
-      # The valgrind run uses .github/valgrind-known.supp, which now suppresses
-      # only the standard libgomp thread-pool TLS false positive. The two
-      # chelis#406 entries were dropped during the 0.18.5 bump because that
-      # issue closed COMPLETED on 2026-06-19; both frames are reachable here,
-      # so this lane is their re-probe. Everything else (invalid access, any
-      # leak frame) fails the run -- including a chelis#406 residual, which
-      # should be filed as a new issue rather than re-suppressed.
+      # .github/valgrind-known.supp suppresses only the libgomp thread-pool
+      # TLS false positive. Any other error or leak fails the run; file it
+      # upstream rather than adding a suppression.
       - name: Valgrind on built C output (subset)
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:nightly bash -c '

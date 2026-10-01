@@ -105,39 +105,61 @@
               (t-prim {} f32))
             (lit {span: "surf:693..707", type: (t-prim {} string)} "loss == 14.0"))))))
   (defsig {}
-    test_dgrad_is_callable_in_typecheck
+    test_dsimple_loss_dw_is_two_w
     (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
-    test_dgrad_is_callable_in_typecheck
+    test_dsimple_loss_dw_is_two_w
     (fn {}
       (params {})
-      (let {span: "surf:774..917"}
+      (let {span: "surf:768..1000"}
         (bind {}
           w
-          (app {span: "surf:782..841"}
-            (var {span: "surf:782..791"} to_tensor)
-            (app {span: "surf:792..840"}
+          (app {span: "surf:776..835"}
+            (var {span: "surf:776..785"} to_tensor)
+            (app {span: "surf:786..834"}
               (var {} Cons)
-              (cast {span: "surf:793..807"}
-                (lit {span: "surf:798..801", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+              (cast {span: "surf:787..801"}
+                (lit {span: "surf:792..795", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
                 (t-prim {} f32))
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:809..823"}
-                  (lit {span: "surf:814..817", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                (cast {span: "surf:803..817"}
+                  (lit {span: "surf:808..811", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
                   (t-prim {} f32))
                 (app {}
                   (var {} Cons)
-                  (cast {span: "surf:825..839"}
-                    (lit {span: "surf:830..833", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
+                  (cast {span: "surf:819..833"}
+                    (lit {span: "surf:824..827", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
                     (t-prim {} f32))
                   (var {} Nil))))))
-        (app {span: "surf:844..915"}
-          (var {span: "surf:844..853"} assert_eq)
-          (app {span: "surf:854..874"}
-            (var {span: "surf:854..871"} frame_shape_check)
-            (var {span: "surf:872..873"} w))
-          (cast {span: "surf:876..888"}
-            (lit {span: "surf:881..882", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 3)
-            (t-prim {} i64))
-          (lit {span: "surf:890..914", type: (t-prim {} string)} "grad input has shape 3"))))))
+        (let {}
+          (bind {}
+            expected
+            (app {span: "surf:849..908"}
+              (var {span: "surf:849..858"} to_tensor)
+              (app {span: "surf:859..907"}
+                (var {} Cons)
+                (cast {span: "surf:860..874"}
+                  (lit {span: "surf:865..868", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+                  (t-prim {} f32))
+                (app {}
+                  (var {} Cons)
+                  (cast {span: "surf:876..890"}
+                    (lit {span: "surf:881..884", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 4.0)
+                    (t-prim {} f32))
+                  (app {}
+                    (var {} Cons)
+                    (cast {span: "surf:892..906"}
+                      (lit {span: "surf:897..900", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 6.0)
+                      (t-prim {} f32))
+                    (var {} Nil))))))
+          (app {span: "surf:911..998"}
+            (var {span: "surf:911..930"} assert_close_tensor)
+            (app {span: "surf:931..949"}
+              (var {span: "surf:931..946"} dsimple_loss_dw)
+              (var {span: "surf:947..948"} w))
+            (var {span: "surf:951..959"} expected)
+            (cast {span: "surf:961..979"}
+              (lit {span: "surf:966..973", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
+              (t-prim {} f32))
+            (lit {span: "surf:981..997", type: (t-prim {} string)} "dloss/dw == 2w")))))))

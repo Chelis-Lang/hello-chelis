@@ -1,0 +1,3 @@
+a string literal has no numeric IR constant
+chelis#2552
+When this passes, make the Coral gradient example differentiate through get_float_col, promote this probe to tests/, and archive chelis#2552 in docs/UPSTREAM_BUGS.md.
