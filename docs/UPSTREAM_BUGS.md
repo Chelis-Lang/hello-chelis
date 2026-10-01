@@ -82,7 +82,7 @@ nightly's `grad_quadratic` program, so the next nightly is the real re-probe. A
 red nightly there means a live residual: file a new issue and cite it, never
 re-add a suppression for a closed one.
 
-### Manual layer-norm false positive
+### List fold-then-reuse false positive
 
 Resolved upstream. Record retained at
-[`upstream_resolved/manual_layer_norm_false_positive.md`](upstream_resolved/manual_layer_norm_false_positive.md).
+[`upstream_resolved/list_fold_reuse_false_positive.md`](upstream_resolved/list_fold_reuse_false_positive.md).

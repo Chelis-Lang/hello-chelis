@@ -43,7 +43,6 @@ jobs:
             CHELIS_VERSION=0.18.12
             CORAL_VERSION=0.7.43
             NAUTILUS_VERSION=0.7.46
-            SCHOOL_VERSION=0.1.14
 
       # Offline pin/conformance guard (shell contract §2). `bump-check` passes
       # trivially when the reef pin is unchanged vs the base; when it changed,
@@ -73,11 +72,10 @@ jobs:
 
       - name: chelis test native suite
         run: |
-          # The `school` dependency for the ML examples, combined with
-          # per-test-worker dep recompilation (a known chelis slowness), makes the
-          # 105-test suite compile-bound well past the old 180s budget. The suite is
-          # correct (105/0 locally); raise the wall-clock to 900s. Real fix lives
-          # upstream (cross-worker compiled-dep caching), not in this gate.
+          # Per-test-worker dep recompilation (a known chelis slowness) makes the
+          # suite compile-bound well past the old 180s budget, so the wall-clock
+          # is 900s. Real fix lives upstream (cross-worker compiled-dep caching),
+          # not in this gate.
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             timeout 900s chelis test tests/ --jobs auto
 

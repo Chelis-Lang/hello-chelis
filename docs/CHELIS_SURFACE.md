@@ -34,15 +34,15 @@ Do not re-derive them here.
 | Explicit random keys; `IO` and `Test` effects | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
 | Linearity: `copy`, `&borrow`, implicit auto-borrow | `src/basics/linearity.ch` | `@pin` |
 | `grad`, `vmap`, `jit` + `realize`, macros | `src/basics/{vmap,jitrealize,macrobasic}.ch` | `@pin` |
-| `chelis-std`: activations, norms, reductions, losses | `src/std/` | `@pin` |
+| `chelis-std`: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
 | `chelis-std`: `Decimal[P, S]`, `DateTime`, `List`/`Dict`/iter | `src/std/` | `@pin` |
 | `coral` typed dataframes, `group_by`, joins, reshape, CSV/JSON | `src/coral/` | `@pin` |
 | AD through dataframe ops | `src/coral/adthroughdataframe.ch` | `@pin` |
-| `nautilus` special functions, distributions, linalg, stats, ODE/SDE | `src/nautilus/` | `@pin` |
+| `nautilus` special functions, distributions, linalg, stats, information theory, ODE/SDE | `src/nautilus/` | `@pin` |
 | `octant` LaTeX -> Deep -> Surf triples | `octant/` | `@pin` |
 | `c-earchin` EARS requirements -> property witnesses | `c-earchin/` | `@pin` |
 | C-backend lowering: `grad` over a tensor reduction, `relu`, `sigmoid`, `cast`, `realize` | `verify/` | `@pin` |
-| Capstones: Black-Scholes Greeks, SGD linear regression, transformer block | `src/capstone/` | `@pin` |
+| Capstones: Black-Scholes Greeks, SGD linear regression, returns/risk pipeline over a `coral` frame | `src/capstone/` | `@pin` |
 
 ## Gaps that shape an example
 

@@ -1,19 +1,20 @@
-# `manual_layer_norm` linearity flag: resolved as scout false-positive
+# List fold-then-reuse linearity flag: resolved as scout false-positive
 
 ## Context
 
-`src/std/activationsnorms.ch:16-26` defines `manual_layer_norm`. A scouting pass
-flagged a suspected linearity violation:
+`src/std/elementwise.ch:7-17` defines `standardize` (a z-score over a vector;
+the scouting pass ran against its earlier incarnation under another name). A
+scouting pass flagged a suspected linearity violation:
 
-- Line 21: `centered = map(fn (v: f32) -> sub(v, mu), to_list(x))` is bound with
+- Line 12: `centered = map(fn (v: f32) -> sub(v, mu), to_list(x))` is bound with
   type `List[f32]`.
-- Line 22: `sq_sum = fold(fn (acc, v) -> add(acc, mul(v, v)), cast(0.0, f32), centered)`
+- Line 13: `sq_sum = fold(fn (acc, v) -> add(acc, mul(v, v)), cast(0.0, f32), centered)`
   passes `centered` to `fold` (suspected to consume).
-- Line 25: `to_tensor(map(fn (v: f32) -> mul(v, inv_std), centered))` reuses
+- Line 16: `to_tensor(map(fn (v: f32) -> mul(v, inv_std), centered))` reuses
   `centered` after the `fold`.
 
 Hypothesis: `fold` consumes its list argument, so `centered` is consumed on
-L22 and reused on L25, which the linearity checker should reject. hello-chelis
+L13 and reused on L16, which the linearity checker should reject. hello-chelis
 0.1.6 passes `chelis check`, so either (a) `fold` actually borrows, or (b) the
 checker has a gap on this shape.
 
@@ -36,7 +37,7 @@ def test() -> f32 = {
 Running `chelis check` on this file: no errors. Only an unrelated
 `prefer-pipe-operator` style warning.
 
-Running `chelis check` on `src/std/activationsnorms.ch` directly: no errors.
+Running `chelis check` on the source module directly: no errors.
 
 Both behave identically, so the verification is conclusive: the checker is
 not failing to fire; there is no violation to fire on.
@@ -73,7 +74,7 @@ is a no-op from the checker's perspective; reusing the binding on the next
 line is allowed.
 
 `to_list(x)` (where `x: &tensor[n, f32]`) returns a `List[f32]`, which is
-the type of `centered` at L21 after a `map`. The whole pipeline operates on
+the type of `centered` at L12 after a `map`. The whole pipeline operates on
 host-side scalar lists, none of which the linearity pass treats as linear.
 
 The `fold` builtin's *type* signature is owned for all three args
@@ -85,7 +86,7 @@ linearity says "not tracked".
 
 A consume-then-reuse on a *tensor-carrying* List (e.g., `List[tensor[k, f32]]`)
 would in principle be tracked; that's a different pattern and not what
-`manual_layer_norm` exercises.
+`standardize` exercises.
 
 ## Conclusion
 

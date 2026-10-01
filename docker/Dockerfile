@@ -83,7 +83,6 @@ ARG CORAL_VERSION=0.7.43
 ARG NAUTILUS_VERSION=0.7.46
 ARG OCTANT_VERSION=0.13.1
 ARG C_EARCHIN_VERSION=0.3.5
-ARG SCHOOL_VERSION=0.1.14
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
@@ -91,8 +90,7 @@ RUN --mount=type=secret,id=github_token \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/school@v${SCHOOL_VERSION}"
+    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}"
 
 # --- Octant CLI from release tarball --------------------------------------
 RUN --mount=type=secret,id=github_token \
