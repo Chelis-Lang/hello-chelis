@@ -23,7 +23,7 @@ under `tests/`, run by `chelis test tests/`.
 | Tensor dimensions in types, no broadcasting | [`src/basics/hellotensor.ch`](../src/basics/hellotensor.ch) | `chelis test` |
 | Dimension polymorphism (`[a, b]` binders) | [`src/basics/dimpoly.ch`](../src/basics/dimpoly.ch) | `chelis test` |
 | Explicit precision `cast`, no implicit promotion | [`src/basics/precisioncast.ch`](../src/basics/precisioncast.ch) | `chelis test`; compiled in [`verify/cast_lowers.ch`](../verify/cast_lowers.ch) |
-| `Random` effect and the `with seed(...)` handler | [`src/basics/effectsrandom.ch`](../src/basics/effectsrandom.ch) | `chelis test` |
+| Explicit random keys, replay, and `split_key` | [`src/basics/effectsrandom.ch`](../src/basics/effectsrandom.ch) | `tests/basics/effectsrandom.ch` |
 | `IO` effect | [`src/std/tensorio.ch`](../src/std/tensorio.ch) | `chelis test` |
 | `Test` effect | every test module | by construction |
 | Linearity: consumption and `&` borrows | [`src/basics/linearity.ch`](../src/basics/linearity.ch) | `chelis test` |
@@ -34,6 +34,7 @@ under `tests/`, run by `chelis test tests/`.
 | Unbound variable rejected | [`tests_neg/check/unbound_variable.ch`](../tests_neg/check/unbound_variable.ch) | negative suite |
 | Dimension mismatch rejected | [`tests_neg/check/dim_mismatch.ch`](../tests_neg/check/dim_mismatch.ch) | negative suite |
 | Declared ADT extent checked | [`tests_neg/check/adt_extent_mismatch.ch`](../tests_neg/check/adt_extent_mismatch.ch) | negative suite |
+| Missing or reused random key rejected | [`tests_neg/check/keyless_uniform.ch`](../tests_neg/check/keyless_uniform.ch), [`tests_neg/check/reused_random_key.ch`](../tests_neg/check/reused_random_key.ch) | negative suite |
 | Precision mismatch rejected | [`tests_neg/check/precision_mismatch.ch`](../tests_neg/check/precision_mismatch.ch) | negative suite |
 
 The negative suite runs twice: `chelis test tests_neg --expect neg` checks
@@ -46,8 +47,8 @@ its error kind.
 |---|---|
 | Elementwise math and normalization | [`src/std/elementwise.ch`](../src/std/elementwise.ch) |
 | Axis reductions | [`src/std/reductions.ch`](../src/std/reductions.ch) |
-| Exact `Decimal` arithmetic (`Std.Decimal`) | [`src/std/decimal.ch`](../src/std/decimal.ch) |
-| Dates (`Std.Time`) | [`src/std/datetimecal.ch`](../src/std/datetimecal.ch) |
+| `Std.Decimal` checked; runtime blocked (chelis#2778) | [`src/std/decimal.ch`](../src/std/decimal.ch), [`tests_blocked/std/decimal.ch`](../tests_blocked/std/decimal.ch) |
+| `Std.Time` checked; runtime blocked (chelis#2779) | [`src/std/datetimecal.ch`](../src/std/datetimecal.ch), [`tests_blocked/std/datetimecal.ch`](../tests_blocked/std/datetimecal.ch) |
 | `List`, `Dict`, and iteration combinators | [`src/std/collectionsiter.ch`](../src/std/collectionsiter.ch) |
 | Text file I/O under `! { IO }` (`Std.Io`) | [`src/std/tensorio.ch`](../src/std/tensorio.ch) |
 

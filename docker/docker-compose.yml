@@ -5,7 +5,7 @@ services:
       dockerfile: docker/Dockerfile
       secrets:
         - github_token
-    image: hello-chelis:0.18.11
+    image: hello-chelis:0.18.12
     working_dir: /workspace
     volumes:
       - ..:/workspace

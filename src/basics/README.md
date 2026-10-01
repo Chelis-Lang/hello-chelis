@@ -13,7 +13,7 @@ and a test of the same name under [`tests/basics/`](../../tests/basics/).
 | 3 | [`modulesandimports/`](modulesandimports/) | a multi-file module; selective and glob imports |
 | 4 | [`dimpoly.ch`](dimpoly.ch) | dimension-polymorphic functions with `[a]` binders |
 | 5 | [`precisioncast.ch`](precisioncast.ch) | no implicit precision promotion; explicit `cast` |
-| 6 | [`effectsrandom.ch`](effectsrandom.ch) | the `! { Random }` effect row and the `with seed(...)` handler |
+| 6 | [`effectsrandom.ch`](effectsrandom.ch) | explicit keys, deterministic replay, and independent draws via `split_key` |
 | 7 | [`linearity.ch`](linearity.ch) | reading a tensor several times through `&` borrows |
 | 8 | [`gradbasic.ch`](gradbasic.ch) | `grad(loss, wrt=w)` on a scalar loss |
 | 9 | [`vmap.ch`](vmap.ch) | lifting a per-example function over a batch dimension |

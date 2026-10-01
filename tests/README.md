@@ -1,7 +1,8 @@
 # `tests/`
 
 Chelis tests live in `tests/<area>/<name>.ch`, one module per module in
-`src/<area>/`. Run them with:
+`src/<area>/`. Runtime assertions for unavailable exact decimal and date
+arithmetic are in [`tests_blocked/std/`](../tests_blocked/std/). Run supported tests with:
 
 ```sh
 chelis test tests/ --jobs auto

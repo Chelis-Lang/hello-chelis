@@ -2,9 +2,9 @@
 
 A runnable tour of the [Chelis](https://github.com/Chelis-Lang/chelis)
 language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
-`octant`, and `c-earchin`. Every package example under `src/` is a real program that
-the pinned toolchain type-checks; many also have runtime tests, and a
-subset is compiled to C and run. Nothing here is pseudo-code.
+`octant`, and `c-earchin`. Every package example under `src/` is a real
+program that type-checks; many also have runtime tests. Standalone programs
+under `verify/` exercise C lowering. Nothing here is pseudo-code.
 
 If you have never seen Chelis, start with
 [`docs/curriculum.md`](docs/curriculum.md), a reading path from a first
@@ -15,7 +15,7 @@ tensor to a returns and risk pipeline. To get it running, see
 
 | Area | Folder | Demonstrates |
 |---|---|---|
-| Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, effects (`Random`) and handlers, linearity (`copy` and `&` borrows), `grad`, `vmap`, `realize`, macros |
+| Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, explicit random keys and replay, linearity (`copy` and `&` borrows), `grad`, `vmap`, `realize`, macros |
 | `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `DateTime`, `List` / `Dict` / iteration, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
@@ -93,11 +93,10 @@ and c-earchin proofs). A nightly job runs a compiled program under valgrind.
 
 ## Versions
 
-The corpus is pinned to **chelis 0.18.11** with `chelis-std` 0.4.0 (bundled
-with the compiler), `coral` 0.7.43, `nautilus` 0.7.46,
-`octant` 0.13.1, and `c-earchin` 0.3.5. The `compiler = "=0.18.11"` pin in
-`reef.toml` is exact: Chelis is pre-1.0, and minor versions can break
-source compatibility.
+The corpus pins **chelis 0.18.12**, bundled `chelis-std` 0.4.0,
+`coral` 0.7.44, `nautilus` 0.7.47, `octant` 0.13.2, and `c-earchin` 0.3.5.
+The `compiler = "=0.18.12"` pin in `reef.toml` is exact: Chelis is pre-1.0,
+and minor versions can break source compatibility.
 
 ## Known limitations
 
@@ -118,6 +117,9 @@ records how each one is re-checked at every toolchain bump.
   10-core machine this suite runs in about half the time with
   `--batch-mode file`; on a 4-vCPU CI runner it did not help, so CI uses
   the default.
+- **Exact `Std.Decimal` and `Std.Time` operations are unavailable** at
+  0.18.12 (chelis#2778 and chelis#2779). Their runtime assertions live in
+  `tests_blocked/std/` until the compiler implements the required arithmetic.
 - **`nautilus` is f32-only**
   ([nautilus#70](https://github.com/Chelis-Lang/nautilus/issues/70)), and
   `Nautilus.Signal`'s transforms are placeholders that return NaN

@@ -57,6 +57,7 @@ whole package, so one invocation covers every module. It prints a JSON report;
 chelis test tests/ --jobs auto
 chelis test tests/basics/gradbasic.ch            # a single file
 chelis test tests_neg --expect neg               # programs that must be rejected
+chelis test tests_blocked --expect blocked       # known upstream gaps
 ```
 
 Each `tests/<area>/<name>.ch` exercises the matching `src/<area>/<name>.ch`.

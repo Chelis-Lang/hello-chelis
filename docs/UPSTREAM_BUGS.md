@@ -22,7 +22,12 @@ root lowers the whole package, and the capstone
 `Hello.Capstone.BlackScholes.delta` / `vega` trip it, so a whole-package C
 build fails regardless of the entry file.
 
-**Re-probe (0.18.11, 2026-09-25):** still blocked. The issue attributes the
+**Re-probe (0.18.12, 2026-10-01):** still blocked in the isolated package
+containing this checkout's basics, std, Nautilus, and Black-Scholes sources.
+The build rejects `BlackScholes__delta` and `BlackScholes__vega` with the
+same host-lane `grad` diagnostic.
+
+**Earlier re-probe (0.18.11, 2026-09-25):** still blocked. The issue attributes the
 failure to local bindings, but on 0.18.11 the rejection follows a
 `cast(<literal>, f32)` constant inside the differentiated function instead:
 local bindings without a cast build, and the issue's own direct-expression
@@ -39,6 +44,24 @@ add them to `tests/test_c_backend.py`.
 
 ## Tracking
 
+### chelis#2778: exact `Std.Decimal` arithmetic is unavailable
+
+Chelis 0.18.12 checks `src/std/decimal.ch` but rejects all four runtime
+assertions with `Std.Decimal is unavailable`. The assertions are preserved in
+[`../tests_blocked/std/decimal.ch`](../tests_blocked/std/decimal.ch), with the
+diagnostic pinned in its `.expect` sidecar. Re-probe with
+`chelis test tests_blocked/std --expect blocked`. Restore the suite to
+`tests/std/` when exact arithmetic is implemented.
+
+### chelis#2779: exact `Std.Time` arithmetic is unavailable
+
+Chelis 0.18.12 checks `src/std/datetimecal.ch` but rejects all three runtime
+assertions with `Std.Time is unavailable`. The assertions are preserved in
+[`../tests_blocked/std/datetimecal.ch`](../tests_blocked/std/datetimecal.ch),
+with the diagnostic pinned in its `.expect` sidecar. Re-probe with
+`chelis test tests_blocked/std --expect blocked`. Restore the suite to
+`tests/std/` when exact Gregorian and duration arithmetic is implemented.
+
 ### chelis#2552: host-runtime `grad` cannot lower a function that uses a string literal
 
 `chelis test` fails `grad` over any function whose body passes a string
@@ -50,20 +73,21 @@ tensor, but its gradient example differentiates the tensor loss directly. The
 Coral README and the feature matrix say so.
 
 **Probe:** [`../tests_blocked/coral/grad_string_key.ch`](../tests_blocked/coral/grad_string_key.ch)
-under `chelis test tests_blocked --expect blocked`. Re-probe: fails with the
-pinned diagnostic on 0.18.11 (2026-09-30).
+under `chelis test tests_blocked --expect blocked`.
+**Re-probe (2026-10-01):** chelis#2552 still fails with its pinned diagnostic
+on Coral 0.7.44 and Chelis 0.18.12.
 
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.
 
 ### chelis#1391: `chelis test --batch-mode auto` is slower than `--batch-mode file`
 
-On a 10-core machine, the 113-test corpus measured on 2026-09-25 took
-68s with `--jobs auto` and
-the default batch mode, 32s with `--batch-mode file`, and 67s with
-`--jobs 1` (0.18.11, 2026-09-25). On the 4-vCPU GitHub runner the two
-modes are equivalent for the same 113 tests: 203s with the default and 205s
-with `--batch-mode file`.
+**Re-probe (0.18.12, 2026-10-01):** the 120-test corpus passed in both
+modes on a 10-core machine with `--jobs auto`: 15.48s with the default
+batch mode and 8.09s with `--batch-mode file`. On the 4-vCPU GitHub
+runner at 0.18.11, the two modes were equivalent for 113 tests: 203s
+with the default and 205s with `--batch-mode file`. A new CI timing
+comparison has not been run.
 
 **Workaround:** none in CI, which keeps the default. The docs mention
 `--batch-mode file` as a local speed-up.

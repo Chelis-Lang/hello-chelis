@@ -1,6 +1,6 @@
 # Chelis Capability Surface (this shell)
 
-<!-- BEGIN CHELIS MANAGED BLOCK: chelis-surface-header chelis@0.18.11 (sha256:28011bed9ccb5778) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: chelis-surface-header chelis@0.18.12 (sha256:28011bed9ccb5778) -->
 This file is a domain-scoped view of the canonical Chelis capability surface,
 generated for the pinned toolchain. Each capability row is marked `@pin` (usable
 at the current pin) or `@upstream` (lands at the next bump). **Read it before
@@ -28,12 +28,12 @@ specs. Do not re-derive them here.
 | Named tensor dimensions, dimension polymorphism | `src/basics/hellotensor.ch`, `dimpoly.ch` | `@pin` |
 | ADTs and `match`, modules and imports | `src/basics/pipeandmatch.ch`, `modulesandimports/` | `@pin` |
 | Precision and explicit `cast` (no implicit promotion) | `src/basics/precisioncast.ch` | `@pin` |
-| Effects (`Random`, `IO`, `Test`) and the `with seed` handler, evaluated in the host runtime | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
+| Explicit random keys, `split_key`, `IO`, and `Test`, evaluated in the host runtime | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
 | Linearity: consumption and `&` borrows | `src/basics/linearity.ch` | `@pin` |
 | `grad`, `vmap`, `realize`, macros, evaluated in the host runtime | `src/basics/{gradbasic,vmap,jitrealize,macrobasic}.ch` | `@pin` |
 | Checked extents on dimension-parameterized ADTs (`Frame[3]`) | `tests_neg/check/adt_extent_mismatch.ch` | `@pin` |
 | `chelis-std` and builtins: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
-| `chelis-std`: `Decimal`, dates, `List` / `Dict` / iteration, text I/O | `src/std/` | `@pin` |
+| `chelis-std`: `List` / `Dict` / iteration, text I/O | `src/std/` | `@pin` |
 | `coral` typed dataframes, `group_by`, joins, windows, reshape, CSV | `src/coral/` | `@pin` |
 | `nautilus` special functions, distributions, linear algebra, statistics, information theory, ODE/SDE | `src/nautilus/` | `@pin` |
 | `octant` LaTeX -> Deep -> Surf triples | `octant/` | `@pin` |
@@ -49,6 +49,8 @@ than around the reader. Each cites its upstream issue; see
 
 | Gap | Effect on the corpus | Status |
 |---|---|---|
+| Exact `Std.Decimal` arithmetic is unavailable (chelis#2778) | `tests_blocked/std/decimal.ch` retains the runtime assertions | `@upstream` |
+| Exact `Std.Time` arithmetic is unavailable (chelis#2779) | `tests_blocked/std/datetimecal.ch` retains the runtime assertions | `@upstream` |
 | C-backend scalar `grad` rejects some differentiated functions; the Black-Scholes Greeks trip it (chelis#2379) | `verify/` programs are built standalone from `/tmp`; a whole-package `chelis build` fails on the capstone Greeks, which are tested in the host runtime instead | `@upstream` |
 | Host-runtime `grad` cannot lower a function that uses a string literal (chelis#2552) | differentiating through a Coral frame (string-keyed column lookup) is not demonstrated; the Coral gradient example differentiates the tensor directly | `@upstream` |
 | `chelis test` default batch mode can be slower than `--batch-mode file` (chelis#1391) | the docs mention `--batch-mode file` for local runs; CI keeps the default | `@upstream` |

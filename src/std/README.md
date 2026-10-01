@@ -1,6 +1,6 @@
 # `src/std/`: the standard library
 
-Tour of the standard-library surface bundled with compiler v0.18.11. Every
+Tour of the standard-library surface intended for compiler v0.18.12. Every
 example here uses only the bundled runtime and the language builtins.
 
 | File | Uses | What it shows |
@@ -12,7 +12,9 @@ example here uses only the bundled runtime and the language builtins.
 | [`collectionsiter.ch`](collectionsiter.ch) | `Std.List`, `Std.Dict`, `Std.Iter` | `List[T]` + `Dict[K, V]` + `map`/`filter`/`fold`/`scan` |
 | [`tensorio.ch`](tensorio.ch) | `Std.Io` | text I/O round-trip with the `! { IO }` effect declared at every boundary |
 
-Each file has a test of the same name under [`tests/std/`](../../tests/std/).
+The supported examples have matching tests under [`tests/std/`](../../tests/std/).
+Decimal and date assertions are preserved under [`tests_blocked/std/`](../../tests_blocked/std/)
+because exact arithmetic is unavailable at this pin (chelis#2778, chelis#2779).
 
 For the full API, see the `chelis-std` reference in
 [`packages/chelis-std/SKILL.md`](https://github.com/Chelis-Lang/chelis/blob/main/packages/chelis-std/SKILL.md).

@@ -1,0 +1,33 @@
+(module {surf_path: "Hello.Tests_Neg.Check.ReusedRandomKey"}
+  hello.tests_neg.check.reusedrandomkey
+  (defsig {}
+    reused
+    (t-fn {}
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+      (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {}
+    reused
+    (fn {}
+      (params {} (template {type: (t-var {} _)}))
+      (let {span: "surf:134..262"}
+        (bind {}
+          k
+          (app {span: "surf:142..162"}
+            (var {span: "surf:142..155"} key_from_seed)
+            (lit {span: "surf:156..161", type: (t-prim {} i64)} 42)))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp0
+            (app {span: "surf:169..216"}
+              (var {span: "surf:169..181"} uniform_like)
+              (var {span: "surf:182..183"} k)
+              (copy {span: "surf:185..199"}
+                (var {span: "surf:190..198"} template))
+              (lit {span: "surf:201..207", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:209..215", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+          (app {span: "surf:219..260"}
+            (var {span: "surf:219..231"} uniform_like)
+            (var {span: "surf:232..233"} k)
+            (var {span: "surf:235..243"} template)
+            (lit {span: "surf:245..251", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:253..259", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))))))

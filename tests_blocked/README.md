@@ -10,7 +10,11 @@ listed here for manual re-probe.
 [`coral/grad_string_key.ch`](coral/grad_string_key.ch) pins chelis#2552: the
 host runtime cannot evaluate `grad` through a string-keyed Coral column
 lookup. Its [sidecar](coral/grad_string_key.expect) names the diagnostic and
-the de-narrowing steps. The other open blocker, chelis#2379, fails only under
+the de-narrowing steps. Two more probes retain the former runtime assertion suites for exact
+[`Std.Decimal`](std/decimal.ch) and [`Std.Time`](std/datetimecal.ch). They
+pin the 0.18.12 unavailability diagnostics from chelis#2778 and chelis#2779;
+their sidecars name the steps to restore the tests when implemented.
+The other open blocker, chelis#2379, fails only under
 `chelis build --target c`, which the `chelis test` runner cannot express.
 
 ## Manual re-probes

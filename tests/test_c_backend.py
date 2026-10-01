@@ -98,8 +98,7 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         pytest.skip("gcc not on PATH")
 
     with tempfile.TemporaryDirectory() as tmp:
-        # Copy outside the project so `chelis build` doesn't pull the
-        # full src tree (which would trip `with seed` rejection).
+        # Copy outside the project so each build lowers only this C example.
         ch_copy = Path(tmp) / source.name
         ch_copy.write_text(source.read_text())
         out_dir = Path(tmp) / source.stem
