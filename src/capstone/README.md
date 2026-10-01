@@ -44,3 +44,20 @@ output. The data is synthetic and deterministic: the VaR returns are normal
 shocks drawn from a golden-ratio sequence through `normal_inv_cdf`, with no
 random keys. `shoals`, like `nautilus`, works in f32, so the tolerances are
 set for single precision.
+
+Conventions in the Shoals capstones:
+
+- `yieldcurve.ch`: annual coupons, face value 1, continuously compounded
+  zero rates. `key_rate_sensitivity` takes a 0-based pillar index, so 4 is
+  the 5y pillar.
+- `americanput.ch`: no dividends. The finite-difference grid runs to 4 x the
+  strike. The Barone-Adesi-Whaley exponent is
+  q1 = (-(m - 1) - sqrt((m - 1)^2 + 4m / (1 - exp(-rt)))) / 2 with
+  m = 2r / sigma^2, and the critical price is the root of the
+  smooth-pasting condition, found with `brent` on [0.2 x strike, strike].
+- `varbacktest.ch`: 95% VaR backtested over days 100-299, so 10 exceptions
+  are expected. Each day's forecast uses only data before that day. The
+  EWMA model is RiskMetrics (lambda 0.94, so `ewm` alpha 0.06). At 95% the
+  Kupiec statistic rejects above 3.841 (1 dof) and Christoffersen's
+  conditional coverage above 5.991 (2 dof); `christoffersen` also returns
+  the verdict.

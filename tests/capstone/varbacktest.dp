@@ -13,62 +13,95 @@
   (import {surf_path: "Hello.Capstone.ReturnsRisk"}
     hello.capstone.returnsrisk
     (parametric_var))
-  (import {surf_path: "Std.Test"} std.test (assert_close assert_eq))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_eq assert_true))
+  (defsig {} losses (t-fn {} (t-adt {} List (t-prim {} f32))))
+  (def {}
+    losses
+    (fn {}
+      (params {})
+      (app {span: "surf:322..349"}
+        (var {span: "surf:322..331"} to_losses)
+        (app {span: "surf:332..348"}
+          (var {span: "surf:332..346"} sample_returns)))))
+  (defsig {} realized (t-fn {} (t-adt {} List (t-prim {} f32))))
+  (def {}
+    realized
+    (fn {}
+      (params {})
+      (app {span: "surf:380..410"}
+        (var {span: "surf:380..384"} skip)
+        (app {span: "surf:385..393"} (var {span: "surf:385..391"} losses))
+        (cast {span: "surf:395..409"}
+          (lit {span: "surf:400..403", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
+          (t-prim {} i64)))))
   (defsig {} test_tail_risk (t-fn {eff: (effects {} test)} (t-unit {})))
   (def {}
     test_tail_risk
     (fn {}
       (params {})
-      (let {span: "surf:323..665"}
+      (let {span: "surf:453..840"}
         (bind {}
           r
-          (app {span: "surf:331..369"}
-            (var {span: "surf:331..340"} tail_risk)
-            (app {span: "surf:341..368"}
-              (var {span: "surf:341..350"} to_losses)
-              (app {span: "surf:351..367"}
-                (var {span: "surf:351..365"} sample_returns)))))
+          (app {span: "surf:461..480"}
+            (var {span: "surf:461..470"} tail_risk)
+            (app {span: "surf:471..479"} (var {span: "surf:471..477"} losses))))
         (let {}
           (bind {destructure: true}
             __chelis_tmp2
-            (app {span: "surf:376..466"}
-              (var {span: "surf:376..388"} assert_close)
-              (tuple-get {span: "surf:389..392"}
-                (var {span: "surf:389..390"} r)
+            (app {span: "surf:487..593"}
+              (var {span: "surf:487..499"} assert_close)
+              (tuple-get {span: "surf:500..503"}
+                (var {span: "surf:500..501"} r)
                 (lit {type: (t-prim {} i32)} 0))
-              (lit {span: "surf:394..405", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.025612)
-              (lit {span: "surf:407..417", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
-              (lit {span: "surf:419..465", type: (t-prim {} string)} "historical VaR, linear-interpolated quantile")))
+              (cast {span: "surf:505..524"}
+                (lit {span: "surf:510..518", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.025612)
+                (t-prim {} f32))
+              (cast {span: "surf:526..544"}
+                (lit {span: "surf:531..538", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
+                (t-prim {} f32))
+              (lit {span: "surf:546..592", type: (t-prim {} string)} "historical VaR, linear-interpolated quantile")))
           (let {}
             (bind {destructure: true}
               __chelis_tmp1
-              (app {span: "surf:473..533"}
-                (var {span: "surf:473..485"} assert_close)
-                (tuple-get {span: "surf:486..489"}
-                  (var {span: "surf:486..487"} r)
+              (app {span: "surf:600..676"}
+                (var {span: "surf:600..612"} assert_close)
+                (tuple-get {span: "surf:613..616"}
+                  (var {span: "surf:613..614"} r)
                   (lit {type: (t-prim {} i32)} 1))
-                (lit {span: "surf:491..501", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03512)
-                (lit {span: "surf:503..513", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
-                (lit {span: "surf:515..532", type: (t-prim {} string)} "historical CVaR")))
+                (cast {span: "surf:618..636"}
+                  (lit {span: "surf:623..630", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.03512)
+                  (t-prim {} f32))
+                (cast {span: "surf:638..656"}
+                  (lit {span: "surf:643..650", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
+                  (t-prim {} f32))
+                (lit {span: "surf:658..675", type: (t-prim {} string)} "historical CVaR")))
             (let {}
               (bind {destructure: true}
                 __chelis_tmp0
-                (app {span: "surf:540..600"}
-                  (var {span: "surf:540..552"} assert_close)
-                  (tuple-get {span: "surf:553..556"}
-                    (var {span: "surf:553..554"} r)
+                (app {span: "surf:683..759"}
+                  (var {span: "surf:683..695"} assert_close)
+                  (tuple-get {span: "surf:696..699"}
+                    (var {span: "surf:696..697"} r)
                     (lit {type: (t-prim {} i32)} 2))
-                  (lit {span: "surf:558..569", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.025762)
-                  (lit {span: "surf:571..581", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
-                  (lit {span: "surf:583..599", type: (t-prim {} string)} "parametric VaR")))
-              (app {span: "surf:603..663"}
-                (var {span: "surf:603..615"} assert_close)
-                (tuple-get {span: "surf:616..619"}
-                  (var {span: "surf:616..617"} r)
+                  (cast {span: "surf:701..720"}
+                    (lit {span: "surf:706..714", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.025762)
+                    (t-prim {} f32))
+                  (cast {span: "surf:722..740"}
+                    (lit {span: "surf:727..734", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
+                    (t-prim {} f32))
+                  (lit {span: "surf:742..758", type: (t-prim {} string)} "parametric VaR")))
+              (app {span: "surf:762..838"}
+                (var {span: "surf:762..774"} assert_close)
+                (tuple-get {span: "surf:775..778"}
+                  (var {span: "surf:775..776"} r)
                   (lit {type: (t-prim {} i32)} 3))
-                (lit {span: "surf:621..631", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03231)
-                (lit {span: "surf:633..643", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
-                (lit {span: "surf:645..662", type: (t-prim {} string)} "parametric CVaR"))))))))
+                (cast {span: "surf:780..798"}
+                  (lit {span: "surf:785..792", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.03231)
+                  (t-prim {} f32))
+                (cast {span: "surf:800..818"}
+                  (lit {span: "surf:805..812", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
+                  (t-prim {} f32))
+                (lit {span: "surf:820..837", type: (t-prim {} string)} "parametric CVaR"))))))))
   (defsig {}
     test_parametric_var_matches_returnsrisk
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -76,25 +109,26 @@
     test_parametric_var_matches_returnsrisk
     (fn {}
       (params {})
-      (app {span: "surf:846..991"}
-        (var {span: "surf:846..858"} assert_close)
-        (tuple-get {span: "surf:859..899"}
-          (app {span: "surf:859..897"}
-            (var {span: "surf:859..868"} tail_risk)
-            (app {span: "surf:869..896"}
-              (var {span: "surf:869..878"} to_losses)
-              (app {span: "surf:879..895"}
-                (var {span: "surf:879..893"} sample_returns))))
+      (app {span: "surf:908..1050"}
+        (var {span: "surf:908..920"} assert_close)
+        (tuple-get {span: "surf:921..942"}
+          (app {span: "surf:921..940"}
+            (var {span: "surf:921..930"} tail_risk)
+            (app {span: "surf:931..939"} (var {span: "surf:931..937"} losses)))
           (lit {type: (t-prim {} i32)} 2))
-        (app {span: "surf:901..953"}
-          (var {span: "surf:901..915"} parametric_var)
-          (app {span: "surf:916..943"}
-            (var {span: "surf:916..925"} to_tensor)
-            (app {span: "surf:926..942"}
-              (var {span: "surf:926..940"} sample_returns)))
-          (lit {span: "surf:945..952", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.95))
-        (lit {span: "surf:955..962", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
-        (lit {span: "surf:964..990", type: (t-prim {} string)} "two conventions, one VaR"))))
+        (app {span: "surf:944..1004"}
+          (var {span: "surf:944..958"} parametric_var)
+          (app {span: "surf:959..986"}
+            (var {span: "surf:959..968"} to_tensor)
+            (app {span: "surf:969..985"}
+              (var {span: "surf:969..983"} sample_returns)))
+          (cast {span: "surf:988..1003"}
+            (lit {span: "surf:993..997", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.95)
+            (t-prim {} f32)))
+        (cast {span: "surf:1006..1021"}
+          (lit {span: "surf:1011..1015", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
+          (t-prim {} f32))
+        (lit {span: "surf:1023..1049", type: (t-prim {} string)} "two conventions, one VaR"))))
   (defsig {}
     test_rolling_historical_fails_its_backtest
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -102,92 +136,77 @@
     test_rolling_historical_fails_its_backtest
     (fn {}
       (params {})
-      (let {span: "surf:1114..1675"}
+      (let {span: "surf:1121..1562"}
         (bind {}
-          losses
-          (app {span: "surf:1127..1154"}
-            (var {span: "surf:1127..1136"} to_losses)
-            (app {span: "surf:1137..1153"}
-              (var {span: "surf:1137..1151"} sample_returns))))
+          count
+          (app {span: "surf:1133..1184"}
+            (var {span: "surf:1133..1143"} exceptions)
+            (app {span: "surf:1144..1154"}
+              (var {span: "surf:1144..1152"} realized))
+            (app {span: "surf:1156..1183"}
+              (var {span: "surf:1156..1173"} rolling_forecasts)
+              (app {span: "surf:1174..1182"}
+                (var {span: "surf:1174..1180"} losses)))))
         (let {}
-          (bind {}
-            realized
-            (app {span: "surf:1168..1209"}
-              (var {span: "surf:1168..1172"} skip)
-              (app {span: "surf:1173..1200"}
-                (var {span: "surf:1173..1182"} to_losses)
-                (app {span: "surf:1183..1199"}
-                  (var {span: "surf:1183..1197"} sample_returns)))
-              (lit {span: "surf:1202..1208", type: (t-prim {} i64)} 100)))
+          (bind {destructure: true}
+            __chelis_tmp5
+            (app {span: "surf:1191..1266"}
+              (var {span: "surf:1191..1200"} assert_eq)
+              (var {span: "surf:1201..1206"} count)
+              (cast {span: "surf:1208..1221"}
+                (lit {span: "surf:1213..1215", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 18)
+                (t-prim {} i64))
+              (lit {span: "surf:1223..1265", type: (t-prim {} string)} "the static window lags the regime change")))
           (let {}
-            (bind {}
-              forecasts
-              (app {span: "surf:1224..1249"}
-                (var {span: "surf:1224..1241"} rolling_forecasts)
-                (var {span: "surf:1242..1248"} losses)))
+            (bind {destructure: true}
+              __chelis_tmp4
+              (app {span: "surf:1273..1381"}
+                (var {span: "surf:1273..1285"} assert_close)
+                (app {span: "surf:1286..1315"}
+                  (var {span: "surf:1286..1292"} kupiec)
+                  (var {span: "surf:1293..1298"} count)
+                  (cast {span: "surf:1300..1314"}
+                    (lit {span: "surf:1305..1308", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 200)
+                    (t-prim {} i64)))
+                (cast {span: "surf:1317..1333"}
+                  (lit {span: "surf:1322..1327", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 5.502)
+                  (t-prim {} f32))
+                (cast {span: "surf:1335..1350"}
+                  (lit {span: "surf:1340..1344", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
+                  (t-prim {} f32))
+                (lit {span: "surf:1352..1380", type: (t-prim {} string)} "Kupiec rejects above 3.841")))
             (let {}
               (bind {}
-                count
-                (app {span: "surf:1260..1291"}
-                  (var {span: "surf:1260..1270"} exceptions)
-                  (var {span: "surf:1271..1279"} realized)
-                  (var {span: "surf:1281..1290"} forecasts)))
+                cc
+                (app {span: "surf:1389..1444"}
+                  (var {span: "surf:1389..1403"} christoffersen)
+                  (app {span: "surf:1404..1414"}
+                    (var {span: "surf:1404..1412"} realized))
+                  (app {span: "surf:1416..1443"}
+                    (var {span: "surf:1416..1433"} rolling_forecasts)
+                    (app {span: "surf:1434..1442"}
+                      (var {span: "surf:1434..1440"} losses)))))
               (let {}
                 (bind {destructure: true}
-                  __chelis_tmp5
-                  (app {span: "surf:1298..1365"}
-                    (var {span: "surf:1298..1307"} assert_eq)
-                    (var {span: "surf:1308..1313"} count)
-                    (lit {span: "surf:1315..1320", type: (t-prim {} i64)} 18)
-                    (lit {span: "surf:1322..1364", type: (t-prim {} string)} "the static window lags the regime change")))
-                (let {}
-                  (bind {destructure: true}
-                    __chelis_tmp4
-                    (app {span: "surf:1372..1456"}
-                      (var {span: "surf:1372..1384"} assert_close)
-                      (app {span: "surf:1385..1406"}
-                        (var {span: "surf:1385..1391"} kupiec)
-                        (var {span: "surf:1392..1397"} count)
-                        (lit {span: "surf:1399..1405", type: (t-prim {} i64)} 200))
-                      (lit {span: "surf:1408..1416", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.502)
-                      (lit {span: "surf:1418..1425", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-                      (lit {span: "surf:1427..1455", type: (t-prim {} string)} "Kupiec rejects above 3.841")))
-                  (let {}
-                    (bind {}
-                      cc
-                      (app {span: "surf:1464..1569"}
-                        (var {span: "surf:1464..1478"} christoffersen)
-                        (app {span: "surf:1479..1520"}
-                          (var {span: "surf:1479..1483"} skip)
-                          (app {span: "surf:1484..1511"}
-                            (var {span: "surf:1484..1493"} to_losses)
-                            (app {span: "surf:1494..1510"}
-                              (var {span: "surf:1494..1508"} sample_returns)))
-                          (lit {span: "surf:1513..1519", type: (t-prim {} i64)} 100))
-                        (app {span: "surf:1522..1568"}
-                          (var {span: "surf:1522..1539"} rolling_forecasts)
-                          (app {span: "surf:1540..1567"}
-                            (var {span: "surf:1540..1549"} to_losses)
-                            (app {span: "surf:1550..1566"}
-                              (var {span: "surf:1550..1564"} sample_returns))))))
-                    (let {}
-                      (bind {destructure: true}
-                        __chelis_tmp3
-                        (app {span: "surf:1576..1637"}
-                          (var {span: "surf:1576..1588"} assert_close)
-                          (tuple-get {span: "surf:1589..1593"}
-                            (var {span: "surf:1589..1591"} cc)
-                            (lit {type: (t-prim {} i32)} 0))
-                          (lit {span: "surf:1595..1603", surf_literal_style: "explicit", type: (t-prim {} f32)} 9.088)
-                          (lit {span: "surf:1605..1612", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-                          (lit {span: "surf:1614..1636", type: (t-prim {} string)} "conditional coverage")))
-                      (app {span: "surf:1640..1673"}
-                        (var {span: "surf:1640..1649"} assert_eq)
-                        (tuple-get {span: "surf:1650..1654"}
-                          (var {span: "surf:1650..1652"} cc)
-                          (lit {type: (t-prim {} i32)} 1))
-                        (lit {span: "surf:1656..1660", type: (t-prim {} bool)} true)
-                        (lit {span: "surf:1662..1672", type: (t-prim {} string)} "rejected"))))))))))))
+                  __chelis_tmp3
+                  (app {span: "surf:1451..1528"}
+                    (var {span: "surf:1451..1463"} assert_close)
+                    (tuple-get {span: "surf:1464..1468"}
+                      (var {span: "surf:1464..1466"} cc)
+                      (lit {type: (t-prim {} i32)} 0))
+                    (cast {span: "surf:1470..1486"}
+                      (lit {span: "surf:1475..1480", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 9.088)
+                      (t-prim {} f32))
+                    (cast {span: "surf:1488..1503"}
+                      (lit {span: "surf:1493..1497", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
+                      (t-prim {} f32))
+                    (lit {span: "surf:1505..1527", type: (t-prim {} string)} "conditional coverage")))
+                (app {span: "surf:1531..1560"}
+                  (var {span: "surf:1531..1542"} assert_true)
+                  (tuple-get {span: "surf:1543..1547"}
+                    (var {span: "surf:1543..1545"} cc)
+                    (lit {type: (t-prim {} i32)} 1))
+                  (lit {span: "surf:1549..1559", type: (t-prim {} string)} "rejected")))))))))
   (defsig {}
     test_ewma_passes_its_backtest
     (t-fn {eff: (effects {} test)} (t-unit {})))
@@ -195,81 +214,76 @@
     test_ewma_passes_its_backtest
     (fn {}
       (params {})
-      (let {span: "surf:1733..2235"}
+      (let {span: "surf:1620..2062"}
         (bind {}
-          realized
-          (app {span: "surf:1748..1789"}
-            (var {span: "surf:1748..1752"} skip)
-            (app {span: "surf:1753..1780"}
-              (var {span: "surf:1753..1762"} to_losses)
-              (app {span: "surf:1763..1779"}
-                (var {span: "surf:1763..1777"} sample_returns)))
-            (lit {span: "surf:1782..1788", type: (t-prim {} i64)} 100)))
+          count
+          (app {span: "surf:1632..1692"}
+            (var {span: "surf:1632..1642"} exceptions)
+            (app {span: "surf:1643..1653"}
+              (var {span: "surf:1643..1651"} realized))
+            (app {span: "surf:1655..1691"}
+              (var {span: "surf:1655..1673"} adaptive_forecasts)
+              (app {span: "surf:1674..1690"}
+                (var {span: "surf:1674..1688"} sample_returns)))))
         (let {}
-          (bind {}
-            forecasts
-            (app {span: "surf:1804..1840"}
-              (var {span: "surf:1804..1822"} adaptive_forecasts)
-              (app {span: "surf:1823..1839"}
-                (var {span: "surf:1823..1837"} sample_returns))))
+          (bind {destructure: true}
+            __chelis_tmp8
+            (app {span: "surf:1699..1761"}
+              (var {span: "surf:1699..1708"} assert_eq)
+              (var {span: "surf:1709..1714"} count)
+              (cast {span: "surf:1716..1729"}
+                (lit {span: "surf:1721..1723", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 13)
+                (t-prim {} i64))
+              (lit {span: "surf:1731..1760", type: (t-prim {} string)} "the adaptive model keeps up")))
           (let {}
-            (bind {}
-              count
-              (app {span: "surf:1851..1882"}
-                (var {span: "surf:1851..1861"} exceptions)
-                (var {span: "surf:1862..1870"} realized)
-                (var {span: "surf:1872..1881"} forecasts)))
+            (bind {destructure: true}
+              __chelis_tmp7
+              (app {span: "surf:1768..1863"}
+                (var {span: "surf:1768..1780"} assert_close)
+                (app {span: "surf:1781..1810"}
+                  (var {span: "surf:1781..1787"} kupiec)
+                  (var {span: "surf:1788..1793"} count)
+                  (cast {span: "surf:1795..1809"}
+                    (lit {span: "surf:1800..1803", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 200)
+                    (t-prim {} i64)))
+                (cast {span: "surf:1812..1828"}
+                  (lit {span: "surf:1817..1822", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.869)
+                  (t-prim {} f32))
+                (cast {span: "surf:1830..1845"}
+                  (lit {span: "surf:1835..1839", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
+                  (t-prim {} f32))
+                (lit {span: "surf:1847..1862", type: (t-prim {} string)} "Kupiec passes")))
             (let {}
-              (bind {destructure: true}
-                __chelis_tmp8
-                (app {span: "surf:1889..1943"}
-                  (var {span: "surf:1889..1898"} assert_eq)
-                  (var {span: "surf:1899..1904"} count)
-                  (lit {span: "surf:1906..1911", type: (t-prim {} i64)} 13)
-                  (lit {span: "surf:1913..1942", type: (t-prim {} string)} "the adaptive model keeps up")))
+              (bind {}
+                cc
+                (app {span: "surf:1871..1935"}
+                  (var {span: "surf:1871..1885"} christoffersen)
+                  (app {span: "surf:1886..1896"}
+                    (var {span: "surf:1886..1894"} realized))
+                  (app {span: "surf:1898..1934"}
+                    (var {span: "surf:1898..1916"} adaptive_forecasts)
+                    (app {span: "surf:1917..1933"}
+                      (var {span: "surf:1917..1931"} sample_returns)))))
               (let {}
                 (bind {destructure: true}
-                  __chelis_tmp7
-                  (app {span: "surf:1950..2021"}
-                    (var {span: "surf:1950..1962"} assert_close)
-                    (app {span: "surf:1963..1984"}
-                      (var {span: "surf:1963..1969"} kupiec)
-                      (var {span: "surf:1970..1975"} count)
-                      (lit {span: "surf:1977..1983", type: (t-prim {} i64)} 200))
-                    (lit {span: "surf:1986..1994", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.869)
-                    (lit {span: "surf:1996..2003", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-                    (lit {span: "surf:2005..2020", type: (t-prim {} string)} "Kupiec passes")))
-                (let {}
-                  (bind {}
-                    cc
-                    (app {span: "surf:2029..2124"}
-                      (var {span: "surf:2029..2043"} christoffersen)
-                      (app {span: "surf:2044..2085"}
-                        (var {span: "surf:2044..2048"} skip)
-                        (app {span: "surf:2049..2076"}
-                          (var {span: "surf:2049..2058"} to_losses)
-                          (app {span: "surf:2059..2075"}
-                            (var {span: "surf:2059..2073"} sample_returns)))
-                        (lit {span: "surf:2078..2084", type: (t-prim {} i64)} 100))
-                      (app {span: "surf:2087..2123"}
-                        (var {span: "surf:2087..2105"} adaptive_forecasts)
-                        (app {span: "surf:2106..2122"}
-                          (var {span: "surf:2106..2120"} sample_returns)))))
-                  (let {}
-                    (bind {destructure: true}
-                      __chelis_tmp6
-                      (app {span: "surf:2131..2192"}
-                        (var {span: "surf:2131..2143"} assert_close)
-                        (tuple-get {span: "surf:2144..2148"}
-                          (var {span: "surf:2144..2146"} cc)
-                          (lit {type: (t-prim {} i32)} 0))
-                        (lit {span: "surf:2150..2158", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.688)
-                        (lit {span: "surf:2160..2167", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-                        (lit {span: "surf:2169..2191", type: (t-prim {} string)} "conditional coverage")))
-                    (app {span: "surf:2195..2233"}
-                      (var {span: "surf:2195..2204"} assert_eq)
-                      (tuple-get {span: "surf:2205..2209"}
-                        (var {span: "surf:2205..2207"} cc)
-                        (lit {type: (t-prim {} i32)} 1))
-                      (lit {span: "surf:2211..2216", type: (t-prim {} bool)} false)
-                      (lit {span: "surf:2218..2232", type: (t-prim {} string)} "not rejected"))))))))))))
+                  __chelis_tmp6
+                  (app {span: "surf:1942..2019"}
+                    (var {span: "surf:1942..1954"} assert_close)
+                    (tuple-get {span: "surf:1955..1959"}
+                      (var {span: "surf:1955..1957"} cc)
+                      (lit {type: (t-prim {} i32)} 0))
+                    (cast {span: "surf:1961..1977"}
+                      (lit {span: "surf:1966..1971", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.688)
+                      (t-prim {} f32))
+                    (cast {span: "surf:1979..1994"}
+                      (lit {span: "surf:1984..1988", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.01)
+                      (t-prim {} f32))
+                    (lit {span: "surf:1996..2018", type: (t-prim {} string)} "conditional coverage")))
+                (app {span: "surf:2022..2060"}
+                  (var {span: "surf:2022..2033"} assert_true)
+                  (app {span: "surf:2034..2043"}
+                    (var {span: "surf:2034..2037"} not)
+                    (tuple-get {span: "surf:2038..2042"}
+                      (var {span: "surf:2038..2040"} cc)
+                      (lit {type: (t-prim {} i32)} 1)))
+                  (lit {span: "surf:2045..2059", type: (t-prim {} string)} "not rejected"))))))))))
