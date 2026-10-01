@@ -41,11 +41,14 @@ jobs:
       - name: Check Deep sidecars
         run: uv run --no-project scripts/regen_deep.py --check
 
-      - name: Build reef assets
+      - name: Install locked dependencies
         env:
           GH_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           GITHUB_TOKEN: ${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
-        run: chelis reef build
+        run: chelis reef install --from-lockfile
+
+      - name: Build reef assets
+        run: chelis reef build --no-auto-fetch
 
       - name: Verify release assets
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')

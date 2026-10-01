@@ -15,6 +15,13 @@ together, so it is the first place a cascade that does not compose
 shows up. It is also the **Docker shell** — its CI ships and tests inside an
 image built from the published release tarball rather than a host toolchain.
 
+The upstream language rules and specifications live in
+[`Chelis-Lang/chelis`](https://github.com/Chelis-Lang/chelis). Paths to `spec/`
+and `agent-skills/` in the inherited contract refer to that repository unless
+the path exists here. The
+[`shell repo contract`](https://github.com/Chelis-Lang/chelis/blob/main/spec/design/shell_repo_contract.md)
+also applies.
+
 <!-- shell-local:exclude:begin -->
 <!-- ## Review And Merge -->
 <!-- ## Spec Authority And Design Discipline -->
