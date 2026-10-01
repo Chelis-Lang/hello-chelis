@@ -22,6 +22,10 @@ the path exists here. The
 [`shell repo contract`](https://github.com/Chelis-Lang/chelis/blob/main/spec/design/shell_repo_contract.md)
 also applies.
 
+For PR review, use the synced `agent-skills/redteam-exec/SKILL.md` and its
+hello-specific worktree handoff. For a completion claim, use
+`agent-skills/phase-gate/SKILL.md` and the Docker corpus gate it names.
+
 <!-- shell-local:exclude:begin -->
 <!-- ## Review And Merge -->
 <!-- ## Spec Authority And Design Discipline -->
@@ -180,6 +184,10 @@ changes land upstream first (`Chelis-Lang/chelis`) and propagate here via
 
 ### Recorded divergences
 
+- **Agent-skill gate commands are shell-local.** The red-team skill keeps
+  Chelis's review protocol but uses git and process evidence in place of the
+  compiler-only `scripts/worktree_status.py`; the phase skill points to this
+  shell's Docker corpus gate in place of `scripts/gate.py`.
 - **`tests_neg/` carries two oracles, not one.** The contract's
   `chelis test tests_neg --expect neg` pins each case's diagnostic *substring*;
   `tests/test_negative_examples.py` additionally asserts the structured error
