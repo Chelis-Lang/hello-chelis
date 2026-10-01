@@ -7,6 +7,9 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Use typed literal suffixes throughout the Surf corpus instead of casting
+  numeric literals, and regenerate the paired Deep files.
+
 ## 0.1.11 - 2026-10-01
 
 - Prepare the Chelis 0.18.12 compiler pin with a bundled `chelis-std` lock
