@@ -17,7 +17,7 @@ The image is `ubuntu:24.04` plus:
 - the `chelis` CLI, `libchelis_runtime.a`, and its headers, from the chelis
   release tarball;
 - the `octant` CLI, from the octant release tarball;
-- the `coral`, `nautilus`, `school`, `octant`, and `c-earchin` packages,
+- the `coral`, `nautilus`, `octant`, and `c-earchin` packages,
   installed into the local Reef registry with
   `chelis reef install --from-github` (`chelis-std` ships with the compiler);
 - GCC, OpenBLAS, and libgomp for the C backend, and valgrind;
@@ -70,8 +70,7 @@ chelis lint --check .
 ```
 
 This is the CI lint gate. It fails on error-severity findings; advisory
-findings (such as the one `prefer-pipe-operator` suggestion in
-`src/capstone/transformerblock.ch`) are printed but do not fail it.
+findings are printed but do not fail it.
 
 ## 6. Compile to C
 

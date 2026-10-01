@@ -40,12 +40,12 @@ The negative suite runs twice: `chelis test tests_neg --expect neg` checks
 each diagnostic's text, and `pytest tests/test_negative_examples.py` checks
 its error kind.
 
-## chelis-std and school
+## chelis-std and builtins
 
 | Surface | Source |
 |---|---|
-| Tensor `relu` / `sigmoid`; `School.Nn` GELU, SiLU, tanh, RMS norm; a hand-written layer norm | [`src/std/activationsnorms.ch`](../src/std/activationsnorms.ch) |
-| Axis reductions; `School.Loss` cross-entropy, BCE, KL divergence, perplexity | [`src/std/reductionslosses.ch`](../src/std/reductionslosses.ch) |
+| Elementwise math and normalization | [`src/std/elementwise.ch`](../src/std/elementwise.ch) |
+| Axis reductions | [`src/std/reductions.ch`](../src/std/reductions.ch) |
 | Exact `Decimal` arithmetic (`Std.Decimal`) | [`src/std/decimal.ch`](../src/std/decimal.ch) |
 | Dates (`Std.Time`) | [`src/std/datetimecal.ch`](../src/std/datetimecal.ch) |
 | `List`, `Dict`, and iteration combinators | [`src/std/collectionsiter.ch`](../src/std/collectionsiter.ch) |
@@ -76,6 +76,7 @@ Tensor `relu` and `sigmoid` are also compiled to C in
 | `Nautilus.Distributions`: normal pdf / cdf / quantile, exponential cdf | [`src/nautilus/distributions.ch`](../src/nautilus/distributions.ch) |
 | `Nautilus.LinAlg`: `matvec`, inner product, L2 norm, `solve_2x2` | [`src/nautilus/linalg.ch`](../src/nautilus/linalg.ch) |
 | `Nautilus.Stats`: mean, variance, std, median, quantile, correlation | [`src/nautilus/stats.ch`](../src/nautilus/stats.ch) |
+| `Nautilus.Info`: Shannon entropy and KL divergence | [`src/nautilus/info.ch`](../src/nautilus/info.ch) |
 | `Nautilus.Distance`: Euclidean, Manhattan, Chebyshev, cosine | [`src/nautilus/distance.ch`](../src/nautilus/distance.ch) |
 | `Nautilus.Roots`: bisection, Newton, Brent | [`src/nautilus/roots.ch`](../src/nautilus/roots.ch) |
 | `Nautilus.Integrate`: trapezoid, Simpson, 5-point Gauss-Legendre | [`src/nautilus/integration.ch`](../src/nautilus/integration.ch) |
@@ -101,8 +102,7 @@ Tensor `relu` and `sigmoid` are also compiled to C in
 |---|---|---|---|
 | Black-Scholes call price, delta, vega | nautilus | [`blackscholes.ch`](../src/capstone/blackscholes.ch) | `chelis test` |
 | Linear regression with an SGD step | chelis-std | [`linreg.ch`](../src/capstone/linreg.ch) | `chelis check` only |
-| Transformer block | chelis-std | [`transformerblock.ch`](../src/capstone/transformerblock.ch) | `chelis check` only |
-| Frame, grouped mean, summary statistics | coral, nautilus | [`mlpipeline.ch`](../src/capstone/mlpipeline.ch) | `chelis test` |
+| Returns and risk pipeline | coral, nautilus | [`returnsrisk.ch`](../src/capstone/returnsrisk.ch) | `chelis test` |
 
 ## Not covered here
 

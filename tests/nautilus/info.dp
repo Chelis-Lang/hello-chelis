@@ -1,0 +1,96 @@
+(module {surf_path: "Hello.Tests.Nautilus.Info"}
+  hello.tests.nautilus.info
+  (import {surf_path: "Hello.Nautilus.Info"}
+    hello.nautilus.info
+    (shannon_entropy relative_entropy))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {} fair_coin (t-fn {} (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
+  (def {}
+    fair_coin
+    (fn {}
+      (params {})
+      (app {span: "surf:163..206"}
+        (var {span: "surf:163..172"} to_tensor)
+        (app {span: "surf:173..205"}
+          (var {} Cons)
+          (cast {span: "surf:174..188"}
+            (lit {span: "surf:179..182", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+            (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {span: "surf:190..204"}
+              (lit {span: "surf:195..198", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
+              (t-prim {} f32))
+            (var {} Nil))))))
+  (defsig {}
+    test_entropy_fair_coin_is_ln2
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_entropy_fair_coin_is_ln2
+    (fn {}
+      (params {})
+      (app {span: "surf:264..368"}
+        (var {span: "surf:264..276"} assert_close)
+        (app {span: "surf:277..305"}
+          (var {span: "surf:277..292"} shannon_entropy)
+          (app {span: "surf:293..304"} (var {span: "surf:293..302"} fair_coin)))
+        (cast {span: "surf:307..327"}
+          (lit {span: "surf:312..321", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.6931472)
+          (t-prim {} f32))
+        (cast {span: "surf:329..346"}
+          (lit {span: "surf:334..340", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
+          (t-prim {} f32))
+        (lit {span: "surf:348..367", type: (t-prim {} string)} "H(fair coin)=ln 2"))))
+  (defsig {} test_kl_self_is_zero (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_kl_self_is_zero
+    (fn {}
+      (params {})
+      (app {span: "surf:417..520"}
+        (var {span: "surf:417..429"} assert_close)
+        (app {span: "surf:430..472"}
+          (var {span: "surf:430..446"} relative_entropy)
+          (app {span: "surf:447..458"} (var {span: "surf:447..456"} fair_coin))
+          (app {span: "surf:460..471"} (var {span: "surf:460..469"} fair_coin)))
+        (cast {span: "surf:474..488"}
+          (lit {span: "surf:479..482", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
+          (t-prim {} f32))
+        (cast {span: "surf:490..505"}
+          (lit {span: "surf:495..499", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
+          (t-prim {} f32))
+        (lit {span: "surf:507..519", type: (t-prim {} string)} "KL(p||p)=0"))))
+  (defsig {} test_kl_biased_coin (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {}
+    test_kl_biased_coin
+    (fn {}
+      (params {})
+      (let {span: "surf:568..732"}
+        (bind {}
+          q
+          (app {span: "surf:576..621"}
+            (var {span: "surf:576..585"} to_tensor)
+            (app {span: "surf:586..620"}
+              (var {} Cons)
+              (cast {span: "surf:587..602"}
+                (lit {span: "surf:592..596", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.25)
+                (t-prim {} f32))
+              (app {}
+                (var {} Cons)
+                (cast {span: "surf:604..619"}
+                  (lit {span: "surf:609..613", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.75)
+                  (t-prim {} f32))
+                (var {} Nil)))))
+        (app {span: "surf:624..730"}
+          (var {span: "surf:624..636"} assert_close)
+          (app {span: "surf:637..669"}
+            (var {span: "surf:637..653"} relative_entropy)
+            (app {span: "surf:654..665"}
+              (var {span: "surf:654..663"} fair_coin))
+            (var {span: "surf:667..668"} q))
+          (cast {span: "surf:671..690"}
+            (lit {span: "surf:676..684", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.143841)
+            (t-prim {} f32))
+          (cast {span: "surf:692..709"}
+            (lit {span: "surf:697..703", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
+            (t-prim {} f32))
+          (lit {span: "surf:711..729", type: (t-prim {} string)} "KL(fair||biased)"))))))

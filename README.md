@@ -2,13 +2,13 @@
 
 A runnable tour of the [Chelis](https://github.com/Chelis-Lang/chelis)
 language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
-`school`, `octant`, and `c-earchin`. Every package example under `src/` is a real program that
-the pinned toolchain type-checks; almost all also have runtime tests, and a
+`octant`, and `c-earchin`. Every package example under `src/` is a real program that
+the pinned toolchain type-checks; many also have runtime tests, and a
 subset is compiled to C and run. Nothing here is pseudo-code.
 
 If you have never seen Chelis, start with
 [`docs/curriculum.md`](docs/curriculum.md), a reading path from a first
-tensor to a transformer block. To get it running, see
+tensor to a returns and risk pipeline. To get it running, see
 [`docs/getting_started.md`](docs/getting_started.md).
 
 ## What's covered
@@ -16,12 +16,12 @@ tensor to a transformer block. To get it running, see
 | Area | Folder | Demonstrates |
 |---|---|---|
 | Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, effects (`Random`) and handlers, linearity (`copy` and `&` borrows), `grad`, `vmap`, `realize`, macros |
-| `chelis-std` | [`src/std/`](src/std/) | activations and norms, reductions and losses, exact `Decimal` arithmetic, `DateTime`, `List` / `Dict` / iteration, text I/O |
+| `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `DateTime`, `List` / `Dict` / iteration, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
-| `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
+| `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
 | `octant` (LaTeX to Chelis) | [`octant/`](octant/) | `.tex` formulas translated to Deep, with provenance back to the LaTeX and a Surf rendering |
 | `c-earchin` (requirements to proofs) | [`c-earchin/`](c-earchin/) | EARS requirements translated to property witnesses, proven by `chelis prove`, with failures reported against the requirement's source line |
-| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, a transformer block, an end-to-end pipeline across `coral` and `nautilus` |
+| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, returns and risk across `coral` and `nautilus` |
 
 ## Quickstart
 
@@ -94,7 +94,7 @@ and c-earchin proofs). A nightly job runs a compiled program under valgrind.
 ## Versions
 
 The corpus is pinned to **chelis 0.18.11** with `chelis-std` 0.4.0 (bundled
-with the compiler), `coral` 0.7.43, `nautilus` 0.7.46, `school` 0.1.14,
+with the compiler), `coral` 0.7.43, `nautilus` 0.7.46,
 `octant` 0.13.1, and `c-earchin` 0.3.5. The `compiler = "=0.18.11"` pin in
 `reef.toml` is exact: Chelis is pre-1.0, and minor versions can break
 source compatibility.

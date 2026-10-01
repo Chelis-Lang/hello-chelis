@@ -48,7 +48,7 @@ under Known limitations in the [README](../README.md) and tracked in
 ```text
 src/
 ├── basics/     language features; chelis-std only    Hello.Basics.*
-├── std/        chelis-std and school surfaces         Hello.Std.*
+├── std/        chelis-std and builtin operations      Hello.Std.*
 ├── coral/      Coral dataframes                       Hello.Coral.*
 ├── nautilus/   Nautilus numerical methods             Hello.Nautilus.*
 └── capstone/   examples combining several packages    Hello.Capstone.*

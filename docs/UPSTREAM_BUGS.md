@@ -58,7 +58,8 @@ pinned diagnostic on 0.18.11 (2026-09-30).
 
 ### chelis#1391: `chelis test --batch-mode auto` is slower than `--batch-mode file`
 
-On a 10-core machine this suite (113 tests) takes 68s with `--jobs auto` and
+On a 10-core machine, the 113-test corpus measured on 2026-09-25 took
+68s with `--jobs auto` and
 the default batch mode, 32s with `--batch-mode file`, and 67s with
 `--jobs 1` (0.18.11, 2026-09-25). On the 4-vCPU GitHub runner the two
 modes are equivalent for the same 113 tests: 203s with the default and 205s

@@ -10,6 +10,7 @@ functions, they compose with the rest of the language like any other code.
 | [`distributions.ch`](distributions.ch) | `Nautilus.Distributions` | normal pdf / cdf / quantile, exponential cdf |
 | [`linalg.ch`](linalg.ch) | `Nautilus.LinAlg` | `matvec`, inner product, L2 norm, `solve_2x2` |
 | [`stats.ch`](stats.ch) | `Nautilus.Stats` | mean, variance, std, median, quantile, correlation |
+| [`info.ch`](info.ch) | `Nautilus.Info` | Shannon entropy and KL divergence |
 | [`distance.ch`](distance.ch) | `Nautilus.Distance` | Euclidean, Manhattan, Chebyshev, cosine |
 | [`roots.ch`](roots.ch) | `Nautilus.Roots` | bisection, Newton, and Brent on sqrt(2) |
 | [`integration.ch`](integration.ch) | `Nautilus.Integrate` | trapezoid, Simpson, and 5-point Gauss-Legendre on the integral of sin from 0 to pi |

@@ -54,10 +54,10 @@ The desugaring rules behind each `.dp` are in
 
 ## 3. The standard library (30 min)
 
-[`src/std/`](../src/std/) tours `chelis-std` and the `school` neural-network
-modules: activations and normalizations, reductions and losses, decimal
-arithmetic with compile-time precision, dates and times, collections and
-iteration, and effect-typed file I/O. The catalog is in
+[`src/std/`](../src/std/) tours `chelis-std` and language builtins:
+elementwise math, normalization, axis reductions, decimal arithmetic,
+dates and times, collections and iteration, and effect-typed file I/O.
+The catalog is in
 [`src/std/README.md`](../src/std/README.md). Read each file next to its test
 in `tests/std/`.
 
@@ -72,9 +72,9 @@ its note on differentiating through frames.
 
 ### Nautilus: numerical methods
 
-[`src/nautilus/`](../src/nautilus/) is the scipy-like surface in 13 small
+[`src/nautilus/`](../src/nautilus/) is the scipy-like surface in 14 small
 modules: special functions, distributions, linear algebra, ODE/SDE solvers,
-optimization, hypothesis tests, curve fitting. Nautilus is written in
+optimization, hypothesis tests, curve fitting, information theory. Nautilus is written in
 Chelis, so its methods are ordinary Chelis functions.
 
 ### Octant: LaTeX to Chelis
@@ -99,11 +99,8 @@ original requirement's line. See [`c-earchin/README.md`](../c-earchin/README.md)
   LaTeX is [`octant/black_scholes_d1.tex`](../octant/black_scholes_d1.tex).
 - [`linreg.ch`](../src/capstone/linreg.ch): linear regression with
   prediction, MSE loss, and an SGD step.
-- [`mlpipeline.ch`](../src/capstone/mlpipeline.ch): a Coral frame,
-  a grouped aggregate, and Nautilus summary statistics.
-- [`transformerblock.ch`](../src/capstone/transformerblock.ch): single-head
-  self-attention, a residual connection, and a feed-forward layer, with
-  every tensor shape in the type.
+- [`returnsrisk.ch`](../src/capstone/returnsrisk.ch): prices, returns,
+  a Coral frame grouped by ticker, and Nautilus risk statistics.
 
 ## 6. Compiling to C (20 min)
 

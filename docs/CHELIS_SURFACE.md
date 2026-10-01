@@ -32,14 +32,14 @@ specs. Do not re-derive them here.
 | Linearity: consumption and `&` borrows | `src/basics/linearity.ch` | `@pin` |
 | `grad`, `vmap`, `realize`, macros, evaluated in the host runtime | `src/basics/{gradbasic,vmap,jitrealize,macrobasic}.ch` | `@pin` |
 | Checked extents on dimension-parameterized ADTs (`Frame[3]`) | `tests_neg/check/adt_extent_mismatch.ch` | `@pin` |
-| `chelis-std` and `school`: activations, norms, reductions, losses | `src/std/` | `@pin` |
+| `chelis-std` and builtins: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
 | `chelis-std`: `Decimal`, dates, `List` / `Dict` / iteration, text I/O | `src/std/` | `@pin` |
 | `coral` typed dataframes, `group_by`, joins, windows, reshape, CSV | `src/coral/` | `@pin` |
-| `nautilus` special functions, distributions, linear algebra, statistics, ODE/SDE | `src/nautilus/` | `@pin` |
+| `nautilus` special functions, distributions, linear algebra, statistics, information theory, ODE/SDE | `src/nautilus/` | `@pin` |
 | `octant` LaTeX -> Deep -> Surf triples | `octant/` | `@pin` |
 | `c-earchin` EARS requirements -> property witnesses, proven by `chelis prove` | `c-earchin/` | `@pin` |
 | C-backend lowering: `grad` over a tensor reduction, `relu`, `sigmoid`, `cast`, `realize` | `verify/` | `@pin` |
-| Capstones: Black-Scholes Greeks (host runtime), SGD linear regression, transformer block | `src/capstone/` | `@pin` |
+| Capstones: Black-Scholes Greeks (host runtime), SGD linear regression, returns and risk over Coral and Nautilus | `src/capstone/` | `@pin` |
 
 ## Gaps that shape an example
 

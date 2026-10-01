@@ -44,7 +44,6 @@ jobs:
             CHELIS_VERSION=0.18.11
             CORAL_VERSION=0.7.43
             NAUTILUS_VERSION=0.7.46
-            SCHOOL_VERSION=0.1.14
 
       # Offline pin guard (shell contract §2). Passes trivially when the reef
       # pin is unchanged against main; when it changed, it requires a green
