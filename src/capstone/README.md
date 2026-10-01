@@ -8,15 +8,39 @@ these last.
 | [`blackscholes.ch`](blackscholes.ch) | `nautilus` | Black-Scholes call price + Greeks (delta, vega) via `grad`. Mirrors the LaTeX in [`octant/black_scholes_d1.tex`](../../octant/black_scholes_d1.tex). |
 | [`linreg.ch`](linreg.ch) | `chelis-std` | Linear regression: design matrix, `predict`, MSE loss, single SGD step. |
 | [`returnsrisk.ch`](returnsrisk.ch) | `coral` + `nautilus` | Returns and risk: prices → simple returns → a Coral frame grouped by ticker → Sharpe ratio, rolling volatility (`Coral.Window`), and parametric value-at-risk from the Nautilus normal quantile. |
+| [`yieldcurve.ch`](yieldcurve.ch) | `shoals` | Bootstrap a zero curve from par yields (`Shoals.Curves`), price a bond on it, and measure DV01 and key-rate risk by bump-and-reprice. Also shows what happens when the bootstrap's precondition (consecutive annual pillars) is broken: no error, just a wrong curve. |
+| [`americanput.ch`](americanput.ch) | `shoals` + `nautilus` | One American put priced three independent ways: a CRR binomial tree (`Shoals.Trees`), Crank-Nicolson finite differences (`Shoals.Pde`), and the Barone-Adesi-Whaley approximation, built from Nautilus `brent` and `normal_cdf`. The European price (`Shoals.Pricing`) is the lower bound. |
+| [`varbacktest.ch`](varbacktest.ch) | `shoals` + `coral` + `nautilus` | Historical and parametric VaR/CVaR (`Shoals.Risk`), then a backtest: a rolling 100-day historical model against an EWMA model (Coral `ewm`), scored with the Kupiec and Christoffersen tests (`Shoals.RiskExt`) across a volatility regime change. |
 
 ## What is tested
 
 - `blackscholes.ch`: the call price, delta, and vega at the money, against
   analytic values, in [`tests/capstone/blackscholes.ch`](../../tests/capstone/blackscholes.ch).
 - `returnsrisk.ch`: [`tests/capstone/returnsrisk.ch`](../../tests/capstone/returnsrisk.ch).
+- `yieldcurve.ch`: the par-coupon bond prices at par, the 5y zero, DV01 and
+  the 5y key-rate sensitivity, and the gapped-pillar curve's wrong 5y zero, in
+  [`tests/capstone/yieldcurve.ch`](../../tests/capstone/yieldcurve.ch).
+- `americanput.ch`: the European price, the early-exercise premium, the
+  50-step tree within 3 cents of a 2,000-step reference, the critical price,
+  and the Barone-Adesi-Whaley price, in
+  [`tests/capstone/americanput.ch`](../../tests/capstone/americanput.ch).
+  The finite-difference pricer is not in the test suite, because a grid fine
+  enough to be accurate exceeds the 30-second per-test budget in the
+  evaluator (a 50 x 50 grid gives 6.125, 200 x 200 gives 6.0895).
+- `varbacktest.ch`: the full-sample VaR and CVaR; the parametric VaR equals
+  `returnsrisk.ch`'s `parametric_var`; the historical model fails its
+  backtest (18 exceptions where 10 are expected) and the EWMA model passes
+  (13), in [`tests/capstone/varbacktest.ch`](../../tests/capstone/varbacktest.ch).
 - `linreg.ch`: type-checked by `chelis check`, with no runtime test yet.
 
 The Black-Scholes Greeks run under `chelis test` but cannot yet be compiled
 to C as part of the package
 ([chelis#2379](https://github.com/Chelis-Lang/chelis/issues/2379)); the
 compiled `grad` examples are in [`verify/`](../../verify/).
+
+Every expected value in the Shoals capstone tests was derived independently
+of Chelis, so the tests check the libraries rather than restate their
+output. The data is synthetic and deterministic: the VaR returns are normal
+shocks drawn from a golden-ratio sequence through `normal_inv_cdf`, with no
+random keys. `shoals`, like `nautilus`, works in f32, so the tolerances are
+set for single precision.

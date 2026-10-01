@@ -2,7 +2,7 @@
 
 A runnable tour of the [Chelis](https://github.com/Chelis-Lang/chelis)
 language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
-`octant`, and `c-earchin`. Every package example under `src/` is a real
+`shoals`, `octant`, and `c-earchin`. Every package example under `src/` is a real
 program that type-checks; many also have runtime tests. Standalone programs
 under `verify/` exercise C lowering. Nothing here is pseudo-code.
 
@@ -19,9 +19,10 @@ tensor to a returns and risk pipeline. To get it running, see
 | `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `DateTime`, `List` / `Dict` / iteration, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
+| `shoals` (quant finance) | [`src/capstone/`](src/capstone/) | yield-curve bootstrapping and bond risk, binomial-tree and finite-difference American options, VaR/CVaR with Kupiec and Christoffersen backtests |
 | `octant` (LaTeX to Chelis) | [`octant/`](octant/) | `.tex` formulas translated to Deep, with provenance back to the LaTeX and a Surf rendering |
 | `c-earchin` (requirements to proofs) | [`c-earchin/`](c-earchin/) | EARS requirements translated to property witnesses, proven by `chelis prove`, with failures reported against the requirement's source line |
-| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, returns and risk across `coral` and `nautilus` |
+| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, returns and risk across `coral` and `nautilus`, and three `shoals` capstones: a yield curve, an American put priced three ways, and a VaR backtest |
 
 ## Quickstart
 
@@ -98,7 +99,7 @@ and c-earchin proofs). A nightly job runs a compiled program under valgrind.
 ## Versions
 
 The corpus pins **chelis 0.18.12**, bundled `chelis-std` 0.4.0,
-`coral` 0.7.44, `nautilus` 0.7.47, `octant` 0.13.2, and `c-earchin` 0.3.5.
+`coral` 0.7.44, `nautilus` 0.7.47, `shoals` 0.24.14, `octant` 0.13.2, and `c-earchin` 0.3.5.
 The `compiler = "=0.18.12"` pin in `reef.toml` is exact: Chelis is pre-1.0,
 and minor versions can break source compatibility.
 

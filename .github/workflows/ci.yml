@@ -44,6 +44,7 @@ jobs:
             CHELIS_VERSION=0.18.12
             CORAL_VERSION=0.7.44
             NAUTILUS_VERSION=0.7.47
+            SHOALS_VERSION=0.24.14
 
       # Offline pin guard (shell contract §2). Passes trivially when the reef
       # pin is unchanged against main; when it changed, it requires a green
@@ -127,6 +128,7 @@ jobs:
             CHELIS_VERSION=0.18.12
             CORAL_VERSION=0.7.44
             NAUTILUS_VERSION=0.7.47
+            SHOALS_VERSION=0.24.14
       - name: Check shell inventory
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
@@ -169,6 +171,7 @@ jobs:
             CHELIS_VERSION=0.18.12
             CORAL_VERSION=0.7.44
             NAUTILUS_VERSION=0.7.47
+            SHOALS_VERSION=0.24.14
       - name: Run Python tests
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \

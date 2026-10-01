@@ -40,6 +40,7 @@ specs. Do not re-derive them here.
 | `c-earchin` EARS requirements -> property witnesses, proven by `chelis prove` | `c-earchin/` | `@pin` |
 | C-backend lowering: `grad` over a tensor reduction, `relu`, `sigmoid`, `cast`, `realize` | `verify/` | `@pin` |
 | Capstones: Black-Scholes Greeks (host runtime), SGD linear regression, returns and risk over Coral and Nautilus | `src/capstone/` | `@pin` |
+| `shoals` yield curves, binomial-tree and finite-difference option pricing, VaR/CVaR and backtests | `src/capstone/{yieldcurve,americanput,varbacktest}.ch` | `@pin` |
 
 ## Gaps that shape an example
 

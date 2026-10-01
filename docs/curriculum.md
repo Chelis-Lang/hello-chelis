@@ -103,6 +103,15 @@ original requirement's line. See [`c-earchin/README.md`](../c-earchin/README.md)
   prediction, MSE loss, and an SGD step.
 - [`returnsrisk.ch`](../src/capstone/returnsrisk.ch): prices, returns,
   a Coral frame grouped by ticker, and Nautilus risk statistics.
+- [`yieldcurve.ch`](../src/capstone/yieldcurve.ch): a zero curve
+  bootstrapped from par yields with Shoals, a bond priced on it, and its
+  interest-rate risk.
+- [`americanput.ch`](../src/capstone/americanput.ch): one American put
+  priced by a binomial tree, a finite-difference grid, and an analytic
+  approximation solved with a Nautilus root-finder.
+- [`varbacktest.ch`](../src/capstone/varbacktest.ch): value-at-risk two
+  ways, and the statistical tests that show which one survives a volatility
+  regime change.
 
 ## 6. Compiling to C (20 min)
 

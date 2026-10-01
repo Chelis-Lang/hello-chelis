@@ -104,6 +104,9 @@ Tensor `relu` and `sigmoid` are also compiled to C in
 | Black-Scholes call price, delta, vega | nautilus | [`blackscholes.ch`](../src/capstone/blackscholes.ch) | `chelis test` |
 | Linear regression with an SGD step | chelis-std | [`linreg.ch`](../src/capstone/linreg.ch) | `chelis check` only |
 | Returns and risk pipeline | coral, nautilus | [`returnsrisk.ch`](../src/capstone/returnsrisk.ch) | `chelis test` |
+| Yield-curve bootstrap, bond price, DV01, key-rate risk | shoals | [`yieldcurve.ch`](../src/capstone/yieldcurve.ch) | `chelis test` |
+| American put: binomial tree, Crank-Nicolson, Barone-Adesi-Whaley | shoals, nautilus | [`americanput.ch`](../src/capstone/americanput.ch) | `chelis test` (the finite-difference pricer: `chelis check` only) |
+| VaR/CVaR and Kupiec/Christoffersen backtests | shoals, coral, nautilus | [`varbacktest.ch`](../src/capstone/varbacktest.ch) | `chelis test` |
 
 ## Not covered here
 

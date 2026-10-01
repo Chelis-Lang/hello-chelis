@@ -79,6 +79,7 @@ RUN --mount=type=secret,id=github_token \
 # --- Install shell releases into Reef registry ----------------------------
 ARG CORAL_VERSION=0.7.44
 ARG NAUTILUS_VERSION=0.7.47
+ARG SHOALS_VERSION=0.24.14
 ARG OCTANT_VERSION=0.13.2
 ARG C_EARCHIN_VERSION=0.3.5
 
@@ -87,6 +88,7 @@ RUN --mount=type=secret,id=github_token \
     && export GITHUB_TOKEN="$token" \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
+    && chelis reef install --from-github "Chelis-Lang/shoals@v${SHOALS_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}"
 
