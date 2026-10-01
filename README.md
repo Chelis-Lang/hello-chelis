@@ -27,9 +27,13 @@ tensor to a returns and risk pipeline. To get it running, see
 
 The Docker image carries the pinned toolchain and every package the corpus
 uses, installed from GitHub release assets. The build authenticates those
-downloads with a GitHub token:
+downloads with a GitHub token. Before your first build, install
+[GitHub CLI](https://github.com/cli/cli#installation) and sign in with an account
+that can access the private Chelis-Lang releases:
 
 ```sh
+gh auth login --web
+gh auth status
 export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml run --rm hello-chelis

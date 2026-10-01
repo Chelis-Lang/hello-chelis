@@ -5,9 +5,14 @@ order, see [`curriculum.md`](curriculum.md).
 
 ## 1. Build the image
 
+Install [GitHub CLI](https://github.com/cli/cli#installation) before building.
+Sign in with an account that can access the private Chelis-Lang releases:
+
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
+gh auth login --web
+gh auth status
 export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 ```
