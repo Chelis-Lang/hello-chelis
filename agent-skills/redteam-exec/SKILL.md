@@ -107,11 +107,13 @@ validation pass, or verification of a fix that a red team reported.
    `git worktree list --porcelain` from the shell repository. From anywhere
    inside the candidate, set
    `review_worktree="$(realpath "$(git rev-parse --show-toplevel)")"` and
-   `review_git_dir="$(realpath "$(git rev-parse --path-format=absolute --git-dir)")"`.
-   From outside both paths, scan each with `lsof -nP -x f +D <path>`. The
-   physical worktree scan covers nested directories and mounts; the Git-dir
-   scan covers the linked worktree's index and lock files. Use
-   `find "$review_git_dir" -name '*.lock' -print`; any lock blocks handoff
+   `review_git_dir="$(realpath "$(git rev-parse --path-format=absolute --git-dir)")"`,
+   and `review_git_common_dir="$(realpath "$(git rev-parse --path-format=absolute --git-common-dir)")"`.
+   From outside these paths, scan all three with `lsof -nP -x f +D <path>`.
+   The physical worktree scan covers nested directories and mounts; the
+   Git scans cover the linked index and shared branch refs and locks. Use
+   `find "$review_git_dir" -name '*.lock' -print` and
+   `find "$review_git_common_dir" -name '*.lock' -print`; any lock blocks handoff
    even without a live holder. Use `git -C "$review_worktree" ls-files -s`
    to identify tracked symlinks (mode `120000`); resolve each listed path
    from that root and scan any external source target. Scan
