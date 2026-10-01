@@ -1,26 +1,20 @@
-# `src/std/` — chelis-std surfaces
+# `src/std/`: the standard library
 
 Tour of the standard-library surface intended for compiler v0.18.12. Every
 example here uses only the bundled runtime and the language builtins.
 
-## Files
-
-| File | Surface | Notes |
+| File | Uses | What it shows |
 |---|---|---|
 | [`elementwise.ch`](elementwise.ch) | elementwise builtins + `Std.Iter` | `relu` as a non-negative clamp, logistic `sigmoid` and `tanh` (tensor and scalar forms), z-score standardization, RMS scaling |
 | [`reductions.ch`](reductions.ch) | tensor reductions | sum/mean/prod reductions along an axis |
-| [`decimal.ch`](decimal.ch) | `Std.Decimal` | `Decimal[P, S]` exact arithmetic for prices, tax, currency |
+| [`decimal.ch`](decimal.ch) | `Std.Decimal` | exact decimal arithmetic for prices and tax |
 | [`datetimecal.ch`](datetimecal.ch) | `Std.Time` | `DateTime`, `Duration`, weekday lookup, formatting |
 | [`collectionsiter.ch`](collectionsiter.ch) | `Std.List`, `Std.Dict`, `Std.Iter` | `List[T]` + `Dict[K, V]` + `map`/`filter`/`fold`/`scan` |
 | [`tensorio.ch`](tensorio.ch) | `Std.Io` | text I/O round-trip with the `! { IO }` effect declared at every boundary |
 
-The full export list of `chelis-std` is in
-[`docs/shells/std.md`](../../docs/shells/std.md).
+The supported examples have matching tests under [`tests/std/`](../../tests/std/).
+Decimal and date assertions are preserved under [`tests_blocked/std/`](../../tests_blocked/std/)
+because exact arithmetic is unavailable at this pin (chelis#2778, chelis#2779).
 
-## What's verified
-
-| Lane | Coverage |
-|---|---|
-| `chelis check src/std/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/std/` | 23 runtime assertions across 6 modules |
-| Surf-Deep equivalence | every `.ch` paired with a machine-generated `.dp` |
+For the full API, see the `chelis-std` reference in
+[`packages/chelis-std/SKILL.md`](https://github.com/Chelis-Lang/chelis/blob/main/packages/chelis-std/SKILL.md).

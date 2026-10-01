@@ -26,11 +26,11 @@ remote_origin = "github://Chelis-Lang/coral@v0.7.43"
 
 [[dependencies]]
 name = "nautilus"
-version = "0.7.46"
-compiler = "=0.18.11"
-archive_sha256 = "8a37bccd8c57e8d0b727a0f23f8de7082008aef43ebc77f899e647290fb0b71f"
-shell_sha256 = "b581332e726ebec25a851bb7d453882dfa0c39c2cb5f640a4327d51d1b821b7a"
+version = "0.7.47"
+compiler = "=0.18.12"
+archive_sha256 = "dfe18e834c2d6e49282afd682e0452e51575c3d1dcefd4db3267098e98bba716"
+shell_sha256 = "cd5c04ecfcd2445b7f7a7e0a997d721f20c85aac4524ae626571c3db96008603"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/nautilus@v0.7.46"
+remote_origin = "github://Chelis-Lang/nautilus@v0.7.47"

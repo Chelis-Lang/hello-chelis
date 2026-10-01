@@ -36,8 +36,10 @@ jobs:
       - name: Verify toolchain
         run: test "$(chelis --version)" = "chelis ${CHELIS_VERSION}"
 
+      - uses: astral-sh/setup-uv@v6
+
       - name: Check Deep sidecars
-        run: python3 scripts/regen_deep.py --check
+        run: uv run --no-project scripts/regen_deep.py --check
 
       - name: Build reef assets
         env:

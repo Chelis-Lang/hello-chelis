@@ -1,84 +1,92 @@
 # Getting started
 
-If you want a guided reading path through the corpus once it's
-running, see [`curriculum.md`](curriculum.md). This page is just
-install + first commands.
+This page covers installing and running the corpus. For a guided reading
+order, see [`curriculum.md`](curriculum.md).
 
 ## 1. Build the image
+
+This 0.18.12 draft is awaiting a compiler-matching Coral release. The
+Docker build currently stops at its full-package check.
 
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
+export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 ```
 
 The image is `ubuntu:24.04` plus:
 
-- GCC, OpenBLAS, libgomp, valgrind (for the C backend)
-- Python 3 + pip (CI installs pytest before running the fallback harness)
-- The `chelis` and `octant` CLIs from prebuilt release tarballs
-- `libchelis_runtime.a` installed at `/usr/local/lib/`
-- The shells `chelis-std` 0.4.0, `coral` 0.7.43, `nautilus` 0.7.46,
-  `octant` 0.13.1, and `c-earchin` 0.3.5 installed into
-  the local Reef registry from GitHub release assets
+- the `chelis` CLI, `libchelis_runtime.a`, and its headers, from the chelis
+  release tarball;
+- the `octant` CLI, from the octant release tarball;
+- the `coral`, `nautilus`, `octant`, and `c-earchin` packages,
+  installed into the local Reef registry with
+  `chelis reef install --from-github` (`chelis-std` ships with the compiler);
+- GCC, OpenBLAS, and libgomp for the C backend, and valgrind;
+- `uv` with a uv-managed Python environment for the test harness.
 
-First build requires `GITHUB_TOKEN` access to the private Chelis-Lang
-repos and downloads release artifacts instead of compiling toolchains
-from source. Rebuilds reuse the layer cache.
+Everything is downloaded from release assets; nothing is compiled from
+source. `GITHUB_TOKEN` is passed as a BuildKit secret and used only to
+authenticate those downloads.
 
-## 2. Inside the container
+You can also work without Docker: install the toolchain with `chelisup`
+(see the Chelis
+[install guide](https://github.com/Chelis-Lang/chelis/blob/main/docs/book/src/install.md)),
+which reads the pinned version from `reef.toml`.
+
+## 2. Open a shell in the container
 
 ```sh
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 ```
 
-Your repo checkout is mounted at `/workspace`. Everything below runs
-from there.
+Your checkout is mounted at `/workspace`, and everything below runs from there.
 
-## 3. The front-end gate — `chelis check`
+## 3. Type-check: `chelis check`
 
 ```sh
-chelis check src/basics/hellotensor.ch     # parse + types + dim
-                                            # + effect + linearity
+chelis check src/basics/hellotensor.ch
 ```
 
-`chelis check` validates the entire project on any single-file
-invocation: all 200K+ typed nodes get re-loaded each call. There's
-no per-file or directory mode.
+`chelis check` parses the file and runs type, dimension, effect, and
+linearity checking. Pointed at any file inside the package, it checks the
+whole package, so one invocation covers every module. It prints a JSON report;
+`"errors": []` means the package is clean.
 
-The native IR evaluator still has documented primitive gaps, but the
-full native test tree is a blocking lane:
+## 4. Run the tests: `chelis test`
 
 ```sh
 chelis test tests/ --jobs auto
-chelis test tests/ --jobs 1   # serial fallback for debugging
+chelis test tests/basics/gradbasic.ch            # a single file
+chelis test tests_neg --expect neg               # programs that must be rejected
+chelis test tests_blocked --expect blocked       # known upstream gaps
 ```
 
-## 4. Lint Inventory
+Each `tests/<area>/<name>.ch` exercises the matching `src/<area>/<name>.ch`.
+On a many-core machine, adding `--batch-mode file` can halve the run time
+([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
+
+## 5. Lint
 
 ```sh
-chelis lint .                              # non-blocking nomenclature inventory
-chelis lint --check .                      # blocking lint gate
+chelis lint --check .
 ```
 
-The last full strict-gate run passed under chelis 0.18.11 with zero findings.
-Advisory diagnostics would not fail `lint --check`, but the corpus
-carries none. Treat new or edited examples as style-clean.
+This is the CI lint gate. It fails on error-severity findings; advisory
+findings are printed but do not fail it.
 
-## 5. C backend (full lowering)
-
-The IR evaluator at v0.18.11 doesn't run every primitive. The C-backend
-harness exercises supported native lowerings end-to-end:
+## 6. Compile to C
 
 ```sh
-python3 -m pytest -q tests/test_c_backend.py
+uv run --group test pytest -q tests/test_c_backend.py
 ```
 
-This builds supported programs under `verify/`, links against
-`libchelis_runtime.a` + OpenBLAS, runs the binary, and diffs stdout
-against the committed golden in `verify/expected/<name>.txt`.
+This compiles every program in `verify/` with `chelis build`, links it
+against `libchelis_runtime.a` and OpenBLAS, runs it, and compares its output
+with `verify/expected/<name>.txt`.
 
-To do it by hand for one program:
+To do one by hand:
 
 ```sh
 cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch
@@ -90,64 +98,38 @@ gcc -O2 -fopenmp grad_quadratic.c -L. -lchelis_runtime \
 # dsumsq = tensor(shape=[3], data=[2.0, 4.0, 6.0])
 ```
 
-(Note: `chelis build`'s auto-link command misses `-lopenblas`. The
-explicit `gcc` invocation works around that.)
+`chelis build` writes C sources and a copy of the runtime library, and prints
+a suggested `gcc` command; it does not invoke the C compiler itself. The
+program is copied out of the repo first because `verify/` is not a source
+root of the package; see [`../verify/README.md`](../verify/README.md).
 
-## 6. Surf ↔ Deep regeneration
-
-After editing any `.ch`:
-
-```sh
-python3 scripts/regen_deep.py            # walks src/, tests/, verify/
-python3 scripts/regen_octant.py          # walks octant/
-```
-
-CI fails on drift. Run these before committing.
-
-## 7. Python harness (orchestration for the non-Chelis lanes)
+## 7. Regenerate generated files
 
 ```sh
-python3 -m pytest tests/
+uv run scripts/regen_deep.py      # maintained Surf/Deep pairs
+uv run scripts/regen_octant.py    # every octant/ triple from its .tex
 ```
 
-Covers what `chelis test` doesn't: programs that must be rejected,
-Octant pipeline round-trips, c-earchin proof diagnostics, C-backend
-lowering goldens, and Surf-Deep drift. See
-[`tests/README.md`](../tests/README.md) for the breakdown.
+Run the first after editing a `.ch` in the
+[maintained paired corpus](surf_and_deep.md). CI fails if a paired `.dp`
+differs from what `chelis deep` produces.
+
+## 8. The Python harness
+
+```sh
+uv run --group test pytest tests/
+```
+
+This covers what `chelis test` does not: Deep drift, the structured error
+kind of each rejected program, C-backend build-and-run, octant round-trips,
+and c-earchin proofs. See [`../tests/README.md`](../tests/README.md).
 
 ## What to read next
 
-- [`curriculum.md`](curriculum.md) — guided reading path through the
-  corpus
-- [`architecture.md`](architecture.md) — how the directories map to
-  the compiler pipeline
-- [`feature_matrix.md`](feature_matrix.md) — every primer-claimed
-  feature → the file that exercises it
-- [`surf_and_deep.md`](surf_and_deep.md) — why every program ships
-  in both forms
-- [`discrepancies.md`](discrepancies.md) — verbatim compiler error
-  messages for every IR-evaluator-vs-C-backend gap
-- Per-area catalogs: [`../src/basics/README.md`](../src/basics/README.md),
-  [`../src/std/README.md`](../src/std/README.md),
-  [`../src/coral/README.md`](../src/coral/README.md),
-  [`../src/nautilus/README.md`](../src/nautilus/README.md),
-  [`../src/capstone/README.md`](../src/capstone/README.md),
-  [`../verify/README.md`](../verify/README.md),
-  [`../octant/README.md`](../octant/README.md),
-  [`../tests/README.md`](../tests/README.md)
-
-## Layout (recap)
-
-```text
-hello-chelis/
-├── README.md                top-level overview
-├── reef.toml                compiler + shell pins
-├── src/                     Hello.* modules                — chelis check
-├── tests/                   chelis-native + python tests   — chelis test, pytest
-├── verify/                  C-backend lowering programs    — pytest test_c_backend.py
-├── octant/                  LaTeX + Deep + Surf triples    — pytest test_octant_pairs.py
-├── docs/                    this file + the rest
-├── scripts/                 regen_deep.py, regen_octant.py
-├── docker/                  Dockerfile + docker-compose.yml
-└── .github/workflows/       CI: lint inventory + check + test + C-backend + drift
-```
+- [`curriculum.md`](curriculum.md): a reading path through the corpus
+- [`architecture.md`](architecture.md): how the compiler pipeline maps onto
+  the directories
+- [`feature_matrix.md`](feature_matrix.md): each language feature and the
+  file that exercises it
+- [`surf_and_deep.md`](surf_and_deep.md): where Surf and Deep are paired and
+  how the pair is checked

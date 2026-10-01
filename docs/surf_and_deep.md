@@ -1,70 +1,53 @@
 # Surf and Deep
 
-Chelis has two source surfaces over the same AST. Every program in
-this repo ships **both** as paired files — the `.ch` (Surf) and the
-`.dp` (Deep) sit next to each other in every directory.
+Chelis has two syntaxes for the same AST. Programs under `src/`, `tests/`,
+`tests_neg/`, and `verify/` ship in both, as paired files in the same
+directory. Blocked probes under `tests_blocked/` pair Surf with an
+expected-failure sidecar instead.
 
-| Surface | File | Audience | Role |
+| Syntax | File | Audience | Role |
 |---|---|---|---|
-| Surf | `*.ch` | humans | the readable, ML/Haskell-flavored syntax |
-| Deep | `*.dp` | tools, agents, the compiler | canonical s-expression AST |
+| Surf | `*.ch` | people | the readable, ML/Haskell-flavored syntax |
+| Deep | `*.dp` | tools, models, the compiler | the canonical s-expression form of the AST |
 
 ## Why ship both
 
-The dual-format presentation is **for illustration**. Most projects
-written in Chelis would only commit `.ch`; the `.dp` is implicit and
-recomputed from source on demand. We commit both so that anyone
-walking the corpus can:
+A normal Chelis project commits only `.ch`; its Deep form is derived on
+demand with `chelis deep`. This repo commits both for the paired directories
+above so that a reader can:
 
-- See exactly what the desugaring rules in
+- see what the desugaring rules in
   [`spec/02-surf-syntax.md`](https://github.com/Chelis-Lang/chelis/blob/main/spec/02-surf-syntax.md)
-  do on real programs. Every Surf construct (pipe operator, block
-  bindings, infix arithmetic, dim-poly brackets, transforms,
-  patterns) shows up in its expanded canonical form in the matching
-  `.dp`.
-- Use the corpus as a few-shot library for AI agents that emit Deep
-  rather than Surf. The `.dp` files are valid Deep programs the
-  compiler produces — drop them straight into a model context.
-- Verify that the language has no hidden state: nothing inside
-  `chelis check`, `chelis test`, or `chelis build` privileges one
-  surface over the other.
+  do to real programs. Every Surf construct used here (pipes, block
+  bindings, infix arithmetic, dimension binders, transforms, patterns)
+  appears in expanded form in the matching `.dp`;
+- use the corpus as examples for tools or models that emit Deep rather than
+  Surf. Each `.dp` is exactly what the compiler produces.
 
-## How equivalence is enforced
-
-Both directions of the surf↔deep relationship are checked on every CI
-run.
-
-The Surf-to-Deep direction is the load-bearing one:
+## How the pairs stay in sync
 
 ```sh
-python3 scripts/regen_deep.py --check
+uv run scripts/regen_deep.py            # regenerate paired .dp files
+uv run scripts/regen_deep.py --check    # report drift, change nothing
 ```
 
-For every `.ch` in `src/`, `tests/`, and `verify/`, the harness runs
-`chelis deep <name>.ch` and asserts the output is byte-identical to
-the committed `.dp`. Any drift fails CI. Regenerate locally with
-`python3 scripts/regen_deep.py`.
+For every `.ch` under `src/`, `tests/`, `tests_neg/`, and `verify/`,
+[`tests/test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py)
+runs `chelis deep` and requires the output to equal the committed `.dp` byte
+for byte. Because each `.dp` is generated from its `.ch`, the two cannot
+disagree about what the program means; CI fails if one is stale.
 
-The independent-parse direction is the second guarantee:
+To type-check an example, check the `.ch`. `chelis check` treats a `.dp` as
+a standalone program and does not load the package around it, so a sidecar
+that imports names (for example `src/basics/effectsrandom.dp`, which
+imports `normal_like`) reports them as unbound.
 
-```sh
-python3 -m pytest tests/test_surf_deep_equivalence.py
-```
+## Going back from Deep to Surf
 
-For every `.ch`/`.dp` pair, both files are fed through `chelis check`
-independently. Both must succeed. If a Surf construct ever desugared
-to a Deep that doesn't re-parse, this test would fail.
-
-## Why we don't enforce round-trip identity
-
-`chelis surf <name>.dp` decompiles Deep back to Surf, but the
-decompiler is best-effort: list-literal sugar `[1, 2, 3]` decompiles
-to `Cons(1, Cons(2, Cons(3, Nil)))`, `cast(x, f32)` to `(x as f32)`,
-etc. The result is semantically equivalent to the original Surf but
-not byte-identical. The drift-check above already proves equivalence:
-as long as `.dp` is mechanically regenerated from `.ch`, the two
-surfaces always represent the same program. The decompiled Surf is a
-"best-effort sketch for humans," not a canonical form.
+`chelis surf <name>.dp` renders Deep back into Surf. The rendering is
+readable but not identical to hand-written source, so the repo does not
+require a round trip to reproduce the original `.ch`. The `.ch` files under
+`octant/` are produced this way from the translator's Deep output.
 
 ## Worked example
 
@@ -72,37 +55,41 @@ Surf, [`src/basics/hellotensor.ch`](../src/basics/hellotensor.ch):
 
 ```chelis-surf
 module Hello.Basics.HelloTensor
-
 export (add_vec)
-
-def add_vec(x: tensor[n, f32], y: tensor[n, f32]) -> tensor[n, f32] =
-  add(x, y)
+def add_vec[n](x: &tensor[n, f32], y: &tensor[n, f32]) -> tensor[n, f32] = add(x, y)
 ```
 
-Deep, [`src/basics/hellotensor.dp`](../src/basics/hellotensor.dp)
-(generated by `chelis deep`):
+Deep, [`src/basics/hellotensor.dp`](../src/basics/hellotensor.dp), generated
+by `chelis deep`:
 
 ```chelis-deep
-(module {}
+(module {surf_path: "Hello.Basics.HelloTensor"}
   hello.basics.hellotensor
   (export {} add_vec)
   (defsig {}
     add_vec
+    (n)
     (t-fn {}
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
-      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
   (def {}
     add_vec
     (fn {}
-      (params {}
-        (x {type: (t-tensor {} (d-var {} n) (t-prim {} f32))})
-        (y {type: (t-tensor {} (d-var {} n) (t-prim {} f32))}))
-      (app {} (var {} add) (var {} x) (var {} y)))))
+      (params {} (x {type: (t-var {} _)}) (y {type: (t-var {} _)}))
+      (app {span: "surf:124..133"}
+        (var {span: "surf:124..127"} add)
+        (var {span: "surf:128..129"} x)
+        (var {span: "surf:131..132"} y)))))
 ```
 
-Notice how every Deep node is `(tag {} children...)` with the empty
-metadata map, how the inline parameter type ascriptions become
-`{type: ...}` annotations, how `def` desugars into a paired `defsig`
-+ `def`, and how the module path is lowercased and dot-joined.
-That's `spec/02-surf-syntax.md` §5 made concrete.
+Things to notice:
+
+- Every node is `(tag {metadata} children...)`. The metadata map holds
+  things like the original Surf module path and source spans.
+- `def` with an inline signature becomes a `defsig` (the type, with the
+  dimension binder `(n)`) plus a `def` (the body).
+- `&tensor[...]` becomes `(t-ref {} (t-tensor ...))`, and `n` becomes a
+  dimension variable `(d-var {} n)`.
+- The `span` entries are byte ranges in the `.ch`, which is how diagnostics
+  and generated C point back to the Surf source.

@@ -1,36 +1,30 @@
-# `src/coral/` — typed dataframes
+# `src/coral/`: typed dataframes
 
-Tour of [Coral](https://github.com/Chelis-Lang/coral), the
-pandas-equivalent shell. Numeric columns are tensor-backed, which is
-why dataframe pipelines compose with the rest of the Chelis tensor
-DAG — `grad` flows through `group_by`, AD flows through joins, etc.
+A tour of [Coral](https://github.com/Chelis-Lang/coral), a pandas-like
+dataframe package. Frames carry their row count in the type (`Frame[3]`), and
+numeric columns are tensors.
 
-Pinned to `coral` v0.7.43.
-
-## Files
-
-| File | Surface | Notes |
+| File | Module | What it shows |
 |---|---|---|
-| [`framebasics.ch`](framebasics.ch) | `Coral.Frame` | `from_pairs`, typed columns (`FloatCol`/`IntCol`/`StringCol`), `with_column`, `rename`, `drop_column` |
-| [`groupbyagg.ch`](groupbyagg.ch) | `Coral.GroupBy` | `group_by` + `agg_sum`/`agg_mean`/`agg_count` |
+| [`framebasics.ch`](framebasics.ch) | `Coral.Frame` | `from_pairs`, float / int / string columns, `with_column`, `rename`, `drop_column` |
+| [`groupbyagg.ch`](groupbyagg.ch) | `Coral.GroupBy` | `group_by` with `agg_sum` and `agg_mean` |
 | [`joins.ch`](joins.ch) | `Coral.Join` | `inner_join`, `left_join`, `outer_join` |
-| [`windowrolling.ch`](windowrolling.ch) | `Coral.Window` | rolling mean/std + EWM |
-| [`reshape.ch`](reshape.ch) | `Coral.Reshape` | pivot, melt |
-| [`io.ch`](io.ch) | `Coral.Io` | CSV / JSON round-trip (effect-typed `! { IO }`) |
-| [`adthroughdataframe.ch`](adthroughdataframe.ch) | grad through Frame | the headline capability — building a `Frame` from a learnable tensor and differentiating through it |
+| [`windowrolling.ch`](windowrolling.ch) | `Coral.Window` | `rolling_mean`, `rolling_std`, `ewm` |
+| [`reshape.ch`](reshape.ch) | `Coral.Reshape` | `pivot` and `melt` |
+| [`io.ch`](io.ch) | `Coral.Io` | a CSV write and read round trip |
+| [`adthroughdataframe.ch`](adthroughdataframe.ch) | `Coral.Frame` | a frame built from a learnable tensor, and `grad` of a loss on that tensor |
 
-The full export list and Coral-specific gotchas (e.g. `IntCol(values, mask)`)
-live in [`docs/shells/coral.md`](../../docs/shells/coral.md).
+Each file has a test of the same name under [`tests/coral/`](../../tests/coral/).
+Coral's own documentation is in the
+[Coral repository](https://github.com/Chelis-Lang/coral).
 
-## What's verified
+## Notes
 
-| Lane | Coverage |
-|---|---|
-| `chelis check src/coral/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/coral/` | 18 runtime assertions across 7 modules |
-
-The autodiff-through-dataframe example uses a structural shape rather
-than calling `grad` at runtime — the IR evaluator at the pinned toolchain doesn't
-yet lower `grad` over the `Frame` ADT. The `chelis check` verifies the
-gradient definition; the runtime exercise lives in
-[`verify/grad_works.ch`](../../verify/grad_works.ch).
+- Build integer columns with `int_col_of_list([...])`, as `framebasics.ch`
+  does, rather than calling the `IntCol` constructor directly.
+- **Differentiating through frame operations is not yet possible.** Column
+  access is keyed by a string name, and `grad` cannot yet evaluate a function
+  that uses a string
+  ([chelis#2552](https://github.com/Chelis-Lang/chelis/issues/2552)). So
+  `adthroughdataframe.ch` differentiates the tensor loss directly, and a
+  separate function shows that the same tensor becomes a frame column.

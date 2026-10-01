@@ -1,0 +1,26 @@
+(deftype {}
+  Column
+  (n)
+  (variant {} FloatCol (t-tensor {} (d-var {} n) (t-prim {} f32))))
+
+(defsig {} right (t-fn {} (t-adt {} Column (d-lit {} 3))))
+
+(def {}
+  right
+  (fn {}
+    (params {})
+    (app {span: "surf:114..167"}
+      (var {span: "surf:114..122"} FloatCol)
+      (app {span: "surf:123..166"}
+        (var {span: "surf:123..132"} to_tensor)
+        (app {span: "surf:133..165"}
+          (var {} Cons)
+          (cast {span: "surf:134..148"}
+            (lit {span: "surf:139..142", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
+            (t-prim {} f32))
+          (app {}
+            (var {} Cons)
+            (cast {span: "surf:150..164"}
+              (lit {span: "surf:155..158", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
+              (t-prim {} f32))
+            (var {} Nil)))))))

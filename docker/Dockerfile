@@ -1,15 +1,16 @@
-# hello-chelis: Ubuntu 24.04 with the released Chelis toolchain and
-# the extant shell releases pre-installed.
+# hello-chelis: Ubuntu 24.04 with the released Chelis toolchain, the Octant
+# CLI, and the shell packages the corpus depends on, all installed from
+# GitHub release assets (nothing is compiled from source).
 #
 # Build:
+#   export GITHUB_TOKEN=$(gh auth token)
 #   docker compose -f docker/docker-compose.yml build
 #
 # Run an interactive shell at /workspace:
 #   docker compose -f docker/docker-compose.yml run --rm hello-chelis
 #
-# Canonical-org repos are private during pre-launch. CI passes a
-# GitHub token as a BuildKit secret so this image can consume release
-# assets directly rather than cloning and compiling source repos.
+# The GitHub token is passed as a BuildKit secret and used only to
+# authenticate the release-asset downloads; it is not stored in the image.
 
 # syntax=docker/dockerfile:1.7
 
@@ -32,13 +33,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libgomp1 \
         valgrind \
         git \
-        python3 \
-        python3-pip \
-        python3-venv \
         jq \
     && rm -rf /var/lib/apt/lists/*
 
-# --- Helper for private GitHub release assets -----------------------------
+# --- Helper for GitHub release assets -------------------------------------
 COPY <<'EOF' /usr/local/bin/download-github-release-asset
 #!/usr/bin/env bash
 set -euo pipefail
@@ -80,7 +78,7 @@ RUN --mount=type=secret,id=github_token \
 
 # --- Install shell releases into Reef registry ----------------------------
 ARG CORAL_VERSION=0.7.43
-ARG NAUTILUS_VERSION=0.7.46
+ARG NAUTILUS_VERSION=0.7.47
 ARG OCTANT_VERSION=0.13.1
 ARG C_EARCHIN_VERSION=0.3.5
 
@@ -103,14 +101,23 @@ RUN --mount=type=secret,id=github_token \
     && cp /tmp/octant-toolchain/bin/octant /usr/local/bin/octant \
     && octant version
 
+# --- Python harness (uv-managed interpreter and environment) --------------
+# The pytest harness under tests/ runs from a uv environment outside the
+# workspace, so a bind-mounted checkout never gets a root-owned .venv.
+COPY --from=ghcr.io/astral-sh/uv:0.9 /uv /uvx /usr/local/bin/
+ENV UV_PYTHON_PREFERENCE=only-managed \
+    UV_PROJECT_ENVIRONMENT=/opt/hello-chelis-venv
+
 # --- Workspace -------------------------------------------------------------
 WORKDIR /workspace
 COPY . /workspace
+RUN uv sync --frozen --group test
 
 # Sanity check: the project must check clean against the pinned Chelis, AND the
 # C backend must be able to lower a non-trivial program (grad over a
-# concrete tensor reduction) and run it. Build the standalone verifier outside
-# the Reef root while chelis#2379 blocks the whole-package Black-Scholes Greeks.
+# concrete tensor reduction) and run it. The verifier is built from /tmp,
+# outside the Reef root: verify/ is not a declared source root, and a
+# whole-package C build is blocked by chelis#2379 (Black-Scholes Greeks).
 RUN chelis check src/basics/hellotensor.ch \
     && cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch \
     && chelis build /tmp/grad_quadratic.ch --output /tmp/v_grad \

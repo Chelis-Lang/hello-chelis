@@ -1,4 +1,4 @@
-module Hello.Tests.Std.DatetimeCal
+module Hello.TestsBlocked.Std.DatetimeCal
 import Hello.Std.DatetimeCal (days_until, format_date, after_30_days, week_before, new_years_day)
 import Std.Time (date)
 import Std.Test (assert_eq)

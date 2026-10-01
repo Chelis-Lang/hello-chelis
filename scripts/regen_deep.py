@@ -6,14 +6,14 @@ script is the only mechanism that touches .dp files. They never get
 hand-edited.
 
 Usage:
-    python3 scripts/regen_deep.py             # walks src/, tests/,
-                                              # tests_neg/, verify/
-    python3 scripts/regen_deep.py --check     # CI mode: regen to a temp
-                                              # location, diff against
-                                              # committed; non-zero on drift
+    uv run scripts/regen_deep.py            # walks src/, tests/,
+                                            # tests_neg/, verify/
+    uv run scripts/regen_deep.py --check    # regen to a temp location,
+                                            # diff against committed;
+                                            # non-zero on drift
 
-The CI lane in .github/workflows/ci.yml runs `--check` to catch any
-silent drift between the committed Surf and the canonical Deep.
+CI runs the same drift check through tests/test_surf_deep_equivalence.py,
+and the release workflow runs `--check` before building Reef assets.
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ def main() -> int:
         print("Deep s-expressions are stale for:", file=sys.stderr)
         for p in drift:
             print(f"  {p.relative_to(REPO)}", file=sys.stderr)
-        print("\nRun `python3 scripts/regen_deep.py` to regenerate.", file=sys.stderr)
+        print("\nRun `uv run scripts/regen_deep.py` to regenerate.", file=sys.stderr)
         return 1
     return 0
 

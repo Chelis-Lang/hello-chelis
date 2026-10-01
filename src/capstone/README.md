@@ -1,36 +1,22 @@
-# `src/capstone/` — multi-shell integrations
+# `src/capstone/`: combining the pieces
 
-Programs that combine more than one shell into a single end-to-end
-example. Read these last; they assume comfort with the basics, std,
-and the relevant shells.
+Larger examples that combine the language with one or more packages. Read
+these last.
 
-## Files
-
-| File | Shells used | Topic |
+| File | Uses | What it shows |
 |---|---|---|
 | [`blackscholes.ch`](blackscholes.ch) | `nautilus` | Black-Scholes call price + Greeks (delta, vega) via `grad`. Mirrors the LaTeX in [`octant/black_scholes_d1.tex`](../../octant/black_scholes_d1.tex). |
 | [`linreg.ch`](linreg.ch) | `chelis-std` | Linear regression: design matrix, `predict`, MSE loss, single SGD step. |
 | [`returnsrisk.ch`](returnsrisk.ch) | `coral` + `nautilus` | Returns and risk: prices → simple returns → a Coral frame grouped by ticker → Sharpe ratio, rolling volatility (`Coral.Window`), and parametric value-at-risk from the Nautilus normal quantile. |
 
-## What's verified
+## What is tested
 
-| Lane | Coverage |
-|---|---|
-| `chelis check src/capstone/<file>.ch` | every file passes with fitness 1.0 |
-| `chelis test tests/capstone/` | runtime assertions for `blackscholes::call_atm` and `returnsrisk::*` |
-| C-backend full lowering | [`verify/grad_quadratic.ch`](../../verify/grad_quadratic.ch) and [`verify/grad_works.ch`](../../verify/grad_works.ch) prove `grad` reaches native execution |
+- `blackscholes.ch`: the call price, delta, and vega at the money, against
+  analytic values, in [`tests/capstone/blackscholes.ch`](../../tests/capstone/blackscholes.ch).
+- `returnsrisk.ch`: [`tests/capstone/returnsrisk.ch`](../../tests/capstone/returnsrisk.ch).
+- `linreg.ch`: type-checked by `chelis check`, with no runtime test yet.
 
-## Why some capstone tests are smoke-only
-
-The IR evaluator at the pinned toolchain doesn't yet lower `grad` for the host
-runtime, so test files like `tests/capstone/blackscholes.ch` exercise
-`call_price` (which doesn't use `grad`) but not `delta` / `vega`
-(which do). The `chelis check` pass validates the full grad
-definition at type-system level; the runtime exercise of grad lives
-in [`verify/`](../../verify/), where supported files build through
-the C backend, link against `libchelis_runtime.a` + OpenBLAS, and
-execute.
-
-See [`docs/discrepancies.md`](../../docs/discrepancies.md) for the
-full inventory of compiler/runtime gaps and the workarounds used
-across this corpus.
+The Black-Scholes Greeks run under `chelis test` but cannot yet be compiled
+to C as part of the package
+([chelis#2379](https://github.com/Chelis-Lang/chelis/issues/2379)); the
+compiled `grad` examples are in [`verify/`](../../verify/).

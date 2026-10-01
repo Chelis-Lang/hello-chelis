@@ -1,4 +1,4 @@
-module Hello.Tests.Std.Decimal
+module Hello.TestsBlocked.Std.Decimal
 import Hello.Std.Decimal (parse_price, total_cents, format_total, add_cents)
 import Std.Decimal (decimal, decimal_to_string, decimal_eq)
 import Std.Test (assert_eq, assert_true)

@@ -12,46 +12,48 @@ in `Chelis-Lang/chelis`.
 
 ## How this shell's view is scoped
 
-The compiler version is pinned in [`reef.toml`](../reef.toml).
+hello-chelis has no single library domain: it is the teaching corpus, so the
+rows below track the capabilities the corpus **demonstrates**, plus the gaps
+that force an example to be written differently than a reader would expect. A
+capability Chelis has but this corpus does not teach is a missing example, not
+a gap; add it to [`curriculum.md`](curriculum.md).
 
-hello-chelis has no single library domain — it is the teaching corpus, so its
-"domain" is *whatever a reader is shown*. The rows below therefore track the
-capabilities the corpus **demonstrates**, and the gaps that force an example to
-be written differently than a reader would expect. A capability chelis has but
-this corpus does not teach is not a gap; it is a missing example, and belongs in
-[`docs/curriculum.md`](curriculum.md) instead.
+Language semantics come from the upstream canonical file and the numbered
+specs. Do not re-derive them here.
 
-Language semantics come from the upstream canonical file and the numbered specs.
-Do not re-derive them here.
+The 0.18.12 draft still awaits a compiler-matching Coral release before
+whole-package checks can run.
 
 ## Capabilities exercised by the corpus
 
 | Capability | Where | Status |
 |---|---|---|
-| Named tensor dimensions, dim polymorphism | `src/basics/hellotensor.ch`, `dimpoly.ch` | `@pin` |
-| ADTs + `match`, modules + imports | `src/basics/pipeandmatch.ch`, `modulesandimports.ch` | `@pin` |
-| Precision + explicit `cast` (no implicit promotion) | `src/basics/precisioncast.ch` | `@pin` |
-| Explicit random keys; `IO` and `Test` effects | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
-| Linearity: `copy`, `&borrow`, implicit auto-borrow | `src/basics/linearity.ch` | `@pin` |
-| `grad`, `vmap`, `jit` + `realize`, macros | `src/basics/{vmap,jitrealize,macrobasic}.ch` | `@pin` |
-| `chelis-std`: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
-| `chelis-std`: `Decimal[P, S]`, `DateTime`, `List`/`Dict`/iter | `src/std/` | `@pin` |
-| `coral` typed dataframes, `group_by`, joins, reshape, CSV/JSON | `src/coral/` | `@pin` |
-| AD through dataframe ops | `src/coral/adthroughdataframe.ch` | `@pin` |
-| `nautilus` special functions, distributions, linalg, stats, information theory, ODE/SDE | `src/nautilus/` | `@pin` |
+| Named tensor dimensions, dimension polymorphism | `src/basics/hellotensor.ch`, `dimpoly.ch` | `@pin` |
+| ADTs and `match`, modules and imports | `src/basics/pipeandmatch.ch`, `modulesandimports/` | `@pin` |
+| Precision and explicit `cast` (no implicit promotion) | `src/basics/precisioncast.ch` | `@pin` |
+| Explicit random keys, `split_key`, `IO`, and `Test`, evaluated in the host runtime | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
+| Linearity: consumption and `&` borrows | `src/basics/linearity.ch` | `@pin` |
+| `grad`, `vmap`, `realize`, macros, evaluated in the host runtime | `src/basics/{gradbasic,vmap,jitrealize,macrobasic}.ch` | `@pin` |
+| Checked extents on dimension-parameterized ADTs (`Frame[3]`) | `tests_neg/check/adt_extent_mismatch.ch` | `@pin` |
+| `chelis-std` and builtins: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
+| `chelis-std`: `List` / `Dict` / iteration, text I/O | `src/std/` | `@pin` |
+| `coral` typed dataframes, `group_by`, joins, windows, reshape, CSV | `src/coral/` | `@pin` |
+| `nautilus` special functions, distributions, linear algebra, statistics, information theory, ODE/SDE | `src/nautilus/` | `@pin` |
 | `octant` LaTeX -> Deep -> Surf triples | `octant/` | `@pin` |
-| `c-earchin` EARS requirements -> property witnesses | `c-earchin/` | `@pin` |
+| `c-earchin` EARS requirements -> property witnesses, proven by `chelis prove` | `c-earchin/` | `@pin` |
 | C-backend lowering: `grad` over a tensor reduction, `relu`, `sigmoid`, `cast`, `realize` | `verify/` | `@pin` |
-| Capstones: Black-Scholes Greeks, SGD linear regression, returns/risk pipeline over a `coral` frame | `src/capstone/` | `@pin` |
+| Capstones: Black-Scholes Greeks (host runtime), SGD linear regression, returns and risk over Coral and Nautilus | `src/capstone/` | `@pin` |
 
 ## Gaps that shape an example
 
-Each row is a place where the corpus is written around a limitation rather than
-around the reader. Every one cites its upstream issue; see
-[`UPSTREAM_BUGS.md`](UPSTREAM_BUGS.md) for the probe status.
+Each row is a place where the corpus is written around a limitation rather
+than around the reader. Each cites its upstream issue; see
+[`UPSTREAM_BUGS.md`](UPSTREAM_BUGS.md) for probe status.
 
 | Gap | Effect on the corpus | Status |
 |---|---|---|
-| Host-lane C backend rejects a scalar-gradient callee with local bindings (chelis#2379) | `verify/` programs are built in isolation from `/tmp`; a whole-package `chelis build` aborts on the capstone Black-Scholes Greeks | `@upstream` |
-| Integer type-application arguments are unenforced (chelis#1247) | `Frame[3]` is documentation, not a checked constraint; the corpus must not present it as one | `@upstream` |
-| Per-test-worker dependency recompilation | the native suite is compile-bound; CI's `chelis test` budget is 900s, not the 180s the suite's runtime warrants | `@upstream` |
+| Exact `Std.Decimal` arithmetic is unavailable (chelis#2778) | `tests_blocked/std/decimal.ch` retains the runtime assertions | `@upstream` |
+| Exact `Std.Time` arithmetic is unavailable (chelis#2779) | `tests_blocked/std/datetimecal.ch` retains the runtime assertions | `@upstream` |
+| C-backend scalar `grad` rejects some differentiated functions; the Black-Scholes Greeks trip it (chelis#2379) | `verify/` programs are built standalone from `/tmp`; a whole-package `chelis build` fails on the capstone Greeks, which are tested in the host runtime instead | `@upstream` |
+| Host-runtime `grad` cannot lower a function that uses a string literal (chelis#2552) | differentiating through a Coral frame (string-keyed column lookup) is not demonstrated; the Coral gradient example differentiates the tensor directly | `@upstream` |
+| `chelis test` default batch mode can be slower than `--batch-mode file` (chelis#1391) | the docs mention `--batch-mode file` for local runs; CI keeps the default | `@upstream` |

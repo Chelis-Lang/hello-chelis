@@ -1,14 +1,11 @@
-"""Build supported verify/*.ch via `chelis build --target c`, link with
-the chelis runtime + OpenBLAS, run the binary, and compare its tensor
-structure and numeric values with verify/expected/<name>.txt.
+"""Build each verify/*.ch via `chelis build --target c`, link with the
+chelis runtime + OpenBLAS, run the binary, and compare its tensor structure
+and numeric values with verify/expected/<name>.txt.
 
-This is the lane that demonstrates native C lowering where the pinned
-toolchain supports it. The IR evaluator
-(`chelis test`) still has a narrower primitive set; the C
-backend covers the supported lowering examples.
-
-Each verify/<name>.ch is a self-contained module (no `Hello.*` prefix)
-because this lane checks isolated C examples outside the teaching package.
+Each verify/<name>.ch is a standalone module (no `Hello.*` prefix) built
+from a temporary directory. verify/ is not a declared source root of the
+package, and building from inside the package lowers the whole package,
+which fails on the capstone Black-Scholes Greeks (chelis#2379).
 """
 
 from __future__ import annotations
