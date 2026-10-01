@@ -104,14 +104,31 @@ validation pass, or verification of a fix that a red team reported.
    in the PR. Do not substitute an external agent CLI.
 2. For every worktree handoff, run `git rev-parse HEAD` and
    `git status --porcelain --untracked-files=all` in that worktree. Run
-   `git worktree list --porcelain` from the shell repository. Inspect
-   `ps -axo pid,ppid,command` for `chelis`, `python`, `uv`, `pytest`, `docker`,
-   and gate processes; use `lsof -a -d cwd -p PID` when ownership is unclear.
+   `git worktree list --porcelain` from the shell repository. From anywhere
+   inside the candidate, set
+   `review_worktree="$(realpath "$(git rev-parse --show-toplevel)")"` and
+   `review_git_dir="$(realpath "$(git rev-parse --path-format=absolute --git-dir)")"`,
+   and `review_git_common_dir="$(realpath "$(git rev-parse --path-format=absolute --git-common-dir)")"`.
+   From outside these paths, scan all three with `lsof -nP -x f +D <path>`.
+   The physical worktree scan covers nested directories and mounts; the
+   Git scans cover the linked index and shared branch refs and locks. Use
+   `find "$review_git_dir" -name '*.lock' -print` and
+   `find "$review_git_common_dir" -name '*.lock' -print`; any lock blocks handoff
+   even without a live holder. Use `git -C "$review_worktree" ls-files -s`
+   to identify tracked symlinks (mode `120000`); resolve each listed path
+   from that root and scan any external source target. Scan
+   an external directory with `lsof -nP -x f +D <resolved-directory>` or
+   a file with `lsof -nP -- <resolved-file>`. Resolve a shared target to
+   a physical path and scan it separately with `lsof -nP -x f +D <target>`.
+   An unscanned external target forbids reuse. Do not filter by executable
+   name before these checks. Identify each returned PID with
+   `ps -p PID -o pid,ppid,command`, disregarding only scan processes after
+   they exit. Inspect stdout and stderr even when `lsof` exits nonzero.
    Paste the timestamp and command output into the brief. A dirty tree,
-   concurrent owner, or uncertain process scope forbids reuse. Use an isolated
-   worktree or target in that case. Author and reviewer never write or build
-   in the same worktree concurrently. A reviewer planning probes that mutate
-   tracked source uses its own worktree.
+   concurrent owner, Git lock, unavailable scan, or uncertain scope
+   forbids reuse; use an isolated worktree and target. Author and reviewer
+   never write or build in the same worktree concurrently. A reviewer
+   planning probes that mutate tracked source uses its own worktree.
 3. A new-round brief names the PR and round, pushed SHA, changed paths,
    bounded claims, worktree and target, handoff evidence, report budget,
    delivery channel, executed positive and negative probes, and restoration
