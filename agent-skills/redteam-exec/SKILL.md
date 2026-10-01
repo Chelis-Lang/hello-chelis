@@ -106,8 +106,9 @@ validation pass, or verification of a fix that a red team reported.
    `git status --porcelain --untracked-files=all` in that worktree. Run
    `git worktree list --porcelain` from the shell repository. Inventory all
    processes whose working directory is under the worktree with
-   `lsof -nP -a -d cwd +D "$PWD"`; check a shared target separately with
-   `lsof -nP +D "$target"`. Do not filter by executable name before this
+   `lsof -nP -a -d cwd -x f +D "$PWD"`; `-x f` includes mounted
+   subdirectories. Check a shared target separately with
+   `lsof -nP -x f +D "$target"`. Do not filter by executable name before this
    ownership check. Use `ps -p PID -o pid,ppid,command` to identify each
    returned PID, disregarding only scan processes after they exit. Inspect
    `lsof` output even when it exits nonzero. Paste the timestamp and command
