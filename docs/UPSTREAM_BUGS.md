@@ -13,6 +13,22 @@ using the named probe. Archived entries record completed checks.
 
 ## Tracking
 
+### chelis#1393: Reef auto-fetch misreads lockfile GitHub origins
+
+With an empty Reef registry, `chelis check` or `chelis test` can pass a full
+`github://` lockfile origin to the GitHub release installer, which expects an
+`org/repo@tag` coordinate. The resulting fetch fails before the package check.
+
+**Effect here:** the no-Docker path in
+[`getting_started.md`](getting_started.md) explicitly runs
+`chelis reef install --from-lockfile` before checking examples.
+
+**Probe:** set `CHELIS_REEF_HOME` to a fresh directory and run
+`chelis check src/basics/hellotensor.ch`; compare it with
+`chelis reef install --from-lockfile` followed by the same check.
+**De-narrow when fixed:** remove the required explicit install step from the
+no-Docker path once the pinned compiler's auto-fetch handles the lockfile origin.
+
 ### chelis#2552: host-runtime `grad` cannot lower a function that uses a string literal
 
 `chelis test` fails `grad` over any function whose body passes a string
