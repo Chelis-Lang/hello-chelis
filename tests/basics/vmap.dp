@@ -4,8 +4,10 @@
     hello.basics.vmap
     (process batch_process))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_process_doubles (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:119..333"}
+    test_process_doubles
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:119..333"}
     test_process_doubles
     (fn {}
       (params {})

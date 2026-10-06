@@ -4,10 +4,10 @@
     hello.nautilus.distributions
     (std_normal_pdf std_normal_cdf std_normal_quantile exp_cdf_half_life))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:182..334"}
     test_std_normal_pdf_at_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:182..334"}
     test_std_normal_pdf_at_zero
     (fn {}
       (params {})
@@ -19,10 +19,10 @@
         (lit {span: "surf:274..286", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.3989423)
         (lit {span: "surf:288..298", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:300..333", type: (t-prim {} string)} "std_normal_pdf(0) = 1/sqrt(2pi)"))))
-  (defsig {}
+  (defsig {span: "surf:335..462"}
     test_std_normal_cdf_at_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:335..462"}
     test_std_normal_cdf_at_zero
     (fn {}
       (params {})
@@ -34,10 +34,10 @@
         (lit {span: "surf:427..433", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
         (lit {span: "surf:435..445", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:447..461", type: (t-prim {} string)} "Phi(0) = 0.5"))))
-  (defsig {}
+  (defsig {span: "surf:463..600"}
     test_std_normal_quantile_half
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:463..600"}
     test_std_normal_quantile_half
     (fn {}
       (params {})
@@ -49,8 +49,10 @@
         (lit {span: "surf:562..568", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:570..580", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:582..599", type: (t-prim {} string)} "Phi^-1(0.5) = 0"))))
-  (defsig {} test_exp_cdf_half_life (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:601..737"}
+    test_exp_cdf_half_life
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:601..737"}
     test_exp_cdf_half_life
     (fn {}
       (params {})

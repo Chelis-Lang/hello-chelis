@@ -4,8 +4,10 @@
     hello.nautilus.distance
     (euclid manhattan_dist chebyshev_dist cosine_dist self_distance_zero))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} test_euclid_3_4_5 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:173..351"}
+    test_euclid_3_4_5
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:173..351"}
     test_euclid_3_4_5
     (fn {}
       (params {})
@@ -42,8 +44,10 @@
             (lit {span: "surf:317..323", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
             (lit {span: "surf:325..332", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:334..348", type: (t-prim {} string)} "euclid 3-4-5"))))))
-  (defsig {} test_manhattan_dist (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:352..558"}
+    test_manhattan_dist
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:352..558"}
     test_manhattan_dist
     (fn {}
       (params {})
@@ -86,8 +90,10 @@
             (lit {span: "surf:522..528", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)
             (lit {span: "surf:530..537", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:539..555", type: (t-prim {} string)} "L1 = 3+4+0 = 7"))))))
-  (defsig {} test_chebyshev_dist (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:559..765"}
+    test_chebyshev_dist
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:559..765"}
     test_chebyshev_dist
     (fn {}
       (params {})
@@ -130,10 +136,10 @@
             (lit {span: "surf:729..735", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
             (lit {span: "surf:737..744", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:746..762", type: (t-prim {} string)} "Linf = max = 5"))))))
-  (defsig {}
+  (defsig {span: "surf:766..969"}
     test_cosine_parallel_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:766..969"}
     test_cosine_parallel_zero
     (fn {}
       (params {})
@@ -170,10 +176,10 @@
             (lit {span: "surf:923..929", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
             (lit {span: "surf:931..938", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:940..966", type: (t-prim {} string)} "cosine_dist parallel = 0"))))))
-  (defsig {}
+  (defsig {span: "surf:970..1137"}
     test_self_distance_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:970..1137"}
     test_self_distance_zero
     (fn {}
       (params {})

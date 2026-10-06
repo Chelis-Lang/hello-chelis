@@ -2,13 +2,13 @@
   hello.std.tensorio
   (import {surf_path: "Std.Io"} std.io (read_text write_text exists))
   (export {} write_then_read file_or_default save_message)
-  (defsig {}
+  (defsig {span: "surf:128..255"}
     write_then_read
     (t-fn {eff: (effects {} io)}
       (t-prim {} string)
       (t-prim {} string)
       (t-prim {} string)))
-  (def {}
+  (def {span: "surf:128..255"}
     write_then_read
     (fn {}
       (params {} (path {type: (t-var {} _)}) (contents {type: (t-var {} _)}))
@@ -22,13 +22,13 @@
         (app {span: "surf:238..253"}
           (var {span: "surf:238..247"} read_text)
           (var {span: "surf:248..252"} path)))))
-  (defsig {}
+  (defsig {span: "surf:256..379"}
     file_or_default
     (t-fn {eff: (effects {} io)}
       (t-prim {} string)
       (t-prim {} string)
       (t-prim {} string)))
-  (def {}
+  (def {span: "surf:256..379"}
     file_or_default
     (fn {}
       (params {} (path {type: (t-var {} _)}) (fallback {type: (t-var {} _)}))
@@ -40,13 +40,13 @@
           (var {span: "surf:350..359"} read_text)
           (var {span: "surf:360..364"} path))
         (var {span: "surf:371..379"} fallback))))
-  (defsig {}
+  (defsig {span: "surf:380..530"}
     save_message
     (t-fn {eff: (effects {} io)}
       (t-prim {} string)
       (t-prim {} string)
       (t-prim {} string)))
-  (def {}
+  (def {span: "surf:380..530"}
     save_message
     (fn {}
       (params {} (path {type: (t-var {} _)}) (message {type: (t-var {} _)}))

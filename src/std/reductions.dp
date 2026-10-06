@@ -1,13 +1,13 @@
 (module {surf_path: "Hello.Std.Reductions"}
   hello.std.reductions
   (export {} sum_axis0 mean_axis0 prod_axis0 sum_rows)
-  (defsig {}
+  (defsig {span: "surf:81..156"}
     sum_axis0
     (r c)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
       (t-tensor {} (d-var {} c) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:81..156"}
     sum_axis0
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -15,12 +15,12 @@
         (var {span: "surf:144..147"} sum)
         (var {span: "surf:148..149"} x)
         (lit {span: "surf:151..155", surf_literal_style: "explicit", type: (t-prim {} i32)} 0))))
-  (defsig {}
+  (defsig {span: "surf:157..228"}
     mean_axis0
     (t-fn {}
       (t-ref {} (t-tensor {} (d-lit {} 3) (d-lit {} 4) (t-prim {} f32)))
       (t-tensor {} (d-lit {} 4) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:157..228"}
     mean_axis0
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -28,13 +28,13 @@
         (var {span: "surf:215..219"} mean)
         (var {span: "surf:220..221"} x)
         (lit {span: "surf:223..227", surf_literal_style: "explicit", type: (t-prim {} i32)} 0))))
-  (defsig {}
+  (defsig {span: "surf:229..313"}
     prod_axis0
     (r c)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
       (t-tensor {} (d-var {} c) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:229..313"}
     prod_axis0
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -42,13 +42,13 @@
         (var {span: "surf:293..304"} prod_reduce)
         (var {span: "surf:305..306"} x)
         (lit {span: "surf:308..312", surf_literal_style: "explicit", type: (t-prim {} i32)} 0))))
-  (defsig {}
+  (defsig {span: "surf:314..388"}
     sum_rows
     (r c)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} r) (d-var {} c) (t-prim {} f32)))
       (t-tensor {} (d-var {} r) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:314..388"}
     sum_rows
     (fn {}
       (params {} (x {type: (t-var {} _)}))

@@ -10,26 +10,26 @@
     sample_median
     sample_quartile_low
     sample_correlation)
-  (defsig {}
+  (defsig {span: "surf:231..290"}
     sample_mean
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:231..290"}
     sample_mean
     (fn {}
       (params {} (v {type: (t-var {} _)}))
       (app {span: "surf:279..290"}
         (var {span: "surf:279..287"} mean_vec)
         (var {span: "surf:288..289"} v))))
-  (defsig {}
+  (defsig {span: "surf:291..359"}
     sample_var
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:291..359"}
     sample_var
     (fn {}
       (params {} (v {type: (t-var {} _)}))
@@ -37,13 +37,13 @@
         (var {span: "surf:338..350"} variance_vec)
         (var {span: "surf:351..352"} v)
         (lit {span: "surf:354..358", type: (t-prim {} i64)} 1))))
-  (defsig {}
+  (defsig {span: "surf:360..423"}
     sample_std
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:360..423"}
     sample_std
     (fn {}
       (params {} (v {type: (t-var {} _)}))
@@ -51,26 +51,26 @@
         (var {span: "surf:407..414"} std_vec)
         (var {span: "surf:415..416"} v)
         (lit {span: "surf:418..422", type: (t-prim {} i64)} 1))))
-  (defsig {}
+  (defsig {span: "surf:424..487"}
     sample_median
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:424..487"}
     sample_median
     (fn {}
       (params {} (v {type: (t-var {} _)}))
       (app {span: "surf:474..487"}
         (var {span: "surf:474..484"} median_vec)
         (var {span: "surf:485..486"} v))))
-  (defsig {}
+  (defsig {span: "surf:488..568"}
     sample_quartile_low
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:488..568"}
     sample_quartile_low
     (fn {}
       (params {} (v {type: (t-var {} _)}))
@@ -78,14 +78,14 @@
         (var {span: "surf:544..556"} quantile_vec)
         (var {span: "surf:557..558"} v)
         (lit {span: "surf:560..567", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.25))))
-  (defsig {}
+  (defsig {span: "surf:569..668"}
     sample_correlation
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:569..668"}
     sample_correlation
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))

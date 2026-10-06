@@ -7,8 +7,10 @@
     coral.join
     (inner_join left_join outer_join))
   (export {} left_frame right_frame inner left outer)
-  (defsig {} left_frame (t-fn {} (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (defsig {span: "surf:207..348"}
+    left_frame
+    (t-fn {} (t-adt {} Frame (d-lit {} 3))))
+  (def {span: "surf:207..348"}
     left_frame
     (fn {}
       (params {})
@@ -49,8 +51,10 @@
                         (lit {span: "surf:336..342", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
                         (var {} Nil)))))))
             (var {} Nil))))))
-  (defsig {} right_frame (t-fn {} (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (defsig {span: "surf:349..496"}
+    right_frame
+    (t-fn {} (t-adt {} Frame (d-lit {} 3))))
+  (def {span: "surf:349..496"}
     right_frame
     (fn {}
       (params {})
@@ -91,8 +95,8 @@
                         (lit {span: "surf:483..490", surf_literal_style: "explicit", type: (t-prim {} f32)} 30.0)
                         (var {} Nil)))))))
             (var {} Nil))))))
-  (defsig {} inner (t-fn {} (t-adt {} Frame (d-lit {} 2))))
-  (def {}
+  (defsig {span: "surf:497..574"} inner (t-fn {} (t-adt {} Frame (d-lit {} 2))))
+  (def {span: "surf:497..574"}
     inner
     (fn {}
       (params {})
@@ -101,8 +105,8 @@
         (app {span: "surf:534..546"} (var {span: "surf:534..544"} left_frame))
         (app {span: "surf:548..561"} (var {span: "surf:548..559"} right_frame))
         (lit {span: "surf:563..573", type: (t-prim {} string)} "customer"))))
-  (defsig {} left (t-fn {} (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (defsig {span: "surf:575..650"} left (t-fn {} (t-adt {} Frame (d-lit {} 3))))
+  (def {span: "surf:575..650"}
     left
     (fn {}
       (params {})
@@ -111,8 +115,8 @@
         (app {span: "surf:610..622"} (var {span: "surf:610..620"} left_frame))
         (app {span: "surf:624..637"} (var {span: "surf:624..635"} right_frame))
         (lit {span: "surf:639..649", type: (t-prim {} string)} "customer"))))
-  (defsig {} outer (t-fn {} (t-adt {} Frame (d-lit {} 4))))
-  (def {}
+  (defsig {span: "surf:651..728"} outer (t-fn {} (t-adt {} Frame (d-lit {} 4))))
+  (def {span: "surf:651..728"}
     outer
     (fn {}
       (params {})

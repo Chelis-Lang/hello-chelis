@@ -9,7 +9,7 @@
     z_p_two_sided_zero
     t_one_sample
     t_one_sample_at_mean)
-  (defsig {}
+  (defsig {span: "surf:206..328"}
     z_score
     (t-fn {}
       (t-prim {} f32)
@@ -17,7 +17,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:206..328"}
     z_score
     (fn {}
       (params {}
@@ -31,8 +31,8 @@
         (var {span: "surf:307..315"} pop_mean)
         (var {span: "surf:317..324"} pop_std)
         (var {span: "surf:326..327"} n))))
-  (defsig {} z_score_at_mean (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:329..407"} z_score_at_mean (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:329..407"}
     z_score_at_mean
     (fn {}
       (params {})
@@ -42,15 +42,15 @@
         (lit {span: "surf:381..388", surf_literal_style: "explicit", type: (t-prim {} f32)} 50.0)
         (lit {span: "surf:390..397", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
         (lit {span: "surf:399..406", surf_literal_style: "explicit", type: (t-prim {} f32)} 25.0))))
-  (defsig {} z_p_two_sided_zero (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:408..469"} z_p_two_sided_zero (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:408..469"}
     z_p_two_sided_zero
     (fn {}
       (params {})
       (app {span: "surf:442..469"}
         (var {span: "surf:442..461"} z_p_value_two_sided)
         (lit {span: "surf:462..468", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))))
-  (defsig {}
+  (defsig {span: "surf:470..614"}
     t_one_sample
     (t-fn {}
       (t-prim {} f32)
@@ -58,7 +58,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:470..614"}
     t_one_sample
     (fn {}
       (params {}
@@ -72,8 +72,10 @@
         (var {span: "surf:590..600"} sample_std)
         (var {span: "surf:602..603"} n)
         (var {span: "surf:605..613"} pop_mean))))
-  (defsig {} t_one_sample_at_mean (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:615..706"}
+    t_one_sample_at_mean
+    (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:615..706"}
     t_one_sample_at_mean
     (fn {}
       (params {})

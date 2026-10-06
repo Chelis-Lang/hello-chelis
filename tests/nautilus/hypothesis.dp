@@ -4,10 +4,10 @@
     hello.nautilus.hypothesis
     (z_score_at_mean z_p_two_sided_zero t_one_sample_at_mean z_score))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:172..310"}
     test_z_score_at_mean_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:172..310"}
     test_z_score_at_mean_zero
     (fn {}
       (params {})
@@ -18,10 +18,10 @@
         (lit {span: "surf:257..263", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:265..272", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
         (lit {span: "surf:274..309", type: (t-prim {} string)} "z = 0 when sample_mean = pop_mean"))))
-  (defsig {}
+  (defsig {span: "surf:311..443"}
     test_z_p_two_sided_at_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:311..443"}
     test_z_p_two_sided_at_zero
     (fn {}
       (params {})
@@ -32,10 +32,10 @@
         (lit {span: "surf:400..406", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
         (lit {span: "surf:408..418", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:420..442", type: (t-prim {} string)} "two-sided p(z=0) = 1"))))
-  (defsig {}
+  (defsig {span: "surf:444..592"}
     test_t_one_sample_at_mean_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:444..592"}
     test_t_one_sample_at_mean_zero
     (fn {}
       (params {})
@@ -46,8 +46,10 @@
         (lit {span: "surf:539..545", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:547..554", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
         (lit {span: "surf:556..591", type: (t-prim {} string)} "t = 0 when sample_mean = pop_mean"))))
-  (defsig {} test_z_score_one_sigma (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:593..757"}
+    test_z_score_one_sigma
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:593..757"}
     test_z_score_one_sigma
     (fn {}
       (params {})

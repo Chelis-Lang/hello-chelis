@@ -4,8 +4,10 @@
     hello.capstone.blackscholes
     (call_price delta vega))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} test_call_atm (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:133..279"}
+    test_call_atm
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:133..279"}
     test_call_atm
     (fn {}
       (params {})
@@ -21,8 +23,10 @@
         (lit {span: "surf:244..254", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.4506)
         (lit {span: "surf:256..263", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
         (lit {span: "surf:265..278", type: (t-prim {} string)} "bs_call_atm"))))
-  (defsig {} test_delta_atm (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:280..424"}
+    test_delta_atm
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:280..424"}
     test_delta_atm
     (fn {}
       (params {})
@@ -38,8 +42,10 @@
         (lit {span: "surf:387..397", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.63683)
         (lit {span: "surf:399..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
         (lit {span: "surf:409..423", type: (t-prim {} string)} "bs_delta_atm"))))
-  (defsig {} test_vega_atm (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:425..564"}
+    test_vega_atm
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:425..564"}
     test_vega_atm
     (fn {}
       (params {})

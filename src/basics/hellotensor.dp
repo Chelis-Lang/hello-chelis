@@ -1,14 +1,14 @@
 (module {surf_path: "Hello.Basics.HelloTensor"}
   hello.basics.hellotensor
   (export {} add_vec)
-  (defsig {}
+  (defsig {span: "surf:49..133"}
     add_vec
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:49..133"}
     add_vec
     (fn {}
       (params {} (x {type: (t-var {} _)}) (y {type: (t-var {} _)}))

@@ -66,8 +66,6 @@ chelis test tests_blocked --expect blocked       # known upstream gaps
 ```
 
 Each `tests/<area>/<name>.ch` exercises the matching `src/<area>/<name>.ch`.
-On a many-core machine, adding `--batch-mode file` can halve the run time
-([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
 
 ## 5. Lint
 

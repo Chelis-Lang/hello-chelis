@@ -4,8 +4,10 @@
     hello.coral.windowrolling
     (mean3 std3 ewm_half))
   (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
-  (defsig {} is_nan_local (t-fn {} (t-prim {} f32) (t-prim {} bool)))
-  (def {}
+  (defsig {span: "surf:140..184"}
+    is_nan_local
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {span: "surf:140..184"}
     is_nan_local
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -13,10 +15,10 @@
         (var {span: "surf:175..178"} neq)
         (var {span: "surf:179..180"} x)
         (var {span: "surf:182..183"} x))))
-  (defsig {}
+  (defsig {span: "surf:185..560"}
     test_rolling_mean_window_3
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:185..560"}
     test_rolling_mean_window_3
     (fn {}
       (params {})
@@ -71,10 +73,10 @@
                 (lit {span: "surf:520..526", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0)
                 (lit {span: "surf:528..538", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
                 (lit {span: "surf:540..557", type: (t-prim {} string)} "mean3[4] == 4.0"))))))))
-  (defsig {}
+  (defsig {span: "surf:561..711"}
     test_rolling_std_window_3
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:561..711"}
     test_rolling_std_window_3
     (fn {}
       (params {})
@@ -93,8 +95,10 @@
           (lit {span: "surf:673..679", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
           (lit {span: "surf:681..690", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
           (lit {span: "surf:692..708", type: (t-prim {} string)} "std3[2] == 1.0")))))
-  (defsig {} test_ewm_alpha_half (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:712..934"}
+    test_ewm_alpha_half
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:712..934"}
     test_ewm_alpha_half
     (fn {}
       (params {})

@@ -43,9 +43,9 @@ jobs:
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           no-cache: true
           build-args: |
-            CHELIS_VERSION=0.18.12
-            CORAL_VERSION=0.7.44
-            NAUTILUS_VERSION=0.7.47
+            CHELIS_VERSION=0.18.13
+            CORAL_VERSION=0.7.45
+            NAUTILUS_VERSION=0.7.48
       - name: Check Chelis lint
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \

@@ -2,10 +2,10 @@
   hello.nautilus.curvefit
   (import {surf_path: "Nautilus.CurveFit"} nautilus.curvefit (lm_scalar_1param))
   (export {} fit_exp_decay fit_linear_through_origin)
-  (defsig {}
+  (defsig {span: "surf:125..197"}
     exp_decay_model
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:125..197"}
     exp_decay_model
     (fn {}
       (params {} (x {type: (t-var {} _)}) (theta {type: (t-var {} _)}))
@@ -17,10 +17,10 @@
             (var {span: "surf:182..185"} mul)
             (var {span: "surf:186..191"} theta)
             (var {span: "surf:193..194"} x))))))
-  (defsig {}
+  (defsig {span: "surf:198..298"}
     exp_decay_dmodel
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:198..298"}
     exp_decay_dmodel
     (fn {}
       (params {} (x {type: (t-var {} _)}) (theta {type: (t-var {} _)}))
@@ -41,8 +41,8 @@
             (var {span: "surf:286..289"} neg)
             (var {span: "surf:290..291"} x))
           (var {span: "surf:294..295"} e)))))
-  (defsig {} fit_exp_decay (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:299..547"} fit_exp_decay (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:299..547"}
     fit_exp_decay
     (fn {}
       (params {})
@@ -92,10 +92,10 @@
             (lit {span: "surf:520..527", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
             (lit {span: "surf:529..536", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:538..544", type: (t-prim {} i64)} 200))))))
-  (defsig {}
+  (defsig {span: "surf:548..604"}
     lin_model
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:548..604"}
     lin_model
     (fn {}
       (params {} (x {type: (t-var {} _)}) (theta {type: (t-var {} _)}))
@@ -103,16 +103,18 @@
         (var {span: "surf:591..594"} mul)
         (var {span: "surf:595..600"} theta)
         (var {span: "surf:602..603"} x))))
-  (defsig {}
+  (defsig {span: "surf:605..650"}
     lin_dmodel
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:605..650"}
     lin_dmodel
     (fn {}
       (params {} (x {type: (t-var {} _)}) (theta {type: (t-var {} _)}))
       (var {span: "surf:649..650"} x)))
-  (defsig {} fit_linear_through_origin (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:651..881"}
+    fit_linear_through_origin
+    (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:651..881"}
     fit_linear_through_origin
     (fn {}
       (params {})

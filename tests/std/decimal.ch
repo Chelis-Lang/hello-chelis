@@ -1,6 +1,6 @@
-module Hello.TestsBlocked.Std.Decimal
+module Hello.Tests.Std.Decimal
 import Hello.Std.Decimal (parse_price, total_cents, format_total, add_cents)
-import Std.Decimal (decimal, decimal_to_string, decimal_eq)
+import Std.Decimal (decimal, decimal_to_string)
 import Std.Test (assert_eq, assert_true)
 def test_parse_and_format() -> unit ! { Test } = {
   price = parse_price("19.95")
@@ -21,5 +21,5 @@ def test_format_total_with_discount() -> unit ! { Test } = {
 def test_add_cents() -> unit ! { Test } = {
   base = decimal("10.00")
   bumped = add_cents(base, 7i64)
-  assert_true(decimal_eq(bumped, decimal("10.07")), "add 7 cents")
+  assert_true(eq(bumped, decimal("10.07")), "add 7 cents")
 }

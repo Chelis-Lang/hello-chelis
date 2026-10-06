@@ -4,12 +4,12 @@
     hello.coral.adthroughdataframe
     (frame_shape_check simple_loss dsimple_loss_dw))
   (import {surf_path: "Std.Test"} std.test (assert_eq assert_close_tensor))
-  (defsig {}
+  (defsig {span: "surf:181..254"}
     reshape_to_one
     (t-fn {}
       (t-tensor {} (t-prim {} f32))
       (t-tensor {} (d-lit {} 1) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:181..254"}
     reshape_to_one
     (fn {}
       (params {} (s {type: (t-var {} _)}))
@@ -18,10 +18,10 @@
         (var {span: "surf:243..244"} s)
         (lit {span: "surf:246..247", type: (t-prim {} i32)} 0)
         (lit {span: "surf:249..253", type: (t-prim {} i64)} 1))))
-  (defsig {}
+  (defsig {span: "surf:255..416"}
     test_frame_shape_from_tensor
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:255..416"}
     test_frame_shape_from_tensor
     (fn {}
       (params {})
@@ -47,8 +47,10 @@
             (var {span: "surf:385..386"} w))
           (lit {span: "surf:389..393", type: (t-prim {} i64)} 3)
           (lit {span: "surf:395..413", type: (t-prim {} string)} "frame nrows == 3")))))
-  (defsig {} test_simple_loss_value (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:417..638"}
+    test_simple_loss_value
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:417..638"}
     test_simple_loss_value
     (fn {}
       (params {})
@@ -86,10 +88,10 @@
             (var {span: "surf:599..607"} expected)
             (lit {span: "surf:609..619", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
             (lit {span: "surf:621..635", type: (t-prim {} string)} "loss == 14.0"))))))
-  (defsig {}
+  (defsig {span: "surf:639..872"}
     test_dsimple_loss_dw_is_two_w
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:639..872"}
     test_dsimple_loss_dw_is_two_w
     (fn {}
       (params {})

@@ -4,10 +4,10 @@
     hello.std.reductions
     (sum_axis0 prod_axis0 sum_rows))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:127..215"}
     sample_grid
     (t-fn {} (t-tensor {} (d-lit {} 2) (d-lit {} 2) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:127..215"}
     sample_grid
     (fn {}
       (params {})
@@ -32,8 +32,10 @@
                 (lit {span: "surf:206..212", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0)
                 (var {} Nil)))
             (var {} Nil))))))
-  (defsig {} test_sum_axis0 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:216..451"}
+    test_sum_axis0
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:216..451"}
     test_sum_axis0
     (fn {}
       (params {})
@@ -67,8 +69,10 @@
             (lit {span: "surf:411..417", surf_literal_style: "explicit", type: (t-prim {} f32)} 6.0)
             (lit {span: "surf:419..426", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:428..448", type: (t-prim {} string)} "column 1 sums to 6"))))))
-  (defsig {} test_prod_axis0 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:452..695"}
+    test_prod_axis0
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:452..695"}
     test_prod_axis0
     (fn {}
       (params {})
@@ -102,8 +106,10 @@
             (lit {span: "surf:652..658", surf_literal_style: "explicit", type: (t-prim {} f32)} 8.0)
             (lit {span: "surf:660..667", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:669..692", type: (t-prim {} string)} "column 1 product is 8"))))))
-  (defsig {} test_sum_rows (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:696..923"}
+    test_sum_rows
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:696..923"}
     test_sum_rows
     (fn {}
       (params {})

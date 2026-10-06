@@ -1,15 +1,19 @@
 (module {surf_path: "Hello.Basics.PipeAndMatch"}
   hello.basics.pipeandmatch
   (export {} Activation activate pipeline)
-  (deftype {} Activation () (variant {} Relu) (variant {} Sigmoid))
-  (defsig {}
+  (deftype {span: "surf:73..111"}
+    Activation
+    ()
+    (variant {} Relu)
+    (variant {} Sigmoid))
+  (defsig {span: "surf:112..257"}
     activate
     (n)
     (t-fn {}
       (t-adt {} Activation)
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:112..257"}
     activate
     (fn {}
       (params {} (act {type: (t-var {} _)}) (x {type: (t-var {} _)}))
@@ -27,13 +31,13 @@
           (app {span: "surf:243..253"}
             (var {span: "surf:243..250"} sigmoid)
             (var {span: "surf:251..252"} x))))))
-  (defsig {}
+  (defsig {span: "surf:258..334"}
     pipeline
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:258..334"}
     pipeline
     (fn {}
       (params {} (x {type: (t-var {} _)}))

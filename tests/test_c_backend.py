@@ -3,9 +3,8 @@ chelis runtime + OpenBLAS, run the binary, and compare its tensor structure
 and numeric values with verify/expected/<name>.txt.
 
 Each verify/<name>.ch is a standalone module (no `Hello.*` prefix) built
-from a temporary directory. verify/ is not a declared source root of the
-package, and building from inside the package lowers the whole package,
-which fails on the capstone Black-Scholes Greeks (chelis#2379).
+from a temporary directory because verify/ is not a declared package source
+root. The capstone Greeks are also built and called through the package C API.
 """
 
 from __future__ import annotations
@@ -13,6 +12,7 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -142,3 +142,73 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         ), f"binary exited {run.returncode}:\n{run.stdout}\n{run.stderr}"
 
         assert_tensor_output_matches(run.stdout, golden.read_text())
+
+
+def test_capstone_greeks_compile_and_run_from_package() -> None:
+    if shutil.which("chelis") is None or shutil.which("cc") is None:
+        pytest.skip("chelis and a C compiler are required")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "blackscholes"
+        build = subprocess.run(
+            [
+                "chelis",
+                "build",
+                "--target",
+                "c",
+                str(REPO / "src/capstone/blackscholes.ch"),
+                "--output",
+                str(out_dir),
+            ],
+            cwd=REPO,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert (
+            build.returncode == 0
+        ), f"package C build failed:\n{build.stdout}\n{build.stderr}"
+
+        header = (out_dir / "blackscholes.h").read_text()
+        symbols = {}
+        for symbol, encoded in re.findall(
+            r"float (chelis_fn_([0-9a-f]+))\(float s, float k, float r, float sigma, float t\);",
+            header,
+        ):
+            identity = bytes.fromhex(encoded).decode()
+            for greek in ("delta", "vega"):
+                if identity.endswith(f"BlackScholes__{greek}"):
+                    symbols[greek] = symbol
+        assert set(symbols) == {"delta", "vega"}
+
+        driver = out_dir / "greeks_driver.c"
+        driver.write_text(
+            '#include <stdio.h>\n#include "blackscholes.h"\nint main(void) {\n'
+            + "".join(
+                f'  printf("{greek} = %.9g\\n", {symbols[greek]}(100.0f, 100.0f, 0.05f, 0.2f, 1.0f));\n'
+                for greek in ("delta", "vega")
+            )
+            + "  return 0;\n}\n"
+        )
+        binary = out_dir / "greeks_driver"
+        link = subprocess.run(
+            [
+                "cc",
+                str(driver),
+                str(out_dir / "libblackscholes.a"),
+                str(out_dir / "libchelis_runtime.a"),
+                *([] if sys.platform == "darwin" else link_flags()),
+                "-lm",
+                "-o",
+                str(binary),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert link.returncode == 0, f"C link failed:\n{link.stdout}\n{link.stderr}"
+        run = subprocess.run([str(binary)], check=False, capture_output=True, text=True)
+        assert run.returncode == 0, f"C binary failed:\n{run.stdout}\n{run.stderr}"
+        readings = dict(line.split(" = ") for line in run.stdout.strip().splitlines())
+        assert float(readings["delta"]) == pytest.approx(0.63683, abs=0.001)
+        assert float(readings["vega"]) == pytest.approx(37.524, abs=0.01)

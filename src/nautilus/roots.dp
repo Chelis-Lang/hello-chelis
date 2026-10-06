@@ -2,8 +2,10 @@
   hello.nautilus.roots
   (import {surf_path: "Nautilus.Roots"} nautilus.roots (bisection newton brent))
   (export {} sqrt2_bisect sqrt2_brent sqrt2_newton)
-  (defsig {} quad_minus_2 (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:126..182"}
+    quad_minus_2
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:126..182"}
     quad_minus_2
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -14,8 +16,10 @@
           (var {span: "surf:168..169"} x)
           (var {span: "surf:171..172"} x))
         (lit {span: "surf:175..181", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0))))
-  (defsig {} dquad_minus_2 (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:183..232"}
+    dquad_minus_2
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:183..232"}
     dquad_minus_2
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -23,8 +27,8 @@
         (var {span: "surf:218..221"} mul)
         (lit {span: "surf:222..228", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
         (var {span: "surf:230..231"} x))))
-  (defsig {} sqrt2_bisect (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:233..317"} sqrt2_bisect (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:233..317"}
     sqrt2_bisect
     (fn {}
       (params {})
@@ -35,8 +39,8 @@
         (lit {span: "surf:293..299", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
         (lit {span: "surf:301..308", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
         (lit {span: "surf:310..316", type: (t-prim {} i64)} 100))))
-  (defsig {} sqrt2_brent (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:318..398"} sqrt2_brent (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:318..398"}
     sqrt2_brent
     (fn {}
       (params {})
@@ -47,8 +51,8 @@
         (lit {span: "surf:373..379", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
         (lit {span: "surf:381..389", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0000000001)
         (lit {span: "surf:391..397", type: (t-prim {} i64)} 100))))
-  (defsig {} sqrt2_newton (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:399..487"} sqrt2_newton (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:399..487"}
     sqrt2_newton
     (fn {}
       (params {})

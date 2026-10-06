@@ -4,24 +4,26 @@
     std.decimal
     (Decimal
       decimal
-      decimal_from_int
+      decimal_from_i64
       decimal_add
       decimal_sub
       decimal_mul
       decimal_to_string))
   (export {} price_with_tax total_cents parse_price format_total add_cents)
-  (defsig {} parse_price (t-fn {} (t-prim {} string) (t-adt {} Decimal)))
-  (def {}
+  (defsig {span: "surf:214..270"}
+    parse_price
+    (t-fn {} (t-prim {} string) (t-adt {} Decimal)))
+  (def {span: "surf:214..270"}
     parse_price
     (fn {}
       (params {} (text {type: (t-var {} _)}))
       (app {span: "surf:257..270"}
         (var {span: "surf:257..264"} decimal)
         (var {span: "surf:265..269"} text))))
-  (defsig {}
+  (defsig {span: "surf:271..341"}
     total_cents
     (t-fn {} (t-adt {} Decimal) (t-adt {} Decimal) (t-adt {} Decimal)))
-  (def {}
+  (def {span: "surf:271..341"}
     total_cents
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
@@ -29,10 +31,10 @@
         (var {span: "surf:324..335"} decimal_add)
         (var {span: "surf:336..337"} a)
         (var {span: "surf:339..340"} b))))
-  (defsig {}
+  (defsig {span: "surf:342..447"}
     price_with_tax
     (t-fn {} (t-adt {} Decimal) (t-adt {} Decimal) (t-adt {} Decimal)))
-  (def {}
+  (def {span: "surf:342..447"}
     price_with_tax
     (fn {}
       (params {}
@@ -42,10 +44,10 @@
         (var {span: "surf:414..425"} decimal_mul)
         (var {span: "surf:426..430"} base)
         (var {span: "surf:432..446"} tax_multiplier))))
-  (defsig {}
+  (defsig {span: "surf:448..583"}
     format_total
     (t-fn {} (t-adt {} Decimal) (t-adt {} Decimal) (t-prim {} string)))
-  (def {}
+  (def {span: "surf:448..583"}
     format_total
     (fn {}
       (params {}
@@ -61,21 +63,25 @@
         (app {span: "surf:559..581"}
           (var {span: "surf:559..576"} decimal_to_string)
           (var {span: "surf:577..580"} net)))))
-  (defsig {}
+  (defsig {span: "surf:584..734"}
     add_cents
     (t-fn {} (t-adt {} Decimal) (t-prim {} i64) (t-adt {} Decimal)))
-  (def {}
+  (def {span: "surf:584..734"}
     add_cents
     (fn {}
       (params {} (price {type: (t-var {} _)}) (cents {type: (t-var {} _)}))
-      (let {span: "surf:639..724"}
+      (let {span: "surf:639..734"}
         (bind {}
           delta
-          (record {span: "surf:651..694"}
-            Decimal
-            (kv {} coefficient (var {span: "surf:674..679"} cents))
-            (kv {} scale (lit {span: "surf:688..692", type: (t-prim {} i64)} 2))))
-        (app {span: "surf:697..722"}
-          (var {span: "surf:697..708"} decimal_add)
-          (var {span: "surf:709..714"} price)
-          (var {span: "surf:716..721"} delta))))))
+          (app {span: "surf:651..704"}
+            (var {span: "surf:651..662"} decimal_mul)
+            (app {span: "surf:663..686"}
+              (var {span: "surf:663..679"} decimal_from_i64)
+              (var {span: "surf:680..685"} cents))
+            (app {span: "surf:688..703"}
+              (var {span: "surf:688..695"} decimal)
+              (lit {span: "surf:696..702", type: (t-prim {} string)} "0.01"))))
+        (app {span: "surf:707..732"}
+          (var {span: "surf:707..718"} decimal_add)
+          (var {span: "surf:719..724"} price)
+          (var {span: "surf:726..731"} delta))))))

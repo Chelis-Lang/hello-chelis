@@ -3,10 +3,10 @@
   (import {surf_path: "Hello.Coral.Joins"} hello.coral.joins (inner left outer))
   (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols))
   (import {surf_path: "Std.Test"} std.test (assert_eq))
-  (defsig {}
+  (defsig {span: "surf:139..351"}
     test_inner_join_intersection
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:139..351"}
     test_inner_join_intersection
     (fn {}
       (params {})
@@ -31,10 +31,10 @@
               (var {span: "surf:297..298"} r))
             (lit {span: "surf:301..305", type: (t-prim {} i64)} 3)
             (lit {span: "surf:307..348", type: (t-prim {} string)} "inner join: customer + qty + score == 3"))))))
-  (defsig {}
+  (defsig {span: "surf:352..563"}
     test_left_join_keeps_left_side
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:352..563"}
     test_left_join_keeps_left_side
     (fn {}
       (params {})
@@ -59,8 +59,10 @@
               (var {span: "surf:510..511"} r))
             (lit {span: "surf:514..518", type: (t-prim {} i64)} 3)
             (lit {span: "surf:520..560", type: (t-prim {} string)} "left join: customer + qty + score == 3"))))))
-  (defsig {} test_outer_join_union (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:564..772"}
+    test_outer_join_union
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:564..772"}
     test_outer_join_union
     (fn {}
       (params {})

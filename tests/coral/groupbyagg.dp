@@ -5,17 +5,17 @@
     (sales_frame total_per_city mean_per_city))
   (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols get_float_col))
   (import {surf_path: "Std.Test"} std.test (assert_eq assert_close))
-  (defsig {} zero_i64 (t-fn {} (t-prim {} i64)))
-  (def {}
+  (defsig {span: "surf:202..230"} zero_i64 (t-fn {} (t-prim {} i64)))
+  (def {span: "surf:202..230"}
     zero_i64
     (fn {}
       (params {})
       (lit {span: "surf:226..230", type: (t-prim {} i64)} 0)))
-  (defsig {}
+  (defsig {span: "surf:231..343"}
     tensor_sum_f32
     (n)
     (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:231..343"}
     tensor_sum_f32
     (fn {}
       (params {} (t {type: (t-var {} _)}))
@@ -31,8 +31,10 @@
         (app {span: "surf:332..342"}
           (var {span: "surf:332..339"} to_list)
           (var {span: "surf:340..341"} t)))))
-  (defsig {} test_sales_frame_shape (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:344..520"}
+    test_sales_frame_shape
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:344..520"}
     test_sales_frame_shape
     (fn {}
       (params {})
@@ -58,8 +60,10 @@
               (var {span: "surf:488..490"} df))
             (lit {span: "surf:493..497", type: (t-prim {} i64)} 2)
             (lit {span: "surf:499..517", type: (t-prim {} string)} "sales ncols == 2"))))))
-  (defsig {} test_agg_sum_per_city (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:521..845"}
+    test_agg_sum_per_city
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:521..845"}
     test_agg_sum_per_city
     (fn {}
       (params {})
@@ -103,8 +107,10 @@
                 (lit {span: "surf:793..800", surf_literal_style: "explicit", type: (t-prim {} f32)} 33.0)
                 (lit {span: "surf:802..810", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
                 (lit {span: "surf:812..842", type: (t-prim {} string)} "sum of per-city totals == 33"))))))))
-  (defsig {} test_agg_mean_per_city (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:846..1118"}
+    test_agg_mean_per_city
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:846..1118"}
     test_agg_mean_per_city
     (fn {}
       (params {})

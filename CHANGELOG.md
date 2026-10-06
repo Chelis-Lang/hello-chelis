@@ -10,6 +10,17 @@ version with the compiler and shell releases it is pinned to.
 - Use typed literal suffixes throughout the Surf corpus instead of casting
   numeric literals, and regenerate the paired Deep files.
 
+## 0.1.12 - 2026-10-05
+
+- Pin Chelis 0.18.13, Coral 0.7.45, and Nautilus 0.7.48, with the matching
+  Docker image and published Reef lock artifacts.
+- Teach exact `Std.Decimal` and validated `Std.Datetime` dates with executable
+  assertions. Compile and run the package's Black-Scholes Greeks through C.
+- Refresh conformance artifacts, Deep sidecars, Octant renderings, and negative
+  diagnostics for the pinned compiler.
+- Run Octant from its released CLI and c-earchin from committed witnesses;
+  their older Reef shell artifacts are not needed by the lessons.
+
 ## 0.1.11 - 2026-10-01
 
 - Prepare the Chelis 0.18.12 compiler pin with a bundled `chelis-std` lock

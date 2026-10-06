@@ -7,8 +7,10 @@
     parabola_minimum_gss
     parabola_minimum_brent
     parabola_minimum_newton)
-  (defsig {} parabola (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:192..271"}
+    parabola
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:192..271"}
     parabola
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -26,8 +28,10 @@
             (var {span: "surf:255..256"} d)
             (var {span: "surf:258..259"} d))
           (lit {span: "surf:262..268", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)))))
-  (defsig {} dparabola (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:272..330"}
+    dparabola
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:272..330"}
     dparabola
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -38,14 +42,18 @@
           (var {span: "surf:315..318"} sub)
           (var {span: "surf:319..320"} x)
           (lit {span: "surf:322..328", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)))))
-  (defsig {} ddparabola (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:331..369"}
+    ddparabola
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:331..369"}
     ddparabola
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (lit {span: "surf:363..369", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)))
-  (defsig {} parabola_minimum_gss (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:370..471"}
+    parabola_minimum_gss
+    (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:370..471"}
     parabola_minimum_gss
     (fn {}
       (params {})
@@ -56,8 +64,10 @@
         (lit {span: "surf:446..453", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
         (lit {span: "surf:455..462", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
         (lit {span: "surf:464..470", type: (t-prim {} i64)} 200))))
-  (defsig {} parabola_minimum_brent (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:472..568"}
+    parabola_minimum_brent
+    (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:472..568"}
     parabola_minimum_brent
     (fn {}
       (params {})
@@ -68,8 +78,10 @@
         (lit {span: "surf:543..550", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
         (lit {span: "surf:552..559", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
         (lit {span: "surf:561..567", type: (t-prim {} i64)} 200))))
-  (defsig {} parabola_minimum_newton (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:569..684"}
+    parabola_minimum_newton
+    (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:569..684"}
     parabola_minimum_newton
     (fn {}
       (params {})

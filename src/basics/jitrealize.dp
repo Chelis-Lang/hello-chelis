@@ -1,14 +1,14 @@
 (module {surf_path: "Hello.Basics.JitRealize"}
   hello.basics.jitrealize
   (export {} eager with_realize)
-  (defsig {}
+  (defsig {span: "surf:60..142"}
     eager
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:60..142"}
     eager
     (fn {}
       (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
@@ -16,13 +16,13 @@
         (var {span: "surf:133..136"} mul)
         (var {span: "surf:137..138"} w)
         (var {span: "surf:140..141"} x))))
-  (defsig {}
+  (defsig {span: "surf:143..259"}
     with_realize
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:143..259"}
     with_realize
     (fn {}
       (params {} (x {type: (t-var {} _)}))

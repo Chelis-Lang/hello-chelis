@@ -1,14 +1,14 @@
 (module {surf_path: "Hello.Capstone.LinReg"}
   hello.capstone.linreg
   (export {} predict mse_loss sgd_step)
-  (defsig {}
+  (defsig {span: "surf:66..210"}
     predict
     (t-fn {}
       (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))
       (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
       (t-tensor {} (d-lit {} 1) (t-prim {} f32))
       (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:66..210"}
     predict
     (fn {}
       (params {}
@@ -33,7 +33,7 @@
               (var {span: "surf:197..198"} b)
               (lit {span: "surf:200..201", type: (t-prim {} i32)} 0)
               (lit {span: "surf:203..208", type: (t-prim {} i64)} 64)))))))
-  (defsig {}
+  (defsig {span: "surf:211..434"}
     mse_loss
     (t-fn {}
       (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))
@@ -41,7 +41,7 @@
       (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
       (t-tensor {} (d-lit {} 1) (t-prim {} f32))
       (t-tensor {} (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:211..434"}
     mse_loss
     (fn {}
       (params {}
@@ -78,7 +78,7 @@
                   (var {span: "surf:415..423"} err_copy))
                 (lit {span: "surf:426..427", type: (t-prim {} i32)} 1))
               (lit {span: "surf:430..431", type: (t-prim {} i32)} 0)))))))
-  (defsig {}
+  (defsig {span: "surf:435..799"}
     sgd_step
     (t-fn {}
       (t-tensor {} (d-lit {} 64) (d-lit {} 64) (t-prim {} f32))
@@ -89,7 +89,7 @@
       (t-tuple {}
         (t-tensor {} (d-lit {} 64) (d-lit {} 1) (t-prim {} f32))
         (t-tensor {} (d-lit {} 1) (t-prim {} f32)))))
-  (def {}
+  (def {span: "surf:435..799"}
     sgd_step
     (fn {}
       (params {}

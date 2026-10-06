@@ -5,22 +5,22 @@
     coral.frame
     (nrows ncols get_float_col get_string_col))
   (import {surf_path: "Std.Test"} std.test (assert_eq assert_close))
-  (defsig {} zero_i64 (t-fn {} (t-prim {} i64)))
-  (def {}
+  (defsig {span: "surf:173..201"} zero_i64 (t-fn {} (t-prim {} i64)))
+  (def {span: "surf:173..201"}
     zero_i64
     (fn {}
       (params {})
       (lit {span: "surf:197..201", type: (t-prim {} i64)} 0)))
-  (defsig {} one_i64 (t-fn {} (t-prim {} i64)))
-  (def {}
+  (defsig {span: "surf:202..229"} one_i64 (t-fn {} (t-prim {} i64)))
+  (def {span: "surf:202..229"}
     one_i64
     (fn {}
       (params {})
       (lit {span: "surf:225..229", type: (t-prim {} i64)} 1)))
-  (defsig {}
+  (defsig {span: "surf:230..788"}
     test_csv_roundtrip_shape_and_values
     (t-fn {eff: (effects {} test io)} (t-unit {})))
-  (def {}
+  (def {span: "surf:230..788"}
     test_csv_roundtrip_shape_and_values
     (fn {}
       (params {})

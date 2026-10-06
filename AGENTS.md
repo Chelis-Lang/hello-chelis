@@ -10,9 +10,9 @@ intended for checking, testing, and (where the C backend supports it) lowering
 and running. Nothing here is illustrative pseudo-code.
 
 That makes this repo the ecosystem's **integration canary**: it is the only shell
-that consumes `chelis-std`, `coral`, `nautilus`, `octant`, and `c-earchin`
-together, so it is the first place a cascade that does not compose
-shows up. It is also the **Docker shell** — its CI ships and tests inside an
+that consumes `chelis-std`, `coral`, and `nautilus` together while exercising
+the released `octant` CLI and committed `c-earchin` witnesses. It is also the
+**Docker shell** — its CI ships and tests inside an
 image built from the published release tarball rather than a host toolchain.
 
 The upstream language rules and specifications live in
@@ -37,7 +37,7 @@ hello-specific worktree handoff. For a completion claim, use
 <!-- ## Pointers -->
 <!-- shell-local:exclude:end -->
 
-<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.18.12 (sha256:024191edd26f0388) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.18.13 (sha256:63dc71e671d4158b) -->
 # Chelis Agent Contract
 
 Keep this file concise and relevant to every agent working in this repository.
@@ -49,14 +49,18 @@ not drift.
 
 ## What Chelis Is
 
-Chelis is a functional language for AI research, built for a workflow where a coding
-agent is the primary author and a human is the supervisor, and where the programs are
-themselves AI systems: models, training loops, search spaces, learned functions. The
-bet is that a type system, representation, and compilation model designed around AI
-primitives from the start beat ones bolted onto Python or a systems language later. It
-is not a general-purpose language, a systems language, a web framework, or a Python
-replacement. `spec/00-context.md` and `spec/design/chelis_canonical_reference.md` own
-the full statement; their specifics may lag, their intent does not. When a tradeoff
+Chelis is a numerical computing language for code that agents write and people
+supervise. Tensors carry named dimensions and precision in their type; the compiler
+checks shapes, precision, effects, and ownership before anything runs, and `chelis
+prove` checks the properties an author states, naming the method behind each result.
+The bet is that numerical code an agent can reason about, and a person can review
+through its types and properties, beats code whose mistakes first surface at run time.
+Chelis is general purpose within numerical computing; the worked examples come from
+quantitative finance. Differentiation and machine-learning programs are research
+directions, not the definition of the language. It is not a systems language, a web
+framework, a deep-learning framework, or a general scripting replacement for Python.
+`spec/00-context.md` and `spec/design/chelis_canonical_reference.md` own the full
+statement; their specifics may lag, their intent does not. When a tradeoff
 appears, apply these in order:
 
 1. **Unambiguity over ergonomics.** The author is an agent. The friction a human feels
@@ -122,8 +126,10 @@ AST contract. `spec/02-surf-syntax.md` §0.1 is the authority.
 - Type system: no implicit precision promotion, named tensor dimensions match by name,
   no implicit broadcasting (explicit `expand` only), integer literals default to `i32`
   and float literals to `f32`.
-- `chelis build` emits C, a header, runtime artifacts, and compile flags; `--target hip`
-  emits host code with embedded kernel strings. Neither invokes the native compiler.
+- `chelis build` invokes the native compiler for C, HIP, or Metal and produces an
+  executable or static library, retaining sources and runtime artifacts. `--emit-c`
+  stops after source emission. CPU is the acceptance priority; GPU targets remain
+  prerelease. See `docs/book/src/backends.md`.
 
 <!-- END CHELIS MANAGED BLOCK: agents-inheritance -->
 
@@ -134,7 +140,7 @@ default. Python is uv-managed (`uv run`, dependency groups in `pyproject.toml`,
 `uv.lock` committed). See the managed block above for the upstream contract.
 
 CI runs inside the image built from [`docker/Dockerfile`](docker/Dockerfile),
-which installs the toolchain, the Octant CLI, and the shell packages from their
+which installs the toolchain, the Octant CLI, and imported packages from their
 release assets. That image carries its own copy of the pins, which
 `conform bump` does not rewrite. When the pin moves, update together:
 `ARG CHELIS_VERSION` and the shell `ARG`s in the Dockerfile, the `build-args:`

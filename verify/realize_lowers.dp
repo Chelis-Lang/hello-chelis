@@ -1,6 +1,6 @@
 (module {surf_path: "RealizeLowers"}
   realizelowers
-  (def {}
+  (def {span: "surf:21..61"}
     xs
     (app {span: "surf:26..61"}
       (var {span: "surf:26..35"} to_tensor)
@@ -14,12 +14,12 @@
             (var {} Cons)
             (lit {span: "surf:53..59", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:62..84"}
     deferred
     (app {span: "surf:73..84"}
       (var {span: "surf:73..76"} mul)
       (var {span: "surf:77..79"} xs)
       (var {span: "surf:81..83"} xs)))
-  (def {}
+  (def {span: "surf:85..117"}
     materialized
     (realize {span: "surf:100..117"} (var {span: "surf:108..116"} deferred))))

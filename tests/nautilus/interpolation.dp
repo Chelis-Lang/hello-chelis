@@ -4,8 +4,10 @@
     hello.nautilus.interpolation
     (linear_at_query hermite_unit_segment hermite_endpoint))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} test_linear_at_node (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:167..306"}
+    test_linear_at_node
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:167..306"}
     test_linear_at_node
     (fn {}
       (params {})
@@ -17,8 +19,10 @@
         (lit {span: "surf:252..258", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
         (lit {span: "surf:260..267", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
         (lit {span: "surf:269..305", type: (t-prim {} string)} "linear interp at node = node value"))))
-  (defsig {} test_linear_midpoint (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:307..453"}
+    test_linear_midpoint
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:307..453"}
     test_linear_midpoint
     (fn {}
       (params {})
@@ -30,10 +34,10 @@
         (lit {span: "surf:393..399", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.5)
         (lit {span: "surf:401..411", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:413..452", type: (t-prim {} string)} "linear interp midpoint of (1,1)-(2,4)"))))
-  (defsig {}
+  (defsig {span: "surf:454..603"}
     test_hermite_unit_midpoint
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:454..603"}
     test_hermite_unit_midpoint
     (fn {}
       (params {})
@@ -45,8 +49,10 @@
         (lit {span: "surf:551..557", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
         (lit {span: "surf:559..569", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:571..602", type: (t-prim {} string)} "Hermite cubic mid value = 0.5"))))
-  (defsig {} test_hermite_endpoint (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:604..739"}
+    test_hermite_endpoint
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:604..739"}
     test_hermite_endpoint
     (fn {}
       (params {})

@@ -4,8 +4,10 @@
     hello.std.collectionsiter
     (sum_evens increments take_first_three build_vocab lookup_or_default))
   (import {surf_path: "Std.Test"} std.test (assert_eq))
-  (defsig {} test_sum_evens (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:174..345"}
+    test_sum_evens
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:174..345"}
     test_sum_evens
     (fn {}
       (params {})
@@ -42,8 +44,10 @@
             (var {span: "surf:304..310"} result)
             (lit {span: "surf:312..316", type: (t-prim {} i64)} 6)
             (lit {span: "surf:318..342", type: (t-prim {} string)} "sum of evens in [1..5]"))))))
-  (defsig {} test_increments_length (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:346..527"}
+    test_increments_length
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:346..527"}
     test_increments_length
     (fn {}
       (params {})
@@ -76,8 +80,10 @@
               (var {span: "surf:480..486"} bumped))
             (lit {span: "surf:489..493", type: (t-prim {} i64)} 3)
             (lit {span: "surf:495..524", type: (t-prim {} string)} "increments preserves length"))))))
-  (defsig {} test_take_three (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:528..699"}
+    test_take_three
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:528..699"}
     test_take_three
     (fn {}
       (params {})
@@ -113,8 +119,10 @@
               (var {span: "surf:667..672"} taken))
             (lit {span: "surf:675..679", type: (t-prim {} i64)} 3)
             (lit {span: "surf:681..696", type: (t-prim {} string)} "take 3 from 4"))))))
-  (defsig {} test_vocab_lookup (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:700..953"}
+    test_vocab_lookup
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:700..953"}
     test_vocab_lookup
     (fn {}
       (params {})

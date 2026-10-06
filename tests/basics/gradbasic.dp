@@ -4,8 +4,10 @@
     hello.basics.gradbasic
     (dloss_dw dloss_dx))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_dloss_dw_is_x (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:125..376"}
+    test_dloss_dw_is_x
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:125..376"}
     test_dloss_dw_is_x
     (fn {}
       (params {})
@@ -63,10 +65,10 @@
               (var {span: "surf:344..352"} expected)
               (lit {span: "surf:354..361", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
               (lit {span: "surf:363..373", type: (t-prim {} string)} "dloss_dw")))))))
-  (defsig {}
+  (defsig {span: "surf:377..639"}
     test_dloss_dx_is_w_minus_one
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:377..639"}
     test_dloss_dx_is_w_minus_one
     (fn {}
       (params {})
