@@ -37,8 +37,8 @@ self-contained, and each has a test under `tests/basics/` with the same name:
    precision promotion; `cast` is explicit.
 6. [`effectsrandom.ch`](../src/basics/effectsrandom.ch): explicit random keys,
    deterministic replay, and independent draws with `split_key`.
-7. [`linearity.ch`](../src/basics/linearity.ch): tensors are consumed by
-   default; `&` borrows for read-only use.
+7. [`linearity.ch`](../src/basics/linearity.ch): tensor values are owned by
+   default; a `&tensor` parameter permits repeated read-only use.
 8. [`gradbasic.ch`](../src/basics/gradbasic.ch): `grad(f, wrt=w)`
    reverse-mode differentiation of a scalar loss.
 9. [`vmap.ch`](../src/basics/vmap.ch): lifting a per-example function over
