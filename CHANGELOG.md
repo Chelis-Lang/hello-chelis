@@ -21,6 +21,7 @@ version with the compiler and shell releases it is pinned to.
 - CI runs the Quickstart's `docker compose build` with only `github.token`,
   which cannot read private Chelis-Lang repositories, so a private release
   download in the image fails the build.
+- The c-earchin README no longer links to the private c-earchin repository.
 
 ## 0.1.12 - 2026-10-05
 
