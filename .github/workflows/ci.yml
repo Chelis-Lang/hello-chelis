@@ -173,3 +173,24 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             uv run --frozen --group test pytest -q tests/
+
+  # The README Quickstart as an outside user runs it: `docker compose build`
+  # with only github.token, which reads public repositories but no other
+  # private Chelis-Lang repository. A private release download anywhere in
+  # the image fails this job with a 404. Each job starts on a fresh runner and
+  # this one reads no shared layer cache, so no step is replayed from a build
+  # that used CHELIS_RELEASE_TOKEN.
+  public-quickstart:
+    name: Quickstart build with public access only
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker compose build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: docker compose -f docker/docker-compose.yml build
+      - name: docker compose run
+        run: |
+          docker compose -f docker/docker-compose.yml run --rm -T hello-chelis \
+            chelis check src/basics/hellotensor.ch

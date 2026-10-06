@@ -18,6 +18,9 @@ version with the compiler and shell releases it is pinned to.
 - Pin the Docker Compose service to `linux/amd64`, the only Linux platform
   Chelis publishes binaries for, so the Quickstart builds on Apple Silicon
   under emulation instead of failing at `chelis --version`.
+- CI runs the Quickstart's `docker compose build` with only `github.token`,
+  which cannot read private Chelis-Lang repositories, so a private release
+  download in the image fails the build.
 
 ## 0.1.12 - 2026-10-05
 
