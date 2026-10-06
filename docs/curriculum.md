@@ -79,12 +79,6 @@ modules: special functions, distributions, linear algebra, ODE/SDE solvers,
 optimization, hypothesis tests, curve fitting, information theory. Nautilus is written in
 Chelis, so its methods are ordinary Chelis functions.
 
-### Octant: LaTeX to Chelis
-
-[`octant/`](../octant/) holds LaTeX formulas and what the `octant` translator
-makes of them: Deep, a provenance map back to the LaTeX, and a Surf rendering
-from `chelis surf`. See [`octant/README.md`](../octant/README.md).
-
 ### c-earchin: requirements to proofs
 
 [`c-earchin/`](../c-earchin/) holds a set of finance requirements written in
@@ -97,8 +91,7 @@ original requirement's line. See [`c-earchin/README.md`](../c-earchin/README.md)
 [`src/capstone/`](../src/capstone/) combines the pieces:
 
 - [`blackscholes.ch`](../src/capstone/blackscholes.ch): the Black-Scholes
-  call price and its Greeks (delta, vega) via `grad`. The same `d_1` in
-  LaTeX is [`octant/black_scholes_d1.tex`](../octant/black_scholes_d1.tex).
+  call price and its Greeks (delta, vega) via `grad`.
 - [`linreg.ch`](../src/capstone/linreg.ch): linear regression with
   prediction, MSE loss, and an SGD step.
 - [`returnsrisk.ch`](../src/capstone/returnsrisk.ch): prices, returns,

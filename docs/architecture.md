@@ -56,14 +56,12 @@ src/
 tests/          one test module per src module         Hello.Tests.*
 tests_neg/      programs the checker must reject
 verify/         standalone programs compiled to C
-octant/         LaTeX inputs and their generated outputs
 c-earchin/      EARS requirements and their generated witnesses
 ```
 
 Each `src/` folder imports only `chelis-std` plus the package it tours; the
-capstones import across packages. `octant/` and `c-earchin/` sit outside
-`src/` because their contents are translator outputs, not modules of this
-package.
+capstones import across packages. `c-earchin/` sits outside `src/` because
+its contents are translator outputs, not modules of this package.
 
 The corpus is split by feature so that a regression points at one
 subsystem. A broken linearity check fails `linearity.ch`, not the whole
@@ -115,7 +113,6 @@ fails CI if a paired `.dp` differs from what `chelis deep` produces now.
 | `pytest tests/test_negative_examples.py` | each program is rejected with its declared error kind | `tests_neg/check/` |
 | `pytest tests/test_surf_deep_equivalence.py` | each `.dp` equals `chelis deep` of its `.ch` | [maintained Surf/Deep pairs](surf_and_deep.md) |
 | `pytest tests/test_c_backend.py` | compile to C, link, run, compare with golden output | `verify/*.ch` |
-| `pytest tests/test_octant_pairs.py` | `.tex` retranslates to the committed outputs | `octant/*.tex` |
 | `pytest tests/test_c_earchin_artifacts.py` | fixtures match the release; witnesses prove; the failure maps to its EARS line | `c-earchin/finance_options/` |
 
 ## Tracing C back to source

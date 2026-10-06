@@ -46,8 +46,7 @@ imports `normal_like`) reports them as unbound.
 
 `chelis surf <name>.dp` renders Deep back into Surf. The rendering is
 readable but not identical to hand-written source, so the repo does not
-require a round trip to reproduce the original `.ch`. The `.ch` files under
-`octant/` are produced this way from the translator's Deep output.
+require a round trip to reproduce the original `.ch`.
 
 ## Worked example
 

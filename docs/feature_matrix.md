@@ -10,8 +10,6 @@ under `tests/`, run by `chelis test tests/`.
 |---|---|---|
 | Surf, the human-facing syntax | every `.ch` under `src/`, `tests/`, `tests_neg/`, `verify/` | `chelis check`, `chelis test` |
 | Deep, the canonical AST form | [maintained Surf/Deep pairs](surf_and_deep.md) | [`test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py) |
-| LaTeX to Deep | [`octant/`](../octant/), four formulas | [`test_octant_pairs.py`](../tests/test_octant_pairs.py) |
-| Deep to Surf | `octant/*.ch`, rendered by `chelis surf` | same |
 | EARS requirements to property witnesses | [`c-earchin/finance_options/`](../c-earchin/finance_options/) | [`test_c_earchin_artifacts.py`](../tests/test_c_earchin_artifacts.py) |
 
 ## Language
@@ -88,15 +86,6 @@ Tensor `relu` and `sigmoid` are also compiled to C in
 | `Nautilus.Optim`: golden section, Brent, Newton | [`src/nautilus/optimize.ch`](../src/nautilus/optimize.ch) |
 | `Nautilus.Testing`: z and one-sample t statistics, p-values | [`src/nautilus/hypothesis.ch`](../src/nautilus/hypothesis.ch) |
 | `Nautilus.CurveFit`: one-parameter Levenberg-Marquardt | [`src/nautilus/curvefit.ch`](../src/nautilus/curvefit.ch) |
-
-## octant
-
-| LaTeX | Files |
-|---|---|
-| `d = e^{-r t}` | [`octant/discount_factor.*`](../octant/) |
-| `a = p (1 + r/n)^{n t}` | [`octant/compound_interest.*`](../octant/) |
-| `d_1 = (\ln(s/k) + (r + \sigma^2/2) t) / (\sigma \sqrt{t})` | [`octant/black_scholes_d1.*`](../octant/) |
-| `y = \phi(x)` | [`octant/normal_pdf.*`](../octant/) |
 
 ## Capstones
 

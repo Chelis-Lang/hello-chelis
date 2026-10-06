@@ -1,6 +1,6 @@
-# hello-chelis: Ubuntu 24.04 with the released Chelis toolchain, the Octant
-# CLI, and the shell packages the corpus depends on, all installed from
-# GitHub release assets (nothing is compiled from source).
+# hello-chelis: Ubuntu 24.04 with the released Chelis toolchain and the
+# shell packages the corpus depends on, all installed from GitHub release
+# assets (nothing is compiled from source).
 #
 # Build:
 #   export GITHUB_TOKEN=$(gh auth token)
@@ -79,24 +79,12 @@ RUN --mount=type=secret,id=github_token \
 # --- Install shell releases into Reef registry ----------------------------
 ARG CORAL_VERSION=0.7.45
 ARG NAUTILUS_VERSION=0.7.48
-ARG OCTANT_VERSION=0.13.2
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}"
-
-# --- Octant CLI from release tarball --------------------------------------
-RUN --mount=type=secret,id=github_token \
-    token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
-    && export GITHUB_TOKEN="$token" \
-    && asset="octant-v${OCTANT_VERSION}-linux-x86_64.tar.gz" \
-    && download-github-release-asset Chelis-Lang/octant "v${OCTANT_VERSION}" "$asset" "/tmp/${asset}" \
-    && mkdir -p /tmp/octant-toolchain \
-    && tar -xzf "/tmp/${asset}" -C /tmp/octant-toolchain --strip-components=1 \
-    && cp /tmp/octant-toolchain/bin/octant /usr/local/bin/octant \
-    && octant version
 
 # --- Python harness (uv-managed interpreter and environment) --------------
 # The pytest harness under tests/ runs from a uv environment outside the
