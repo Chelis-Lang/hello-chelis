@@ -1,6 +1,6 @@
 # `src/std/`: the standard library
 
-Tour of the standard-library surface intended for compiler v0.18.13. Every
+Tour of the standard-library surface with the pinned compiler. Every
 example here uses only the bundled runtime and the language builtins.
 
 | File | Uses | What it shows |

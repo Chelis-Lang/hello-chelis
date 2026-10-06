@@ -39,7 +39,8 @@
     double_apply
     (fn {}
       (params {} (f {type: (t-var {} _)}) (x {type: (t-var {} _)}))
-      (pipe {span: "surf:296..307"}
-        (var {span: "surf:296..297"} x)
-        (var {span: "surf:301..302"} f)
-        (var {span: "surf:306..307"} f)))))
+      (app {span: "surf:306..307"}
+        (var {span: "surf:306..307"} f)
+        (app {span: "surf:301..302"}
+          (var {span: "surf:301..302"} f)
+          (var {span: "surf:296..297"} x))))))

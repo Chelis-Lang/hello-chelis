@@ -2,11 +2,11 @@ schema = "3"
 [package]
 name = "hello-chelis"
 version = "0.1.12"
-compiler = "=0.18.13"
+compiler = "=0.19.0"
 module_prefix = "Hello"
 resolver = "2"
 
 [dependencies]
 chelis-std = { version = "=0.4.0" }
-coral = { version = "=0.7.45" }
-nautilus = { version = "=0.7.48" }
+coral = { version = "=0.7.46" }
+nautilus = { version = "=0.7.49" }

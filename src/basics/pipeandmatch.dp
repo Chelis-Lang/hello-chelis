@@ -41,7 +41,8 @@
     pipeline
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (pipe {span: "surf:314..334"}
-        (var {span: "surf:314..315"} x)
-        (var {span: "surf:319..323"} relu)
-        (var {span: "surf:327..334"} sigmoid)))))
+      (app {span: "surf:327..334"}
+        (var {span: "surf:327..334"} sigmoid)
+        (app {span: "surf:319..323"}
+          (var {span: "surf:319..323"} relu)
+          (var {span: "surf:314..315"} x))))))

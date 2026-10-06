@@ -25,8 +25,6 @@ Coral README and the feature matrix say so.
 
 **Probe:** [`../tests_blocked/coral/grad_string_key.ch`](../tests_blocked/coral/grad_string_key.ch)
 under `chelis test tests_blocked --expect blocked`.
-**Probe result:** The pinned diagnostic persists with Coral 0.7.45 and Chelis 0.18.13.
-
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.
 

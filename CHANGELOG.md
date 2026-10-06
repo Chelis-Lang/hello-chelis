@@ -7,6 +7,9 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Pin Chelis 0.19.0 and regenerate the Deep sidecars for normalized pipes.
+  Preserve literal values with explicit `f32` suffixes, and update the
+  declared Coral and Nautilus dependencies.
 - Use typed literal suffixes throughout the Surf corpus instead of casting
   numeric literals, and regenerate the paired Deep files.
 - Remove the Octant lesson so the Docker Quickstart builds without access
