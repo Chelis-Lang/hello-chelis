@@ -99,12 +99,16 @@ RUN --mount=type=secret,id=github_token \
 # --- Install shell releases into Reef registry ----------------------------
 ARG CORAL_VERSION=0.7.46
 ARG NAUTILUS_VERSION=0.7.49
+ARG SHORELEAVE_VERSION=0.1.1
+ARG SHOALS_VERSION=0.24.14
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
-    && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}"
+    && chelis reef install --from-github "chelis-lang/coral@v${CORAL_VERSION}" \
+    && chelis reef install --from-github "chelis-lang/nautilus@v${NAUTILUS_VERSION}" \
+    && chelis reef install --from-github "chelis-lang/shoreleave@v${SHORELEAVE_VERSION}" \
+    && chelis reef install --from-github "chelis-lang/shoals@v${SHOALS_VERSION}"
 
 # --- Python harness (uv-managed interpreter and environment) --------------
 # The pytest harness under tests/ runs from a uv environment outside the

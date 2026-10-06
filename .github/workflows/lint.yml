@@ -46,6 +46,8 @@ jobs:
             CHELIS_VERSION=0.19.0
             CORAL_VERSION=0.7.46
             NAUTILUS_VERSION=0.7.49
+            SHORELEAVE_VERSION=0.1.1
+            SHOALS_VERSION=0.24.14
       - name: Check Chelis lint
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
