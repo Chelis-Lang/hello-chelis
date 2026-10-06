@@ -198,3 +198,9 @@ changes land upstream first (`Chelis-Lang/chelis`) and propagate here via
 - **`docs/CHELIS_SURFACE.md` is domain-scoped to the teaching corpus** rather
   than to one library's primitive families, because this shell has no single
   domain. See that file's preamble.
+- **Docker corpus CI is shell-local.** The `corpus` job builds the published-release
+  image, checks the package, runs a C build smoke, and runs conformance, lint,
+  native and Python tests, and negative and blocked probes. Dependent jobs
+  report its result under the established check names.
+  `public-quickstart` separately builds with public release access only; `lint.yml`
+  checks Python style without building the image.
