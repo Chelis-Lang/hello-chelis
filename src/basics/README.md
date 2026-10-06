@@ -14,7 +14,7 @@ and a test of the same name under [`tests/basics/`](../../tests/basics/).
 | 4 | [`dimpoly.ch`](dimpoly.ch) | dimension-polymorphic functions with `[a]` binders |
 | 5 | [`precisioncast.ch`](precisioncast.ch) | no implicit precision promotion; explicit `cast` |
 | 6 | [`effectsrandom.ch`](effectsrandom.ch) | explicit keys, deterministic replay, and independent draws via `split_key` |
-| 7 | [`linearity.ch`](linearity.ch) | reading a tensor several times through `&` borrows |
+| 7 | [`linearity.ch`](linearity.ch) | repeated borrowed reads and explicit copy into an owned parameter; see the [rejected call](../../tests_neg/check/borrow_requires_copy.ch) |
 | 8 | [`gradbasic.ch`](gradbasic.ch) | `grad(loss, wrt=w)` on a scalar loss |
 | 9 | [`vmap.ch`](vmap.ch) | lifting a per-example function over a batch dimension |
 | 10 | [`jitrealize.ch`](jitrealize.ch) | forcing evaluation with `realize`, next to an eager baseline |

@@ -26,7 +26,7 @@ under `tests/`, run by `chelis test tests/`.
 | Explicit random keys, replay, and `split_key` | [`src/basics/effectsrandom.ch`](../src/basics/effectsrandom.ch) | `tests/basics/effectsrandom.ch` |
 | `IO` effect | [`src/std/tensorio.ch`](../src/std/tensorio.ch) | `chelis test` |
 | `Test` effect | every test module | by construction |
-| Linearity: consumption and `&` borrows | [`src/basics/linearity.ch`](../src/basics/linearity.ch) | `chelis test` |
+| Repeated reads through `&tensor` and explicit copy into an owned parameter | [`src/basics/linearity.ch`](../src/basics/linearity.ch) | `tests/basics/linearity.ch` |
 | `grad` (reverse-mode differentiation) | [`src/basics/gradbasic.ch`](../src/basics/gradbasic.ch), [`src/capstone/blackscholes.ch`](../src/capstone/blackscholes.ch) | `chelis test`; compiled in [`verify/grad_quadratic.ch`](../verify/grad_quadratic.ch), [`verify/grad_works.ch`](../verify/grad_works.ch) |
 | `vmap` | [`src/basics/vmap.ch`](../src/basics/vmap.ch) | `chelis test` |
 | `realize` | [`src/basics/jitrealize.ch`](../src/basics/jitrealize.ch) | `chelis test`; compiled in [`verify/realize_lowers.ch`](../verify/realize_lowers.ch) |
@@ -36,6 +36,7 @@ under `tests/`, run by `chelis test tests/`.
 | Declared ADT extent checked | [`tests_neg/check/adt_extent_mismatch.ch`](../tests_neg/check/adt_extent_mismatch.ch) | negative suite |
 | Missing or reused random key rejected | [`tests_neg/check/keyless_uniform.ch`](../tests_neg/check/keyless_uniform.ch), [`tests_neg/check/reused_random_key.ch`](../tests_neg/check/reused_random_key.ch) | negative suite |
 | Precision mismatch rejected | [`tests_neg/check/precision_mismatch.ch`](../tests_neg/check/precision_mismatch.ch) | negative suite |
+| Borrowed tensor passed to an owned parameter without `copy` rejected | [`tests_neg/check/borrow_requires_copy.ch`](../tests_neg/check/borrow_requires_copy.ch) | negative suite |
 
 The negative suite runs twice: `chelis test tests_neg --expect neg` checks
 each diagnostic's text, and `pytest tests/test_negative_examples.py` checks
