@@ -36,5 +36,5 @@ The full API is documented in the Nautilus book (`docs/book/` in the
 - `gauss_legendre_5` takes an `n_points` argument that it ignores; it is
   always a 5-point rule
   ([nautilus#80](https://github.com/Chelis-Lang/nautilus/issues/80)).
-- `Nautilus.Signal` is skipped: its transforms and filters currently return
+- `Nautilus.Signal` is skipped: its transforms and filters return
   NaN ([nautilus#81](https://github.com/Chelis-Lang/nautilus/issues/81)).

@@ -27,27 +27,23 @@
     deterministic_sample
     (fn {}
       (params {})
-      (pipe {span: "surf:335..410"}
+      (app {span: "surf:359..410"}
+        (var {span: "surf:359..373"} sample_uniform)
         (app {span: "surf:335..355"}
           (var {span: "surf:335..348"} key_from_seed)
           (lit {span: "surf:349..354", type: (t-prim {} i64)} 42))
-        (fn {span: "surf:359..410", surf_pipe_stage: "call-first"}
-          (params {} __chelis_pipe)
-          (app {span: "surf:359..410"}
-            (var {span: "surf:359..373"} sample_uniform)
-            (var {span: "surf:359..410"} __chelis_pipe)
-            (app {span: "surf:374..409"}
-              (var {span: "surf:374..383"} to_tensor)
-              (app {span: "surf:384..408"}
+        (app {span: "surf:374..409"}
+          (var {span: "surf:374..383"} to_tensor)
+          (app {span: "surf:384..408"}
+            (var {} Cons)
+            (lit {span: "surf:385..391", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:393..399", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (app {}
                 (var {} Cons)
-                (lit {span: "surf:385..391", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                (app {}
-                  (var {} Cons)
-                  (lit {span: "surf:393..399", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                  (app {}
-                    (var {} Cons)
-                    (lit {span: "surf:401..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                    (var {} Nil))))))))))
+                (lit {span: "surf:401..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                (var {} Nil))))))))
   (defsig {span: "surf:411..664"}
     independent_pair
     (t-fn {}
@@ -61,11 +57,11 @@
       (let {span: "surf:472..664"}
         (bind {destructure: true}
           __chelis_tmp0
-          (pipe {span: "surf:502..535"}
+          (app {span: "surf:526..535"}
+            (var {span: "surf:526..535"} split_key)
             (app {span: "surf:502..522"}
               (var {span: "surf:502..515"} key_from_seed)
-              (lit {span: "surf:516..521", type: (t-prim {} i64)} 42))
-            (var {span: "surf:526..535"} split_key)))
+              (lit {span: "surf:516..521", type: (t-prim {} i64)} 42))))
         (let {}
           (bind {destructure: true}
             __chelis_tmp2

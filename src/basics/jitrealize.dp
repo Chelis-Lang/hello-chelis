@@ -29,18 +29,11 @@
       (let {span: "surf:203..259"}
         (bind {}
           doubled
-          (pipe {span: "surf:217..239"}
-            (var {span: "surf:217..218"} x)
-            (fn {span: "surf:222..228", surf_pipe_stage: "call-first"}
-              (params {} __chelis_pipe)
-              (app {span: "surf:222..228"}
-                (var {span: "surf:222..225"} add)
-                (var {span: "surf:222..228"} __chelis_pipe)
-                (var {span: "surf:226..227"} x)))
-            (fn {span: "surf:232..239", surf_pipe_stage: "call-first"}
-              (params {} __chelis_pipe)
-              (realize {span: "surf:232..239"}
-                (var {span: "surf:232..239"} __chelis_pipe)))))
+          (realize {span: "surf:232..239"}
+            (app {span: "surf:222..228"}
+              (var {span: "surf:222..225"} add)
+              (var {span: "surf:217..218"} x)
+              (var {span: "surf:226..227"} x))))
         (app {span: "surf:242..257"}
           (var {span: "surf:242..245"} add)
           (var {span: "surf:246..253"} doubled)

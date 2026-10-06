@@ -21,8 +21,9 @@ The image is `ubuntu:24.04` plus:
 
 - the `chelis` CLI, `libchelis_runtime.a`, and its headers, from the chelis
   release tarball;
-- the `coral` and `nautilus` packages, installed into the local Reef registry with
-  `chelis reef install --from-github` (`chelis-std` ships with the compiler);
+- the `coral`, `nautilus`, `shoreleave`, and `shoals` packages, installed into
+  the local Reef registry with `chelis reef install --from-github`
+  (`chelis-std` ships with the compiler);
 - GCC, OpenBLAS, and libgomp for the C backend, and valgrind;
 - `uv` with a uv-managed Python environment for the test harness.
 
@@ -39,7 +40,16 @@ builds and runs the image under emulation.
 You can also work without Docker: install the toolchain with `chelisup`
 (see the Chelis
 [install guide](https://github.com/Chelis-Lang/chelis/blob/main/docs/book/src/install.md)),
-which reads the pinned version from `reef.toml`.
+which reads the pinned version from `reef.toml`. Then populate the local Reef
+registry from the published artifacts recorded in `reef.lock`:
+
+```sh
+export GITHUB_TOKEN=$(gh auth token)
+chelis reef install --from-lockfile
+```
+
+The explicit install validates the lockfile hashes and avoids the tracked
+auto-fetch failure in [chelis#1393](https://github.com/Chelis-Lang/chelis/issues/1393).
 
 ## 2. Open a shell in the container
 

@@ -99,9 +99,10 @@ proofs). A nightly job runs a compiled program under valgrind.
 
 ## Versions
 
-The corpus pins **chelis 0.18.13**, bundled `chelis-std` 0.4.0,
-`coral` 0.7.45, `nautilus` 0.7.48, and `c-earchin` 0.3.5.
-The `compiler = "=0.18.13"` pin in `reef.toml` is exact: Chelis is pre-1.0,
+The corpus pins **chelis 0.19.0**, bundled `chelis-std` 0.4.0,
+`coral` 0.7.46, `nautilus` 0.7.49, `shoals` 0.24.14 (with `shoreleave`
+0.1.1), and `c-earchin` 0.3.5.
+The `compiler = "=0.19.0"` pin in `reef.toml` is exact: Chelis is pre-1.0,
 and minor versions can break source compatibility.
 
 ## Known limitations

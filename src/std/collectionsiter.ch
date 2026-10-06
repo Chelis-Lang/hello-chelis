@@ -1,7 +1,7 @@
 module Hello.Std.CollectionsIter
 export (sum_evens, running_sums, build_vocab, lookup_or_default, take_first_three, double_then_pairs, increments, partition_threshold)
 def sum_evens(xs: List[i64]) -> i64 = {
-  evens = filter(fn (x: i64) -> x |> mod(2i64) |> eq(0i64), xs)
+  evens = filter(fn (x: i64) -> (x |> mod(2i64) |> eq(0i64)), xs)
   fold(fn (acc: i64, x: i64) -> add(acc, x), 0i64, evens)
 }
 def running_sums(xs: List[i64]) -> List[i64] = scan(fn (acc: i64, x: i64) -> add(acc, x), 0i64, xs)

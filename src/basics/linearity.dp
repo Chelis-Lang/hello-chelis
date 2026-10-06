@@ -53,10 +53,6 @@
     copy_for_owner
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (pipe {span: "surf:343..366"}
-        (var {span: "surf:343..344"} x)
-        (fn {span: "surf:348..352", surf_pipe_stage: "call-first"}
-          (params {} __chelis_pipe)
-          (copy {span: "surf:348..352"}
-            (var {span: "surf:348..352"} __chelis_pipe)))
-        (var {span: "surf:356..366"} take_owned)))))
+      (app {span: "surf:356..366"}
+        (var {span: "surf:356..366"} take_owned)
+        (copy {span: "surf:348..352"} (var {span: "surf:343..344"} x))))))

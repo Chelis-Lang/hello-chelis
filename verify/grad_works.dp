@@ -39,15 +39,12 @@
                 (var {span: "surf:159..162"} mul)
                 (var {span: "surf:163..166"} err)
                 (var {span: "surf:168..169"} x)))
-            (pipe {span: "surf:173..207"}
-              (var {span: "surf:173..177"} prod)
-              (fn {span: "surf:181..187", surf_pipe_stage: "call-first"}
-                (params {} __chelis_pipe)
-                (app {span: "surf:181..187"}
-                  (var {span: "surf:181..184"} sum)
-                  (var {span: "surf:181..187"} __chelis_pipe)
-                  (lit {span: "surf:185..186", type: (t-prim {} i32)} 0)))
-              (var {span: "surf:191..207"} tensor_to_scalar)))))))
+            (app {span: "surf:191..207"}
+              (var {span: "surf:191..207"} tensor_to_scalar)
+              (app {span: "surf:181..187"}
+                (var {span: "surf:181..184"} sum)
+                (var {span: "surf:173..177"} prod)
+                (lit {span: "surf:185..186", type: (t-prim {} i32)} 0))))))))
   (defsig {span: "surf:210..424"}
     dloss_dw
     (t-fn {}
