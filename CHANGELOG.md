@@ -22,6 +22,12 @@ version with the compiler and shell releases it is pinned to.
   which cannot read private Chelis-Lang repositories, so a private release
   download in the image fails the build.
 - The c-earchin README no longer links to the private c-earchin repository.
+- The Dockerfile's release download helper reports the HTTP status GitHub
+  returned, and what a 401, 403/429, or 404 means, instead of stopping with
+  a bare `curl: (22)` error.
+- `# syntax=docker/dockerfile:1.7` moves to the Dockerfile's first line.
+  Below the header comments BuildKit read it as a comment and fell back to
+  its built-in frontend.
 
 ## 0.1.12 - 2026-10-05
 
