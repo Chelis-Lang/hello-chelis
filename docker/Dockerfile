@@ -11,6 +11,10 @@
 #
 # The GitHub token is passed as a BuildKit secret and used only to
 # authenticate the release-asset downloads; it is not stored in the image.
+#
+# The image is linux/amd64 only: Chelis publishes Linux binaries for x86_64.
+# docker-compose.yml pins that platform; with plain `docker build`, pass
+# `--platform linux/amd64`.
 
 # syntax=docker/dockerfile:1.7
 

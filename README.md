@@ -38,6 +38,10 @@ docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 ```
 
+`docker-compose.yml` pins the image to `linux/amd64`, the only Linux platform
+Chelis publishes binaries for, so on Apple Silicon Docker runs it under
+emulation.
+
 Inside the container, your checkout is mounted at `/workspace`:
 
 ```sh
