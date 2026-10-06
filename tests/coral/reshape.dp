@@ -5,8 +5,10 @@
     (pivoted melted))
   (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols))
   (import {surf_path: "Std.Test"} std.test (assert_eq))
-  (defsig {} test_pivot_shape (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:140..324"}
+    test_pivot_shape
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:140..324"}
     test_pivot_shape
     (fn {}
       (params {})
@@ -31,8 +33,10 @@
               (var {span: "surf:280..281"} p))
             (lit {span: "surf:284..288", type: (t-prim {} i64)} 3)
             (lit {span: "surf:290..321", type: (t-prim {} string)} "pivot: city + x + y == 3 cols"))))))
-  (defsig {} test_melt_shape (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:325..525"}
+    test_melt_shape
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:325..525"}
     test_melt_shape
     (fn {}
       (params {})

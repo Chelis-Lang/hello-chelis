@@ -9,10 +9,10 @@
     double_then_pairs
     increments
     partition_threshold)
-  (defsig {}
+  (defsig {span: "surf:168..331"}
     sum_evens
     (t-fn {} (t-adt {} List (t-prim {} i64)) (t-prim {} i64)))
-  (def {}
+  (def {span: "surf:168..331"}
     sum_evens
     (fn {}
       (params {} (xs {type: (t-var {} _)}))
@@ -50,10 +50,10 @@
               (var {span: "surf:313..314"} x)))
           (lit {span: "surf:317..321", type: (t-prim {} i64)} 0)
           (var {span: "surf:323..328"} evens)))))
-  (defsig {}
+  (defsig {span: "surf:332..431"}
     running_sums
     (t-fn {} (t-adt {} List (t-prim {} i64)) (t-adt {} List (t-prim {} i64))))
-  (def {}
+  (def {span: "surf:332..431"}
     running_sums
     (fn {}
       (params {} (xs {type: (t-var {} _)}))
@@ -67,13 +67,13 @@
             (var {span: "surf:418..419"} x)))
         (lit {span: "surf:422..426", type: (t-prim {} i64)} 0)
         (var {span: "surf:428..430"} xs))))
-  (defsig {}
+  (defsig {span: "surf:432..534"}
     build_vocab
     (t-fn {}
       (t-adt {} List (t-prim {} string))
       (t-adt {} List (t-prim {} i64))
       (t-adt {} Dict (t-prim {} string) (t-prim {} i64))))
-  (def {}
+  (def {span: "surf:432..534"}
     build_vocab
     (fn {}
       (params {} (keys {type: (t-var {} _)}) (ids {type: (t-var {} _)}))
@@ -86,14 +86,14 @@
             (var {span: "surf:515..523"} __chelis_pipe)
             (var {span: "surf:519..522"} ids)))
         (var {span: "surf:527..534"} dict_of))))
-  (defsig {}
+  (defsig {span: "surf:535..697"}
     lookup_or_default
     (t-fn {}
       (t-adt {} Dict (t-prim {} string) (t-prim {} i64))
       (t-prim {} string)
       (t-prim {} i64)
       (t-prim {} i64)))
-  (def {}
+  (def {span: "surf:535..697"}
     lookup_or_default
     (fn {}
       (params {}
@@ -110,10 +110,10 @@
           ()
           (var {span: "surf:665..670"} value))
         (arm {} (pat-ctor {} None) () (var {span: "surf:685..693"} fallback)))))
-  (defsig {}
+  (defsig {span: "surf:698..779"}
     increments
     (t-fn {} (t-adt {} List (t-prim {} i64)) (t-adt {} List (t-prim {} i64))))
-  (def {}
+  (def {span: "surf:698..779"}
     increments
     (fn {}
       (params {} (xs {type: (t-var {} _)}))
@@ -126,10 +126,10 @@
             (var {span: "surf:766..767"} x)
             (lit {span: "surf:769..773", type: (t-prim {} i64)} 1)))
         (var {span: "surf:776..778"} xs))))
-  (defsig {}
+  (defsig {span: "surf:780..845"}
     take_first_three
     (t-fn {} (t-adt {} List (t-prim {} i64)) (t-adt {} List (t-prim {} i64))))
-  (def {}
+  (def {span: "surf:780..845"}
     take_first_three
     (fn {}
       (params {} (xs {type: (t-var {} _)}))
@@ -137,10 +137,10 @@
         (var {span: "surf:831..835"} take)
         (var {span: "surf:836..838"} xs)
         (lit {span: "surf:840..844", type: (t-prim {} i64)} 3))))
-  (defsig {}
+  (defsig {span: "surf:846..944"}
     double_then_pairs
     (t-fn {} (t-adt {} List (t-prim {} i64)) (t-adt {} List (t-prim {} i64))))
-  (def {}
+  (def {span: "surf:846..944"}
     double_then_pairs
     (fn {}
       (params {} (xs {type: (t-var {} _)}))
@@ -159,10 +159,10 @@
                 (lit {span: "surf:933..937", type: (t-prim {} i64)} 2))
               (var {} Nil))))
         (var {span: "surf:941..943"} xs))))
-  (defsig {}
+  (defsig {span: "surf:945..1048"}
     partition_threshold
     (t-fn {} (t-adt {} List (t-prim {} i64)) (t-prim {} i64) (t-var {} _)))
-  (def {}
+  (def {span: "surf:945..1048"}
     partition_threshold
     (fn {}
       (params {} (xs {type: (t-var {} _)}) (threshold {type: (t-var {} _)}))

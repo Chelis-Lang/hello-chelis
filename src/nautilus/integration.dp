@@ -4,22 +4,24 @@
     nautilus.integrate
     (trapezoidal simpsons gauss_legendre_5))
   (export {} sin_integral_trap sin_integral_simpson sin_integral_gl5)
-  (defsig {} sin_fn (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:169..203"}
+    sin_fn
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:169..203"}
     sin_fn
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:197..203"}
         (var {span: "surf:197..200"} sin)
         (var {span: "surf:201..202"} x))))
-  (defsig {} pi_f (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:204..236"} pi_f (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:204..236"}
     pi_f
     (fn {}
       (params {})
       (lit {span: "surf:224..236", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.1415927)))
-  (defsig {} sin_integral_trap (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:237..313"} sin_integral_trap (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:237..313"}
     sin_integral_trap
     (fn {}
       (params {})
@@ -29,8 +31,10 @@
         (lit {span: "surf:290..296", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (app {span: "surf:298..304"} (var {span: "surf:298..302"} pi_f))
         (lit {span: "surf:306..312", type: (t-prim {} i64)} 100))))
-  (defsig {} sin_integral_simpson (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:314..390"}
+    sin_integral_simpson
+    (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:314..390"}
     sin_integral_simpson
     (fn {}
       (params {})
@@ -40,8 +44,8 @@
         (lit {span: "surf:367..373", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (app {span: "surf:375..381"} (var {span: "surf:375..379"} pi_f))
         (lit {span: "surf:383..389", type: (t-prim {} i64)} 100))))
-  (defsig {} sin_integral_gl5 (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:391..469"} sin_integral_gl5 (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:391..469"}
     sin_integral_gl5
     (fn {}
       (params {})

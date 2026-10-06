@@ -15,8 +15,10 @@
       drop_column
       int_col_of_list))
   (export {} build_frame add_score_col frame_after_rename frame_after_drop)
-  (defsig {} build_frame (t-fn {} (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (defsig {span: "surf:247..448"}
+    build_frame
+    (t-fn {} (t-adt {} Frame (d-lit {} 3))))
+  (def {span: "surf:247..448"}
     build_frame
     (fn {}
       (params {})
@@ -73,10 +75,10 @@
                         (lit {span: "surf:435..443", type: (t-prim {} string)} "berlin")
                         (var {} Nil))))))
               (var {} Nil)))))))
-  (defsig {}
+  (defsig {span: "surf:449..567"}
     add_score_col
     (t-fn {} (t-adt {} Frame (d-lit {} 3)) (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (def {span: "surf:449..567"}
     add_score_col
     (fn {}
       (params {} (df {type: (t-var {} _)}))
@@ -98,10 +100,10 @@
                   (var {} Cons)
                   (lit {span: "surf:557..563", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.9)
                   (var {} Nil)))))))))
-  (defsig {}
+  (defsig {span: "surf:568..645"}
     frame_after_rename
     (t-fn {} (t-adt {} Frame (d-lit {} 3)) (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (def {span: "surf:568..645"}
     frame_after_rename
     (fn {}
       (params {} (df {type: (t-var {} _)}))
@@ -110,10 +112,10 @@
         (var {span: "surf:626..628"} df)
         (lit {span: "surf:630..636", type: (t-prim {} string)} "city")
         (lit {span: "surf:638..644", type: (t-prim {} string)} "town"))))
-  (defsig {}
+  (defsig {span: "surf:646..717"}
     frame_after_drop
     (t-fn {} (t-adt {} Frame (d-lit {} 3)) (t-adt {} Frame (d-lit {} 3))))
-  (def {}
+  (def {span: "surf:646..717"}
     frame_after_drop
     (fn {}
       (params {} (df {type: (t-var {} _)}))

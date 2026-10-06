@@ -4,8 +4,10 @@
     hello.nautilus.roots
     (sqrt2_bisect sqrt2_brent sqrt2_newton))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} test_sqrt2_bisect (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:135..255"}
+    test_sqrt2_bisect
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:135..255"}
     test_sqrt2_bisect
     (fn {}
       (params {})
@@ -15,8 +17,10 @@
         (lit {span: "surf:209..221", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.4142135)
         (lit {span: "surf:223..233", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:235..254", type: (t-prim {} string)} "bisection sqrt(2)"))))
-  (defsig {} test_sqrt2_brent (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:256..370"}
+    test_sqrt2_brent
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:256..370"}
     test_sqrt2_brent
     (fn {}
       (params {})
@@ -26,8 +30,10 @@
         (lit {span: "surf:328..340", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.4142135)
         (lit {span: "surf:342..352", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
         (lit {span: "surf:354..369", type: (t-prim {} string)} "brent sqrt(2)"))))
-  (defsig {} test_sqrt2_newton (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:371..488"}
+    test_sqrt2_newton
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:371..488"}
     test_sqrt2_newton
     (fn {}
       (params {})

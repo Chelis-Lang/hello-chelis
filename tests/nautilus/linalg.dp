@@ -4,8 +4,10 @@
     hello.nautilus.linalg
     (vec_norm vec_dot solve_diag_2x2))
   (import {surf_path: "Std.Test"} std.test (assert_close assert_close_tensor))
-  (defsig {} test_vec_norm_3_4_5 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:152..298"}
+    test_vec_norm_3_4_5
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:152..298"}
     test_vec_norm_3_4_5
     (fn {}
       (params {})
@@ -29,10 +31,10 @@
           (lit {span: "surf:263..269", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
           (lit {span: "surf:271..278", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:280..295", type: (t-prim {} string)} "||(3,4)|| = 5")))))
-  (defsig {}
+  (defsig {span: "surf:299..483"}
     test_vec_dot_orthogonal
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:299..483"}
     test_vec_dot_orthogonal
     (fn {}
       (params {})
@@ -69,8 +71,10 @@
             (lit {span: "surf:450..456", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
             (lit {span: "surf:458..465", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:467..480", type: (t-prim {} string)} "e0 . e1 = 0"))))))
-  (defsig {} test_solve_diag_2x2 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:484..655"}
+    test_solve_diag_2x2
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:484..655"}
     test_solve_diag_2x2
     (fn {}
       (params {})

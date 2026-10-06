@@ -4,16 +4,20 @@
     nautilus.special
     (erf erfc erfinv log_gamma bessel_j0))
   (export {} erf_pipe erf_round_trip log_gamma_one complementary_erf j0_at_zero)
-  (defsig {} erf_pipe (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:185..221"}
+    erf_pipe
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:185..221"}
     erf_pipe
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:215..221"}
         (var {span: "surf:215..218"} erf)
         (var {span: "surf:219..220"} x))))
-  (defsig {} erf_round_trip (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:222..272"}
+    erf_round_trip
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:222..272"}
     erf_round_trip
     (fn {}
       (params {} (y {type: (t-var {} _)}))
@@ -22,16 +26,18 @@
         (app {span: "surf:262..271"}
           (var {span: "surf:262..268"} erfinv)
           (var {span: "surf:269..270"} y)))))
-  (defsig {} log_gamma_one (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:273..319"} log_gamma_one (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:273..319"}
     log_gamma_one
     (fn {}
       (params {})
       (app {span: "surf:302..319"}
         (var {span: "surf:302..311"} log_gamma)
         (lit {span: "surf:312..318", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
-  (defsig {} complementary_erf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:320..379"}
+    complementary_erf
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:320..379"}
     complementary_erf
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -43,8 +49,8 @@
         (app {span: "surf:371..378"}
           (var {span: "surf:371..375"} erfc)
           (var {span: "surf:376..377"} x)))))
-  (defsig {} j0_at_zero (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:380..423"} j0_at_zero (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:380..423"}
     j0_at_zero
     (fn {}
       (params {})

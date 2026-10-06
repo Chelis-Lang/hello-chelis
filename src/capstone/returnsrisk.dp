@@ -17,10 +17,10 @@
     portfolio_sharpe
     rolling_volatility
     parametric_var)
-  (defsig {}
+  (defsig {span: "surf:405..621"}
     simple_returns
     (t-fn {} (t-adt {} List (t-prim {} f32)) (t-adt {} List (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:405..621"}
     simple_returns
     (fn {}
       (params {} (prices {type: (t-var {} _)}))
@@ -65,14 +65,14 @@
                   (var {span: "surf:604..608"} pair)
                   (lit {type: (t-prim {} i32)} 0))))
             (var {span: "surf:613..618"} pairs))))))
-  (defsig {}
+  (defsig {span: "surf:622..771"}
     returns_frame
     (n)
     (t-fn {}
       (t-adt {} List (t-prim {} string))
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-adt {} Frame (t-var {} n))))
-  (def {}
+  (def {span: "surf:622..771"}
     returns_frame
     (fn {}
       (params {} (tickers {type: (t-var {} _)}) (rets {type: (t-var {} _)}))
@@ -93,14 +93,14 @@
                 (var {span: "surf:754..762"} FloatCol)
                 (var {span: "surf:763..767"} rets)))
             (var {} Nil))))))
-  (defsig {}
+  (defsig {span: "surf:772..921"}
     tickers_covered
     (n)
     (t-fn {}
       (t-adt {} List (t-prim {} string))
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-prim {} i64)))
-  (def {}
+  (def {span: "surf:772..921"}
     tickers_covered
     (fn {}
       (params {} (tickers {type: (t-var {} _)}) (rets {type: (t-var {} _)}))
@@ -116,14 +116,14 @@
               (var {span: "surf:896..900"} rets))
             (lit {span: "surf:903..911", type: (t-prim {} string)} "ticker"))
           (lit {span: "surf:914..919", type: (t-prim {} string)} "ret")))))
-  (defsig {}
+  (defsig {span: "surf:922..1046"}
     sharpe_ratio
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:922..1046"}
     sharpe_ratio
     (fn {}
       (params {} (rets {type: (t-var {} _)}) (risk_free {type: (t-var {} _)}))
@@ -139,7 +139,7 @@
           (var {span: "surf:1026..1033"} std_vec)
           (var {span: "surf:1034..1038"} rets)
           (lit {span: "surf:1040..1044", type: (t-prim {} i64)} 1)))))
-  (defsig {}
+  (defsig {span: "surf:1047..1232"}
     portfolio_sharpe
     (n)
     (t-fn {}
@@ -147,7 +147,7 @@
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:1047..1232"}
     portfolio_sharpe
     (fn {}
       (params {}
@@ -168,14 +168,14 @@
             (var {span: "surf:1208..1210"} df)
             (lit {span: "surf:1212..1217", type: (t-prim {} string)} "ret"))
           (var {span: "surf:1220..1229"} risk_free)))))
-  (defsig {}
+  (defsig {span: "surf:1233..1339"}
     rolling_volatility
     (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-prim {} i64)
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:1233..1339"}
     rolling_volatility
     (fn {}
       (params {} (rets {type: (t-var {} _)}) (window {type: (t-var {} _)}))
@@ -183,14 +183,14 @@
         (var {span: "surf:1314..1325"} rolling_std)
         (var {span: "surf:1326..1330"} rets)
         (var {span: "surf:1332..1338"} window))))
-  (defsig {}
+  (defsig {span: "surf:1340..1532"}
     parametric_var
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:1340..1532"}
     parametric_var
     (fn {}
       (params {} (rets {type: (t-var {} _)}) (confidence {type: (t-var {} _)}))

@@ -1,13 +1,13 @@
 (module {surf_path: "Hello.Basics.GradBasic"}
   hello.basics.gradbasic
   (export {} loss dloss_dw dloss_dx)
-  (defsig {}
+  (defsig {span: "surf:64..219"}
     loss
     (t-fn {}
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:64..219"}
     loss
     (fn {}
       (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
@@ -40,13 +40,13 @@
             (var {span: "surf:205..208"} sum)
             (var {span: "surf:209..213"} prod)
             (lit {span: "surf:215..216", type: (t-prim {} i32)} 0))))))
-  (defsig {}
+  (defsig {span: "surf:220..314"}
     dloss_dw
     (t-fn {}
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:220..314"}
     dloss_dw
     (fn {}
       (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
@@ -56,13 +56,13 @@
           (lit {type: (t-prim {} i32)} 0))
         (var {span: "surf:309..310"} w)
         (var {span: "surf:312..313"} x))))
-  (defsig {}
+  (defsig {span: "surf:315..409"}
     dloss_dx
     (t-fn {}
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:315..409"}
     dloss_dx
     (fn {}
       (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))

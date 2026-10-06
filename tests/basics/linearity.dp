@@ -4,8 +4,10 @@
     hello.basics.linearity
     (double_shared fan_out))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_residual_doubles (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:129..351"}
+    test_residual_doubles
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:129..351"}
     test_residual_doubles
     (fn {}
       (params {})
@@ -47,8 +49,10 @@
             (var {span: "surf:311..319"} expected)
             (lit {span: "surf:321..328", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:330..348", type: (t-prim {} string)} "residual_doubles"))))))
-  (defsig {} test_fan_out_triples (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:352..545"}
+    test_fan_out_triples
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:352..545"}
     test_fan_out_triples
     (fn {}
       (params {})

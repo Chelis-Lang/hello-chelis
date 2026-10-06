@@ -4,10 +4,10 @@
     hello.nautilus.optimize
     (parabola_minimum_gss parabola_minimum_brent parabola_minimum_newton))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:171..316"}
     test_parabola_minimum_gss
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:171..316"}
     test_parabola_minimum_gss
     (fn {}
       (params {})
@@ -18,10 +18,10 @@
         (lit {span: "surf:261..267", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
         (lit {span: "surf:269..278", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0005)
         (lit {span: "surf:280..315", type: (t-prim {} string)} "golden-section min of (x-3)^2 + 7"))))
-  (defsig {}
+  (defsig {span: "surf:317..457"}
     test_parabola_minimum_brent
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:317..457"}
     test_parabola_minimum_brent
     (fn {}
       (params {})
@@ -32,10 +32,10 @@
         (lit {span: "surf:411..417", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
         (lit {span: "surf:419..428", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0005)
         (lit {span: "surf:430..456", type: (t-prim {} string)} "brent min of (x-3)^2 + 7"))))
-  (defsig {}
+  (defsig {span: "surf:458..605"}
     test_parabola_minimum_newton
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:458..605"}
     test_parabola_minimum_newton
     (fn {}
       (params {})

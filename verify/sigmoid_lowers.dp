@@ -1,6 +1,6 @@
 (module {surf_path: "SigmoidLowers"}
   sigmoidlowers
-  (def {}
+  (def {span: "surf:21..62"}
     xs
     (app {span: "surf:26..62"}
       (var {span: "surf:26..35"} to_tensor)
@@ -16,7 +16,7 @@
             (var {} Cons)
             (lit {span: "surf:54..60", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:63..79"}
     ys
     (app {span: "surf:68..79"}
       (var {span: "surf:68..75"} sigmoid)

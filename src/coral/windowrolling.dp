@@ -4,8 +4,10 @@
     coral.window
     (rolling_mean rolling_std ewm))
   (export {} sample_series mean3 std3 ewm_half)
-  (defsig {} sample_series (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:132..223"}
+    sample_series
+    (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
+  (def {span: "surf:132..223"}
     sample_series
     (fn {}
       (params {})
@@ -27,8 +29,10 @@
                   (var {} Cons)
                   (lit {span: "surf:215..221", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
                   (var {} Nil)))))))))
-  (defsig {} mean3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:224..291"}
+    mean3
+    (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
+  (def {span: "surf:224..291"}
     mean3
     (fn {}
       (params {})
@@ -37,8 +41,10 @@
         (app {span: "surf:269..284"}
           (var {span: "surf:269..282"} sample_series))
         (lit {span: "surf:286..290", type: (t-prim {} i64)} 3))))
-  (defsig {} std3 (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:292..357"}
+    std3
+    (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
+  (def {span: "surf:292..357"}
     std3
     (fn {}
       (params {})
@@ -47,8 +53,10 @@
         (app {span: "surf:335..350"}
           (var {span: "surf:335..348"} sample_series))
         (lit {span: "surf:352..356", type: (t-prim {} i64)} 3))))
-  (defsig {} ewm_half (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:358..421"}
+    ewm_half
+    (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
+  (def {span: "surf:358..421"}
     ewm_half
     (fn {}
       (params {})

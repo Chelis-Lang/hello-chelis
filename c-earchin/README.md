@@ -52,7 +52,7 @@ checks those hashes, then runs both proofs above.
 
 They are copied rather than regenerated because c-earchin does not publish a
 command-line binary this repo could run (Octant does, which is why
-`octant/` is regenerated in CI instead), and the installed Reef package
+`octant/` is regenerated in CI instead), and the c-earchin Reef release
 contains the library, not these reference fixtures.
 
 ## Scope

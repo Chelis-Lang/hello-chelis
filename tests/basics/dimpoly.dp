@@ -4,8 +4,10 @@
     hello.basics.dimpoly
     (identity_dim scaled))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_identity (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:123..328"}
+    test_identity
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:123..328"}
     test_identity
     (fn {}
       (params {})
@@ -47,8 +49,10 @@
             (var {span: "surf:296..304"} expected)
             (lit {span: "surf:306..313", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:315..325", type: (t-prim {} string)} "identity"))))))
-  (defsig {} test_scaled (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:329..526"}
+    test_scaled
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:329..526"}
     test_scaled
     (fn {}
       (params {})

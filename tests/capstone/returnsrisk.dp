@@ -9,8 +9,10 @@
       rolling_volatility
       parametric_var))
   (import {surf_path: "Std.Test"} std.test (assert_eq assert_close))
-  (defsig {} rising (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:218..307"}
+    rising
+    (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
+  (def {span: "surf:218..307"}
     rising
     (fn {}
       (params {})
@@ -32,8 +34,10 @@
                   (var {} Cons)
                   (lit {span: "surf:298..305", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
                   (var {} Nil)))))))))
-  (defsig {} flat_mean (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:308..401"}
+    flat_mean
+    (t-fn {} (t-tensor {} (d-lit {} 5) (t-prim {} f32))))
+  (def {span: "surf:308..401"}
     flat_mean
     (fn {}
       (params {})
@@ -59,8 +63,10 @@
                   (var {} Cons)
                   (lit {span: "surf:393..399", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
                   (var {} Nil)))))))))
-  (defsig {} test_simple_returns (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:402..719"}
+    test_simple_returns
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:402..719"}
     test_simple_returns
     (fn {}
       (params {})
@@ -112,8 +118,10 @@
                 (lit {span: "surf:680..686", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1))
               (lit {span: "surf:688..695", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
               (lit {span: "surf:697..716", type: (t-prim {} string)} "110 -> 99 is -10%")))))))
-  (defsig {} test_tickers_covered (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:720..919"}
+    test_tickers_covered
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:720..919"}
     test_tickers_covered
     (fn {}
       (params {})
@@ -157,8 +165,10 @@
             (var {span: "surf:890..894"} rets))
           (lit {span: "surf:897..901", type: (t-prim {} i64)} 2)
           (lit {span: "surf:903..916", type: (t-prim {} string)} "two tickers")))))
-  (defsig {} test_sharpe_ratio (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:920..1059"}
+    test_sharpe_ratio
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:920..1059"}
     test_sharpe_ratio
     (fn {}
       (params {})
@@ -171,10 +181,10 @@
         (lit {span: "surf:1010..1022", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.8973666)
         (lit {span: "surf:1024..1032", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
         (lit {span: "surf:1034..1058", type: (t-prim {} string)} "mean 0.03 / std 0.0158"))))
-  (defsig {}
+  (defsig {span: "surf:1060..1257"}
     test_portfolio_sharpe_through_frame
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:1060..1257"}
     test_portfolio_sharpe_through_frame
     (fn {}
       (params {})
@@ -203,10 +213,10 @@
         (lit {span: "surf:1199..1211", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.8973666)
         (lit {span: "surf:1213..1221", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
         (lit {span: "surf:1223..1256", type: (t-prim {} string)} "frame column agrees with tensor"))))
-  (defsig {}
+  (defsig {span: "surf:1258..1449"}
     test_rolling_volatility
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:1258..1449"}
     test_rolling_volatility
     (fn {}
       (params {})
@@ -229,8 +239,10 @@
           (lit {span: "surf:1396..1403", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
           (lit {span: "surf:1405..1414", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
           (lit {span: "surf:1416..1446", type: (t-prim {} string)} "window std of 0.01,0.02,0.03")))))
-  (defsig {} test_parametric_var_95 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:1450..1602"}
+    test_parametric_var_95
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:1450..1602"}
     test_parametric_var_95
     (fn {}
       (params {})

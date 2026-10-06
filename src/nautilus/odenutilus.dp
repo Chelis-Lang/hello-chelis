@@ -2,22 +2,26 @@
   hello.nautilus.odenutilus
   (import {surf_path: "Nautilus.Ode"} nautilus.ode (rk4_solve euler_solve))
   (export {} decay_rk4 decay_euler exp_growth_rk4)
-  (defsig {} decay (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:126..167"}
+    decay
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:126..167"}
     decay
     (fn {}
       (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (app {span: "surf:161..167"}
         (var {span: "surf:161..164"} neg)
         (var {span: "surf:165..166"} y))))
-  (defsig {} growth (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:168..205"}
+    growth
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:168..205"}
     growth
     (fn {}
       (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (var {span: "surf:204..205"} y)))
-  (defsig {} decay_rk4 (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:206..279"} decay_rk4 (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:206..279"}
     decay_rk4
     (fn {}
       (params {})
@@ -28,8 +32,8 @@
         (lit {span: "surf:256..262", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:264..270", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
         (lit {span: "surf:272..278", type: (t-prim {} i64)} 100))))
-  (defsig {} decay_euler (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:280..358"} decay_euler (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:280..358"}
     decay_euler
     (fn {}
       (params {})
@@ -40,8 +44,8 @@
         (lit {span: "surf:334..340", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:342..348", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
         (lit {span: "surf:350..357", type: (t-prim {} i64)} 2000))))
-  (defsig {} exp_growth_rk4 (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:359..438"} exp_growth_rk4 (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:359..438"}
     exp_growth_rk4
     (fn {}
       (params {})

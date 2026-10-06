@@ -1,13 +1,13 @@
 (module {surf_path: "Hello.Basics.ModulesAndImports.Util"}
   hello.basics.modulesandimports.util
   (export {} double ones3)
-  (defsig {}
+  (defsig {span: "surf:66..129"}
     double
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:66..129"}
     double
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -15,8 +15,10 @@
         (var {span: "surf:120..123"} add)
         (var {span: "surf:124..125"} x)
         (var {span: "surf:127..128"} x))))
-  (defsig {} ones3 (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:130..197"}
+    ones3
+    (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {span: "surf:130..197"}
     ones3
     (fn {}
       (params {})

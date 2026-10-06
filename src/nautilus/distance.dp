@@ -9,14 +9,14 @@
     chebyshev_dist
     cosine_dist
     self_distance_zero)
-  (defsig {}
+  (defsig {span: "surf:188..266"}
     euclid
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:188..266"}
     euclid
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
@@ -24,14 +24,14 @@
         (var {span: "surf:251..260"} euclidean)
         (var {span: "surf:261..262"} a)
         (var {span: "surf:264..265"} b))))
-  (defsig {}
+  (defsig {span: "surf:267..353"}
     manhattan_dist
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:267..353"}
     manhattan_dist
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
@@ -39,14 +39,14 @@
         (var {span: "surf:338..347"} manhattan)
         (var {span: "surf:348..349"} a)
         (var {span: "surf:351..352"} b))))
-  (defsig {}
+  (defsig {span: "surf:354..440"}
     chebyshev_dist
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:354..440"}
     chebyshev_dist
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
@@ -54,14 +54,14 @@
         (var {span: "surf:425..434"} chebyshev)
         (var {span: "surf:435..436"} a)
         (var {span: "surf:438..439"} b))))
-  (defsig {}
+  (defsig {span: "surf:441..530"}
     cosine_dist
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:441..530"}
     cosine_dist
     (fn {}
       (params {} (a {type: (t-var {} _)}) (b {type: (t-var {} _)}))
@@ -69,13 +69,13 @@
         (var {span: "surf:509..524"} cosine_distance)
         (var {span: "surf:525..526"} a)
         (var {span: "surf:528..529"} b))))
-  (defsig {}
+  (defsig {span: "surf:531..601"}
     self_distance_zero
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:531..601"}
     self_distance_zero
     (fn {}
       (params {} (x {type: (t-var {} _)}))

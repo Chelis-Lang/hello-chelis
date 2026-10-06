@@ -7,8 +7,10 @@
     hello.basics.modulesandimports.main
     (boost))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_double (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:192..387"}
+    test_double
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:192..387"}
     test_double
     (fn {}
       (params {})
@@ -50,8 +52,10 @@
             (var {span: "surf:357..365"} expected)
             (lit {span: "surf:367..374", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:376..384", type: (t-prim {} string)} "double"))))))
-  (defsig {} test_ones3 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:388..537"}
+    test_ones3
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:388..537"}
     test_ones3
     (fn {}
       (params {})
@@ -76,8 +80,10 @@
           (var {span: "surf:508..516"} expected)
           (lit {span: "surf:518..525", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:527..534", type: (t-prim {} string)} "ones3")))))
-  (defsig {} test_boost (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:538..687"}
+    test_boost
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:538..687"}
     test_boost
     (fn {}
       (params {})

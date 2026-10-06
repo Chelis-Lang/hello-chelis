@@ -1,4 +1,4 @@
-declared type is `() -> Column 3`
+expected `() -> Column 3`, got `() -> Column 2`
 chelis check must reject this: a Column[3] built from a two-element tensor.
 The integer argument of a dimension-parameterized ADT (Coral's Frame[3] is
 the same shape) is a checked extent. If this starts PASSING, the extent check

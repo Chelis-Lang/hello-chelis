@@ -4,8 +4,10 @@
     hello.nautilus.info
     (shannon_entropy relative_entropy))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} fair_coin (t-fn {} (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:127..190"}
+    fair_coin
+    (t-fn {} (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
+  (def {span: "surf:127..190"}
     fair_coin
     (fn {}
       (params {})
@@ -18,10 +20,10 @@
             (var {} Cons)
             (lit {span: "surf:182..188", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
             (var {} Nil))))))
-  (defsig {}
+  (defsig {span: "surf:191..336"}
     test_entropy_fair_coin_is_ln2
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:191..336"}
     test_entropy_fair_coin_is_ln2
     (fn {}
       (params {})
@@ -33,8 +35,10 @@
         (lit {span: "surf:291..303", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.6931472)
         (lit {span: "surf:305..314", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
         (lit {span: "surf:316..335", type: (t-prim {} string)} "H(fair coin)=ln 2"))))
-  (defsig {} test_kl_self_is_zero (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:337..472"}
+    test_kl_self_is_zero
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:337..472"}
     test_kl_self_is_zero
     (fn {}
       (params {})
@@ -47,8 +51,10 @@
         (lit {span: "surf:442..448", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:450..457", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
         (lit {span: "surf:459..471", type: (t-prim {} string)} "KL(p||p)=0"))))
-  (defsig {} test_kl_biased_coin (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:473..652"}
+    test_kl_biased_coin
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:473..652"}
     test_kl_biased_coin
     (fn {}
       (params {})

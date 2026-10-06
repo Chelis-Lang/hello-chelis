@@ -4,8 +4,10 @@
     hello.basics.jitrealize
     (eager with_realize))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_eager (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:128..346"}
+    test_eager
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:128..346"}
     test_eager
     (fn {}
       (params {})
@@ -54,8 +56,10 @@
               (var {span: "surf:313..321"} expected)
               (lit {span: "surf:323..330", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
               (lit {span: "surf:332..343", type: (t-prim {} string)} "eager_mul")))))))
-  (defsig {} test_with_realize (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:347..544"}
+    test_with_realize
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:347..544"}
     test_with_realize
     (fn {}
       (params {})

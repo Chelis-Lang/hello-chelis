@@ -4,10 +4,10 @@
     hello.nautilus.stats
     (sample_mean sample_var sample_std sample_median sample_correlation))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:166..355"}
     test_sample_mean_constant
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:166..355"}
     test_sample_mean_constant
     (fn {}
       (params {})
@@ -37,10 +37,10 @@
           (lit {span: "surf:302..308", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
           (lit {span: "surf:310..317", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:319..352", type: (t-prim {} string)} "mean of constant vec = constant")))))
-  (defsig {}
+  (defsig {span: "surf:356..541"}
     test_sample_var_constant_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:356..541"}
     test_sample_var_constant_zero
     (fn {}
       (params {})
@@ -70,8 +70,10 @@
           (lit {span: "surf:495..501", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
           (lit {span: "surf:503..510", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:512..538", type: (t-prim {} string)} "variance of constant = 0")))))
-  (defsig {} test_sample_std_known (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:542..733"}
+    test_sample_std_known
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:542..733"}
     test_sample_std_known
     (fn {}
       (params {})
@@ -104,8 +106,10 @@
           (lit {span: "surf:681..693", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5811388)
           (lit {span: "surf:695..704", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
           (lit {span: "surf:706..730", type: (t-prim {} string)} "std [1..5] = sqrt(2.5)")))))
-  (defsig {} test_sample_median_odd (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:734..917"}
+    test_sample_median_odd
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:734..917"}
     test_sample_median_odd
     (fn {}
       (params {})
@@ -138,10 +142,10 @@
           (lit {span: "surf:877..883", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
           (lit {span: "surf:885..892", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:894..914", type: (t-prim {} string)} "median of 1..5 = 3")))))
-  (defsig {}
+  (defsig {span: "surf:918..1174"}
     test_sample_correlation_perfect
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:918..1174"}
     test_sample_correlation_perfect
     (fn {}
       (params {})

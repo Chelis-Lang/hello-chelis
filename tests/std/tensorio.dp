@@ -4,10 +4,10 @@
     hello.std.tensorio
     (write_then_read file_or_default save_message))
   (import {surf_path: "Std.Test"} std.test (assert_eq))
-  (defsig {}
+  (defsig {span: "surf:135..329"}
     test_write_then_read
     (t-fn {eff: (effects {} test io)} (t-unit {})))
-  (def {}
+  (def {span: "surf:135..329"}
     test_write_then_read
     (fn {}
       (params {})
@@ -23,10 +23,10 @@
           (var {span: "surf:282..288"} result)
           (lit {span: "surf:290..303", type: (t-prim {} string)} "round-trip!")
           (lit {span: "surf:305..326", type: (t-prim {} string)} "round-trip text I/O")))))
-  (defsig {}
+  (defsig {span: "surf:330..534"}
     test_file_or_default_missing
     (t-fn {eff: (effects {} test io)} (t-unit {})))
-  (def {}
+  (def {span: "surf:330..534"}
     test_file_or_default_missing
     (fn {}
       (params {})
@@ -42,8 +42,10 @@
           (var {span: "surf:484..492"} fallback)
           (lit {span: "surf:494..503", type: (t-prim {} string)} "default")
           (lit {span: "surf:505..531", type: (t-prim {} string)} "missing path -> fallback")))))
-  (defsig {} test_save_message (t-fn {eff: (effects {} test io)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:535..715"}
+    test_save_message
+    (t-fn {eff: (effects {} test io)} (t-unit {})))
+  (def {span: "surf:535..715"}
     test_save_message
     (fn {}
       (params {})

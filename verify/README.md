@@ -32,10 +32,8 @@ For each program, [`tests/test_c_backend.py`](../tests/test_c_backend.py):
 ## Why these live outside `src/`
 
 `verify/` is not a source root of the package, and each file is a standalone
-module (`module GradWorks`, not `module Hello.*`), so it can be compiled on
-its own. Compiling from inside the package would lower the whole package,
-and that currently fails on the capstone Black-Scholes Greeks
-([chelis#2379](https://github.com/Chelis-Lang/chelis/issues/2379)).
+module (`module GradWorks`, not `module Hello.*`), so it is compiled on
+its own. The package's Black-Scholes Greeks have a separate compiled test.
 
 ## Add one
 

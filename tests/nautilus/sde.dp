@@ -4,8 +4,10 @@
     hello.nautilus.sde
     (gbm_path_zero_noise em_one_step_decay))
   (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
-  (defsig {} test_em_one_step_decay (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:143..279"}
+    test_em_one_step_decay
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:143..279"}
     test_em_one_step_decay
     (fn {}
       (params {})
@@ -16,10 +18,10 @@
         (lit {span: "surf:227..233", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.9)
         (lit {span: "surf:235..242", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
         (lit {span: "surf:244..278", type: (t-prim {} string)} "EM step decay y0=1 dt=0.1 -> 0.9"))))
-  (defsig {}
+  (defsig {span: "surf:280..454"}
     test_gbm_zero_noise_close_to_exp
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:280..454"}
     test_gbm_zero_noise_close_to_exp
     (fn {}
       (params {})
@@ -34,10 +36,10 @@
           (lit {span: "surf:388..398", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.10462)
           (lit {span: "surf:400..408", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
           (lit {span: "surf:410..451", type: (t-prim {} string)} "GBM zero-noise approximates (1+mu*dt)^n")))))
-  (defsig {}
+  (defsig {span: "surf:455..621"}
     test_gbm_zero_noise_finite_positive
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:455..621"}
     test_gbm_zero_noise_finite_positive
     (fn {}
       (params {})

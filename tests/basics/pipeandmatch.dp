@@ -4,8 +4,10 @@
     hello.basics.pipeandmatch
     (Activation Relu Sigmoid activate pipeline))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_activate_relu (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:158..360"}
+    test_activate_relu
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:158..360"}
     test_activate_relu
     (fn {}
       (params {})
@@ -44,8 +46,10 @@
             (var {span: "surf:323..331"} expected)
             (lit {span: "surf:333..340", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:342..357", type: (t-prim {} string)} "activate_relu"))))))
-  (defsig {} test_activate_sigmoid (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:361..571"}
+    test_activate_sigmoid
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:361..571"}
     test_activate_sigmoid
     (fn {}
       (params {})
@@ -82,10 +86,10 @@
             (var {span: "surf:531..539"} expected)
             (lit {span: "surf:541..548", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:550..568", type: (t-prim {} string)} "activate_sigmoid"))))))
-  (defsig {}
+  (defsig {span: "surf:572..776"}
     test_pipeline_relu_then_sigmoid
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:572..776"}
     test_pipeline_relu_then_sigmoid
     (fn {}
       (params {})
@@ -123,8 +127,8 @@
             (var {span: "surf:744..752"} expected)
             (lit {span: "surf:754..761", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:763..773", type: (t-prim {} string)} "pipeline"))))))
-  (deftype {} Op () (variant {} Plus) (variant {} Minus))
-  (defsig {}
+  (deftype {span: "surf:777..805"} Op () (variant {} Plus) (variant {} Minus))
+  (defsig {span: "surf:806..962"}
     apply
     (n)
     (t-fn {}
@@ -132,7 +136,7 @@
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:806..962"}
     apply
     (fn {}
       (params {}
@@ -157,8 +161,10 @@
             (app {span: "surf:951..957"}
               (var {span: "surf:951..954"} neg)
               (var {span: "surf:955..956"} y)))))))
-  (defsig {} test_apply_plus (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:963..1192"}
+    test_apply_plus
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:963..1192"}
     test_apply_plus
     (fn {}
       (params {})
@@ -208,8 +214,10 @@
               (var {span: "surf:1158..1166"} expected)
               (lit {span: "surf:1168..1175", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
               (lit {span: "surf:1177..1189", type: (t-prim {} string)} "apply_plus")))))))
-  (defsig {} test_apply_minus (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:1193..1425"}
+    test_apply_minus
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:1193..1425"}
     test_apply_minus
     (fn {}
       (params {})

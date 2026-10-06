@@ -62,7 +62,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.18.12
+ARG CHELIS_VERSION=0.18.13
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -77,18 +77,15 @@ RUN --mount=type=secret,id=github_token \
     && chelis --version
 
 # --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.44
-ARG NAUTILUS_VERSION=0.7.47
+ARG CORAL_VERSION=0.7.45
+ARG NAUTILUS_VERSION=0.7.48
 ARG OCTANT_VERSION=0.13.2
-ARG C_EARCHIN_VERSION=0.3.5
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
     && chelis reef install --from-github "Chelis-Lang/coral@v${CORAL_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/octant@v${OCTANT_VERSION}" \
-    && chelis reef install --from-github "Chelis-Lang/c-earchin@v${C_EARCHIN_VERSION}"
+    && chelis reef install --from-github "Chelis-Lang/nautilus@v${NAUTILUS_VERSION}"
 
 # --- Octant CLI from release tarball --------------------------------------
 RUN --mount=type=secret,id=github_token \
@@ -115,9 +112,8 @@ RUN uv sync --frozen --group test
 
 # Sanity check: the project must check clean against the pinned Chelis, AND the
 # C backend must be able to lower a non-trivial program (grad over a
-# concrete tensor reduction) and run it. The verifier is built from /tmp,
-# outside the Reef root: verify/ is not a declared source root, and a
-# whole-package C build is blocked by chelis#2379 (Black-Scholes Greeks).
+# concrete tensor reduction) and run it. The verifier is built from /tmp
+# because verify/ is not a declared package source root.
 RUN chelis check src/basics/hellotensor.ch \
     && cp verify/grad_quadratic.ch /tmp/grad_quadratic.ch \
     && chelis build /tmp/grad_quadratic.ch --output /tmp/v_grad \

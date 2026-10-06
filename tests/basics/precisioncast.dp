@@ -4,8 +4,10 @@
     hello.basics.precisioncast
     (round_scalar))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} test_round_15 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:120..225"}
+    test_round_15
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:120..225"}
     test_round_15
     (fn {}
       (params {})
@@ -17,8 +19,10 @@
         (lit {span: "surf:196..202", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5)
         (lit {span: "surf:204..211", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000000001)
         (lit {span: "surf:213..224", type: (t-prim {} string)} "round_1p5"))))
-  (defsig {} test_round_pi (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:226..338"}
+    test_round_pi
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:226..338"}
     test_round_pi
     (fn {}
       (params {})

@@ -1,11 +1,11 @@
-(deftype {}
+(deftype {span: "surf:41..86"}
   Column
   (n)
   (variant {} FloatCol (t-tensor {} (d-var {} n) (t-prim {} f32))))
 
-(defsig {} right (t-fn {} (t-adt {} Column (d-lit {} 3))))
+(defsig {span: "surf:87..151"} right (t-fn {} (t-adt {} Column (d-lit {} 3))))
 
-(def {}
+(def {span: "surf:87..151"}
   right
   (fn {}
     (params {})

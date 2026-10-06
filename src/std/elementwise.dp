@@ -7,26 +7,26 @@
     tanh_vec
     standardize
     rms_normalize)
-  (defsig {}
+  (defsig {span: "surf:124..191"}
     clamp_nonneg
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:124..191"}
     clamp_nonneg
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (app {span: "surf:184..191"}
         (var {span: "surf:184..188"} relu)
         (var {span: "surf:189..190"} x))))
-  (defsig {}
+  (defsig {span: "surf:192..279"}
     clamp_then_logistic
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:192..279"}
     clamp_then_logistic
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -34,13 +34,13 @@
         (var {span: "surf:259..260"} x)
         (var {span: "surf:264..268"} relu)
         (var {span: "surf:272..279"} sigmoid))))
-  (defsig {}
+  (defsig {span: "surf:280..393"}
     logistic_vec
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:280..393"}
     logistic_vec
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -56,13 +56,13 @@
           (app {span: "surf:381..391"}
             (var {span: "surf:381..388"} to_list)
             (var {span: "surf:389..390"} x))))))
-  (defsig {}
+  (defsig {span: "surf:394..500"}
     tanh_vec
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:394..500"}
     tanh_vec
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -78,14 +78,14 @@
           (app {span: "surf:488..498"}
             (var {span: "surf:488..495"} to_list)
             (var {span: "surf:496..497"} x))))))
-  (defsig {}
+  (defsig {span: "surf:501..1003"}
     standardize
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:501..1003"}
     standardize
     (fn {}
       (params {} (x {type: (t-var {} _)}) (eps {type: (t-var {} _)}))
@@ -203,14 +203,14 @@
                               (var {span: "surf:978..979"} v)
                               (var {span: "surf:981..988"} inv_std)))
                           (var {span: "surf:991..999"} centered)))))))))))))
-  (defsig {}
+  (defsig {span: "surf:1004..1332"}
     rms_normalize
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-prim {} f32)
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:1004..1332"}
     rms_normalize
     (fn {}
       (params {} (x {type: (t-var {} _)}) (eps {type: (t-var {} _)}))

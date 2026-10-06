@@ -1,11 +1,11 @@
-(defsig {}
+(defsig {span: "surf:39..99"}
   bad
   (n)
   (t-fn {}
     (t-tensor {} (d-var {} n) (t-prim {} f32))
     (t-tensor {} (d-var {} n) (t-prim {} f32))))
 
-(def {}
+(def {span: "surf:39..99"}
   bad
   (fn {}
     (params {} (x {type: (t-var {} _)}))

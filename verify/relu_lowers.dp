@@ -1,6 +1,6 @@
 (module {surf_path: "ReluLowers"}
   relulowers
-  (def {}
+  (def {span: "surf:18..76"}
     xs
     (app {span: "surf:23..76"}
       (var {span: "surf:23..32"} to_tensor)
@@ -24,7 +24,7 @@
                 (var {} Cons)
                 (lit {span: "surf:68..74", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
                 (var {} Nil))))))))
-  (def {}
+  (def {span: "surf:77..90"}
     ys
     (app {span: "surf:82..90"}
       (var {span: "surf:82..86"} relu)

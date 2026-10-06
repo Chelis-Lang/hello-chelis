@@ -4,8 +4,10 @@
     hello.basics.macrobasic
     (with_residual doubled block))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_block (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:138..322"}
+    test_block
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:138..322"}
     test_block
     (fn {}
       (params {})
@@ -41,8 +43,10 @@
             (var {span: "surf:285..293"} expected)
             (lit {span: "surf:295..302", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:304..319", type: (t-prim {} string)} "block_doubles"))))))
-  (defsig {} test_with_residual (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:323..524"}
+    test_with_residual
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:323..524"}
     test_with_residual
     (fn {}
       (params {})

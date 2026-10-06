@@ -56,12 +56,9 @@ The desugaring rules behind each `.dp` are in
 [`src/std/`](../src/std/) tours `chelis-std` and language builtins:
 elementwise math, normalization, axis reductions, decimal arithmetic,
 dates and times, collections and iteration, and effect-typed file I/O.
-The decimal and date examples type-check, but their runtime assertions are
-parked in `tests_blocked/std/` until chelis#2778 and chelis#2779 are fixed.
 The catalog is in
 [`src/std/README.md`](../src/std/README.md). Read the executable examples next
-to their tests in [`tests/std/`](../tests/std/); the Decimal and Time runtime
-probes are in [`tests_blocked/std/`](../tests_blocked/std/).
+to their tests in [`tests/std/`](../tests/std/).
 
 ## 4. The packages (90 min; pick what fits your work)
 

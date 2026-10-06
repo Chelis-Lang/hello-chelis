@@ -2,10 +2,10 @@
   hello.nautilus.sde
   (import {surf_path: "Nautilus.Sde"} nautilus.sde (euler_maruyama_fixed))
   (export {} gbm_path_zero_noise em_one_step_decay)
-  (defsig {}
+  (defsig {span: "surf:117..170"}
     gbm_drift
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:117..170"}
     gbm_drift
     (fn {}
       (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
@@ -13,10 +13,10 @@
         (var {span: "surf:156..159"} mul)
         (lit {span: "surf:160..166", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
         (var {span: "surf:168..169"} y))))
-  (defsig {}
+  (defsig {span: "surf:171..228"}
     gbm_diffusion
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:171..228"}
     gbm_diffusion
     (fn {}
       (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
@@ -24,26 +24,26 @@
         (var {span: "surf:214..217"} mul)
         (lit {span: "surf:218..224", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
         (var {span: "surf:226..227"} y))))
-  (defsig {}
+  (defsig {span: "surf:229..276"}
     decay_drift
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:229..276"}
     decay_drift
     (fn {}
       (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (app {span: "surf:270..276"}
         (var {span: "surf:270..273"} neg)
         (var {span: "surf:274..275"} y))))
-  (defsig {}
+  (defsig {span: "surf:277..327"}
     zero_diffusion
     (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:277..327"}
     zero_diffusion
     (fn {}
       (params {} (y {type: (t-var {} _)}) (t {type: (t-var {} _)}))
       (lit {span: "surf:321..327", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))
-  (defsig {} gbm_path_zero_noise (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:328..548"} gbm_path_zero_noise (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:328..548"}
     gbm_path_zero_noise
     (fn {}
       (params {})
@@ -91,8 +91,8 @@
           (lit {span: "surf:524..530", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
           (lit {span: "surf:532..538", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
           (var {span: "surf:540..545"} noise)))))
-  (defsig {} em_one_step_decay (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:549..698"} em_one_step_decay (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:549..698"}
     em_one_step_decay
     (fn {}
       (params {})

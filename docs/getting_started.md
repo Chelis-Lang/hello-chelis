@@ -22,15 +22,15 @@ The image is `ubuntu:24.04` plus:
 - the `chelis` CLI, `libchelis_runtime.a`, and its headers, from the chelis
   release tarball;
 - the `octant` CLI, from the octant release tarball;
-- the `coral`, `nautilus`, `octant`, and `c-earchin` packages,
-  installed into the local Reef registry with
+- the `coral` and `nautilus` packages, installed into the local Reef registry with
   `chelis reef install --from-github` (`chelis-std` ships with the compiler);
 - GCC, OpenBLAS, and libgomp for the C backend, and valgrind;
 - `uv` with a uv-managed Python environment for the test harness.
 
-Everything is downloaded from release assets; nothing is compiled from
-source. `GITHUB_TOKEN` is passed as a BuildKit secret and used only to
-authenticate those downloads.
+The toolchain, imported packages, and Octant CLI come from release assets.
+The c-earchin proof witnesses are committed in this repository, and the image
+compiles a C smoke test. `GITHUB_TOKEN` is passed as a BuildKit secret and used
+only to authenticate release downloads.
 
 You can also work without Docker: install the toolchain with `chelisup`
 (see the Chelis
@@ -66,8 +66,6 @@ chelis test tests_blocked --expect blocked       # known upstream gaps
 ```
 
 Each `tests/<area>/<name>.ch` exercises the matching `src/<area>/<name>.ch`.
-On a many-core machine, adding `--batch-mode file` can halve the run time
-([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
 
 ## 5. Lint
 

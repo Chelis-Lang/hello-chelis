@@ -1,13 +1,13 @@
 (module {surf_path: "Hello.Basics.Linearity"}
   hello.basics.linearity
   (export {} double_shared fan_out)
-  (defsig {}
+  (defsig {span: "surf:62..132"}
     double_shared
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:62..132"}
     double_shared
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -15,13 +15,13 @@
         (var {span: "surf:123..126"} add)
         (var {span: "surf:127..128"} x)
         (var {span: "surf:130..131"} x))))
-  (defsig {}
+  (defsig {span: "surf:133..205"}
     fan_out
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:133..205"}
     fan_out
     (fn {}
       (params {} (x {type: (t-var {} _)}))

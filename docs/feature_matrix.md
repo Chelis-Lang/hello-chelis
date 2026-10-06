@@ -47,8 +47,8 @@ its error kind.
 |---|---|
 | Elementwise math and normalization | [`src/std/elementwise.ch`](../src/std/elementwise.ch) |
 | Axis reductions | [`src/std/reductions.ch`](../src/std/reductions.ch) |
-| `Std.Decimal` checked; runtime blocked (chelis#2778) | [`src/std/decimal.ch`](../src/std/decimal.ch), [`tests_blocked/std/decimal.ch`](../tests_blocked/std/decimal.ch) |
-| `Std.Time` checked; runtime blocked (chelis#2779) | [`src/std/datetimecal.ch`](../src/std/datetimecal.ch), [`tests_blocked/std/datetimecal.ch`](../tests_blocked/std/datetimecal.ch) |
+| Exact `Std.Decimal` arithmetic | [`src/std/decimal.ch`](../src/std/decimal.ch), [`tests/std/decimal.ch`](../tests/std/decimal.ch) |
+| `Std.Datetime` calendar arithmetic | [`src/std/datetimecal.ch`](../src/std/datetimecal.ch), [`tests/std/datetimecal.ch`](../tests/std/datetimecal.ch) |
 | `List`, `Dict`, and iteration combinators | [`src/std/collectionsiter.ch`](../src/std/collectionsiter.ch) |
 | Text file I/O under `! { IO }` (`Std.Io`) | [`src/std/tensorio.ch`](../src/std/tensorio.ch) |
 
@@ -101,7 +101,7 @@ Tensor `relu` and `sigmoid` are also compiled to C in
 
 | Capstone | Uses | Source | Tested by |
 |---|---|---|---|
-| Black-Scholes call price, delta, vega | nautilus | [`blackscholes.ch`](../src/capstone/blackscholes.ch) | `chelis test` |
+| Black-Scholes call price, delta, vega | nautilus | [`blackscholes.ch`](../src/capstone/blackscholes.ch) | `chelis test`; compiled Greek calls in `test_c_backend.py` |
 | Linear regression with an SGD step | chelis-std | [`linreg.ch`](../src/capstone/linreg.ch) | `chelis check` only |
 | Returns and risk pipeline | coral, nautilus | [`returnsrisk.ch`](../src/capstone/returnsrisk.ch) | `chelis test` |
 

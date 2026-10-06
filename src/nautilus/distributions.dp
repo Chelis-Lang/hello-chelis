@@ -8,8 +8,10 @@
     std_normal_cdf
     std_normal_quantile
     exp_cdf_half_life)
-  (defsig {} std_normal_pdf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:204..269"}
+    std_normal_pdf
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:204..269"}
     std_normal_pdf
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -18,8 +20,10 @@
         (var {span: "surf:251..252"} x)
         (lit {span: "surf:254..260", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:262..268", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
-  (defsig {} std_normal_cdf (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:270..335"}
+    std_normal_cdf
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:270..335"}
     std_normal_cdf
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -28,8 +32,10 @@
         (var {span: "surf:317..318"} x)
         (lit {span: "surf:320..326", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:328..334", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
-  (defsig {} std_normal_quantile (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:336..410"}
+    std_normal_quantile
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:336..410"}
     std_normal_quantile
     (fn {}
       (params {} (p {type: (t-var {} _)}))
@@ -38,8 +44,8 @@
         (var {span: "surf:392..393"} p)
         (lit {span: "surf:395..401", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:403..409", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
-  (defsig {} exp_cdf_half_life (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:411..481"} exp_cdf_half_life (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:411..481"}
     exp_cdf_half_life
     (fn {}
       (params {})

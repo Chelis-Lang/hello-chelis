@@ -4,10 +4,10 @@
     hello.std.elementwise
     (logistic_vec tanh_vec standardize rms_normalize))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:148..288"}
     test_sigmoid_scalar_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:148..288"}
     test_sigmoid_scalar_zero
     (fn {}
       (params {})
@@ -23,8 +23,10 @@
           (lit {span: "surf:252..258", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
           (lit {span: "surf:260..267", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:269..285", type: (t-prim {} string)} "sigmoid(0)=0.5")))))
-  (defsig {} test_tanh_scalar_zero (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:289..418"}
+    test_tanh_scalar_zero
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:289..418"}
     test_tanh_scalar_zero
     (fn {}
       (params {})
@@ -40,10 +42,10 @@
           (lit {span: "surf:387..393", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
           (lit {span: "surf:395..402", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
           (lit {span: "surf:404..415", type: (t-prim {} string)} "tanh(0)=0")))))
-  (defsig {}
+  (defsig {span: "surf:419..654"}
     test_logistic_vec_symmetric
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:419..654"}
     test_logistic_vec_symmetric
     (fn {}
       (params {})
@@ -84,8 +86,10 @@
             (lit {span: "surf:608..614", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
             (lit {span: "surf:616..623", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:625..651", type: (t-prim {} string)} "sigmoid(-x)+sigmoid(x)=1"))))))
-  (defsig {} test_tanh_vec_odd (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:655..870"}
+    test_tanh_vec_odd
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:655..870"}
     test_tanh_vec_odd
     (fn {}
       (params {})
@@ -126,10 +130,10 @@
             (lit {span: "surf:830..836", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
             (lit {span: "surf:838..845", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
             (lit {span: "surf:847..867", type: (t-prim {} string)} "tanh(-x)+tanh(x)=0"))))))
-  (defsig {}
+  (defsig {span: "surf:871..1154"}
     test_standardize_zero_mean
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:871..1154"}
     test_standardize_zero_mean
     (fn {}
       (params {})
@@ -180,10 +184,10 @@
               (lit {span: "surf:1105..1111", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
               (lit {span: "surf:1113..1122", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
               (lit {span: "surf:1124..1151", type: (t-prim {} string)} "standardize has zero mean")))))))
-  (defsig {}
+  (defsig {span: "surf:1155..1444"}
     test_rms_normalize_unit_rms
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:1155..1444"}
     test_rms_normalize_unit_rms
     (fn {}
       (params {})

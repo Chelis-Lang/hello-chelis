@@ -1,12 +1,12 @@
 (module {surf_path: "GradWorks"}
   gradworks
-  (defsig {}
+  (defsig {span: "surf:17..209"}
     loss_fn
     (t-fn {}
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:17..209"}
     loss_fn
     (fn {}
       (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
@@ -48,7 +48,7 @@
                   (var {span: "surf:181..187"} __chelis_pipe)
                   (lit {span: "surf:185..186", type: (t-prim {} i32)} 0)))
               (var {span: "surf:191..207"} tensor_to_scalar)))))))
-  (defsig {}
+  (defsig {span: "surf:210..424"}
     dloss_dw
     (t-fn {}
       (t-fn {}
@@ -58,7 +58,7 @@
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:210..424"}
     dloss_dw
     (fn {}
       (params {}
@@ -80,7 +80,7 @@
             (var {span: "surf:399..405"} target)
             (lit {type: (t-prim {} i32)} 0))
           (var {span: "surf:420..421"} w)))))
-  (def {}
+  (def {span: "surf:425..465"}
     w0
     (app {span: "surf:430..465"}
       (var {span: "surf:430..439"} to_tensor)
@@ -94,7 +94,7 @@
             (var {} Cons)
             (lit {span: "surf:457..463", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:466..506"}
     x0
     (app {span: "surf:471..506"}
       (var {span: "surf:471..480"} to_tensor)
@@ -108,7 +108,7 @@
             (var {} Cons)
             (lit {span: "surf:498..504", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:507..537"}
     dw
     (app {span: "surf:512..537"}
       (var {span: "surf:512..520"} dloss_dw)

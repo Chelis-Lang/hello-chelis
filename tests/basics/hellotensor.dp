@@ -4,8 +4,10 @@
     hello.basics.hellotensor
     (add_vec))
   (import {surf_path: "Std.Test"} std.test (assert_close_tensor))
-  (defsig {} test_add_vec (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:118..363"}
+    test_add_vec
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:118..363"}
     test_add_vec
     (fn {}
       (params {})

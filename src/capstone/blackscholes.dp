@@ -4,7 +4,7 @@
     nautilus.distributions
     (normal_cdf))
   (export {} call_price delta vega)
-  (defsig {}
+  (defsig {span: "surf:111..294"}
     d1
     (t-fn {}
       (t-prim {} f32)
@@ -13,7 +13,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:111..294"}
     d1
     (fn {}
       (params {}
@@ -59,7 +59,7 @@
             (var {span: "surf:279..282"} div)
             (var {span: "surf:283..286"} num)
             (var {span: "surf:288..291"} den))))))
-  (defsig {}
+  (defsig {span: "surf:295..402"}
     d2
     (t-fn {}
       (t-prim {} f32)
@@ -68,7 +68,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:295..402"}
     d2
     (fn {}
       (params {}
@@ -92,7 +92,7 @@
           (app {span: "surf:393..400"}
             (var {span: "surf:393..397"} sqrt)
             (var {span: "surf:398..399"} t))))))
-  (defsig {}
+  (defsig {span: "surf:403..670"}
     call_price
     (t-fn {}
       (t-prim {} f32)
@@ -101,7 +101,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:403..670"}
     call_price
     (fn {}
       (params {}
@@ -162,7 +162,7 @@
                   (var {span: "surf:646..649"} d_2)
                   (lit {span: "surf:651..657", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
                   (lit {span: "surf:659..665", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))))))))
-  (defsig {}
+  (defsig {span: "surf:671..776"}
     delta
     (t-fn {}
       (t-prim {} f32)
@@ -171,7 +171,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:671..776"}
     delta
     (fn {}
       (params {}
@@ -189,7 +189,7 @@
         (var {span: "surf:764..765"} r)
         (var {span: "surf:767..772"} sigma)
         (var {span: "surf:774..775"} t))))
-  (defsig {}
+  (defsig {span: "surf:777..885"}
     vega
     (t-fn {}
       (t-prim {} f32)
@@ -198,7 +198,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:777..885"}
     vega
     (fn {}
       (params {}

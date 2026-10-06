@@ -4,10 +4,10 @@
     hello.nautilus.curvefit
     (fit_exp_decay fit_linear_through_origin))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:142..291"}
     test_fit_exp_decay_recovers_half
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:142..291"}
     test_fit_exp_decay_recovers_half
     (fn {}
       (params {})
@@ -18,10 +18,10 @@
         (lit {span: "surf:232..238", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
         (lit {span: "surf:240..248", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
         (lit {span: "surf:250..290", type: (t-prim {} string)} "y = exp(-theta*x) recovers theta = 0.5"))))
-  (defsig {}
+  (defsig {span: "surf:292..442"}
     test_fit_linear_recovers_two
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:292..442"}
     test_fit_linear_recovers_two
     (fn {}
       (params {})

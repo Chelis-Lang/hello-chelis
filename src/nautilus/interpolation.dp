@@ -4,8 +4,10 @@
     nautilus.interpolation
     (linear_interp_uniform cubic_hermite))
   (export {} linear_at_query hermite_unit_segment hermite_endpoint)
-  (defsig {} linear_at_query (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:170..312"}
+    linear_at_query
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:170..312"}
     linear_at_query
     (fn {}
       (params {} (x_q {type: (t-var {} _)}))
@@ -33,8 +35,10 @@
           (lit {span: "surf:290..296", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
           (lit {span: "surf:298..304", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
           (var {span: "surf:306..309"} x_q)))))
-  (defsig {} hermite_unit_segment (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:313..423"}
+    hermite_unit_segment
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:313..423"}
     hermite_unit_segment
     (fn {}
       (params {} (x_q {type: (t-var {} _)}))
@@ -47,8 +51,8 @@
         (lit {span: "surf:403..409", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:411..417", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (var {span: "surf:419..422"} x_q))))
-  (defsig {} hermite_endpoint (t-fn {} (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:424..525"} hermite_endpoint (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:424..525"}
     hermite_endpoint
     (fn {}
       (params {})

@@ -16,7 +16,5 @@ these last.
 - `returnsrisk.ch`: [`tests/capstone/returnsrisk.ch`](../../tests/capstone/returnsrisk.ch).
 - `linreg.ch`: type-checked by `chelis check`, with no runtime test yet.
 
-The Black-Scholes Greeks run under `chelis test` but cannot yet be compiled
-to C as part of the package
-([chelis#2379](https://github.com/Chelis-Lang/chelis/issues/2379)); the
-compiled `grad` examples are in [`verify/`](../../verify/).
+The Black-Scholes Greeks run under `chelis test` and through the compiled
+package C API in [`tests/test_c_backend.py`](../../tests/test_c_backend.py).

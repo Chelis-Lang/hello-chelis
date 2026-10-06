@@ -5,8 +5,10 @@
     (build_frame add_score_col frame_after_rename frame_after_drop))
   (import {surf_path: "Coral.Frame"} coral.frame (nrows ncols columns))
   (import {surf_path: "Std.Test"} std.test (assert_eq assert_true))
-  (defsig {} test_build_frame_shape (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:219..407"}
+    test_build_frame_shape
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:219..407"}
     test_build_frame_shape
     (fn {}
       (params {})
@@ -32,10 +34,10 @@
               (var {span: "surf:369..371"} df))
             (lit {span: "surf:374..378", type: (t-prim {} i64)} 3)
             (lit {span: "surf:380..404", type: (t-prim {} string)} "build_frame ncols == 3"))))))
-  (defsig {}
+  (defsig {span: "surf:408..635"}
     test_with_column_grows_ncols
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:408..635"}
     test_with_column_grows_ncols
     (fn {}
       (params {})
@@ -63,8 +65,10 @@
               (var {span: "surf:590..593"} df2))
             (lit {span: "surf:596..600", type: (t-prim {} i64)} 4)
             (lit {span: "surf:602..632", type: (t-prim {} string)} "after with_column ncols == 4"))))))
-  (defsig {} test_rename_and_drop (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:636..1078"}
+    test_rename_and_drop
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:636..1078"}
     test_rename_and_drop
     (fn {}
       (params {})

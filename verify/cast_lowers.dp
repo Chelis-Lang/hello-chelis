@@ -1,6 +1,6 @@
 (module {surf_path: "CastLowers"}
   castlowers
-  (def {}
+  (def {span: "surf:18..58"}
     xs
     (app {span: "surf:23..58"}
       (var {span: "surf:23..32"} to_tensor)
@@ -14,9 +14,9 @@
             (var {} Cons)
             (lit {span: "surf:50..56", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:59..77"}
     hi
     (cast {span: "surf:64..77"} (var {span: "surf:69..71"} xs) (t-prim {} f64)))
-  (def {}
+  (def {span: "surf:78..98"}
     back
     (cast {span: "surf:85..98"} (var {span: "surf:90..92"} hi) (t-prim {} f32))))
