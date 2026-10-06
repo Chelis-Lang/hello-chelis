@@ -1,5 +1,5 @@
 module Hello.Nautilus.SpecialFunctions
-import Nautilus.Special (erf, erfc, erfinv, log_gamma, bessel_j0)
+import Nautilus.Special (erfinv, log_gamma, bessel_j0)
 export (erf_pipe, erf_round_trip, log_gamma_one, complementary_erf, j0_at_zero)
 def erf_pipe(x: f32) -> f32 = erf(x)
 def erf_round_trip(y: f32) -> f32 = erf(erfinv(y))
