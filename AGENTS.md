@@ -11,7 +11,7 @@ and running. Nothing here is illustrative pseudo-code.
 
 That makes this repo the ecosystem's **integration canary**: it is the only shell
 that consumes `chelis-std`, `coral`, and `nautilus` together while exercising
-the released `octant` CLI and committed `c-earchin` witnesses. It is also the
+committed `c-earchin` witnesses. It is also the
 **Docker shell** — its CI ships and tests inside an
 image built from the published release tarball rather than a host toolchain.
 
@@ -140,7 +140,7 @@ default. Python is uv-managed (`uv run`, dependency groups in `pyproject.toml`,
 `uv.lock` committed). See the managed block above for the upstream contract.
 
 CI runs inside the image built from [`docker/Dockerfile`](docker/Dockerfile),
-which installs the toolchain, the Octant CLI, and imported packages from their
+which installs the toolchain and imported packages from their
 release assets. That image carries its own copy of the pins, which
 `conform bump` does not rewrite. When the pin moves, update together:
 `ARG CHELIS_VERSION` and the shell `ARG`s in the Dockerfile, the `build-args:`
@@ -173,13 +173,9 @@ nobody else will ever produce, and the giveaway is a `local_registry` dependency
 with no `remote_origin` line. Check `git diff reef.lock` before every commit in a
 cascade bump, and regenerate the lock for real only after the siblings tag.
 
-Two lanes of generated artifacts must be regenerated in the same change set:
-
-- `uv run scripts/regen_deep.py` after any `.ch` edit (the committed `.dp`
-  sidecars are byte-compared in CI).
-- `uv run scripts/regen_octant.py` when the octant pin moves or the Surf
-  printer changes; the `.ch` third of each octant triple is `chelis surf`
-  output and moves with the compiler even when the `.tex` and `.dp` do not.
+Regenerate the generated artifacts in the same change set:
+`uv run scripts/regen_deep.py` after any `.ch` edit (the committed `.dp`
+sidecars are byte-compared in CI).
 
 ## Scaffolding Drift Rule
 

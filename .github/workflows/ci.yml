@@ -12,8 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 # The corpus gate. Everything runs inside the image built from
-# docker/Dockerfile, which installs the pinned Chelis release, the Octant
-# CLI, and the shell packages from their GitHub release assets.
+# docker/Dockerfile, which installs the pinned Chelis release and the shell
+# packages from their GitHub release assets.
 
 jobs:
   corpus:
@@ -99,7 +99,7 @@ jobs:
             chelis test tests_blocked --expect blocked
 
       # Surf/Deep drift, negative error kinds, C-backend build + run +
-      # golden diff, Octant round-trips, and c-earchin proofs.
+      # golden diff, and c-earchin proofs.
       # See tests/README.md.
       - name: pytest tests/
         run: |

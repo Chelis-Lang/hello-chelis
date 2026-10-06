@@ -835,7 +835,6 @@ specs. Do not re-derive them here.
 | `chelis-std`: `List` / `Dict` / iteration, text I/O | `src/std/` | `@pin` |
 | `coral` typed dataframes, `group_by`, joins, windows, reshape, CSV | `src/coral/` | `@pin` |
 | `nautilus` special functions, distributions, linear algebra, statistics, information theory, ODE/SDE | `src/nautilus/` | `@pin` |
-| `octant` LaTeX -> Deep -> Surf triples | `octant/` | `@pin` |
 | `c-earchin` EARS requirements -> property witnesses, proven by `chelis prove` | `c-earchin/` | `@pin` |
 | C-backend lowering: `grad` over a tensor reduction, `relu`, `sigmoid`, `cast`, `realize` | `verify/` | `@pin` |
 | Capstones: Black-Scholes Greeks (host runtime), SGD linear regression, returns and risk over Coral and Nautilus | `src/capstone/` | `@pin` |

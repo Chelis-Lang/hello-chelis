@@ -9,6 +9,12 @@ version with the compiler and shell releases it is pinned to.
 
 - Use typed literal suffixes throughout the Surf corpus instead of casting
   numeric literals, and regenerate the paired Deep files.
+- Remove the Octant lesson so the Docker Quickstart builds without access
+  to private Chelis-Lang releases. Octant is not in the public shell set,
+  and its release download returned 404 for anyone outside the
+  organization. `octant/`, its round-trip test, `scripts/regen_octant.py`,
+  and the Octant CLI in the image are removed; the image now downloads
+  only public releases.
 
 ## 0.1.12 - 2026-10-05
 
