@@ -32,6 +32,10 @@ compiles a C smoke test. `GITHUB_TOKEN` is passed as a BuildKit secret and
 used only to authenticate release downloads, which
 `chelis reef install --from-github` requires even for public releases.
 
+The image is `linux/amd64` because Chelis publishes Linux binaries for x86_64
+only. `docker-compose.yml` pins that platform, so on Apple Silicon Docker
+builds and runs the image under emulation.
+
 You can also work without Docker: install the toolchain with `chelisup`
 (see the Chelis
 [install guide](https://github.com/Chelis-Lang/chelis/blob/main/docs/book/src/install.md)),
