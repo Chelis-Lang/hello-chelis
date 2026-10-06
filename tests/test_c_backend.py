@@ -115,11 +115,11 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         # against the same .a it dropped in the output dir.
         c_file = out_dir / f"{source.stem}.c"
         bin_path = out_dir / source.stem
+        # Host-specific ISA flags can change FLT_EVAL_METHOD for this C runtime.
         link = subprocess.run(
             [
                 "gcc",
                 "-O2",
-                "-march=native",
                 "-fopenmp",
                 str(c_file),
                 f"-L{out_dir}",
