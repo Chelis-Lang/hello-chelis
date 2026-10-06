@@ -38,7 +38,10 @@ self-contained, and each has a test under `tests/basics/` with the same name:
 6. [`effectsrandom.ch`](../src/basics/effectsrandom.ch): explicit random keys,
    deterministic replay, and independent draws with `split_key`.
 7. [`linearity.ch`](../src/basics/linearity.ch): tensor values are owned by
-   default; a `&tensor` parameter permits repeated read-only use.
+   default; a `&tensor` parameter permits repeated read-only use, and
+   `copy` supplies an owner for a call that needs one. The
+   [rejected call](../tests_neg/check/borrow_requires_copy.ch) shows that
+   Chelis does not insert this copy for a borrowed argument.
 8. [`gradbasic.ch`](../src/basics/gradbasic.ch): `grad(f, wrt=w)`
    reverse-mode differentiation of a scalar loss.
 9. [`vmap.ch`](../src/basics/vmap.ch): lifting a per-example function over

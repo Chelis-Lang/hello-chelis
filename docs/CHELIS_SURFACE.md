@@ -826,7 +826,7 @@ specs. Do not re-derive them here.
 | ADTs and `match`, modules and imports | `src/basics/pipeandmatch.ch`, `modulesandimports/` | `@pin` |
 | Precision and explicit `cast` (no implicit promotion) | `src/basics/precisioncast.ch` | `@pin` |
 | Explicit random keys, `split_key`, `IO`, and `Test`, evaluated in the host runtime | `src/basics/effectsrandom.ch`, `src/std/tensorio.ch` | `@pin` |
-| Linearity: consumption and `&` borrows | `src/basics/linearity.ch` | `@pin` |
+| Linearity: borrowed reads, explicit copy into an owned parameter, and rejection without copy | `src/basics/linearity.ch`, `tests_neg/check/borrow_requires_copy.ch` | `@pin` |
 | `grad`, `vmap`, `realize`, macros, evaluated in the host runtime | `src/basics/{gradbasic,vmap,jitrealize,macrobasic}.ch` | `@pin` |
 | Checked extents on dimension-parameterized ADTs (`Frame[3]`) | `tests_neg/check/adt_extent_mismatch.ch` | `@pin` |
 | `chelis-std` and builtins: elementwise math, normalization, axis reductions | `src/std/` | `@pin` |
