@@ -2,7 +2,7 @@
 
 This page is a map of the hello-chelis repository: where each topic lives.
 The [five lessons](curriculum.md) and [Read a larger
-calculation](capstones.md) teach the calls themselves. Every
+calculation](capstones.md) teach the calls themselves. Nearly every
 module under `src/` has a test of the same name under `tests/` with fixed
 inputs and expected values. To run any module, follow the [setup on the
 capstones page](capstones.md#set-up-the-package) and call its
