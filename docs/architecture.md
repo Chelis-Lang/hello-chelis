@@ -39,9 +39,9 @@ Three commands share the front end and diverge after lowering:
   yourself against `libchelis_runtime.a` and OpenBLAS.
 
 The evaluator and the C backend do not accept exactly the same programs.
-Where they differ in a way that affects this corpus, the difference is listed
-under Known limitations in the [README](../README.md) and tracked in
-[`UPSTREAM_BUGS.md`](UPSTREAM_BUGS.md).
+Where they differ in a way that affects this corpus, the difference is tracked
+in [`UPSTREAM_BUGS.md`](UPSTREAM_BUGS.md); Nautilus gaps the tour
+works around are listed in [`src/nautilus/README.md`](../src/nautilus/README.md).
 
 ## Directory layout
 
@@ -114,6 +114,8 @@ fails CI if a paired `.dp` differs from what `chelis deep` produces now.
 | `pytest tests/test_surf_deep_equivalence.py` | each `.dp` equals `chelis deep` of its `.ch` | [maintained Surf/Deep pairs](surf_and_deep.md) |
 | `pytest tests/test_c_backend.py` | compile to C, link, run, compare with golden output | `verify/*.ch` |
 | `pytest tests/test_c_earchin_artifacts.py` | fixtures match the release; witnesses prove; the failure maps to its EARS line | `c-earchin/finance_options/` |
+| `pytest tests/test_book_examples.py` | each book lesson runs and prints the output the book shows | `docs/book/src/` |
+| `mdbook build docs/book`, `python3 scripts/check_book.py docs/book/src README.md` | the book builds; book and README follow the writing standard | `docs/book/`, `README.md` |
 
 ## Tracing C back to source
 

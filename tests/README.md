@@ -15,6 +15,7 @@ The Python files here cover what `chelis test` does not:
 | [`test_negative_examples.py`](test_negative_examples.py) | every `../tests_neg/check/*.ch` is rejected by `chelis check` with the error kind in its `-- chelis-expect-fail: <kind>` header |
 | [`test_c_backend.py`](test_c_backend.py) | every `../verify/*.ch` compiles to C, links, runs, and prints its golden output |
 | [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | the c-earchin fixtures match their release hashes, the witnesses prove, and the failing witness is reported against its EARS line |
+| [`test_book_examples.py`](test_book_examples.py) | every lesson in [`../docs/book/src/`](../docs/book/src/) runs with the pinned compiler and prints the output the book shows |
 
 Run them with:
 

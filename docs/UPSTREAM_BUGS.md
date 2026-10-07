@@ -17,15 +17,18 @@ With an empty Reef registry, `chelis check` or `chelis test` can pass a full
 `github://` lockfile origin to the GitHub release installer, which expects an
 `org/repo@tag` coordinate. The resulting fetch fails before the package check.
 
-**Effect here:** the no-Docker path in
-[`getting_started.md`](getting_started.md) explicitly runs
+**Effect here:** the no-Docker path in the book
+([Running the repository examples](book/src/capstones.md#running-the-repository-examples))
+explicitly runs
 `chelis reef install --from-lockfile` before checking examples.
 
 **Probe:** set `CHELIS_REEF_HOME` to a fresh directory and run
 `chelis check src/basics/hellotensor.ch`; compare it with
 `chelis reef install --from-lockfile` followed by the same check.
-**De-narrow when fixed:** remove the required explicit install step from the
-no-Docker path once the pinned compiler's auto-fetch handles the lockfile origin.
+**De-narrow when fixed:** once the pinned compiler's auto-fetch handles the
+lockfile origin, drop the explicit install step from the chelis.ch
+hello-chelis capstones page and re-render the book from it (see the Book
+section of `AGENTS.md`).
 
 ### chelis#2552: host-runtime `grad` cannot lower a function that uses a string literal
 

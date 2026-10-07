@@ -96,12 +96,34 @@ jobs:
             chelis test tests_blocked --expect blocked
 
       # Surf/Deep drift, negative error kinds, C-backend build + run +
-      # golden diff, and c-earchin proofs.
+      # golden diff, c-earchin proofs, and the book's lesson and capstone
+      # outputs (tests/test_book_examples.py).
       # See tests/README.md.
       - name: pytest tests/
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
             uv run --frozen --group test pytest -q tests/
+
+  # The user-facing book (docs/book), rendered from the chelis.ch docs. It
+  # must build and pass the writing-standard lint with the README. Its
+  # examples run in the corpus job's pytest step.
+  book:
+    name: book build + lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mdBook
+        uses: taiki-e/install-action@v2
+        with:
+          tool: mdbook@0.5.2
+
+      - name: mdbook build
+        run: mdbook build docs/book
+
+      - name: Book lint
+        run: python3 scripts/check_book.py docs/book/src README.md
 
   # Keep the established status names for rules that require them. The corpus
   # job owns the conform, lint, check, native, negative, blocked, and Python
