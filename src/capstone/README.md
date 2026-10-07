@@ -21,12 +21,12 @@ these last.
   the 5y key-rate sensitivity, and the gapped-pillar curve's wrong 5y zero, in
   [`tests/capstone/yieldcurve.ch`](../../tests/capstone/yieldcurve.ch).
 - `americanput.ch`: the European price, the early-exercise premium, the
-  50-step tree within 3 cents of a 2,000-step reference, the critical price,
-  and the Barone-Adesi-Whaley price, in
+  50-step tree's exact value (6.073728) and its distance from a 2,000-step
+  reference, the critical price, the Barone-Adesi-Whaley price, and the
+  deep in-the-money put that exercises at once, in
   [`tests/capstone/americanput.ch`](../../tests/capstone/americanput.ch).
-  The finite-difference pricer is not in the test suite, because a grid fine
-  enough to be accurate exceeds the 30-second per-test budget in the
-  evaluator (a 50 x 50 grid gives 6.125, 200 x 200 gives 6.0895).
+  The finite-difference pricer is shown in the lesson but not tested (a
+  50 x 50 grid gives 6.125, 200 x 200 gives 6.0895).
 - `varbacktest.ch`: the full-sample VaR and CVaR; the parametric VaR equals
   `returnsrisk.ch`'s `parametric_var`; the historical model fails its
   backtest (18 exceptions where 10 are expected) and the EWMA model passes
