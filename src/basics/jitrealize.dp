@@ -1,14 +1,14 @@
 (module {surf_path: "Hello.Basics.JitRealize"}
   hello.basics.jitrealize
   (export {} eager with_realize)
-  (defsig {}
+  (defsig {span: "surf:60..142"}
     eager
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:60..142"}
     eager
     (fn {}
       (params {} (w {type: (t-var {} _)}) (x {type: (t-var {} _)}))
@@ -16,31 +16,24 @@
         (var {span: "surf:133..136"} mul)
         (var {span: "surf:137..138"} w)
         (var {span: "surf:140..141"} x))))
-  (defsig {}
+  (defsig {span: "surf:143..259"}
     with_realize
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:143..259"}
     with_realize
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (let {span: "surf:203..259"}
         (bind {}
           doubled
-          (pipe {span: "surf:217..239"}
-            (var {span: "surf:217..218"} x)
-            (fn {span: "surf:222..228", surf_pipe_stage: "call-first"}
-              (params {} __chelis_pipe)
-              (app {span: "surf:222..228"}
-                (var {span: "surf:222..225"} add)
-                (var {span: "surf:222..228"} __chelis_pipe)
-                (var {span: "surf:226..227"} x)))
-            (fn {span: "surf:232..239", surf_pipe_stage: "call-first"}
-              (params {} __chelis_pipe)
-              (realize {span: "surf:232..239"}
-                (var {span: "surf:232..239"} __chelis_pipe)))))
+          (realize {span: "surf:232..239"}
+            (app {span: "surf:222..228"}
+              (var {span: "surf:222..225"} add)
+              (var {span: "surf:217..218"} x)
+              (var {span: "surf:226..227"} x))))
         (app {span: "surf:242..257"}
           (var {span: "surf:242..245"} add)
           (var {span: "surf:246..253"} doubled)

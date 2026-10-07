@@ -25,19 +25,12 @@ Three layers (design: `spec/design/chelis_packaging_and_install.md`):
   unified `chelis reef doctor`.
 
 **Bootstrap & private-repo auth.** `chelisup.sh` drops the `chelisup` prebuilt on
-a bare machine; `chelisup install <ver>` then fetches toolchains. While
-`Chelis-Lang/chelis` is **private**, the public
-`curl -fsSL .../releases/latest/download/chelisup.sh | sh` line returns a **404**
-— GitHub serves no asset bytes for a private release to an unauthenticated client
-— so both the bootstrap and `chelisup install` require an authenticated `gh`. The
-checkout-free new-user command is the direct `gh` analogue of `curl | sh`:
-`gh release download --repo Chelis-Lang/chelis --pattern chelisup.sh --output - | sh`
-(the script itself then `gh release download`s the `chelisup-<slug>` binary when
-`gh` is present, falling back to the public curl URL only once releases are
-public). `chelisup` resolves the token as `GITHUB_TOKEN` first, then
-`gh auth token` (`install.rs::resolve_github_token`). A bootstrap 404 is **auth,
-not a bad URL** — never "fix" it by making the release public or hand-placing a
-binary. Docs to keep in sync: `docs/book/src/install.md` §1, `README.md`, and the
+a bare machine; `chelisup install <ver>` then fetches toolchains. Public releases
+work without a GitHub token. The script uses an authenticated `gh` when
+available and otherwise fetches the public release URL with `curl`. `chelisup`
+resolves `GITHUB_TOKEN` first, then `gh auth token`; without either it sends
+anonymous GitHub REST requests. Private releases require a token with read
+access. Docs to keep in sync: `docs/book/src/install.md` §1, `README.md`, and the
 design doc §5.5.
 
 ## Store Layout
@@ -74,6 +67,30 @@ The wrapper, package inventory, self-uninstall behavior, Nix contract test,
 and native Nix workflows form one contract. A direct Nix-built executable
 copy is invalid because external copies do not become Nix GC roots.
 
+## The Embedded chelis-std Runtime
+
+Each binary embeds the chelis-std archive and shell. `crates/chelis-std-bundle`'s
+build script stages `packages/chelis-std` (its `reef.toml`, the `.ch` files
+under its source roots, and its declared metadata files) and packs it with
+`chelis_reef::pack_runtime_package` at archive mtime 0 whatever
+`SOURCE_DATE_EPOCH` says. `chelis reef build` runs the same packing step but
+archives every file under `src/` and honours `SOURCE_DATE_EPOCH`, so it writes
+the embedded pair only from a copy holding just those inputs, with the epoch
+unset. Editing a std `.ch` file and rebuilding is the whole workflow; nothing
+generated is committed.
+
+- `chelis-reef` never depends on the bundle (the bundle build-depends on reef).
+  Every reef and `chelis-compiler-api` graph entry point takes the runtime as
+  `&'static EmbeddedRuntime`; binaries pass
+  `&chelis_std_bundle::EMBEDDED_RUNTIME`. Only binaries and test harnesses
+  depend on the bundle, so do not add a global provider or a library edge to it.
+- Never commit `packages/chelis-std/dist/`, `crates/chelis-std-bundle/dist/`, or
+  a `reef.lock` recording the bundled runtime: every lock names the running
+  binary's runtime hashes. `scripts/check_std_bundle_untracked.py` refuses them.
+- `bundled_chelis_std_loader`'s fixed-point test requires `chelis reef build` of
+  such a copy to reproduce the embedded pair and its locks to name those
+  bytes; `scripts/check_std_bundle_reproducible.py` requires two builds to agree.
+
 ## Shim Resolution Order (first match wins)
 
 1. leading `+<ver>` arg (`chelis +0.13.0 build main.ch`)
@@ -108,7 +125,8 @@ sync` (if `[chelis-src]`) → `reef doctor` summary.
 - **The guard is compile-time.** chelisup's `install`, `ensure_shim_installed`,
   `uninstall`, and `self_uninstall` are `pub(crate)` (only chelisup's own
   `cli.rs` calls them; the only external uses are the pure asset-naming helpers
-  `detect_slug`, `release_build` and `asset_name`, from `reef_setup.rs`).
+  `detect_slug`, `release_build` and `asset_name`, from `reef_setup.rs`, and
+  `nss::use_builtin_services`, which `chelis`'s `main` calls first).
   Any in-process reference from another crate is an `E0603` build error caught
   by the normal clippy/build/test stages. Do NOT widen that visibility to
   `pub`; keep the call-site comment and the test asserting the shim stays
@@ -148,8 +166,10 @@ so a bogus token stays `InvalidSubcommand` and the hint still fires.
 - `CHELIS_HOME` — isolate the whole store to a tempdir.
 - `CHELISUP_RELEASE_BASE` — read the toolchain tarball
   (`chelis-vX.Y.Z-<build>.tar.gz`, gzip; name it with
-  `chelisup::install::asset_name` and `release_build`, since on Linux the build
-  is `linux-x86_64-glibc2.31`) from a local dir instead of GitHub.
+  `chelisup::install::asset_name` and `release_build`, which on Linux names the
+  preferred `linux-x86_64-static` build; `install` falls back to
+  `linux-x86_64-glibc2.31` for a release without one) from a local dir instead
+  of GitHub.
 - `CHELISUP_GITHUB_BASE_API`, `CHELISUP_REPO` — wiremock the GitHub REST path.
 - `CHELISUP_BIN` — point `reef setup` at a specific `chelisup` binary.
 - `CHELIS_REEF_GITHUB_BASE_API`, `CHELIS_SRC_REMOTE`, `CHELIS_SRC_HOME` — the

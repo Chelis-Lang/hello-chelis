@@ -1,31 +1,25 @@
 (module {surf_path: "RealizeLowers"}
   realizelowers
-  (def {}
+  (def {span: "surf:21..61"}
     xs
-    (app {span: "surf:26..85"}
+    (app {span: "surf:26..61"}
       (var {span: "surf:26..35"} to_tensor)
-      (app {span: "surf:36..84"}
+      (app {span: "surf:36..60"}
         (var {} Cons)
-        (cast {span: "surf:37..51"}
-          (lit {span: "surf:42..45", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-          (t-prim {} f32))
+        (lit {span: "surf:37..43", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
         (app {}
           (var {} Cons)
-          (cast {span: "surf:53..67"}
-            (lit {span: "surf:58..61", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-            (t-prim {} f32))
+          (lit {span: "surf:45..51", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
           (app {}
             (var {} Cons)
-            (cast {span: "surf:69..83"}
-              (lit {span: "surf:74..77", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
-              (t-prim {} f32))
+            (lit {span: "surf:53..59", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:62..84"}
     deferred
-    (app {span: "surf:97..108"}
-      (var {span: "surf:97..100"} mul)
-      (var {span: "surf:101..103"} xs)
-      (var {span: "surf:105..107"} xs)))
-  (def {}
+    (app {span: "surf:73..84"}
+      (var {span: "surf:73..76"} mul)
+      (var {span: "surf:77..79"} xs)
+      (var {span: "surf:81..83"} xs)))
+  (def {span: "surf:85..117"}
     materialized
-    (realize {span: "surf:124..141"} (var {span: "surf:132..140"} deferred))))
+    (realize {span: "surf:100..117"} (var {span: "surf:108..116"} deferred))))

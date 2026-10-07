@@ -1,13 +1,13 @@
 (module {surf_path: "Hello.Basics.ModulesAndImports.Util"}
   hello.basics.modulesandimports.util
   (export {} double ones3)
-  (defsig {}
+  (defsig {span: "surf:66..129"}
     double
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:66..129"}
     double
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -15,26 +15,22 @@
         (var {span: "surf:120..123"} add)
         (var {span: "surf:124..125"} x)
         (var {span: "surf:127..128"} x))))
-  (defsig {} ones3 (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:130..197"}
+    ones3
+    (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {span: "surf:130..197"}
     ones3
     (fn {}
       (params {})
-      (app {span: "surf:162..221"}
+      (app {span: "surf:162..197"}
         (var {span: "surf:162..171"} to_tensor)
-        (app {span: "surf:172..220"}
+        (app {span: "surf:172..196"}
           (var {} Cons)
-          (cast {span: "surf:173..187"}
-            (lit {span: "surf:178..181", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-            (t-prim {} f32))
+          (lit {span: "surf:173..179", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
           (app {}
             (var {} Cons)
-            (cast {span: "surf:189..203"}
-              (lit {span: "surf:194..197", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-              (t-prim {} f32))
+            (lit {span: "surf:181..187", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
             (app {}
               (var {} Cons)
-              (cast {span: "surf:205..219"}
-                (lit {span: "surf:210..213", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-                (t-prim {} f32))
+              (lit {span: "surf:189..195", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
               (var {} Nil))))))))

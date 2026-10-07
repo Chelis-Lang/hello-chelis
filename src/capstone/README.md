@@ -5,7 +5,7 @@ these last.
 
 | File | Uses | What it shows |
 |---|---|---|
-| [`blackscholes.ch`](blackscholes.ch) | `nautilus` | Black-Scholes call price + Greeks (delta, vega) via `grad`. Mirrors the LaTeX in [`octant/black_scholes_d1.tex`](../../octant/black_scholes_d1.tex). |
+| [`blackscholes.ch`](blackscholes.ch) | `nautilus` | Black-Scholes call price + Greeks (delta, vega) via `grad`. |
 | [`linreg.ch`](linreg.ch) | `chelis-std` | Linear regression: design matrix, `predict`, MSE loss, single SGD step. |
 | [`returnsrisk.ch`](returnsrisk.ch) | `coral` + `nautilus` | Returns and risk: prices → simple returns → a Coral frame grouped by ticker → Sharpe ratio, rolling volatility (`Coral.Window`), and parametric value-at-risk from the Nautilus normal quantile. |
 | [`yieldcurve.ch`](yieldcurve.ch) | `shoals` | Bootstrap a zero curve from par yields (`Shoals.Curves`), price a bond on it, and measure DV01 and key-rate risk by bump-and-reprice. Also shows what happens when the bootstrap's precondition (consecutive annual pillars) is broken: no error, just a wrong curve. |
@@ -33,10 +33,8 @@ these last.
   (13), in [`tests/capstone/varbacktest.ch`](../../tests/capstone/varbacktest.ch).
 - `linreg.ch`: type-checked by `chelis check`, with no runtime test yet.
 
-The Black-Scholes Greeks run under `chelis test` but cannot yet be compiled
-to C as part of the package
-([chelis#2379](https://github.com/Chelis-Lang/chelis/issues/2379)); the
-compiled `grad` examples are in [`verify/`](../../verify/).
+The Black-Scholes Greeks run under `chelis test` and through the compiled
+package C API in [`tests/test_c_backend.py`](../../tests/test_c_backend.py).
 
 Every expected value in the Shoals capstone tests was derived independently
 of Chelis, so the tests check the libraries rather than restate their

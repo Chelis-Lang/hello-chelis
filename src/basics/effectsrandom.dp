@@ -1,14 +1,14 @@
 (module {surf_path: "Hello.Basics.EffectsRandom"}
   hello.basics.effectsrandom
   (export {} sample_uniform deterministic_sample independent_pair)
-  (defsig {}
+  (defsig {span: "surf:98..160"}
     sample_uniform
     (n)
     (t-fn {}
       (t-prim {} key)
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:161..287"}
     sample_uniform
     (fn {}
       (params {}
@@ -20,52 +20,48 @@
         (var {span: "surf:262..270"} template)
         (lit {span: "surf:272..278", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
         (lit {span: "surf:280..286", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
-  (defsig {}
+  (defsig {span: "surf:288..410"}
     deterministic_sample
     (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:288..410"}
     deterministic_sample
     (fn {}
       (params {})
-      (pipe {span: "surf:335..410"}
+      (app {span: "surf:359..410"}
+        (var {span: "surf:359..373"} sample_uniform)
         (app {span: "surf:335..355"}
           (var {span: "surf:335..348"} key_from_seed)
           (lit {span: "surf:349..354", type: (t-prim {} i64)} 42))
-        (fn {span: "surf:359..410", surf_pipe_stage: "call-first"}
-          (params {} __chelis_pipe)
-          (app {span: "surf:359..410"}
-            (var {span: "surf:359..373"} sample_uniform)
-            (var {span: "surf:359..410"} __chelis_pipe)
-            (app {span: "surf:374..409"}
-              (var {span: "surf:374..383"} to_tensor)
-              (app {span: "surf:384..408"}
+        (app {span: "surf:374..409"}
+          (var {span: "surf:374..383"} to_tensor)
+          (app {span: "surf:384..408"}
+            (var {} Cons)
+            (lit {span: "surf:385..391", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:393..399", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (app {}
                 (var {} Cons)
-                (lit {span: "surf:385..391", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                (app {}
-                  (var {} Cons)
-                  (lit {span: "surf:393..399", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                  (app {}
-                    (var {} Cons)
-                    (lit {span: "surf:401..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                    (var {} Nil))))))))))
-  (defsig {}
+                (lit {span: "surf:401..407", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                (var {} Nil))))))))
+  (defsig {span: "surf:411..664"}
     independent_pair
     (t-fn {}
       (t-tuple {}
         (t-tensor {} (d-lit {} 3) (t-prim {} f32))
         (t-tensor {} (d-lit {} 3) (t-prim {} f32)))))
-  (def {}
+  (def {span: "surf:411..664"}
     independent_pair
     (fn {}
       (params {})
       (let {span: "surf:472..664"}
         (bind {destructure: true}
           __chelis_tmp0
-          (pipe {span: "surf:502..535"}
+          (app {span: "surf:526..535"}
+            (var {span: "surf:526..535"} split_key)
             (app {span: "surf:502..522"}
               (var {span: "surf:502..515"} key_from_seed)
-              (lit {span: "surf:516..521", type: (t-prim {} i64)} 42))
-            (var {span: "surf:526..535"} split_key)))
+              (lit {span: "surf:516..521", type: (t-prim {} i64)} 42))))
         (let {}
           (bind {destructure: true}
             __chelis_tmp2

@@ -1,34 +1,58 @@
 (module {surf_path: "Hello.Basics.Linearity"}
   hello.basics.linearity
-  (export {} double_shared fan_out)
-  (defsig {}
+  (export {} double_shared fan_out copy_for_owner)
+  (defsig {span: "surf:78..148"}
     double_shared
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:78..148"}
     double_shared
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (app {span: "surf:123..132"}
-        (var {span: "surf:123..126"} add)
-        (var {span: "surf:127..128"} x)
-        (var {span: "surf:130..131"} x))))
-  (defsig {}
+      (app {span: "surf:139..148"}
+        (var {span: "surf:139..142"} add)
+        (var {span: "surf:143..144"} x)
+        (var {span: "surf:146..147"} x))))
+  (defsig {span: "surf:149..221"}
     fan_out
     (n)
     (t-fn {}
       (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:149..221"}
     fan_out
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (app {span: "surf:188..205"}
-        (var {span: "surf:188..191"} add)
-        (var {span: "surf:192..193"} x)
-        (app {span: "surf:195..204"}
-          (var {span: "surf:195..198"} add)
-          (var {span: "surf:199..200"} x)
-          (var {span: "surf:202..203"} x))))))
+      (app {span: "surf:204..221"}
+        (var {span: "surf:204..207"} add)
+        (var {span: "surf:208..209"} x)
+        (app {span: "surf:211..220"}
+          (var {span: "surf:211..214"} add)
+          (var {span: "surf:215..216"} x)
+          (var {span: "surf:218..219"} x)))))
+  (defsig {span: "surf:222..280"}
+    take_owned
+    (n)
+    (t-fn {}
+      (t-tensor {} (d-var {} n) (t-prim {} f32))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {span: "surf:222..280"}
+    take_owned
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (var {span: "surf:279..280"} x)))
+  (defsig {span: "surf:281..366"}
+    copy_for_owner
+    (n)
+    (t-fn {}
+      (t-ref {} (t-tensor {} (d-var {} n) (t-prim {} f32)))
+      (t-tensor {} (d-var {} n) (t-prim {} f32))))
+  (def {span: "surf:281..366"}
+    copy_for_owner
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:356..366"}
+        (var {span: "surf:356..366"} take_owned)
+        (copy {span: "surf:348..352"} (var {span: "surf:343..344"} x))))))

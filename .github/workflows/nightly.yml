@@ -38,9 +38,7 @@ jobs:
       # gcc links them against OpenBLAS and the binary runs under valgrind.
       #
       # The program is copied to /tmp and built there because verify/ is
-      # not a declared Reef source root, and building from inside the
-      # package lowers the whole package, which chelis#2379 blocks
-      # (Black-Scholes Greeks). See tests_blocked/README.md.
+      # not a declared Reef source root.
       #
       # .github/valgrind-known.supp suppresses only the libgomp thread-pool
       # TLS false positive. Any other error or leak fails the run; file it

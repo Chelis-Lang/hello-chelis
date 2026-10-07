@@ -1,9 +1,9 @@
 # `c-earchin/`: requirements to proofs
 
-[c-earchin](https://github.com/Chelis-Lang/c-earchin) translates requirements
-written in EARS (the "Easy Approach to Requirements Syntax") into Chelis Deep
-property witnesses, which `chelis prove` then checks. The example here is a
-small set of finance rules, readable in under a minute:
+c-earchin translates requirements written in EARS (the "Easy Approach to
+Requirements Syntax") into Chelis Deep property witnesses, which
+`chelis prove` then checks. The example here is a small set of finance
+rules, readable in under a minute:
 
 - [`options_rules.ears`](finance_options/options_rules.ears): one ubiquitous
   requirement plus `WHEN`, `WHILE`, `IF ... THEN`, `WHERE`, and one complex
@@ -51,8 +51,7 @@ release commit and a SHA-256 for each file.
 checks those hashes, then runs both proofs above.
 
 They are copied rather than regenerated because c-earchin does not publish a
-command-line binary this repo could run (Octant does, which is why
-`octant/` is regenerated in CI instead), and the installed Reef package
+command-line binary this repo could run, and the c-earchin Reef release
 contains the library, not these reference fixtures.
 
 ## Scope
@@ -60,5 +59,4 @@ contains the library, not these reference fixtures.
 The bridge verifies resolved, pure-boolean properties. It accepts a full
 EARS document, but in non-strict mode a requirement that uses vocabulary it
 cannot resolve is marked `recorded_only` and is not emitted as a property;
-use `c-earchin translate --strict` for artifacts you intend to verify. The
-full contract is `docs/verification-scope.md` in the c-earchin repository.
+use `c-earchin translate --strict` for artifacts you intend to verify.

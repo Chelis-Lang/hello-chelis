@@ -37,8 +37,11 @@ self-contained, and each has a test under `tests/basics/` with the same name:
    precision promotion; `cast` is explicit.
 6. [`effectsrandom.ch`](../src/basics/effectsrandom.ch): explicit random keys,
    deterministic replay, and independent draws with `split_key`.
-7. [`linearity.ch`](../src/basics/linearity.ch): tensors are consumed by
-   default; `&` borrows for read-only use.
+7. [`linearity.ch`](../src/basics/linearity.ch): tensor values are owned by
+   default; a `&tensor` parameter permits repeated read-only use, and
+   `copy` supplies an owner for a call that needs one. The
+   [rejected call](../tests_neg/check/borrow_requires_copy.ch) shows that
+   Chelis does not insert this copy for a borrowed argument.
 8. [`gradbasic.ch`](../src/basics/gradbasic.ch): `grad(f, wrt=w)`
    reverse-mode differentiation of a scalar loss.
 9. [`vmap.ch`](../src/basics/vmap.ch): lifting a per-example function over
@@ -56,12 +59,9 @@ The desugaring rules behind each `.dp` are in
 [`src/std/`](../src/std/) tours `chelis-std` and language builtins:
 elementwise math, normalization, axis reductions, decimal arithmetic,
 dates and times, collections and iteration, and effect-typed file I/O.
-The decimal and date examples type-check, but their runtime assertions are
-parked in `tests_blocked/std/` until chelis#2778 and chelis#2779 are fixed.
 The catalog is in
 [`src/std/README.md`](../src/std/README.md). Read the executable examples next
-to their tests in [`tests/std/`](../tests/std/); the Decimal and Time runtime
-probes are in [`tests_blocked/std/`](../tests_blocked/std/).
+to their tests in [`tests/std/`](../tests/std/).
 
 ## 4. The packages (90 min; pick what fits your work)
 
@@ -79,12 +79,6 @@ modules: special functions, distributions, linear algebra, ODE/SDE solvers,
 optimization, hypothesis tests, curve fitting, information theory. Nautilus is written in
 Chelis, so its methods are ordinary Chelis functions.
 
-### Octant: LaTeX to Chelis
-
-[`octant/`](../octant/) holds LaTeX formulas and what the `octant` translator
-makes of them: Deep, a provenance map back to the LaTeX, and a Surf rendering
-from `chelis surf`. See [`octant/README.md`](../octant/README.md).
-
 ### c-earchin: requirements to proofs
 
 [`c-earchin/`](../c-earchin/) holds a set of finance requirements written in
@@ -97,8 +91,7 @@ original requirement's line. See [`c-earchin/README.md`](../c-earchin/README.md)
 [`src/capstone/`](../src/capstone/) combines the pieces:
 
 - [`blackscholes.ch`](../src/capstone/blackscholes.ch): the Black-Scholes
-  call price and its Greeks (delta, vega) via `grad`. The same `d_1` in
-  LaTeX is [`octant/black_scholes_d1.tex`](../octant/black_scholes_d1.tex).
+  call price and its Greeks (delta, vega) via `grad`.
 - [`linreg.ch`](../src/capstone/linreg.ch): linear regression with
   prediction, MSE loss, and an SGD step.
 - [`returnsrisk.ch`](../src/capstone/returnsrisk.ch): prices, returns,

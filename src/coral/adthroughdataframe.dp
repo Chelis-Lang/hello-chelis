@@ -4,11 +4,11 @@
     coral.frame
     (Frame Column FloatCol from_pairs nrows))
   (export {} frame_shape_check simple_loss dsimple_loss_dw)
-  (defsig {}
+  (defsig {span: "surf:159..267"}
     frame_shape_check
     (n)
     (t-fn {} (t-tensor {} (d-var {} n) (t-prim {} f32)) (t-prim {} i64)))
-  (def {}
+  (def {span: "surf:159..267"}
     frame_shape_check
     (fn {}
       (params {} (w {type: (t-var {} _)}))
@@ -28,13 +28,13 @@
         (app {span: "surf:256..265"}
           (var {span: "surf:256..261"} nrows)
           (var {span: "surf:262..264"} df)))))
-  (defsig {}
+  (defsig {span: "surf:268..360"}
     simple_loss
     (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:268..360"}
     simple_loss
     (fn {}
       (params {} (w {type: (t-var {} _)}))
@@ -49,13 +49,13 @@
           (var {span: "surf:346..349"} sum)
           (var {span: "surf:350..354"} prod)
           (lit {span: "surf:356..357", type: (t-prim {} i32)} 0)))))
-  (defsig {}
+  (defsig {span: "surf:361..450"}
     dsimple_loss_dw
     (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:361..450"}
     dsimple_loss_dw
     (fn {}
       (params {} (w {type: (t-var {} _)}))

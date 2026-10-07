@@ -1,3 +1,0 @@
-Std.Time is unavailable: exact Gregorian and duration arithmetic is not implemented
-chelis#2779
-When exact date and duration arithmetic is implemented, move this assertion suite back to tests/std/, regenerate its Deep sidecar, and update the curriculum and capability status.

@@ -1,3 +1,0 @@
-Std.Decimal is unavailable: exact decimal arithmetic is not implemented
-chelis#2778
-When exact decimal arithmetic is implemented, move this assertion suite back to tests/std/, regenerate its Deep sidecar, and update the curriculum and capability status.

@@ -1,9 +1,9 @@
 (module {surf_path: "GradQuadratic"}
   gradquadratic
-  (defsig {}
+  (defsig {span: "surf:21..106"}
     sumsq
     (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32)) (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:21..106"}
     sumsq
     (fn {}
       (params {} (theta {type: (t-var {} _)}))
@@ -16,13 +16,13 @@
             (var {span: "surf:88..93"} theta)
             (var {span: "surf:95..100"} theta))
           (lit {span: "surf:103..104", type: (t-prim {} i32)} 0)))))
-  (defsig {}
+  (defsig {span: "surf:107..303"}
     grad_sumsq
     (t-fn {}
       (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32)) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))
       (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:107..303"}
     grad_sumsq
     (fn {}
       (params {} (model {type: (t-var {} _)}) (theta {type: (t-var {} _)}))
@@ -40,29 +40,23 @@
             (var {span: "surf:270..276"} target)
             (lit {type: (t-prim {} i32)} 0))
           (var {span: "surf:295..300"} theta)))))
-  (def {}
+  (def {span: "surf:304..347"}
     theta
-    (app {span: "surf:312..371"}
+    (app {span: "surf:312..347"}
       (var {span: "surf:312..321"} to_tensor)
-      (app {span: "surf:322..370"}
+      (app {span: "surf:322..346"}
         (var {} Cons)
-        (cast {span: "surf:323..337"}
-          (lit {span: "surf:328..331", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-          (t-prim {} f32))
+        (lit {span: "surf:323..329", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
         (app {}
           (var {} Cons)
-          (cast {span: "surf:339..353"}
-            (lit {span: "surf:344..347", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-            (t-prim {} f32))
+          (lit {span: "surf:331..337", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
           (app {}
             (var {} Cons)
-            (cast {span: "surf:355..369"}
-              (lit {span: "surf:360..363", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.0)
-              (t-prim {} f32))
+            (lit {span: "surf:339..345", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
             (var {} Nil))))))
-  (def {}
+  (def {span: "surf:348..381"}
     dsumsq
-    (app {span: "surf:381..405"}
-      (var {span: "surf:381..391"} grad_sumsq)
-      (var {span: "surf:392..397"} sumsq)
-      (var {span: "surf:399..404"} theta))))
+    (app {span: "surf:357..381"}
+      (var {span: "surf:357..367"} grad_sumsq)
+      (var {span: "surf:368..373"} sumsq)
+      (var {span: "surf:375..380"} theta))))

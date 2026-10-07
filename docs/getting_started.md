@@ -5,15 +5,11 @@ order, see [`curriculum.md`](curriculum.md).
 
 ## 1. Build the image
 
-Install [GitHub CLI](https://github.com/cli/cli#installation) before building.
-Sign in with an account that can access the private Chelis-Lang releases:
+The image downloads public GitHub release assets without a token:
 
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
-gh auth login --web
-gh auth status
-export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 ```
 
@@ -21,21 +17,34 @@ The image is `ubuntu:24.04` plus:
 
 - the `chelis` CLI, `libchelis_runtime.a`, and its headers, from the chelis
   release tarball;
-- the `octant` CLI, from the octant release tarball;
-- the `coral`, `nautilus`, `octant`, and `c-earchin` packages,
-  installed into the local Reef registry with
-  `chelis reef install --from-github` (`chelis-std` ships with the compiler);
+- the `coral`, `nautilus`, `shoreleave`, and `shoals` packages, installed into
+  the local Reef registry with `chelis reef install --from-github`
+  (`chelis-std` ships with the compiler);
 - GCC, OpenBLAS, and libgomp for the C backend, and valgrind;
 - `uv` with a uv-managed Python environment for the test harness.
 
-Everything is downloaded from release assets; nothing is compiled from
-source. `GITHUB_TOKEN` is passed as a BuildKit secret and used only to
-authenticate those downloads.
+The toolchain and imported packages come from public release assets. The
+c-earchin proof witnesses are committed in this repository, and the image
+compiles a C smoke test. If you encounter GitHub's anonymous rate limit,
+`GITHUB_TOKEN` can authenticate the release downloads through a BuildKit
+secret; the token is not stored in the image.
+
+The image is `linux/amd64` because Chelis publishes Linux binaries for x86_64
+only. `docker-compose.yml` pins that platform, so on Apple Silicon Docker
+builds and runs the image under emulation.
 
 You can also work without Docker: install the toolchain with `chelisup`
 (see the Chelis
 [install guide](https://github.com/Chelis-Lang/chelis/blob/main/docs/book/src/install.md)),
-which reads the pinned version from `reef.toml`.
+which reads the pinned version from `reef.toml`. Then populate the local Reef
+registry from the published artifacts recorded in `reef.lock`:
+
+```sh
+chelis reef install --from-lockfile
+```
+
+The explicit install validates the lockfile hashes and avoids the tracked
+auto-fetch failure in [chelis#1393](https://github.com/Chelis-Lang/chelis/issues/1393).
 
 ## 2. Open a shell in the container
 
@@ -66,8 +75,6 @@ chelis test tests_blocked --expect blocked       # known upstream gaps
 ```
 
 Each `tests/<area>/<name>.ch` exercises the matching `src/<area>/<name>.ch`.
-On a many-core machine, adding `--batch-mode file` can halve the run time
-([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)).
 
 ## 5. Lint
 
@@ -109,10 +116,9 @@ root of the package; see [`../verify/README.md`](../verify/README.md).
 
 ```sh
 uv run scripts/regen_deep.py      # maintained Surf/Deep pairs
-uv run scripts/regen_octant.py    # every octant/ triple from its .tex
 ```
 
-Run the first after editing a `.ch` in the
+Run it after editing a `.ch` in the
 [maintained paired corpus](surf_and_deep.md). CI fails if a paired `.dp`
 differs from what `chelis deep` produces.
 
@@ -123,8 +129,8 @@ uv run --group test pytest tests/
 ```
 
 This covers what `chelis test` does not: Deep drift, the structured error
-kind of each rejected program, C-backend build-and-run, octant round-trips,
-and c-earchin proofs. See [`../tests/README.md`](../tests/README.md).
+kind of each rejected program, C-backend build-and-run, and c-earchin
+proofs. See [`../tests/README.md`](../tests/README.md).
 
 ## What to read next
 

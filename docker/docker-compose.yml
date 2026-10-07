@@ -1,11 +1,15 @@
 services:
   hello-chelis:
+    # Chelis publishes Linux binaries for x86_64 only, so Compose builds and
+    # runs this image as linux/amd64 on every host. Apple Silicon runs it
+    # under emulation.
+    platform: linux/amd64
     build:
       context: ..
       dockerfile: docker/Dockerfile
       secrets:
         - github_token
-    image: hello-chelis:0.18.12
+    image: hello-chelis:0.19.1
     working_dir: /workspace
     volumes:
       - ..:/workspace

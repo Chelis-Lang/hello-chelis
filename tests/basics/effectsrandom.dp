@@ -4,8 +4,10 @@
     hello.basics.effectsrandom
     (sample_uniform deterministic_sample independent_pair))
   (import {surf_path: "Std.Test"} std.test (assert_true))
-  (defsig {} template (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:161..231"}
+    template
+    (t-fn {} (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+  (def {span: "surf:161..231"}
     template
     (fn {}
       (params {})
@@ -21,10 +23,10 @@
               (var {} Cons)
               (lit {span: "surf:223..229", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
               (var {} Nil)))))))
-  (defsig {}
+  (defsig {span: "surf:232..618"}
     test_explicit_key_replay
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:232..618"}
     test_explicit_key_replay
     (fn {}
       (params {})
@@ -88,10 +90,10 @@
                       (var {span: "surf:567..569"} bb)
                       (lit {span: "surf:571..575", type: (t-prim {} i64)} 2)))
                   (lit {span: "surf:579..615", type: (t-prim {} string)} "equal seeds replay the last sample")))))))))
-  (defsig {}
+  (defsig {span: "surf:619..910"}
     test_uniform_samples_stay_in_unit_interval
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:619..910"}
     test_uniform_samples_stay_in_unit_interval
     (fn {}
       (params {})
@@ -127,10 +129,10 @@
               (var {span: "surf:862..867"} value)
               (lit {span: "surf:869..875", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
             (lit {span: "surf:878..907", type: (t-prim {} string)} "uniform sample is below one"))))))
-  (defsig {}
+  (defsig {span: "surf:911..1217"}
     test_split_keys_make_independent_draws
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:911..1217"}
     test_split_keys_make_independent_draws
     (fn {}
       (params {})
@@ -195,10 +197,10 @@
                             (var {span: "surf:1168..1169"} b))
                           (lit {span: "surf:1172..1176", type: (t-prim {} i64)} 0)))
                       (lit {span: "surf:1180..1214", type: (t-prim {} string)} "child keys choose distinct draws")))))))))))
-  (defsig {}
+  (defsig {span: "surf:1218..1442"}
     test_deterministic_sample_replays
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:1218..1442"}
     test_deterministic_sample_replays
     (fn {}
       (params {})
@@ -229,10 +231,10 @@
                   (var {span: "surf:1395..1396"} b))
                 (lit {span: "surf:1399..1403", type: (t-prim {} i64)} 1)))
             (lit {span: "surf:1407..1439", type: (t-prim {} string)} "the curriculum example replays"))))))
-  (defsig {}
+  (defsig {span: "surf:1443..1789"}
     test_independent_pair_replays_both_children
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:1443..1789"}
     test_independent_pair_replays_both_children
     (fn {}
       (params {})

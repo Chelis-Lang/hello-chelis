@@ -1,0 +1,25 @@
+(defsig {span: "surf:36..91"}
+  take_owned
+  (t-fn {}
+    (t-tensor {} (d-lit {} 3) (t-prim {} f32))
+    (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+
+(def {span: "surf:36..91"}
+  take_owned
+  (fn {}
+    (params {} (x {type: (t-var {} _)}))
+    (var {span: "surf:90..91"} x)))
+
+(defsig {span: "surf:92..157"}
+  invalid
+  (t-fn {}
+    (t-ref {} (t-tensor {} (d-lit {} 3) (t-prim {} f32)))
+    (t-tensor {} (d-lit {} 3) (t-prim {} f32))))
+
+(def {span: "surf:92..157"}
+  invalid
+  (fn {}
+    (params {} (x {type: (t-var {} _)}))
+    (app {span: "surf:144..157"}
+      (var {span: "surf:144..154"} take_owned)
+      (var {span: "surf:155..156"} x))))

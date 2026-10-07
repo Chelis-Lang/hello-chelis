@@ -1,12 +1,12 @@
 (module {surf_path: "Hello.Basics.Vmap"}
   hello.basics.vmap
   (export {} process batch_process)
-  (defsig {}
+  (defsig {span: "surf:57..132"}
     process
     (t-fn {}
       (t-ref {} (t-tensor {} (d-name {} features) (t-prim {} f32)))
       (t-tensor {} (d-name {} features) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:57..132"}
     process
     (fn {}
       (params {} (x {type: (t-var {} _)}))
@@ -14,13 +14,13 @@
         (var {span: "surf:123..126"} add)
         (var {span: "surf:127..128"} x)
         (var {span: "surf:130..131"} x))))
-  (defsig {}
+  (defsig {span: "surf:133..237"}
     batch_process
     (t-fn {}
       (t-ref {}
         (t-tensor {} (d-name {} batch) (d-name {} features) (t-prim {} f32)))
       (t-tensor {} (d-name {} batch) (d-name {} features) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:133..237"}
     batch_process
     (fn {}
       (params {} (xs {type: (t-var {} _)}))

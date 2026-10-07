@@ -4,41 +4,33 @@
     hello.basics.precisioncast
     (round_scalar))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} test_round_15 (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (defsig {span: "surf:120..225"}
+    test_round_15
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:120..225"}
     test_round_15
     (fn {}
       (params {})
-      (app {span: "surf:161..249"}
+      (app {span: "surf:161..225"}
         (var {span: "surf:161..173"} assert_close)
-        (app {span: "surf:174..202"}
+        (app {span: "surf:174..194"}
           (var {span: "surf:174..186"} round_scalar)
-          (cast {span: "surf:187..201"}
-            (lit {span: "surf:192..195", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
-            (t-prim {} f32)))
-        (cast {span: "surf:204..218"}
-          (lit {span: "surf:209..212", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
-          (t-prim {} f32))
-        (cast {span: "surf:220..235"}
-          (lit {span: "surf:225..229", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000000001)
-          (t-prim {} f32))
-        (lit {span: "surf:237..248", type: (t-prim {} string)} "round_1p5"))))
-  (defsig {} test_round_pi (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+          (lit {span: "surf:187..193", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5))
+        (lit {span: "surf:196..202", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5)
+        (lit {span: "surf:204..211", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000000001)
+        (lit {span: "surf:213..224", type: (t-prim {} string)} "round_1p5"))))
+  (defsig {span: "surf:226..338"}
+    test_round_pi
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:226..338"}
     test_round_pi
     (fn {}
       (params {})
-      (app {span: "surf:291..386"}
-        (var {span: "surf:291..303"} assert_close)
-        (app {span: "surf:304..336"}
-          (var {span: "surf:304..316"} round_scalar)
-          (cast {span: "surf:317..335"}
-            (lit {span: "surf:322..329", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.14159)
-            (t-prim {} f32)))
-        (cast {span: "surf:338..356"}
-          (lit {span: "surf:343..350", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 3.14159)
-          (t-prim {} f32))
-        (cast {span: "surf:358..373"}
-          (lit {span: "surf:363..367", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
-          (t-prim {} f32))
-        (lit {span: "surf:375..385", type: (t-prim {} string)} "round_pi")))))
+      (app {span: "surf:267..338"}
+        (var {span: "surf:267..279"} assert_close)
+        (app {span: "surf:280..304"}
+          (var {span: "surf:280..292"} round_scalar)
+          (lit {span: "surf:293..303", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.14159))
+        (lit {span: "surf:306..316", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.14159)
+        (lit {span: "surf:318..325", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+        (lit {span: "surf:327..337", type: (t-prim {} string)} "round_pi")))))

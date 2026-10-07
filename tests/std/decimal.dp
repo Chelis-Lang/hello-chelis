@@ -1,0 +1,120 @@
+(module {surf_path: "Hello.Tests.Std.Decimal"}
+  hello.tests.std.decimal
+  (import {surf_path: "Hello.Std.Decimal"}
+    hello.std.decimal
+    (parse_price total_cents format_total add_cents))
+  (import {surf_path: "Std.Decimal"} std.decimal (decimal decimal_to_string))
+  (import {surf_path: "Std.Test"} std.test (assert_eq assert_true))
+  (defsig {span: "surf:197..341"}
+    test_parse_and_format
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:197..341"}
+    test_parse_and_format
+    (fn {}
+      (params {})
+      (let {span: "surf:246..341"}
+        (bind {}
+          price
+          (app {span: "surf:258..278"}
+            (var {span: "surf:258..269"} parse_price)
+            (lit {span: "surf:270..277", type: (t-prim {} string)} "19.95")))
+        (app {span: "surf:281..339"}
+          (var {span: "surf:281..290"} assert_eq)
+          (app {span: "surf:291..315"}
+            (var {span: "surf:291..308"} decimal_to_string)
+            (var {span: "surf:309..314"} price))
+          (lit {span: "surf:317..324", type: (t-prim {} string)} "19.95")
+          (lit {span: "surf:326..338", type: (t-prim {} string)} "round-trip")))))
+  (defsig {span: "surf:342..529"}
+    test_total_cents_sum
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:342..529"}
+    test_total_cents_sum
+    (fn {}
+      (params {})
+      (let {span: "surf:390..529"}
+        (bind {}
+          a
+          (app {span: "surf:398..413"}
+            (var {span: "surf:398..405"} decimal)
+            (lit {span: "surf:406..412", type: (t-prim {} string)} "1.50")))
+        (let {}
+          (bind {}
+            b
+            (app {span: "surf:420..435"}
+              (var {span: "surf:420..427"} decimal)
+              (lit {span: "surf:428..434", type: (t-prim {} string)} "2.25")))
+          (let {}
+            (bind {}
+              total
+              (app {span: "surf:446..463"}
+                (var {span: "surf:446..457"} total_cents)
+                (var {span: "surf:458..459"} a)
+                (var {span: "surf:461..462"} b)))
+            (app {span: "surf:466..527"}
+              (var {span: "surf:466..475"} assert_eq)
+              (app {span: "surf:476..500"}
+                (var {span: "surf:476..493"} decimal_to_string)
+                (var {span: "surf:494..499"} total))
+              (lit {span: "surf:502..508", type: (t-prim {} string)} "3.75")
+              (lit {span: "surf:510..526", type: (t-prim {} string)} "1.50+2.25=3.75")))))))
+  (defsig {span: "surf:530..740"}
+    test_format_total_with_discount
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:530..740"}
+    test_format_total_with_discount
+    (fn {}
+      (params {})
+      (let {span: "surf:589..740"}
+        (bind {}
+          subtotal
+          (app {span: "surf:604..621"}
+            (var {span: "surf:604..611"} decimal)
+            (lit {span: "surf:612..620", type: (t-prim {} string)} "100.00")))
+        (let {}
+          (bind {}
+            discount
+            (app {span: "surf:635..651"}
+              (var {span: "surf:635..642"} decimal)
+              (lit {span: "surf:643..650", type: (t-prim {} string)} "15.50")))
+          (let {}
+            (bind {}
+              out
+              (app {span: "surf:660..692"}
+                (var {span: "surf:660..672"} format_total)
+                (var {span: "surf:673..681"} subtotal)
+                (var {span: "surf:683..691"} discount)))
+            (app {span: "surf:695..738"}
+              (var {span: "surf:695..704"} assert_eq)
+              (var {span: "surf:705..708"} out)
+              (lit {span: "surf:710..716", type: (t-prim {} string)} "84.5")
+              (lit {span: "surf:718..737", type: (t-prim {} string)} "100.00-15.50=84.5")))))))
+  (defsig {span: "surf:741..904"}
+    test_add_cents
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:741..904"}
+    test_add_cents
+    (fn {}
+      (params {})
+      (let {span: "surf:783..904"}
+        (bind {}
+          base
+          (app {span: "surf:794..810"}
+            (var {span: "surf:794..801"} decimal)
+            (lit {span: "surf:802..809", type: (t-prim {} string)} "10.00")))
+        (let {}
+          (bind {}
+            bumped
+            (app {span: "surf:822..843"}
+              (var {span: "surf:822..831"} add_cents)
+              (var {span: "surf:832..836"} base)
+              (lit {span: "surf:838..842", type: (t-prim {} i64)} 7)))
+          (app {span: "surf:846..902"}
+            (var {span: "surf:846..857"} assert_true)
+            (app {span: "surf:858..886"}
+              (var {span: "surf:858..860"} eq)
+              (var {span: "surf:861..867"} bumped)
+              (app {span: "surf:869..885"}
+                (var {span: "surf:869..876"} decimal)
+                (lit {span: "surf:877..884", type: (t-prim {} string)} "10.07")))
+            (lit {span: "surf:888..901", type: (t-prim {} string)} "add 7 cents")))))))

@@ -12,8 +12,25 @@ version with the compiler and shell releases it is pinned to.
   the wrong curve a gapped pillar set gives), `americanput` (CRR tree,
   Crank-Nicolson, and Barone-Adesi-Whaley on Nautilus `brent`), and
   `varbacktest` (historical and parametric VaR/CVaR, with Kupiec and
-  Christoffersen backtests of a rolling and an EWMA model). The package pins
-  Shoals 0.24.14.
+  Christoffersen backtests of a rolling and an EWMA model).
+
+## 0.1.12 - 2026-10-07
+
+- Pin Chelis 0.19.1 and bundled `chelis-std` 0.4.0, with published Coral
+  0.7.47, Nautilus 0.7.50, Shoals 0.24.15, and Shoreleave 0.1.2 assets in
+  the Reef lock and Docker image. The committed c-earchin proof witnesses
+  target 0.3.5.
+- Teach exact `Std.Decimal` and validated `Std.Datetime` dates with runnable
+  assertions. Compile and run the Black-Scholes Greeks through the C backend.
+- Use typed numeric literals, canonical pipe grouping, explicit borrowing and
+  copying, and native `erf`/`erfc` in the lessons. Regenerate the paired Deep
+  files and retain checker rejection examples for the taught rules.
+- Remove the Octant lesson and CLI from the public Docker image. The Docker
+  Quickstart downloads public releases without GitHub sign-in, and its
+  `linux/amd64` platform supports Apple Silicon through emulation.
+- Check the public Quickstart in CI, run the demo corpus once per pull request,
+  and report GitHub release download errors with their HTTP status.
+- Add a contribution policy and standardize the MIT license holder.
 
 ## 0.1.11 - 2026-10-01
 

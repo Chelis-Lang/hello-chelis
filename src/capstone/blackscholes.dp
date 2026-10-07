@@ -4,7 +4,7 @@
     nautilus.distributions
     (normal_cdf))
   (export {} call_price delta vega)
-  (defsig {}
+  (defsig {span: "surf:111..294"}
     d1
     (t-fn {}
       (t-prim {} f32)
@@ -13,7 +13,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:111..294"}
     d1
     (fn {}
       (params {}
@@ -22,10 +22,10 @@
         (r {type: (t-var {} _)})
         (sigma {type: (t-var {} _)})
         (t {type: (t-var {} _)}))
-      (let {span: "surf:171..302"}
+      (let {span: "surf:171..294"}
         (bind {}
           num
-          (app {span: "surf:181..256"}
+          (app {span: "surf:181..248"}
             (var {span: "surf:181..184"} add)
             (app {span: "surf:185..199"}
               (var {span: "surf:185..188"} log)
@@ -33,35 +33,33 @@
                 (var {span: "surf:189..192"} div)
                 (var {span: "surf:193..194"} s)
                 (var {span: "surf:196..197"} k)))
-            (app {span: "surf:201..255"}
+            (app {span: "surf:201..247"}
               (var {span: "surf:201..204"} mul)
-              (app {span: "surf:205..251"}
+              (app {span: "surf:205..243"}
                 (var {span: "surf:205..208"} add)
                 (var {span: "surf:209..210"} r)
-                (app {span: "surf:212..250"}
+                (app {span: "surf:212..242"}
                   (var {span: "surf:212..215"} mul)
-                  (cast {span: "surf:216..230"}
-                    (lit {span: "surf:221..224", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-                    (t-prim {} f32))
-                  (app {span: "surf:232..249"}
-                    (var {span: "surf:232..235"} mul)
-                    (var {span: "surf:236..241"} sigma)
-                    (var {span: "surf:243..248"} sigma))))
-              (var {span: "surf:253..254"} t))))
+                  (lit {span: "surf:216..222", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
+                  (app {span: "surf:224..241"}
+                    (var {span: "surf:224..227"} mul)
+                    (var {span: "surf:228..233"} sigma)
+                    (var {span: "surf:235..240"} sigma))))
+              (var {span: "surf:245..246"} t))))
         (let {}
           (bind {}
             den
-            (app {span: "surf:265..284"}
-              (var {span: "surf:265..268"} mul)
-              (var {span: "surf:269..274"} sigma)
-              (app {span: "surf:276..283"}
-                (var {span: "surf:276..280"} sqrt)
-                (var {span: "surf:281..282"} t))))
-          (app {span: "surf:287..300"}
-            (var {span: "surf:287..290"} div)
-            (var {span: "surf:291..294"} num)
-            (var {span: "surf:296..299"} den))))))
-  (defsig {}
+            (app {span: "surf:257..276"}
+              (var {span: "surf:257..260"} mul)
+              (var {span: "surf:261..266"} sigma)
+              (app {span: "surf:268..275"}
+                (var {span: "surf:268..272"} sqrt)
+                (var {span: "surf:273..274"} t))))
+          (app {span: "surf:279..292"}
+            (var {span: "surf:279..282"} div)
+            (var {span: "surf:283..286"} num)
+            (var {span: "surf:288..291"} den))))))
+  (defsig {span: "surf:295..402"}
     d2
     (t-fn {}
       (t-prim {} f32)
@@ -70,7 +68,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:295..402"}
     d2
     (fn {}
       (params {}
@@ -79,22 +77,22 @@
         (r {type: (t-var {} _)})
         (sigma {type: (t-var {} _)})
         (t {type: (t-var {} _)}))
-      (app {span: "surf:363..410"}
-        (var {span: "surf:363..366"} sub)
-        (app {span: "surf:367..388"}
-          (var {span: "surf:367..369"} d1)
-          (var {span: "surf:370..371"} s)
-          (var {span: "surf:373..374"} k)
-          (var {span: "surf:376..377"} r)
-          (var {span: "surf:379..384"} sigma)
-          (var {span: "surf:386..387"} t))
-        (app {span: "surf:390..409"}
-          (var {span: "surf:390..393"} mul)
-          (var {span: "surf:394..399"} sigma)
-          (app {span: "surf:401..408"}
-            (var {span: "surf:401..405"} sqrt)
-            (var {span: "surf:406..407"} t))))))
-  (defsig {}
+      (app {span: "surf:355..402"}
+        (var {span: "surf:355..358"} sub)
+        (app {span: "surf:359..380"}
+          (var {span: "surf:359..361"} d1)
+          (var {span: "surf:362..363"} s)
+          (var {span: "surf:365..366"} k)
+          (var {span: "surf:368..369"} r)
+          (var {span: "surf:371..376"} sigma)
+          (var {span: "surf:378..379"} t))
+        (app {span: "surf:382..401"}
+          (var {span: "surf:382..385"} mul)
+          (var {span: "surf:386..391"} sigma)
+          (app {span: "surf:393..400"}
+            (var {span: "surf:393..397"} sqrt)
+            (var {span: "surf:398..399"} t))))))
+  (defsig {span: "surf:403..670"}
     call_price
     (t-fn {}
       (t-prim {} f32)
@@ -103,7 +101,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:403..670"}
     call_price
     (fn {}
       (params {}
@@ -112,67 +110,59 @@
         (r {type: (t-var {} _)})
         (sigma {type: (t-var {} _)})
         (t {type: (t-var {} _)}))
-      (let {span: "surf:479..710"}
+      (let {span: "surf:471..670"}
         (bind {}
           d_1
-          (app {span: "surf:489..510"}
-            (var {span: "surf:489..491"} d1)
-            (var {span: "surf:492..493"} s)
-            (var {span: "surf:495..496"} k)
-            (var {span: "surf:498..499"} r)
-            (var {span: "surf:501..506"} sigma)
-            (var {span: "surf:508..509"} t)))
+          (app {span: "surf:481..502"}
+            (var {span: "surf:481..483"} d1)
+            (var {span: "surf:484..485"} s)
+            (var {span: "surf:487..488"} k)
+            (var {span: "surf:490..491"} r)
+            (var {span: "surf:493..498"} sigma)
+            (var {span: "surf:500..501"} t)))
         (let {}
           (bind {}
             d_2
-            (app {span: "surf:519..540"}
-              (var {span: "surf:519..521"} d2)
-              (var {span: "surf:522..523"} s)
-              (var {span: "surf:525..526"} k)
-              (var {span: "surf:528..529"} r)
-              (var {span: "surf:531..536"} sigma)
-              (var {span: "surf:538..539"} t)))
+            (app {span: "surf:511..532"}
+              (var {span: "surf:511..513"} d2)
+              (var {span: "surf:514..515"} s)
+              (var {span: "surf:517..518"} k)
+              (var {span: "surf:520..521"} r)
+              (var {span: "surf:523..528"} sigma)
+              (var {span: "surf:530..531"} t)))
           (let {}
             (bind {}
               discount
-              (app {span: "surf:554..573"}
-                (var {span: "surf:554..557"} exp)
-                (app {span: "surf:558..572"}
-                  (var {span: "surf:558..561"} neg)
-                  (app {span: "surf:562..571"}
-                    (var {span: "surf:562..565"} mul)
-                    (var {span: "surf:566..567"} r)
-                    (var {span: "surf:569..570"} t)))))
-            (app {span: "surf:576..708"}
-              (var {span: "surf:576..579"} sub)
-              (app {span: "surf:580..635"}
-                (var {span: "surf:580..583"} mul)
-                (var {span: "surf:584..585"} s)
-                (app {span: "surf:587..634"}
-                  (var {span: "surf:587..597"} normal_cdf)
-                  (var {span: "surf:598..601"} d_1)
-                  (cast {span: "surf:603..617"}
-                    (lit {span: "surf:608..611", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-                    (t-prim {} f32))
-                  (cast {span: "surf:619..633"}
-                    (lit {span: "surf:624..627", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-                    (t-prim {} f32))))
-              (app {span: "surf:637..707"}
-                (var {span: "surf:637..640"} mul)
-                (app {span: "surf:641..657"}
-                  (var {span: "surf:641..644"} mul)
-                  (var {span: "surf:645..646"} k)
-                  (var {span: "surf:648..656"} discount))
-                (app {span: "surf:659..706"}
-                  (var {span: "surf:659..669"} normal_cdf)
-                  (var {span: "surf:670..673"} d_2)
-                  (cast {span: "surf:675..689"}
-                    (lit {span: "surf:680..683", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-                    (t-prim {} f32))
-                  (cast {span: "surf:691..705"}
-                    (lit {span: "surf:696..699", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-                    (t-prim {} f32))))))))))
-  (defsig {}
+              (app {span: "surf:546..565"}
+                (var {span: "surf:546..549"} exp)
+                (app {span: "surf:550..564"}
+                  (var {span: "surf:550..553"} neg)
+                  (app {span: "surf:554..563"}
+                    (var {span: "surf:554..557"} mul)
+                    (var {span: "surf:558..559"} r)
+                    (var {span: "surf:561..562"} t)))))
+            (app {span: "surf:568..668"}
+              (var {span: "surf:568..571"} sub)
+              (app {span: "surf:572..611"}
+                (var {span: "surf:572..575"} mul)
+                (var {span: "surf:576..577"} s)
+                (app {span: "surf:579..610"}
+                  (var {span: "surf:579..589"} normal_cdf)
+                  (var {span: "surf:590..593"} d_1)
+                  (lit {span: "surf:595..601", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:603..609", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+              (app {span: "surf:613..667"}
+                (var {span: "surf:613..616"} mul)
+                (app {span: "surf:617..633"}
+                  (var {span: "surf:617..620"} mul)
+                  (var {span: "surf:621..622"} k)
+                  (var {span: "surf:624..632"} discount))
+                (app {span: "surf:635..666"}
+                  (var {span: "surf:635..645"} normal_cdf)
+                  (var {span: "surf:646..649"} d_2)
+                  (lit {span: "surf:651..657", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:659..665", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))))))))
+  (defsig {span: "surf:671..776"}
     delta
     (t-fn {}
       (t-prim {} f32)
@@ -181,7 +171,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:671..776"}
     delta
     (fn {}
       (params {}
@@ -190,16 +180,16 @@
         (r {type: (t-var {} _)})
         (sigma {type: (t-var {} _)})
         (t {type: (t-var {} _)}))
-      (app {span: "surf:774..816"}
-        (grad {span: "surf:774..797", wrt: (var {} s)}
-          (var {span: "surf:779..789"} call_price)
+      (app {span: "surf:734..776"}
+        (grad {span: "surf:734..757", wrt: (var {} s)}
+          (var {span: "surf:739..749"} call_price)
           (lit {type: (t-prim {} i32)} 0))
-        (var {span: "surf:798..799"} s)
-        (var {span: "surf:801..802"} k)
-        (var {span: "surf:804..805"} r)
-        (var {span: "surf:807..812"} sigma)
-        (var {span: "surf:814..815"} t))))
-  (defsig {}
+        (var {span: "surf:758..759"} s)
+        (var {span: "surf:761..762"} k)
+        (var {span: "surf:764..765"} r)
+        (var {span: "surf:767..772"} sigma)
+        (var {span: "surf:774..775"} t))))
+  (defsig {span: "surf:777..885"}
     vega
     (t-fn {}
       (t-prim {} f32)
@@ -208,7 +198,7 @@
       (t-prim {} f32)
       (t-prim {} f32)
       (t-prim {} f32)))
-  (def {}
+  (def {span: "surf:777..885"}
     vega
     (fn {}
       (params {}
@@ -217,12 +207,12 @@
         (r {type: (t-var {} _)})
         (sigma {type: (t-var {} _)})
         (t {type: (t-var {} _)}))
-      (app {span: "surf:879..925"}
-        (grad {span: "surf:879..906", wrt: (var {} sigma)}
-          (var {span: "surf:884..894"} call_price)
+      (app {span: "surf:839..885"}
+        (grad {span: "surf:839..866", wrt: (var {} sigma)}
+          (var {span: "surf:844..854"} call_price)
           (lit {type: (t-prim {} i32)} 3))
-        (var {span: "surf:907..908"} s)
-        (var {span: "surf:910..911"} k)
-        (var {span: "surf:913..914"} r)
-        (var {span: "surf:916..921"} sigma)
-        (var {span: "surf:923..924"} t)))))
+        (var {span: "surf:867..868"} s)
+        (var {span: "surf:870..871"} k)
+        (var {span: "surf:873..874"} r)
+        (var {span: "surf:876..881"} sigma)
+        (var {span: "surf:883..884"} t)))))

@@ -2,7 +2,7 @@
 
 A runnable tour of the [Chelis](https://github.com/Chelis-Lang/chelis)
 language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
-`shoals`, `octant`, and `c-earchin`. Every package example under `src/` is a real
+`shoals`, and `c-earchin`. Every package example under `src/` is a real
 program that type-checks; many also have runtime tests. Standalone programs
 under `verify/` exercise C lowering. Nothing here is pseudo-code.
 
@@ -15,30 +15,28 @@ tensor to a returns and risk pipeline. To get it running, see
 
 | Area | Folder | Demonstrates |
 |---|---|---|
-| Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, explicit random keys and replay, linearity (`copy` and `&` borrows), `grad`, `vmap`, `realize`, macros |
-| `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `DateTime`, `List` / `Dict` / iteration, text I/O |
+| Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, explicit random keys and replay, borrowed tensor reads and explicit copy into an owned parameter, `grad`, `vmap`, `realize`, macros |
+| `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `Date` arithmetic, `List` / `Dict` / iteration, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
 | `shoals` (quant finance) | [`src/capstone/`](src/capstone/) | yield-curve bootstrapping and bond risk, binomial-tree and finite-difference American options, VaR/CVaR with Kupiec and Christoffersen backtests |
-| `octant` (LaTeX to Chelis) | [`octant/`](octant/) | `.tex` formulas translated to Deep, with provenance back to the LaTeX and a Surf rendering |
 | `c-earchin` (requirements to proofs) | [`c-earchin/`](c-earchin/) | EARS requirements translated to property witnesses, proven by `chelis prove`, with failures reported against the requirement's source line |
 | Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, returns and risk across `coral` and `nautilus`, and three `shoals` capstones: a yield curve, an American put priced three ways, and a VaR backtest |
 
 ## Quickstart
 
-The Docker image carries the pinned toolchain and every package the corpus
-uses, installed from GitHub release assets. The build authenticates those
-downloads with a GitHub token. Before your first build, install
-[GitHub CLI](https://github.com/cli/cli#installation) and sign in with an account
-that can access the private Chelis-Lang releases:
+The Docker image carries the pinned toolchain and imported packages,
+installed from public GitHub release assets. No GitHub account or token is
+needed for the Quickstart:
 
 ```sh
-gh auth login --web
-gh auth status
-export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 ```
+
+`docker-compose.yml` pins the image to `linux/amd64`, the only Linux platform
+Chelis publishes binaries for, so on Apple Silicon Docker runs it under
+emulation.
 
 Inside the container, your checkout is mounted at `/workspace`:
 
@@ -47,7 +45,7 @@ chelis check src/basics/hellotensor.ch                 # type-check the package
 chelis test tests/ --jobs auto                        # runtime assertions
 chelis test tests_neg --expect neg                     # programs that must be rejected
 chelis test tests_blocked --expect blocked             # pinned upstream failures
-uv run --group test pytest tests/                      # drift, C backend, octant, c-earchin
+uv run --group test pytest tests/                      # drift, C backend, c-earchin
 ```
 
 ## Layout
@@ -60,10 +58,9 @@ hello-chelis/
 ├── tests_neg/         programs the checker must reject
 ├── tests_blocked/     how to re-probe open upstream blockers
 ├── verify/            standalone programs compiled to C, linked, and run
-├── octant/            LaTeX formulas with their generated Deep and Surf
 ├── c-earchin/         EARS requirements with their generated proof witnesses
 ├── docs/              curriculum, getting started, architecture, reference
-├── scripts/           regenerate the committed .dp and octant outputs
+├── scripts/           regenerate the committed .dp sidecars
 └── docker/            the image CI runs in
 ```
 
@@ -92,15 +89,16 @@ features:
 CI (in [`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs every
 lane inside the Docker image: the package check, `chelis lint --check`, the
 full `chelis test` suite, the negative and blocked suites, and the Python harness (Deep
-drift, C-backend build-and-run against golden output, octant round-trips,
-and c-earchin proofs). A nightly job runs a compiled program under valgrind.
+drift, C-backend build-and-run against golden output, and c-earchin
+proofs). A nightly job runs a compiled program under valgrind.
 [`tests/README.md`](tests/README.md) describes each lane.
 
 ## Versions
 
-The corpus pins **chelis 0.18.12**, bundled `chelis-std` 0.4.0,
-`coral` 0.7.44, `nautilus` 0.7.47, `shoals` 0.24.14, `octant` 0.13.2, and `c-earchin` 0.3.5.
-The `compiler = "=0.18.12"` pin in `reef.toml` is exact: Chelis is pre-1.0,
+The corpus pins **chelis 0.19.1**, bundled `chelis-std` 0.4.0,
+`coral` 0.7.47, `nautilus` 0.7.50, `shoals` 0.24.15 (with `shoreleave`
+0.1.2), and `c-earchin` 0.3.5.
+The `compiler = "=0.19.1"` pin in `reef.toml` is exact: Chelis is pre-1.0,
 and minor versions can break source compatibility.
 
 ## Known limitations
@@ -108,30 +106,15 @@ and minor versions can break source compatibility.
 Each of these is tracked upstream; [`docs/UPSTREAM_BUGS.md`](docs/UPSTREAM_BUGS.md)
 records how each one is re-checked at every toolchain bump.
 
-- **Compiling the whole package to C fails** on the Black-Scholes Greeks
-  ([chelis#2379](https://github.com/Chelis-Lang/chelis/issues/2379)). The
-  programs in `verify/` are therefore compiled on their own, outside the
-  package. The Greeks themselves run and are tested under `chelis test`.
 - **Differentiating through a Coral dataframe is not yet possible**: `grad`
   cannot evaluate a function that looks up a column by its string name
   ([chelis#2552](https://github.com/Chelis-Lang/chelis/issues/2552)). The
   Coral gradient example differentiates the underlying tensor instead.
-- **`chelis test`'s default batch mode can be slower than
-  `--batch-mode file`**
-  ([chelis#1391](https://github.com/Chelis-Lang/chelis/issues/1391)). On a
-  10-core machine this suite runs in about half the time with
-  `--batch-mode file`; on a 4-vCPU CI runner it did not help, so CI uses
-  the default.
-- **Exact `Std.Decimal` and `Std.Time` operations are unavailable** at
-  0.18.12 (chelis#2778 and chelis#2779). Their runtime assertions live in
-  `tests_blocked/std/` until the compiler implements the required arithmetic.
 - **`nautilus` is f32-only**
   ([nautilus#70](https://github.com/Chelis-Lang/nautilus/issues/70)), and
   `Nautilus.Signal`'s transforms are placeholders that return NaN
   ([nautilus#81](https://github.com/Chelis-Lang/nautilus/issues/81)), so the
   tour skips that module.
-- **`octant` is a command-line translator, not a library** you import. Its
-  outputs live in `octant/` rather than under `src/`.
 
 ## License
 

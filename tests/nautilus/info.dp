@@ -4,93 +4,79 @@
     hello.nautilus.info
     (shannon_entropy relative_entropy))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {} fair_coin (t-fn {} (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
-  (def {}
+  (defsig {span: "surf:127..190"}
+    fair_coin
+    (t-fn {} (t-tensor {} (d-lit {} 2) (t-prim {} f32))))
+  (def {span: "surf:127..190"}
     fair_coin
     (fn {}
       (params {})
-      (app {span: "surf:163..206"}
+      (app {span: "surf:163..190"}
         (var {span: "surf:163..172"} to_tensor)
-        (app {span: "surf:173..205"}
+        (app {span: "surf:173..189"}
           (var {} Cons)
-          (cast {span: "surf:174..188"}
-            (lit {span: "surf:179..182", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-            (t-prim {} f32))
+          (lit {span: "surf:174..180", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
           (app {}
             (var {} Cons)
-            (cast {span: "surf:190..204"}
-              (lit {span: "surf:195..198", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-              (t-prim {} f32))
+            (lit {span: "surf:182..188", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
             (var {} Nil))))))
-  (defsig {}
+  (defsig {span: "surf:191..336"}
     test_entropy_fair_coin_is_ln2
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:191..336"}
     test_entropy_fair_coin_is_ln2
     (fn {}
       (params {})
-      (app {span: "surf:264..368"}
-        (var {span: "surf:264..276"} assert_close)
-        (app {span: "surf:277..305"}
-          (var {span: "surf:277..292"} shannon_entropy)
-          (app {span: "surf:293..304"} (var {span: "surf:293..302"} fair_coin)))
-        (cast {span: "surf:307..327"}
-          (lit {span: "surf:312..321", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.6931472)
-          (t-prim {} f32))
-        (cast {span: "surf:329..346"}
-          (lit {span: "surf:334..340", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
-          (t-prim {} f32))
-        (lit {span: "surf:348..367", type: (t-prim {} string)} "H(fair coin)=ln 2"))))
-  (defsig {} test_kl_self_is_zero (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+      (app {span: "surf:248..336"}
+        (var {span: "surf:248..260"} assert_close)
+        (app {span: "surf:261..289"}
+          (var {span: "surf:261..276"} shannon_entropy)
+          (app {span: "surf:277..288"} (var {span: "surf:277..286"} fair_coin)))
+        (lit {span: "surf:291..303", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.6931472)
+        (lit {span: "surf:305..314", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+        (lit {span: "surf:316..335", type: (t-prim {} string)} "H(fair coin)=ln 2"))))
+  (defsig {span: "surf:337..472"}
+    test_kl_self_is_zero
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:337..472"}
     test_kl_self_is_zero
     (fn {}
       (params {})
-      (app {span: "surf:417..520"}
-        (var {span: "surf:417..429"} assert_close)
-        (app {span: "surf:430..472"}
-          (var {span: "surf:430..446"} relative_entropy)
-          (app {span: "surf:447..458"} (var {span: "surf:447..456"} fair_coin))
-          (app {span: "surf:460..471"} (var {span: "surf:460..469"} fair_coin)))
-        (cast {span: "surf:474..488"}
-          (lit {span: "surf:479..482", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-          (t-prim {} f32))
-        (cast {span: "surf:490..505"}
-          (lit {span: "surf:495..499", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.000001)
-          (t-prim {} f32))
-        (lit {span: "surf:507..519", type: (t-prim {} string)} "KL(p||p)=0"))))
-  (defsig {} test_kl_biased_coin (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+      (app {span: "surf:385..472"}
+        (var {span: "surf:385..397"} assert_close)
+        (app {span: "surf:398..440"}
+          (var {span: "surf:398..414"} relative_entropy)
+          (app {span: "surf:415..426"} (var {span: "surf:415..424"} fair_coin))
+          (app {span: "surf:428..439"} (var {span: "surf:428..437"} fair_coin)))
+        (lit {span: "surf:442..448", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:450..457", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+        (lit {span: "surf:459..471", type: (t-prim {} string)} "KL(p||p)=0"))))
+  (defsig {span: "surf:473..652"}
+    test_kl_biased_coin
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:473..652"}
     test_kl_biased_coin
     (fn {}
       (params {})
-      (let {span: "surf:568..732"}
+      (let {span: "surf:520..652"}
         (bind {}
           q
-          (app {span: "surf:576..621"}
-            (var {span: "surf:576..585"} to_tensor)
-            (app {span: "surf:586..620"}
+          (app {span: "surf:528..557"}
+            (var {span: "surf:528..537"} to_tensor)
+            (app {span: "surf:538..556"}
               (var {} Cons)
-              (cast {span: "surf:587..602"}
-                (lit {span: "surf:592..596", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.25)
-                (t-prim {} f32))
+              (lit {span: "surf:539..546", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.25)
               (app {}
                 (var {} Cons)
-                (cast {span: "surf:604..619"}
-                  (lit {span: "surf:609..613", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.75)
-                  (t-prim {} f32))
+                (lit {span: "surf:548..555", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.75)
                 (var {} Nil)))))
-        (app {span: "surf:624..730"}
-          (var {span: "surf:624..636"} assert_close)
-          (app {span: "surf:637..669"}
-            (var {span: "surf:637..653"} relative_entropy)
-            (app {span: "surf:654..665"}
-              (var {span: "surf:654..663"} fair_coin))
-            (var {span: "surf:667..668"} q))
-          (cast {span: "surf:671..690"}
-            (lit {span: "surf:676..684", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.143841)
-            (t-prim {} f32))
-          (cast {span: "surf:692..709"}
-            (lit {span: "surf:697..703", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0001)
-            (t-prim {} f32))
-          (lit {span: "surf:711..729", type: (t-prim {} string)} "KL(fair||biased)"))))))
+        (app {span: "surf:560..650"}
+          (var {span: "surf:560..572"} assert_close)
+          (app {span: "surf:573..605"}
+            (var {span: "surf:573..589"} relative_entropy)
+            (app {span: "surf:590..601"}
+              (var {span: "surf:590..599"} fair_coin))
+            (var {span: "surf:603..604"} q))
+          (lit {span: "surf:607..618", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.143841)
+          (lit {span: "surf:620..629", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+          (lit {span: "surf:631..649", type: (t-prim {} string)} "KL(fair||biased)"))))))

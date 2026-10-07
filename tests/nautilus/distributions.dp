@@ -4,82 +4,62 @@
     hello.nautilus.distributions
     (std_normal_pdf std_normal_cdf std_normal_quantile exp_cdf_half_life))
   (import {surf_path: "Std.Test"} std.test (assert_close))
-  (defsig {}
+  (defsig {span: "surf:182..334"}
     test_std_normal_pdf_at_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:182..334"}
     test_std_normal_pdf_at_zero
     (fn {}
       (params {})
-      (app {span: "surf:237..358"}
+      (app {span: "surf:237..334"}
         (var {span: "surf:237..249"} assert_close)
-        (app {span: "surf:250..280"}
+        (app {span: "surf:250..272"}
           (var {span: "surf:250..264"} std_normal_pdf)
-          (cast {span: "surf:265..279"}
-            (lit {span: "surf:270..273", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-            (t-prim {} f32)))
-        (cast {span: "surf:282..302"}
-          (lit {span: "surf:287..296", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.3989423)
-          (t-prim {} f32))
-        (cast {span: "surf:304..322"}
-          (lit {span: "surf:309..316", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:324..357", type: (t-prim {} string)} "std_normal_pdf(0) = 1/sqrt(2pi)"))))
-  (defsig {}
+          (lit {span: "surf:265..271", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+        (lit {span: "surf:274..286", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.3989423)
+        (lit {span: "surf:288..298", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:300..333", type: (t-prim {} string)} "std_normal_pdf(0) = 1/sqrt(2pi)"))))
+  (defsig {span: "surf:335..462"}
     test_std_normal_cdf_at_zero
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:335..462"}
     test_std_normal_cdf_at_zero
     (fn {}
       (params {})
-      (app {span: "surf:414..510"}
-        (var {span: "surf:414..426"} assert_close)
-        (app {span: "surf:427..457"}
-          (var {span: "surf:427..441"} std_normal_cdf)
-          (cast {span: "surf:442..456"}
-            (lit {span: "surf:447..450", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-            (t-prim {} f32)))
-        (cast {span: "surf:459..473"}
-          (lit {span: "surf:464..467", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-          (t-prim {} f32))
-        (cast {span: "surf:475..493"}
-          (lit {span: "surf:480..487", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:495..509", type: (t-prim {} string)} "Phi(0) = 0.5"))))
-  (defsig {}
+      (app {span: "surf:390..462"}
+        (var {span: "surf:390..402"} assert_close)
+        (app {span: "surf:403..425"}
+          (var {span: "surf:403..417"} std_normal_cdf)
+          (lit {span: "surf:418..424", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+        (lit {span: "surf:427..433", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
+        (lit {span: "surf:435..445", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:447..461", type: (t-prim {} string)} "Phi(0) = 0.5"))))
+  (defsig {span: "surf:463..600"}
     test_std_normal_quantile_half
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+  (def {span: "surf:463..600"}
     test_std_normal_quantile_half
     (fn {}
       (params {})
-      (app {span: "surf:568..672"}
-        (var {span: "surf:568..580"} assert_close)
-        (app {span: "surf:581..616"}
-          (var {span: "surf:581..600"} std_normal_quantile)
-          (cast {span: "surf:601..615"}
-            (lit {span: "surf:606..609", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-            (t-prim {} f32)))
-        (cast {span: "surf:618..632"}
-          (lit {span: "surf:623..626", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0)
-          (t-prim {} f32))
-        (cast {span: "surf:634..652"}
-          (lit {span: "surf:639..646", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:654..671", type: (t-prim {} string)} "Phi^-1(0.5) = 0"))))
-  (defsig {} test_exp_cdf_half_life (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {}
+      (app {span: "surf:520..600"}
+        (var {span: "surf:520..532"} assert_close)
+        (app {span: "surf:533..560"}
+          (var {span: "surf:533..552"} std_normal_quantile)
+          (lit {span: "surf:553..559", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5))
+        (lit {span: "surf:562..568", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:570..580", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:582..599", type: (t-prim {} string)} "Phi^-1(0.5) = 0"))))
+  (defsig {span: "surf:601..737"}
+    test_exp_cdf_half_life
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:601..737"}
     test_exp_cdf_half_life
     (fn {}
       (params {})
-      (app {span: "surf:723..825"}
-        (var {span: "surf:723..735"} assert_close)
-        (app {span: "surf:736..755"}
-          (var {span: "surf:736..753"} exp_cdf_half_life))
-        (cast {span: "surf:757..771"}
-          (lit {span: "surf:762..765", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.5)
-          (t-prim {} f32))
-        (cast {span: "surf:773..791"}
-          (lit {span: "surf:778..785", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00001)
-          (t-prim {} f32))
-        (lit {span: "surf:793..824", type: (t-prim {} string)} "exponential cdf at ln 2 = 0.5")))))
+      (app {span: "surf:651..737"}
+        (var {span: "surf:651..663"} assert_close)
+        (app {span: "surf:664..683"}
+          (var {span: "surf:664..681"} exp_cdf_half_life))
+        (lit {span: "surf:685..691", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)
+        (lit {span: "surf:693..703", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:705..736", type: (t-prim {} string)} "exponential cdf at ln 2 = 0.5")))))

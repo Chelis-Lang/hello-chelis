@@ -7,14 +7,14 @@ def exp_decay_dmodel(x: f32, theta: f32) -> f32 = {
   mul(neg(x), e)
 }
 def fit_exp_decay() -> f32 = {
-  xs = to_tensor([cast(0.0, f32), cast(1.0, f32), cast(2.0, f32), cast(3.0, f32)])
-  ys = to_tensor([cast(1.0, f32), cast(0.6065307, f32), cast(0.3678794, f32), cast(0.2231302, f32)])
-  lm_scalar_1param(exp_decay_model, exp_decay_dmodel, xs, ys, cast(1.0, f32), cast(0.01, f32), cast(1e-6, f32), cast(200, i64))
+  xs = to_tensor([0.0f32, 1.0f32, 2.0f32, 3.0f32])
+  ys = to_tensor([1.0f32, 0.6065307f32, 0.3678794f32, 0.2231302f32])
+  lm_scalar_1param(exp_decay_model, exp_decay_dmodel, xs, ys, 1.0f32, 0.01f32, 1e-6f32, 200i64)
 }
 def lin_model(x: f32, theta: f32) -> f32 = mul(theta, x)
 def lin_dmodel(x: f32, theta: f32) -> f32 = x
 def fit_linear_through_origin() -> f32 = {
-  xs = to_tensor([cast(1.0, f32), cast(2.0, f32), cast(3.0, f32), cast(4.0, f32)])
-  ys = to_tensor([cast(2.0, f32), cast(4.0, f32), cast(6.0, f32), cast(8.0, f32)])
-  lm_scalar_1param(lin_model, lin_dmodel, xs, ys, cast(0.5, f32), cast(0.01, f32), cast(1e-8, f32), cast(100, i64))
+  xs = to_tensor([1.0f32, 2.0f32, 3.0f32, 4.0f32])
+  ys = to_tensor([2.0f32, 4.0f32, 6.0f32, 8.0f32])
+  lm_scalar_1param(lin_model, lin_dmodel, xs, ys, 0.5f32, 0.01f32, 1e-8f32, 100i64)
 }

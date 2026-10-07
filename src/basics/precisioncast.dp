@@ -7,68 +7,76 @@
     to_f64
     to_f32
     low_then_high)
-  (defsig {} to_f64_scalar (t-fn {} (t-prim {} f32) (t-prim {} f64)))
-  (def {}
+  (defsig {span: "surf:117..164"}
+    to_f64_scalar
+    (t-fn {} (t-prim {} f32) (t-prim {} f64)))
+  (def {span: "surf:117..164"}
     to_f64_scalar
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (cast {span: "surf:152..164"}
         (var {span: "surf:157..158"} x)
         (t-prim {} f64))))
-  (defsig {} to_f32_scalar (t-fn {} (t-prim {} f64) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:165..212"}
+    to_f32_scalar
+    (t-fn {} (t-prim {} f64) (t-prim {} f32)))
+  (def {span: "surf:165..212"}
     to_f32_scalar
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (cast {span: "surf:200..212"}
         (var {span: "surf:205..206"} x)
         (t-prim {} f32))))
-  (defsig {} round_scalar (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:213..282"}
+    round_scalar
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:213..282"}
     round_scalar
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (pipe {span: "surf:247..282"}
-        (var {span: "surf:247..248"} x)
-        (var {span: "surf:252..265"} to_f64_scalar)
-        (var {span: "surf:269..282"} to_f32_scalar))))
-  (defsig {}
+      (app {span: "surf:269..282"}
+        (var {span: "surf:269..282"} to_f32_scalar)
+        (app {span: "surf:252..265"}
+          (var {span: "surf:252..265"} to_f64_scalar)
+          (var {span: "surf:247..248"} x)))))
+  (defsig {span: "surf:283..348"}
     to_f64
     (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f64))))
-  (def {}
+  (def {span: "surf:283..348"}
     to_f64
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (cast {span: "surf:336..348"}
         (var {span: "surf:341..342"} x)
         (t-prim {} f64))))
-  (defsig {}
+  (defsig {span: "surf:349..414"}
     to_f32
     (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f64))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:349..414"}
     to_f32
     (fn {}
       (params {} (x {type: (t-var {} _)}))
       (cast {span: "surf:402..414"}
         (var {span: "surf:407..408"} x)
         (t-prim {} f32))))
-  (defsig {}
+  (defsig {span: "surf:415..496"}
     low_then_high
     (n)
     (t-fn {}
       (t-tensor {} (d-var {} n) (t-prim {} f32))
       (t-tensor {} (d-var {} n) (t-prim {} f32))))
-  (def {}
+  (def {span: "surf:415..496"}
     low_then_high
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (pipe {span: "surf:475..496"}
-        (var {span: "surf:475..476"} x)
-        (var {span: "surf:480..486"} to_f64)
-        (var {span: "surf:490..496"} to_f32)))))
+      (app {span: "surf:490..496"}
+        (var {span: "surf:490..496"} to_f32)
+        (app {span: "surf:480..486"}
+          (var {span: "surf:480..486"} to_f64)
+          (var {span: "surf:475..476"} x))))))

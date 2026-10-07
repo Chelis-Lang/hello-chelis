@@ -2,86 +2,64 @@
   hello.nautilus.roots
   (import {surf_path: "Nautilus.Roots"} nautilus.roots (bisection newton brent))
   (export {} sqrt2_bisect sqrt2_brent sqrt2_newton)
-  (defsig {} quad_minus_2 (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+  (defsig {span: "surf:126..182"}
+    quad_minus_2
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:126..182"}
     quad_minus_2
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (app {span: "surf:160..190"}
+      (app {span: "surf:160..182"}
         (var {span: "surf:160..163"} sub)
         (app {span: "surf:164..173"}
           (var {span: "surf:164..167"} mul)
           (var {span: "surf:168..169"} x)
           (var {span: "surf:171..172"} x))
-        (cast {span: "surf:175..189"}
-          (lit {span: "surf:180..183", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32)))))
-  (defsig {} dquad_minus_2 (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {}
+        (lit {span: "surf:175..181", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0))))
+  (defsig {span: "surf:183..232"}
+    dquad_minus_2
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:183..232"}
     dquad_minus_2
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (app {span: "surf:226..248"}
-        (var {span: "surf:226..229"} mul)
-        (cast {span: "surf:230..244"}
-          (lit {span: "surf:235..238", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (var {span: "surf:246..247"} x))))
-  (defsig {} sqrt2_bisect (t-fn {} (t-prim {} f32)))
-  (def {}
+      (app {span: "surf:218..232"}
+        (var {span: "surf:218..221"} mul)
+        (lit {span: "surf:222..228", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (var {span: "surf:230..231"} x))))
+  (defsig {span: "surf:233..317"} sqrt2_bisect (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:233..317"}
     sqrt2_bisect
     (fn {}
       (params {})
-      (app {span: "surf:277..365"}
-        (var {span: "surf:277..286"} bisection)
-        (var {span: "surf:287..299"} quad_minus_2)
-        (cast {span: "surf:301..315"}
-          (lit {span: "surf:306..309", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-          (t-prim {} f32))
-        (cast {span: "surf:317..331"}
-          (lit {span: "surf:322..325", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (cast {span: "surf:333..348"}
-          (lit {span: "surf:338..342", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.00000001)
-          (t-prim {} f32))
-        (cast {span: "surf:350..364"}
-          (lit {span: "surf:355..358", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
-          (t-prim {} i64)))))
-  (defsig {} sqrt2_brent (t-fn {} (t-prim {} f32)))
-  (def {}
+      (app {span: "surf:261..317"}
+        (var {span: "surf:261..270"} bisection)
+        (var {span: "surf:271..283"} quad_minus_2)
+        (lit {span: "surf:285..291", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+        (lit {span: "surf:293..299", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (lit {span: "surf:301..308", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
+        (lit {span: "surf:310..316", type: (t-prim {} i64)} 100))))
+  (defsig {span: "surf:318..398"} sqrt2_brent (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:318..398"}
     sqrt2_brent
     (fn {}
       (params {})
-      (app {span: "surf:393..478"}
-        (var {span: "surf:393..398"} brent)
-        (var {span: "surf:399..411"} quad_minus_2)
-        (cast {span: "surf:413..427"}
-          (lit {span: "surf:418..421", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.0)
-          (t-prim {} f32))
-        (cast {span: "surf:429..443"}
-          (lit {span: "surf:434..437", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 2.0)
-          (t-prim {} f32))
-        (cast {span: "surf:445..461"}
-          (lit {span: "surf:450..455", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
-          (t-prim {} f32))
-        (cast {span: "surf:463..477"}
-          (lit {span: "surf:468..471", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 100)
-          (t-prim {} i64)))))
-  (defsig {} sqrt2_newton (t-fn {} (t-prim {} f32)))
-  (def {}
+      (app {span: "surf:345..398"}
+        (var {span: "surf:345..350"} brent)
+        (var {span: "surf:351..363"} quad_minus_2)
+        (lit {span: "surf:365..371", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+        (lit {span: "surf:373..379", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (lit {span: "surf:381..389", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0000000001)
+        (lit {span: "surf:391..397", type: (t-prim {} i64)} 100))))
+  (defsig {span: "surf:399..487"} sqrt2_newton (t-fn {} (t-prim {} f32)))
+  (def {span: "surf:399..487"}
     sqrt2_newton
     (fn {}
       (params {})
-      (app {span: "surf:507..591"}
-        (var {span: "surf:507..513"} newton)
-        (var {span: "surf:514..526"} quad_minus_2)
-        (var {span: "surf:528..541"} dquad_minus_2)
-        (cast {span: "surf:543..557"}
-          (lit {span: "surf:548..551", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 1.5)
-          (t-prim {} f32))
-        (cast {span: "surf:559..575"}
-          (lit {span: "surf:564..569", surf_literal_style: "unsuffixed", type: (t-prim {} f32)} 0.0000000001)
-          (t-prim {} f32))
-        (cast {span: "surf:577..590"}
-          (lit {span: "surf:582..584", surf_literal_style: "unsuffixed", type: (t-prim {} i64)} 50)
-          (t-prim {} i64))))))
+      (app {span: "surf:427..487"}
+        (var {span: "surf:427..433"} newton)
+        (var {span: "surf:434..446"} quad_minus_2)
+        (var {span: "surf:448..461"} dquad_minus_2)
+        (lit {span: "surf:463..469", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5)
+        (lit {span: "surf:471..479", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0000000001)
+        (lit {span: "surf:481..486", type: (t-prim {} i64)} 50)))))
