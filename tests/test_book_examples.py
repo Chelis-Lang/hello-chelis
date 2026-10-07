@@ -15,8 +15,10 @@ compiler.
 Package examples appear as "Save as `name.ch`" (or "Save this as"), a
 ```chelis-surf fence that imports this package's modules, and the next
 ```text fence with the `chelis eval` output. Each is written to the package
-root, next to `reef.toml`, checked clean with `chelis check`, evaluated with
-`chelis eval --file`, compared with the shown output, and removed.
+root, next to `reef.toml`, evaluated with `chelis eval --file`, compared
+with the shown output, and removed. All package examples are also checked
+clean with one `chelis check` of a file that combines them; an error is
+reported against the example its source line came from.
 
 Quoted definitions are ```chelis-surf fences that start with `def`. Each
 top-level `def` in such a fence must appear verbatim in the module linked
@@ -140,13 +142,56 @@ def test_package_example_output_matches_book(
     assert not target.exists(), f"{target} already exists"
     target.write_text(source + "\n")
     try:
-        checked = run(["check", target.name], PACKAGE_ROOT)
         result = run(["eval", "--file", target.name], PACKAGE_ROOT)
     finally:
         target.unlink()
-    assert report_errors(checked.stdout) == [], f"{page}: {name} does not check"
     assert result.returncode == 0, f"{page}: {name} failed:\n{result.stderr}"
     assert result.stdout.rstrip() == shown.rstrip(), f"{page}: {name} differs"
+
+
+def combined_examples(
+    examples: list[tuple[str, str, str, str]],
+) -> tuple[str, list[str]]:
+    """One source holding every package example, and each line's origin.
+
+    `chelis check FILE` checks the package plus FILE only, and the package
+    check dominates its cost, so the examples are checked together: their
+    imports first, then their bodies, each line tagged with its example.
+    """
+    imports: list[tuple[str, str]] = []
+    body: list[tuple[str, str]] = []
+    for page, name, source, _ in examples:
+        for line in source.splitlines():
+            bucket = imports if line.startswith("import ") else body
+            bucket.append((line, f"{page}: {name}"))
+    lines = imports + body
+    return "\n".join(line for line, _ in lines) + "\n", [o for _, o in lines]
+
+
+def error_origin(error: dict, text: str, origins: list[str]) -> str:
+    span = re.match(r"surf:(\d+)", str(error.get("span_id", "")))
+    if not span:
+        return "unknown example"
+    return origins[text.count("\n", 0, int(span.group(1)))]
+
+
+def test_package_examples_check_clean() -> None:
+    """Every package example passes `chelis check`, in one package check."""
+    if shutil.which("chelis") is None:
+        pytest.skip("chelis not on PATH; run inside the docker image")
+    text, origins = combined_examples(package_examples())
+    target = PACKAGE_ROOT / "book_examples_check.ch"
+    assert not target.exists(), f"{target} already exists"
+    target.write_text(text)
+    try:
+        checked = run(["check", target.name], PACKAGE_ROOT)
+    finally:
+        target.unlink()
+    errors = report_errors(checked.stdout)
+    found = [
+        f"{error_origin(e, text, origins)}: {e['kind']}: {e['message']}" for e in errors
+    ]
+    assert not found, "package examples do not check:\n" + "\n".join(found)
 
 
 SOURCE_LINK = re.compile(
