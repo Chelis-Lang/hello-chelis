@@ -1,0 +1,144 @@
+(module {surf_path: "Hello.Tests.Capstone.AmericanPut"}
+  hello.tests.capstone.americanput
+  (import {surf_path: "Hello.Capstone.AmericanPut"}
+    hello.capstone.americanput
+    (european_put tree_put critical_price approximate_put))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
+  (defsig {span: "surf:176..337"}
+    test_european_put
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:176..337"}
+    test_european_put
+    (fn {}
+      (params {})
+      (app {span: "surf:221..337"}
+        (var {span: "surf:221..233"} assert_close)
+        (app {span: "surf:234..291"}
+          (var {span: "surf:234..246"} european_put)
+          (lit {span: "surf:247..255", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:257..265", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:267..274", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:276..282", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:284..290", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:293..304", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.573526)
+        (lit {span: "surf:306..315", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+        (lit {span: "surf:317..336", type: (t-prim {} string)} "Black-Scholes put"))))
+  (defsig {span: "surf:338..596"}
+    test_early_exercise_has_value
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:338..596"}
+    test_early_exercise_has_value
+    (fn {}
+      (params {})
+      (app {span: "surf:395..596"}
+        (var {span: "surf:395..406"} assert_true)
+        (app {span: "surf:407..543"}
+          (var {span: "surf:407..409"} gt)
+          (app {span: "surf:410..470"}
+            (var {span: "surf:410..418"} tree_put)
+            (lit {span: "surf:419..427", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+            (lit {span: "surf:429..437", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+            (lit {span: "surf:439..446", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+            (lit {span: "surf:448..454", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+            (lit {span: "surf:456..462", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:464..469", type: (t-prim {} i64)} 50))
+          (app {span: "surf:472..542"}
+            (var {span: "surf:472..475"} add)
+            (app {span: "surf:476..533"}
+              (var {span: "surf:476..488"} european_put)
+              (lit {span: "surf:489..497", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+              (lit {span: "surf:499..507", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+              (lit {span: "surf:509..516", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+              (lit {span: "surf:518..524", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+              (lit {span: "surf:526..532", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+            (lit {span: "surf:535..541", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.4)))
+        (lit {span: "surf:545..595", type: (t-prim {} string)} "the American put is worth more than the European"))))
+  (defsig {span: "surf:597..859"}
+    test_tree_put
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:597..859"}
+    test_tree_put
+    (fn {}
+      (params {})
+      (let {span: "surf:638..859"}
+        (bind {}
+          p
+          (app {span: "surf:646..706"}
+            (var {span: "surf:646..654"} tree_put)
+            (lit {span: "surf:655..663", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+            (lit {span: "surf:665..673", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+            (lit {span: "surf:675..682", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+            (lit {span: "surf:684..690", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+            (lit {span: "surf:692..698", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:700..705", type: (t-prim {} i64)} 50)))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp0
+            (app {span: "surf:713..777"}
+              (var {span: "surf:713..725"} assert_close)
+              (var {span: "surf:726..727"} p)
+              (lit {span: "surf:729..740", surf_literal_style: "explicit", type: (t-prim {} f32)} 6.073728)
+              (lit {span: "surf:742..751", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0005)
+              (lit {span: "surf:753..776", type: (t-prim {} string)} "the 50-step CRR value")))
+          (app {span: "surf:780..857"}
+            (var {span: "surf:780..792"} assert_close)
+            (var {span: "surf:793..794"} p)
+            (lit {span: "surf:796..806", surf_literal_style: "explicit", type: (t-prim {} f32)} 6.08999)
+            (lit {span: "surf:808..815", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+            (lit {span: "surf:817..856", type: (t-prim {} string)} "within 3 cents of the converged price"))))))
+  (defsig {span: "surf:860..1021"}
+    test_critical_price
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:860..1021"}
+    test_critical_price
+    (fn {}
+      (params {})
+      (app {span: "surf:907..1021"}
+        (var {span: "surf:907..919"} assert_close)
+        (app {span: "surf:920..969"}
+          (var {span: "surf:920..934"} critical_price)
+          (lit {span: "surf:935..943", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:945..952", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:954..960", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:962..968", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:971..980", surf_literal_style: "explicit", type: (t-prim {} f32)} 81.695)
+        (lit {span: "surf:982..989", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+        (lit {span: "surf:991..1020", type: (t-prim {} string)} "exercise below S** = 81.695"))))
+  (defsig {span: "surf:1022..1203"}
+    test_approximation_agrees_with_tree
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:1022..1203"}
+    test_approximation_agrees_with_tree
+    (fn {}
+      (params {})
+      (app {span: "surf:1085..1203"}
+        (var {span: "surf:1085..1097"} assert_close)
+        (app {span: "surf:1098..1158"}
+          (var {span: "surf:1098..1113"} approximate_put)
+          (lit {span: "surf:1114..1122", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:1124..1132", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:1134..1141", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:1143..1149", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:1151..1157", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:1160..1169", surf_literal_style: "explicit", type: (t-prim {} f32)} 6.0976)
+        (lit {span: "surf:1171..1179", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:1181..1202", type: (t-prim {} string)} "Barone-Adesi-Whaley"))))
+  (defsig {span: "surf:1204..1408"}
+    test_deep_in_the_money_exercises
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:1204..1408"}
+    test_deep_in_the_money_exercises
+    (fn {}
+      (params {})
+      (app {span: "surf:1264..1408"}
+        (var {span: "surf:1264..1276"} assert_close)
+        (app {span: "surf:1277..1336"}
+          (var {span: "surf:1277..1292"} approximate_put)
+          (lit {span: "surf:1293..1300", surf_literal_style: "explicit", type: (t-prim {} f32)} 70.0)
+          (lit {span: "surf:1302..1310", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:1312..1319", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:1321..1327", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:1329..1335", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (lit {span: "surf:1338..1345", surf_literal_style: "explicit", type: (t-prim {} f32)} 30.0)
+        (lit {span: "surf:1347..1357", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:1359..1407", type: (t-prim {} string)} "below S** the put is worth its intrinsic value")))))

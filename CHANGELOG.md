@@ -7,6 +7,13 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Add the corpus's first `shoals` lessons, three capstones (#35):
+  `yieldcurve` (par bootstrap, bond pricing, DV01 and key-rate risk, and
+  the wrong curve a gapped pillar set gives), `americanput` (CRR tree,
+  Crank-Nicolson, and Barone-Adesi-Whaley on Nautilus `brent`), and
+  `varbacktest` (historical and parametric VaR/CVaR, with Kupiec and
+  Christoffersen backtests of a rolling and an EWMA model).
+
 ## 0.1.12 - 2026-10-07
 
 - Pin Chelis 0.19.1 and bundled `chelis-std` 0.4.0, with published Coral

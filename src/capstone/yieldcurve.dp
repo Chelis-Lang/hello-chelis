@@ -1,0 +1,205 @@
+(module {surf_path: "Hello.Capstone.YieldCurve"}
+  hello.capstone.yieldcurve
+  (import {surf_path: "Shoals.Curves"}
+    shoals.curves
+    (YieldCurve
+      bootstrap_zero_from_par
+      discount_factor
+      rate_at
+      parallel_shift
+      key_rate_shift))
+  (export {}
+    par_curve
+    gapped_curve
+    bond_price
+    zero_rate
+    dv01
+    key_rate_sensitivity)
+  (defsig {span: "surf:234..407"}
+    par_curve
+    (t-fn {} (t-adt {} YieldCurve (d-lit {} 5))))
+  (def {span: "surf:234..407"}
+    par_curve
+    (fn {}
+      (params {})
+      (app {span: "surf:269..407"}
+        (var {span: "surf:269..292"} bootstrap_zero_from_par)
+        (app {span: "surf:293..344"}
+          (var {span: "surf:293..302"} to_tensor)
+          (app {span: "surf:303..343"}
+            (var {} Cons)
+            (lit {span: "surf:304..310", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:312..318", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+              (app {}
+                (var {} Cons)
+                (lit {span: "surf:320..326", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:328..334", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:336..342", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
+                    (var {} Nil)))))))
+        (app {span: "surf:346..406"}
+          (var {span: "surf:346..355"} to_tensor)
+          (app {span: "surf:356..405"}
+            (var {} Cons)
+            (lit {span: "surf:357..364", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:366..374", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.032)
+              (app {}
+                (var {} Cons)
+                (lit {span: "surf:376..384", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.034)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:386..394", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.035)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:396..404", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.036)
+                    (var {} Nil))))))))))
+  (defsig {span: "surf:408..566"}
+    gapped_curve
+    (t-fn {} (t-adt {} YieldCurve (d-lit {} 4))))
+  (def {span: "surf:408..566"}
+    gapped_curve
+    (fn {}
+      (params {})
+      (app {span: "surf:446..566"}
+        (var {span: "surf:446..469"} bootstrap_zero_from_par)
+        (app {span: "surf:470..513"}
+          (var {span: "surf:470..479"} to_tensor)
+          (app {span: "surf:480..512"}
+            (var {} Cons)
+            (lit {span: "surf:481..487", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:489..495", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+              (app {}
+                (var {} Cons)
+                (lit {span: "surf:497..503", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:505..511", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
+                  (var {} Nil))))))
+        (app {span: "surf:515..565"}
+          (var {span: "surf:515..524"} to_tensor)
+          (app {span: "surf:525..564"}
+            (var {} Cons)
+            (lit {span: "surf:526..533", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:535..543", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.032)
+              (app {}
+                (var {} Cons)
+                (lit {span: "surf:545..553", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.034)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:555..563", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.036)
+                  (var {} Nil)))))))))
+  (defsig {span: "surf:567..632"}
+    zero_rate
+    (n)
+    (t-fn {} (t-adt {} YieldCurve (t-var {} n)) (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:567..632"}
+    zero_rate
+    (fn {}
+      (params {} (c {type: (t-var {} _)}) (t {type: (t-var {} _)}))
+      (app {span: "surf:619..632"}
+        (var {span: "surf:619..626"} rate_at)
+        (var {span: "surf:627..628"} c)
+        (var {span: "surf:630..631"} t))))
+  (defsig {span: "surf:633..854"}
+    bond_price
+    (n)
+    (t-fn {} (t-adt {} YieldCurve (t-var {} n)) (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:633..854"}
+    bond_price
+    (fn {}
+      (params {} (c {type: (t-var {} _)}) (cpn {type: (t-var {} _)}))
+      (app {span: "surf:688..854"}
+        (var {span: "surf:688..692"} fold)
+        (fn {span: "surf:693..803"}
+          (params {} (acc {type: (t-prim {} f32)}) (t {type: (t-prim {} f32)}))
+          (app {span: "surf:718..803"}
+            (var {span: "surf:718..721"} add)
+            (var {span: "surf:722..725"} acc)
+            (app {span: "surf:727..802"}
+              (var {span: "surf:727..730"} mul)
+              (if {span: "surf:731..778"}
+                (app {span: "surf:734..747"}
+                  (var {span: "surf:734..736"} eq)
+                  (var {span: "surf:737..738"} t)
+                  (lit {span: "surf:740..746", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0))
+                (app {span: "surf:753..769"}
+                  (var {span: "surf:753..756"} add)
+                  (lit {span: "surf:757..763", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+                  (var {span: "surf:765..768"} cpn))
+                (var {span: "surf:775..778"} cpn))
+              (app {span: "surf:780..801"}
+                (var {span: "surf:780..795"} discount_factor)
+                (var {span: "surf:796..797"} c)
+                (var {span: "surf:799..800"} t)))))
+        (lit {span: "surf:805..811", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (app {span: "surf:813..853"}
+          (var {} Cons)
+          (lit {span: "surf:814..820", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+          (app {}
+            (var {} Cons)
+            (lit {span: "surf:822..828", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+            (app {}
+              (var {} Cons)
+              (lit {span: "surf:830..836", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+              (app {}
+                (var {} Cons)
+                (lit {span: "surf:838..844", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:846..852", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
+                  (var {} Nil)))))))))
+  (defsig {span: "surf:855..973"}
+    dv01
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:855..973"}
+    dv01
+    (fn {}
+      (params {} (cpn {type: (t-var {} _)}))
+      (app {span: "surf:883..973"}
+        (var {span: "surf:883..886"} sub)
+        (app {span: "surf:887..942"}
+          (var {span: "surf:887..897"} bond_price)
+          (app {span: "surf:898..936"}
+            (var {span: "surf:898..912"} parallel_shift)
+            (app {span: "surf:913..924"}
+              (var {span: "surf:913..922"} par_curve))
+            (lit {span: "surf:926..935", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001))
+          (var {span: "surf:938..941"} cpn))
+        (app {span: "surf:944..972"}
+          (var {span: "surf:944..954"} bond_price)
+          (app {span: "surf:955..966"} (var {span: "surf:955..964"} par_curve))
+          (var {span: "surf:968..971"} cpn)))))
+  (defsig {span: "surf:974..1129"}
+    key_rate_sensitivity
+    (t-fn {} (t-prim {} i64) (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:974..1129"}
+    key_rate_sensitivity
+    (fn {}
+      (params {} (pillar {type: (t-var {} _)}) (cpn {type: (t-var {} _)}))
+      (app {span: "surf:1031..1129"}
+        (var {span: "surf:1031..1034"} sub)
+        (app {span: "surf:1035..1098"}
+          (var {span: "surf:1035..1045"} bond_price)
+          (app {span: "surf:1046..1092"}
+            (var {span: "surf:1046..1060"} key_rate_shift)
+            (app {span: "surf:1061..1072"}
+              (var {span: "surf:1061..1070"} par_curve))
+            (var {span: "surf:1074..1080"} pillar)
+            (lit {span: "surf:1082..1091", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001))
+          (var {span: "surf:1094..1097"} cpn))
+        (app {span: "surf:1100..1128"}
+          (var {span: "surf:1100..1110"} bond_price)
+          (app {span: "surf:1111..1122"}
+            (var {span: "surf:1111..1120"} par_curve))
+          (var {span: "surf:1124..1127"} cpn))))))

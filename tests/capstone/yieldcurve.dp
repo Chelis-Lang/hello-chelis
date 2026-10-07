@@ -1,0 +1,106 @@
+(module {surf_path: "Hello.Tests.Capstone.YieldCurve"}
+  hello.tests.capstone.yieldcurve
+  (import {surf_path: "Hello.Capstone.YieldCurve"}
+    hello.capstone.yieldcurve
+    (par_curve gapped_curve bond_price zero_rate dv01 key_rate_sensitivity))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {span: "surf:180..368"}
+    test_bond_at_its_par_coupon_prices_at_par
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:180..368"}
+    test_bond_at_its_par_coupon_prices_at_par
+    (fn {}
+      (params {})
+      (app {span: "surf:249..368"}
+        (var {span: "surf:249..261"} assert_close)
+        (app {span: "surf:262..295"}
+          (var {span: "surf:262..272"} bond_price)
+          (app {span: "surf:273..284"} (var {span: "surf:273..282"} par_curve))
+          (lit {span: "surf:286..294", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.036))
+        (lit {span: "surf:297..303", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+        (lit {span: "surf:305..315", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:317..367", type: (t-prim {} string)} "a par-coupon bond on its own curve is worth face"))))
+  (defsig {span: "surf:369..506"}
+    test_zero_rate_5y
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:369..506"}
+    test_zero_rate_5y
+    (fn {}
+      (params {})
+      (app {span: "surf:414..506"}
+        (var {span: "surf:414..426"} assert_close)
+        (app {span: "surf:427..457"}
+          (var {span: "surf:427..436"} zero_rate)
+          (app {span: "surf:437..448"} (var {span: "surf:437..446"} par_curve))
+          (lit {span: "surf:450..456", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0))
+        (lit {span: "surf:459..471", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0355391)
+        (lit {span: "surf:473..483", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:485..505", type: (t-prim {} string)} "5y continuous zero"))))
+  (defsig {span: "surf:507..680"}
+    test_premium_bond
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:507..680"}
+    test_premium_bond
+    (fn {}
+      (params {})
+      (app {span: "surf:552..680"}
+        (var {span: "surf:552..564"} assert_close)
+        (app {span: "surf:565..597"}
+          (var {span: "surf:565..575"} bond_price)
+          (app {span: "surf:576..587"} (var {span: "surf:576..585"} par_curve))
+          (lit {span: "surf:589..596", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.04))
+        (lit {span: "surf:599..610", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.018089)
+        (lit {span: "surf:612..622", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:624..679", type: (t-prim {} string)} "a 4% coupon above the 3.6% par yield prices above par"))))
+  (defsig {span: "surf:681..814"}
+    test_dv01
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:681..814"}
+    test_dv01
+    (fn {}
+      (params {})
+      (app {span: "surf:718..814"}
+        (var {span: "surf:718..730"} assert_close)
+        (app {span: "surf:731..744"}
+          (var {span: "surf:731..735"} dv01)
+          (lit {span: "surf:736..743", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.04))
+        (app {span: "surf:746..760"}
+          (var {} neg)
+          (lit {span: "surf:747..760", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00047141))
+        (lit {span: "surf:762..769", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000002)
+        (lit {span: "surf:771..813", type: (t-prim {} string)} "+1bp parallel loses about 4.7bp of price"))))
+  (defsig {span: "surf:815..975"}
+    test_key_rate_5y
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:815..975"}
+    test_key_rate_5y
+    (fn {}
+      (params {})
+      (app {span: "surf:859..975"}
+        (var {span: "surf:859..871"} assert_close)
+        (app {span: "surf:872..907"}
+          (var {span: "surf:872..892"} key_rate_sensitivity)
+          (lit {span: "surf:893..897", type: (t-prim {} i64)} 4)
+          (lit {span: "surf:899..906", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.04))
+        (app {span: "surf:909..923"}
+          (var {} neg)
+          (lit {span: "surf:910..923", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00043523))
+        (lit {span: "surf:925..932", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000002)
+        (lit {span: "surf:934..974", type: (t-prim {} string)} "the 5y pillar carries most of the risk"))))
+  (defsig {span: "surf:976..1156"}
+    test_gapped_pillars_give_a_wrong_curve
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:976..1156"}
+    test_gapped_pillars_give_a_wrong_curve
+    (fn {}
+      (params {})
+      (app {span: "surf:1042..1156"}
+        (var {span: "surf:1042..1054"} assert_close)
+        (app {span: "surf:1055..1088"}
+          (var {span: "surf:1055..1064"} zero_rate)
+          (app {span: "surf:1065..1079"}
+            (var {span: "surf:1065..1077"} gapped_curve))
+          (lit {span: "surf:1081..1087", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0))
+        (lit {span: "surf:1090..1102", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0284362)
+        (lit {span: "surf:1104..1114", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+        (lit {span: "surf:1116..1155", type: (t-prim {} string)} "gapped pillars break the precondition")))))
