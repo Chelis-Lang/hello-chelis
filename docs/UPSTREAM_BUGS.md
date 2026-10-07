@@ -18,7 +18,7 @@ With an empty Reef registry, `chelis check` or `chelis test` can pass a full
 `org/repo@tag` coordinate. The resulting fetch fails before the package check.
 
 **Effect here:** the no-Docker path in the book
-([Running the repository examples](book/src/capstones.md#running-the-repository-examples))
+([Set up the package](book/src/capstones.md#set-up-the-package))
 explicitly runs
 `chelis reef install --from-lockfile` before checking examples.
 

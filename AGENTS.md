@@ -230,3 +230,4 @@ place of documentation, em-dashes, and the word "load-bearing".
 A change that alters user-visible behavior says so in its changelog entry.
 This book teaches the main branch: a change to a module the book quotes or
 runs updates the chelis.ch page and this book in the same change.
+For this corpus, `src/`, `tests/` and `verify/` are the content the book tours.

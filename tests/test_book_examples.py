@@ -14,9 +14,17 @@ compiler.
 
 Package examples appear as "Save as `name.ch`" (or "Save this as"), a
 ```chelis-surf fence that imports this package's modules, and the next
-```text fence with the `chelis eval` output. Each is written to the package root, next to
-`reef.toml`, evaluated there, and removed, so a change to a module the book
-quotes fails here until the book is updated.
+```text fence with the `chelis eval` output. Each is written to the package
+root, next to `reef.toml`, checked clean with `chelis check`, evaluated with
+`chelis eval --file`, compared with the shown output, and removed.
+
+Quoted definitions are ```chelis-surf fences that start with `def`. Each
+top-level `def` in such a fence must appear verbatim in the module linked
+most recently above it (a `.../blob/main/src/...ch` link), so the book's
+excerpts cannot drift from the code they quote.
+
+A change to a module the book quotes or runs fails here until the chelis.ch
+page and the book are updated.
 """
 
 from __future__ import annotations
@@ -132,8 +140,57 @@ def test_package_example_output_matches_book(
     assert not target.exists(), f"{target} already exists"
     target.write_text(source + "\n")
     try:
+        checked = run(["check", target.name], PACKAGE_ROOT)
         result = run(["eval", "--file", target.name], PACKAGE_ROOT)
     finally:
         target.unlink()
+    assert report_errors(checked.stdout) == [], f"{page}: {name} does not check"
     assert result.returncode == 0, f"{page}: {name} failed:\n{result.stderr}"
     assert result.stdout.rstrip() == shown.rstrip(), f"{page}: {name} differs"
+
+
+SOURCE_LINK = re.compile(
+    r"https://github\.com/Chelis-Lang/hello-chelis/blob/main/(src/[\w/]+\.ch)"
+)
+QUOTE = re.compile(r"^```chelis-surf\n(def .*?)\n```", re.M | re.S)
+
+
+def split_defs(block: str) -> list[str]:
+    """Top-level definitions: each starts at a column-0 `def` line."""
+    defs: list[str] = []
+    for line in block.splitlines():
+        if line.startswith("def ") or not defs:
+            defs.append(line)
+        else:
+            defs[-1] += "\n" + line
+    return defs
+
+
+def quoted_definitions() -> list[tuple[str, str, str]]:
+    found = []
+    for page in sorted(BOOK.glob("*.md")):
+        text = page.read_text()
+        for m in QUOTE.finditer(text):
+            links = SOURCE_LINK.findall(text, 0, m.start())
+            module = links[-1] if links else ""
+            for definition in split_defs(m.group(1)):
+                found.append((page.name, module, definition))
+    return found
+
+
+def test_book_has_quoted_definitions() -> None:
+    assert quoted_definitions(), "no quoted definitions found; did the format change?"
+
+
+@pytest.mark.parametrize(
+    ("page", "module", "definition"),
+    quoted_definitions(),
+    ids=[f"{p}:{d.split('(')[0][4:]}" for p, _, d in quoted_definitions()],
+)
+def test_quoted_definition_matches_module(
+    page: str, module: str, definition: str
+) -> None:
+    assert module, f"{page}: no module link above the quoted definition"
+    source = (PACKAGE_ROOT / module).read_text()
+    whole_lines = f"\n{definition}\n" in f"\n{source}\n"
+    assert whole_lines, f"{page}: excerpt is not verbatim in {module}"

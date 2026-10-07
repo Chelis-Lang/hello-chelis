@@ -114,7 +114,7 @@ fails CI if a paired `.dp` differs from what `chelis deep` produces now.
 | `pytest tests/test_surf_deep_equivalence.py` | each `.dp` equals `chelis deep` of its `.ch` | [maintained Surf/Deep pairs](surf_and_deep.md) |
 | `pytest tests/test_c_backend.py` | compile to C, link, run, compare with golden output | `verify/*.ch` |
 | `pytest tests/test_c_earchin_artifacts.py` | fixtures match the release; witnesses prove; the failure maps to its EARS line | `c-earchin/finance_options/` |
-| `pytest tests/test_book_examples.py` | each book lesson runs and prints the output the book shows | `docs/book/src/` |
+| `pytest tests/test_book_examples.py` | each book lesson and package example checks clean and prints the output the book shows; each quoted `def` is verbatim in its module | `docs/book/src/` |
 | `mdbook build docs/book`, `python3 scripts/check_book.py docs/book/src README.md` | the book builds; book and README follow the writing standard | `docs/book/`, `README.md` |
 
 ## Tracing C back to source
