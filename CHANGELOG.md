@@ -7,43 +7,23 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
-- Pin Chelis 0.19.1 and the matching Coral, Nautilus, Shoals, and Shoreleave
-  releases. Public Quickstart builds no longer require GitHub sign-in.
-- Pin Chelis 0.19.0 and regenerate the Deep sidecars for normalized pipes.
-  Preserve literal values with explicit `f32` suffixes, and update the
-  declared Coral, Nautilus, and Shoals dependencies.
-- Use typed literal suffixes throughout the Surf corpus instead of casting
-  numeric literals, and regenerate the paired Deep files.
-- Remove the Octant lesson so the Docker Quickstart builds without access
-  to private Chelis-Lang releases. Octant is not in the public shell set,
-  and its release download returned 404 for anyone outside the
-  organization. `octant/`, its round-trip test, `scripts/regen_octant.py`,
-  and the Octant CLI in the image are removed; the image now downloads
-  only public releases.
-- Pin the Docker Compose service to `linux/amd64`, the only Linux platform
-  Chelis publishes binaries for, so the Quickstart builds on Apple Silicon
-  under emulation instead of failing at `chelis --version`.
-- CI runs the Quickstart's `docker compose build` with only `github.token`,
-  which cannot read private Chelis-Lang repositories, so a private release
-  download in the image fails the build.
-- The c-earchin README no longer links to the private c-earchin repository.
-- The Dockerfile's release download helper reports the HTTP status GitHub
-  returned, and what a 401, 403/429, or 404 means, instead of stopping with
-  a bare `curl: (22)` error.
-- `# syntax=docker/dockerfile:1.7` moves to the Dockerfile's first line.
-  Below the header comments BuildKit read it as a comment and fell back to
-  its built-in frontend.
+## 0.1.12 - 2026-10-07
 
-## 0.1.12 - 2026-10-05
-
-- Pin Chelis 0.18.13, Coral 0.7.45, and Nautilus 0.7.48, with the matching
-  Docker image and published Reef lock artifacts.
-- Teach exact `Std.Decimal` and validated `Std.Datetime` dates with executable
-  assertions. Compile and run the package's Black-Scholes Greeks through C.
-- Refresh conformance artifacts, Deep sidecars, Octant renderings, and negative
-  diagnostics for the pinned compiler.
-- Run Octant from its released CLI and c-earchin from committed witnesses;
-  their older Reef shell artifacts are not needed by the lessons.
+- Pin Chelis 0.19.1 and bundled `chelis-std` 0.4.0, with published Coral
+  0.7.47, Nautilus 0.7.50, Shoals 0.24.15, and Shoreleave 0.1.2 assets in
+  the Reef lock and Docker image. The committed c-earchin proof witnesses
+  target 0.3.5.
+- Teach exact `Std.Decimal` and validated `Std.Datetime` dates with runnable
+  assertions. Compile and run the Black-Scholes Greeks through the C backend.
+- Use typed numeric literals, canonical pipe grouping, explicit borrowing and
+  copying, and native `erf`/`erfc` in the lessons. Regenerate the paired Deep
+  files and retain checker rejection examples for the taught rules.
+- Remove the Octant lesson and CLI from the public Docker image. The Docker
+  Quickstart downloads public releases without GitHub sign-in, and its
+  `linux/amd64` platform supports Apple Silicon through emulation.
+- Check the public Quickstart in CI, run the demo corpus once per pull request,
+  and report GitHub release download errors with their HTTP status.
+- Add a contribution policy and standardize the MIT license holder.
 
 ## 0.1.11 - 2026-10-01
 
