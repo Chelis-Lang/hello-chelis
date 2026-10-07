@@ -9,8 +9,6 @@ using the named probe. Archived entries record completed checks.
 
 ## Actively blocking
 
-(none)
-
 ## Tracking
 
 ### chelis#1393: Reef auto-fetch misreads lockfile GitHub origins
@@ -44,30 +42,12 @@ under `chelis test tests_blocked --expect blocked`.
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.
 
-### chelis#2840: Reef GitHub fetches require a token even for public releases
-
-`chelis reef install --from-github` refuses to start without `GITHUB_TOKEN`
-or a signed-in `gh`, although the Coral and Nautilus releases it downloads
-are public. chelis#3295 fixed this on `main` on 2026-10-06, but no release
-contains the fix yet (v0.19.0 does not).
-
-**Effect here:** the Quickstart asks for a GitHub CLI sign-in and
-`GITHUB_TOKEN` (the README, [`getting_started.md`](getting_started.md), and
-the Dockerfile header), and the `Quickstart build with public access only`
-CI job passes `github.token`.
-
-**Probe:** build the image without a token:
-`GITHUB_TOKEN= docker compose -f docker/docker-compose.yml build`.
-**Probe result:** On Chelis 0.18.13 (2026-10-06) the build stops at the Coral
-install with ``GITHUB_TOKEN is not set and `gh auth token` did not yield a
-token``.
-
-**De-narrow when fixed:** make the sign-in and the `GITHUB_TOKEN` export
-optional in the README and `getting_started.md`, as a way to raise GitHub's
-rate limit. Keep `github.token` in the CI job, because anonymous requests
-from shared runners share one rate limit.
-
 ## Archived
+
+### chelis#2840: public release downloads
+
+The pinned Chelis toolchain installs public Reef packages without a GitHub
+token. `GITHUB_TOKEN` remains available to raise the API rate limit.
 
 ### chelis#1247: integer type-application arguments are unenforced
 

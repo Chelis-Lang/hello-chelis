@@ -25,15 +25,10 @@ tensor to a returns and risk pipeline. To get it running, see
 ## Quickstart
 
 The Docker image carries the pinned toolchain and imported packages,
-installed from public GitHub release assets. `chelis reef install` still
-authenticates its downloads with a GitHub token, so before your first
-build, install [GitHub CLI](https://github.com/cli/cli#installation) and
-sign in with any GitHub account:
+installed from public GitHub release assets. No GitHub account or token is
+needed for the Quickstart:
 
 ```sh
-gh auth login --web
-gh auth status
-export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml run --rm hello-chelis
 ```
@@ -99,10 +94,10 @@ proofs). A nightly job runs a compiled program under valgrind.
 
 ## Versions
 
-The corpus pins **chelis 0.19.0**, bundled `chelis-std` 0.4.0,
-`coral` 0.7.46, `nautilus` 0.7.49, `shoals` 0.24.14 (with `shoreleave`
-0.1.1), and `c-earchin` 0.3.5.
-The `compiler = "=0.19.0"` pin in `reef.toml` is exact: Chelis is pre-1.0,
+The corpus pins **chelis 0.19.1**, bundled `chelis-std` 0.4.0,
+`coral` 0.7.47, `nautilus` 0.7.50, `shoals` 0.24.15 (with `shoreleave`
+0.1.2), and `c-earchin` 0.3.5.
+The `compiler = "=0.19.1"` pin in `reef.toml` is exact: Chelis is pre-1.0,
 and minor versions can break source compatibility.
 
 ## Known limitations
