@@ -7,6 +7,11 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Add the user-facing book, `docs/book/`, rendered page for page from
+  https://chelis.ch/docs/hello-chelis/. It replaces `docs/getting_started.md`
+  and `docs/curriculum.md`. CI builds it, lints it and the README against the
+  book writing standard, and runs every lesson and capstone example it shows
+  against the pinned compiler.
 - Add the corpus's first `shoals` lessons, three capstones (#35):
   `yieldcurve` (par bootstrap, bond pricing, DV01 and key-rate risk, and
   the wrong curve a gapped pillar set gives), `americanput` (CRR tree,

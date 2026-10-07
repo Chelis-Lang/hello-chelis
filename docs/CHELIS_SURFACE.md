@@ -816,7 +816,8 @@ hello-chelis has no single library domain: it is the teaching corpus, so the
 rows below track the capabilities the corpus **demonstrates**, plus the gaps
 that force an example to be written differently than a reader would expect. A
 capability Chelis has but this corpus does not teach is a missing example, not
-a gap; add it to [`curriculum.md`](curriculum.md).
+a gap; add an example under `src/` with its test and a row in
+[`feature_matrix.md`](feature_matrix.md).
 
 Language semantics come from the upstream canonical file and the numbered
 specs. Do not re-derive them here.

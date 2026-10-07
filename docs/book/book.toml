@@ -1,0 +1,5 @@
+[book]
+title = "Hello Chelis"
+authors = ["Chelis contributors"]
+language = "en"
+src = "src"
