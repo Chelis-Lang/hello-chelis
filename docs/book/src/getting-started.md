@@ -22,8 +22,6 @@ cd chelis-lessons
 
 Create `addition.ch` in your editor and paste this source:
 
-`addition.ch`:
-
 ```chelis
 def add_vec[n](x: &tensor[n, f32], y: &tensor[n, f32]) -> tensor[n, f32] = add(x, y)
 x = to_tensor([1.0f32, 2.0f32, 3.0f32])

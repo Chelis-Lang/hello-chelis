@@ -9,8 +9,6 @@ an example that worked.
 
 Save this as `addition.ch`:
 
-`addition.ch`:
-
 ```chelis
 def add_vec[n](x: &tensor[n, f32], y: &tensor[n, f32]) -> tensor[n, f32] = add(x, y)
 x = to_tensor([1.0f32, 2.0f32, 3.0f32])
@@ -68,8 +66,6 @@ in the [type reference](https://chelis.ch/docs/chelis/type-reference/).
 Save this as `shape_error.ch`. It is deliberately invalid: `y` has only two
 elements.
 
-`shape_error.ch`:
-
 ```chelis
 def add_vec[n](x: &tensor[n, f32], y: &tensor[n, f32]) -> tensor[n, f32] = add(x, y)
 x = to_tensor([1.0f32, 2.0f32, 3.0f32])
@@ -100,8 +96,6 @@ length two is also a valid repair.
 ## 3. Read an input more than once
 
 Save this as `reuse.ch`:
-
-`reuse.ch`:
 
 ```chelis
 def double_shared[n](x: &tensor[n, f32]) -> tensor[n, f32] = add(x, x)
@@ -152,8 +146,6 @@ before running it.
 
 Save this as `precision.ch`:
 
-`precision.ch`:
-
 ```chelis
 x = to_tensor([1.0f32, 2.0f32, 4.0f32])
 wider = cast(x, f64)
@@ -192,8 +184,6 @@ This compares the stored values, rather than their printed decimal spellings.
 ## 5. Differentiate a scalar function
 
 Save this as `gradient.ch`:
-
-`gradient.ch`:
 
 ```chelis
 def sumsq(theta: tensor[3, f32]) -> f32 = tensor_to_scalar(sum(mul(theta, theta), 0))

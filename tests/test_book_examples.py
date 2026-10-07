@@ -1,10 +1,9 @@
 """Every lesson in the book runs and prints the output the book shows.
 
 The book under docs/book/src is rendered from the chelis.ch docs, which
-capture each lesson with the released compiler. A lesson appears as
-
-    `name.ch`:            then a ```chelis fence with the source,
-    `chelis <command>`:   then a fence with the captured output.
+capture each lesson with the released compiler. A lesson appears as a
+```chelis fence with the source, then a `chelis <command> <name>.ch`: line
+and a fence with the captured output.
 
 Each lesson is written to its own empty directory, outside this package, and
 the command is run there with the pinned toolchain. `check` lessons compare
@@ -32,8 +31,8 @@ import pytest
 
 BOOK = Path(__file__).resolve().parent.parent / "docs" / "book" / "src"
 LESSON = re.compile(
-    r"`([\w.]+\.ch)`:\n\n```chelis\n(.*?)\n```\n\n"
-    r"`(chelis [^`]+)`:\n\n```\w+\n(.*?)\n```",
+    r"```chelis\n((?:(?!\n```).)*)\n```\n\n"
+    r"`(chelis (?:check|eval --file|deep) ([\w.]+\.ch))`:\n\n```\w+\n(.*?)\n```",
     re.S,
 )
 
@@ -48,13 +47,23 @@ PACKAGE_ROOT = BOOK.parent.parent.parent
 def lessons() -> list[tuple[str, str, str, str, str]]:
     found = []
     for page in sorted(BOOK.glob("*.md")):
-        for name, source, command, shown in LESSON.findall(page.read_text()):
+        for source, command, name, shown in LESSON.findall(page.read_text()):
             found.append((page.name, name, source, command, shown))
     return found
 
 
+COMMAND_LINE = re.compile(r"^`chelis (?:check|eval --file|deep) [\w.]+\.ch`:$", re.M)
+PACKAGE_SOURCE = re.compile(r"^```chelis-surf\nimport Hello\.", re.M)
+
+
+def count(pattern: re.Pattern[str]) -> int:
+    return sum(len(pattern.findall(p.read_text())) for p in BOOK.glob("*.md"))
+
+
 def test_book_has_lessons() -> None:
+    """Every captured command line belongs to a lesson the harness runs."""
     assert lessons(), f"no lessons found under {BOOK}; did the page format change?"
+    assert len(lessons()) == count(COMMAND_LINE), "a lesson's format is not recognized"
 
 
 def run(args: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
@@ -102,7 +111,11 @@ def package_examples() -> list[tuple[str, str, str, str]]:
 
 
 def test_book_has_package_examples() -> None:
+    """Every example that imports this package is one the harness runs."""
     assert package_examples(), "no package examples found; did the page format change?"
+    assert len(package_examples()) == count(
+        PACKAGE_SOURCE
+    ), "an example is not recognized"
 
 
 @pytest.mark.parametrize(

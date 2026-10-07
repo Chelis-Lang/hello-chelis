@@ -10,8 +10,6 @@ You do not need to write Deep to run the lessons.
 Save this source as `module.ch`. It contains the same `add_vec` definition
 as lesson 1, now inside a module:
 
-`module.ch`:
-
 ```chelis
 module Hello.Basics.HelloTensor
 export (add_vec)
@@ -51,10 +49,20 @@ Read the generated form alongside the three source lines:
 
 - `module` groups the definition under `Hello.Basics.HelloTensor`.
 - `export` names the function that other modules can import.
-- `defsig` records `add_vec`'s signature, including its dimension variable `n`.
-- `t-ref` represents `&`, the read-only borrow in each parameter type.
-- `d-var` represents the variable introduced by `[n]`.
-- `def` contains the function body, where `app` applies `add` to `x` and `y`.
+- `defsig` records `add_vec`'s signature: its name, the dimension variables
+  it introduces (`(n)`), and its type.
+- `t-fn` is a function type. Its children are the parameter types in order,
+  then the result type.
+- `t-tensor` is a tensor type: its dimensions, then its element type.
+- `d-var` is a dimension written as a variable, here the `n` from `[n]`.
+- `t-prim` is a primitive type such as `f32`.
+- `t-ref` represents `&`, the read-only borrow in each parameter type. The
+  result has no `t-ref`, so the caller owns it.
+- `def` holds the body. `fn` is the function value, and `params` lists `x`
+  and `y`. Their `(t-var {} _)` types are placeholders: the checker takes
+  the real types from `defsig`.
+- `app` applies its first child, `(var add)`, to the remaining children, the
+  variables `x` and `y`.
 
 The braces after a tag hold metadata. A `span` records a source position
 so tools can relate a generated node to the original Surf file. You can
@@ -66,11 +74,20 @@ This module defines and exports `add_vec`, but never calls it. Evaluating
 definitions alone does not calculate the sum of two vectors. The first
 lesson includes `x`, `y`, and `answer` bindings for that purpose.
 
-To use an exported function, import it by module name and call it from a
-top-level binding. Inside a checkout of the hello-chelis repository (set up
-as in [Read a larger calculation](capstones.md#set-up-the-package)),
-the module above is available as `Hello.Basics.HelloTensor`. Save this as
-`add_call.ch` in the checkout's root:
+To call an exported function from another file, the module has to sit in
+a Reef package at the path its name gives. The package's `module_prefix`
+supplies `Hello`, and the rest of the name maps to a lowercase path under
+`src/`: `Hello.Basics.HelloTensor` lives in `src/basics/hellotensor.ch`.
+Create a package with that prefix and move your module there:
+
+```sh
+chelis reef init lessons --module-prefix Hello --output lessons
+mkdir -p lessons/src/basics
+mv module.ch lessons/src/basics/hellotensor.ch
+cd lessons
+```
+
+Save this as `add_call.ch` in the package root, next to `reef.toml`:
 
 ```chelis-surf
 import Hello.Basics.HelloTensor (add_vec)
@@ -83,9 +100,16 @@ answer = add_vec(to_tensor([1.0f32, 2.0f32, 3.0f32]), to_tensor([4.0f32, 5.0f32,
 answer = tensor(shape=[3], data=[5.0, 7.0, 9.0])
 ```
 
-The import list names each function you use. The module path follows the
-file's place in the package: `src/basics/hellotensor.ch` holds
-`Hello.Basics.HelloTensor`.
+The import list names each function you use. If the file's path does not
+match the module name, the import fails. With the module saved as `src/module.ch`, the
+same command stops with:
+
+```text
+error: module `Hello.Basics.HelloTensor` does not match file path module.ch (expected `hello.module`)
+```
+
+A checkout of the hello-chelis repository already holds this module at
+`src/basics/hellotensor.ch`, so the same `add_call.ch` also runs in its root.
 
 ## Try another representation
 

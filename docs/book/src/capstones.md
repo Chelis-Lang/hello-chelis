@@ -1,6 +1,6 @@
 # Read a larger calculation
 
-The hello-chelis repository ends with three capstone modules that combine
+Three of the hello-chelis capstone modules combine
 the ideas from the [five lessons](curriculum.md): explicit
 shapes, borrowing, and `grad`. Each section below gives the module's
 signatures, quotes the key function, explains what it computes, and calls it
@@ -12,11 +12,11 @@ The capstones import the hello-chelis package and its dependencies:
 [nautilus](https://chelis.ch/docs/nautilus/) for the normal distribution and statistics, and
 [coral](https://chelis.ch/docs/coral/) for dataframes. The package's `reef.toml` names the
 exact compiler version it builds with; install that version first (see
-[Install](https://chelis.ch/docs/chelis/install/)). Then clone the release these examples
-quote and install the dependency versions its lockfile records:
+[Install](https://chelis.ch/docs/chelis/install/)). Then clone the repository and install the
+dependency versions its lockfile records:
 
 ```sh
-git clone --branch v0.1.12 https://github.com/Chelis-Lang/hello-chelis.git
+git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
 chelis reef install --from-lockfile
 ```
@@ -30,39 +30,16 @@ package, then evaluate it:
 chelis eval --file linreg_call.ch
 ```
 
-The repository's tests call the Black-Scholes and returns functions with
-the same inputs used below:
-
-```sh
-chelis test tests/capstone/
-```
-
-```text
-tests/capstone/blackscholes.ch
-  test_call_atm ................. PASS
-  test_delta_atm ................ PASS
-  test_vega_atm ................. PASS
-tests/capstone/returnsrisk.ch
-  test_simple_returns ........... PASS
-  test_tickers_covered .......... PASS
-  test_sharpe_ratio ............. PASS
-  test_portfolio_sharpe_through_frame PASS
-  test_rolling_volatility ....... PASS
-  test_parametric_var_95 ........ PASS
-
-9 passed, 0 failed
-```
-
 ## Linear regression
 
-Module `Hello.Capstone.LinReg` ([`linreg.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/v0.1.12/src/capstone/linreg.ch))
+Module `Hello.Capstone.LinReg` ([`linreg.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/main/src/capstone/linreg.ch))
 fits the linear model `y = x w + b` to 64 observations of 64 features.
 
 | Function | Signature | Computes |
 |---|---|---|
 | `predict` | `(x: tensor[64, 64, f32], w: tensor[64, 1, f32], b: tensor[1, f32]) -> tensor[64, 1, f32]` | `matmul(x, w) + b`, one prediction per row |
 | `mse_loss` | `(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32], b: tensor[1, f32]) -> tensor[f32]` | Sum of squared errors, a rank-0 tensor |
-| `sgd_step` | `(x, y, w, b, lr: f32) -> (tensor[64, 1, f32], tensor[1, f32])` | One gradient-descent update of `w` and `b` |
+| `sgd_step` | `(x: tensor[64, 64, f32], y: tensor[64, 1, f32], w: tensor[64, 1, f32], b: tensor[1, f32], lr: f32) -> (tensor[64, 1, f32], tensor[1, f32])` | One gradient-descent update of `w` and `b` |
 
 The shapes are fixed numbers, not dimension variables, so a call with 100
 rows or 10 features fails the shape check before anything runs. To fit
@@ -158,7 +135,7 @@ are zero, and `sgd_step` returns the weights and bias unchanged.
 
 ## Option pricing
 
-Module `Hello.Capstone.BlackScholes` ([`blackscholes.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/v0.1.12/src/capstone/blackscholes.ch))
+Module `Hello.Capstone.BlackScholes` ([`blackscholes.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/main/src/capstone/blackscholes.ch))
 prices a European call with the Black-Scholes formula and gets two Greeks by
 differentiating the price function.
 
@@ -241,8 +218,8 @@ d = 0.6368302
 v = 37.52404
 ```
 
-The reference values are 10.4506, 0.63683, and 37.524, and the repository's
-tests accept differences of 0.05, 0.001, and 0.01 respectively. By hand:
+The analytic values are 10.4506, 0.63683, and 37.524; the `f32` results
+agree with them to within 0.0001. By hand:
 d1 = (0 + 0.07) / 0.2 = 0.35, so delta is N(0.35) = 0.6368, and vega is
 s * sqrt(t) times the normal density at 0.35, 100 × 0.3752.
 
@@ -251,7 +228,7 @@ change of 0.646: delta's 0.637 plus a little curvature.
 
 ## Returns and risk
 
-Module `Hello.Capstone.ReturnsRisk` ([`returnsrisk.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/v0.1.12/src/capstone/returnsrisk.ch))
+Module `Hello.Capstone.ReturnsRisk` ([`returnsrisk.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/main/src/capstone/returnsrisk.ch))
 turns prices into returns and computes per-period risk statistics. The
 statistics use `mean_vec` and `std_vec` from Nautilus's
 [descriptive statistics](https://chelis.ch/docs/nautilus/stats/descriptive/); the dataframe
@@ -266,7 +243,7 @@ functions use a Coral `Frame`, a table of named columns with one row count
 | `sharpe_ratio` | `[n](rets: &tensor[n, f32], risk_free: f32) -> f32` | (mean - `risk_free`) / sample standard deviation |
 | `portfolio_sharpe` | `[n](tickers: List[string], rets: tensor[n, f32], risk_free: f32) -> f32` | `sharpe_ratio` of the frame's `"ret"` column |
 | `rolling_volatility` | `[n](rets: tensor[n, f32], window: i64) -> tensor[n, f32]` | Rolling sample standard deviation over `window` returns |
-| `parametric_var` | `[n](rets: &tensor[n, f32], confidence: f32) -> f32` | Normal value at risk, as a positive loss fraction |
+| `parametric_var` | `[n](rets: &tensor[n, f32], confidence: f32) -> f32` | Normal value at risk as a fraction of value: positive for a loss, negative when the mean return outweighs the tail |
 
 ### `simple_returns`
 
@@ -282,7 +259,9 @@ def simple_returns(prices: List[f32]) -> List[f32] = {
 price with the next one. Each pair becomes (next - previous) / previous.
 The input is a `List`, not a tensor, and its length is a runtime value. A
 zero previous price divides by zero: `simple_returns([0.0f32, 1.0f32, 2.0f32])`
-returns `[inf, 1.0]`.
+returns `[inf, 1.0]`. One price gives `[]`. An empty list makes the count
+passed to `take` equal -1, and evaluation stops with
+`error: take requires non-negative count, got -1`.
 
 ### `sharpe_ratio` and `portfolio_sharpe`
 
@@ -296,22 +275,67 @@ def portfolio_sharpe[n](tickers: List[string], rets: tensor[n, f32], risk_free: 
 
 `std_vec(rets, 1i64)` is the sample standard deviation (divisor n - 1).
 `risk_free` is a return for the same period as each observation: with daily
-returns, pass the daily risk-free return. The ratio is not annualized. A
-single observation has no sample standard deviation, so
-`sharpe_ratio(to_tensor([0.01f32]), 0.0f32)` returns `NaN`.
+returns, pass the daily risk-free return. The ratio is not annualized.
+Fewer than two returns have no sample standard deviation, and identical
+returns have a standard deviation of zero; the edge-case table below gives
+the results.
 
 `portfolio_sharpe` builds the frame with `returns_frame`, takes its `"ret"`
 column back out as a `tensor[n, f32]` with `get_float_col`, and applies
 `sharpe_ratio` to all rows together. It does not compute one ratio per
 ticker. `tickers` must have the same length as `rets`: with two tickers
 and three returns, evaluation stops with
-`error: from_pairs: mismatched column lengths`.
+`error: from_pairs: mismatched column lengths`. `tickers_covered` builds the
+same frame, so the same length rule and error apply to it.
+
+### `parametric_var` and `rolling_volatility`
+
+```chelis-surf
+def parametric_var[n](rets: &tensor[n, f32], confidence: f32) -> f32 = {
+  z = normal_inv_cdf(sub(1.0f32, confidence), 0.0f32, 1.0f32)
+  neg(add(mean_vec(rets), mul(z, std_vec(rets, 1i64))))
+}
+def rolling_volatility[n](rets: tensor[n, f32], window: i64) -> tensor[n, f32] = rolling_std(rets, window)
+```
 
 `parametric_var` takes z, the standard normal quantile at 1 - `confidence`
 (about -1.645 at 0.95), and returns -(mean + z × sample std). A result of
 0.026 means a one-period loss of 2.6% of value at that confidence, under a
-normal model of returns. `rolling_volatility` returns `NaN` for the first
-`window - 1` positions, where no full window exists yet.
+normal model of returns. The sign is not clamped: at 0.95, when the mean
+return is larger than 1.645 sample standard deviations, the result is
+negative, meaning the model expects a gain even in the worst 5% of periods.
+
+`rolling_volatility` is Coral's `rolling_std` with sample standard deviation
+(divisor `window - 1`). Position i holds the standard deviation of the
+`window` returns ending at i, and the first `window - 1` positions are `NaN`
+because no full window exists yet.
+
+### Inputs these functions do not check
+
+None of the returns functions validate their inputs. Use at least two prices
+and two returns, a `window` from 2 to the number of returns, and a
+`confidence` strictly between 0 and 1, such as 0.95 or 0.99. Outside those
+ranges the results are these, captured with `rising()` from the example
+below (0.01, 0.02, 0.03, 0.04, 0.05):
+
+| Call | Result |
+|---|---|
+| `simple_returns([100.0f32])` | `[]` |
+| `simple_returns([])` | `error: take requires non-negative count, got -1` |
+| `sharpe_ratio(to_tensor([0.01f32]), 0.0f32)` | `NaN` |
+| `sharpe_ratio(to_tensor(simple_returns([100.0f32])), 0.0f32)`, no returns | `NaN` |
+| `sharpe_ratio(to_tensor([0.01f32, 0.01f32, 0.01f32]), 0.0f32)` | `inf` |
+| `sharpe_ratio(to_tensor([0.01f32, 0.01f32, 0.01f32]), 0.01f32)` | `NaN` |
+| `rolling_volatility(rising(), 1i64)` | all five `NaN` |
+| `rolling_volatility(rising(), 5i64)` | `[NaN, NaN, NaN, NaN, 0.01581139]` |
+| `rolling_volatility(rising(), 6i64)`, longer than the input | all five `NaN` |
+| `rolling_volatility(to_tensor([0.01f32, 0.02f32, 0.03f32]), 0i64)` | all three `NaN` |
+| `rolling_volatility(to_tensor([0.01f32, 0.02f32, 0.03f32]), -1i64)` | `error: take requires non-negative count, got -1` |
+| `parametric_var(rising(), 0.95f32)` | `-0.0039924663` |
+| `parametric_var(rising(), 0.5f32)` | `-0.029999997`, minus the mean |
+| `parametric_var(rising(), 1.0f32)` | `inf` |
+| `parametric_var(rising(), 0.0f32)` | `-inf` |
+| `parametric_var(rising(), 1.5f32)` | `NaN` |
 
 ### Call it
 
