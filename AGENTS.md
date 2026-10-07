@@ -228,5 +228,5 @@ place of documentation, em-dashes, and the word "load-bearing".
 `scripts/check_book.py` enforces the mechanical part in CI.
 
 A change that alters user-visible behavior says so in its changelog entry.
-The book documents the latest release: the chelis.ch page and this book take
-the change when that release is documented.
+This book teaches the main branch: a change to a module the book quotes or
+runs updates the chelis.ch page and this book in the same change.
