@@ -7,6 +7,8 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Pin Chelis 0.19.1 and the matching Coral, Nautilus, Shoals, and Shoreleave
+  releases. Public Quickstart builds no longer require GitHub sign-in.
 - Pin Chelis 0.19.0 and regenerate the Deep sidecars for normalized pipes.
   Preserve literal values with explicit `f32` suffixes, and update the
   declared Coral, Nautilus, and Shoals dependencies.

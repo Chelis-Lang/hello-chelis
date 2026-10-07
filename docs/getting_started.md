@@ -5,15 +5,11 @@ order, see [`curriculum.md`](curriculum.md).
 
 ## 1. Build the image
 
-Install [GitHub CLI](https://github.com/cli/cli#installation) before building.
-Sign in with any GitHub account:
+The image downloads public GitHub release assets without a token:
 
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
-gh auth login --web
-gh auth status
-export GITHUB_TOKEN=$(gh auth token)
 docker compose -f docker/docker-compose.yml build
 ```
 
@@ -29,9 +25,9 @@ The image is `ubuntu:24.04` plus:
 
 The toolchain and imported packages come from public release assets. The
 c-earchin proof witnesses are committed in this repository, and the image
-compiles a C smoke test. `GITHUB_TOKEN` is passed as a BuildKit secret and
-used only to authenticate release downloads, which
-`chelis reef install --from-github` requires even for public releases.
+compiles a C smoke test. If you encounter GitHub's anonymous rate limit,
+`GITHUB_TOKEN` can authenticate the release downloads through a BuildKit
+secret; the token is not stored in the image.
 
 The image is `linux/amd64` because Chelis publishes Linux binaries for x86_64
 only. `docker-compose.yml` pins that platform, so on Apple Silicon Docker
@@ -44,7 +40,6 @@ which reads the pinned version from `reef.toml`. Then populate the local Reef
 registry from the published artifacts recorded in `reef.lock`:
 
 ```sh
-export GITHUB_TOKEN=$(gh auth token)
 chelis reef install --from-lockfile
 ```
 

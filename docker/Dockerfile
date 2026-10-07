@@ -5,14 +5,13 @@
 # assets (nothing is compiled from source).
 #
 # Build:
-#   export GITHUB_TOKEN=$(gh auth token)
 #   docker compose -f docker/docker-compose.yml build
 #
 # Run an interactive shell at /workspace:
 #   docker compose -f docker/docker-compose.yml run --rm hello-chelis
 #
-# The GitHub token is passed as a BuildKit secret and used only to
-# authenticate the release-asset downloads; it is not stored in the image.
+# A GitHub token is optional for public release assets. When provided as a
+# BuildKit secret, it raises the API rate limit and is not stored in the image.
 #
 # The image is linux/amd64 only: Chelis publishes Linux binaries for x86_64.
 # docker-compose.yml pins that platform; with plain `docker build`, pass
@@ -82,7 +81,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.19.0
+ARG CHELIS_VERSION=0.19.1
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
@@ -97,10 +96,10 @@ RUN --mount=type=secret,id=github_token \
     && chelis --version
 
 # --- Install shell releases into Reef registry ----------------------------
-ARG CORAL_VERSION=0.7.46
-ARG NAUTILUS_VERSION=0.7.49
-ARG SHORELEAVE_VERSION=0.1.1
-ARG SHOALS_VERSION=0.24.14
+ARG CORAL_VERSION=0.7.47
+ARG NAUTILUS_VERSION=0.7.50
+ARG SHORELEAVE_VERSION=0.1.2
+ARG SHOALS_VERSION=0.24.15
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \

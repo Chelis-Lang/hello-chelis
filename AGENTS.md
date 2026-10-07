@@ -37,7 +37,7 @@ hello-specific worktree handoff. For a completion claim, use
 <!-- ## Pointers -->
 <!-- shell-local:exclude:end -->
 
-<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.19.0 (sha256:63dc71e671d4158b) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.19.1 (sha256:63dc71e671d4158b) -->
 # Chelis Agent Contract
 
 Keep this file concise and relevant to every agent working in this repository.
@@ -157,8 +157,9 @@ A pin bump is a de-narrowing event. Bump only through a `chelis reef conform bum
 PR that runs the blocked-probe suite, the staleness/narrowing audit, and restamps
 `docs/CHELIS_SURFACE.md`. Never edit the pin directly on `main`.
 
-This repo is the **leaf** of the cascade: it pins released `coral` and `nautilus`
-packages, and reef rejects a dependency whose `package.compiler`
+This repo is the **leaf** of the cascade: its dependency graph includes released
+`coral`, `nautilus`, `shoals`, and `shoreleave` packages, and reef rejects a
+dependency whose `package.compiler`
 does not equal the running compiler. A chelis bump therefore cannot land here
 until every one of those shells has published a release pinned to the same
 version. Bump this repo last.
