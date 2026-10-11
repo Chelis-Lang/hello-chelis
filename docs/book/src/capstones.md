@@ -12,19 +12,22 @@ The capstones import the hello-chelis package and its dependencies:
 [nautilus](https://chelis.ch/docs/nautilus/) for the normal distribution and statistics, and
 [coral](https://chelis.ch/docs/coral/) for dataframes. The package's `reef.toml` names the
 exact compiler version it builds with; install that version first (see
-[Install](https://chelis.ch/docs/chelis/install/)). Then clone the repository and install the
-dependency versions its lockfile records:
+[Install](https://chelis.ch/docs/chelis/install/)). Then clone the repository:
 
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
-chelis reef install --from-lockfile
 ```
 
-`chelis reef install --from-lockfile` downloads each dependency recorded in
-`reef.lock` and checks its hash. Save each example file below in the root
-of the checkout, next to `reef.toml`, so its `import` resolves against the
-package, then evaluate it:
+The first `chelis check` in the project fetches missing dependencies recorded
+in `reef.lock` automatically. Check a capstone:
+
+```sh
+chelis check src/capstone/linreg.ch
+```
+
+Save each example file below in the root of the checkout, next to `reef.toml`,
+so its `import` resolves against the package, then evaluate it:
 
 ```sh
 chelis eval --file linreg_call.ch

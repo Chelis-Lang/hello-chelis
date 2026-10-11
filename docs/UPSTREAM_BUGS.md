@@ -39,11 +39,13 @@ The empty Reef home auto-fetched published `shoals` 0.24.15 from
 handling without a token, while the incompatible published package prevents a
 successful downstream check.
 
-The no-Docker path in the book
-([Set up the package](book/src/capstones.md#set-up-the-package)) still runs
-`chelis reef install --from-lockfile` explicitly. Remove that step and
-re-render the book after the canonical hello-chelis capstones page is approved
-for the follow-up; this PR does not change the page or generated book.
+The hello-chelis source book now directs readers to clone the repository and
+lets Reef fetch locked dependencies on the first project check; it no longer
+requires `chelis reef install --from-lockfile`. The corresponding chelis.ch
+capstones page already omitted that command, so no website change was needed.
+`mdbook build docs/book` renders the updated source. The published Shoals
+compiler-version mismatch still blocks the book examples until compatible
+packages are released.
 
 ### chelis#2840: public release downloads
 
