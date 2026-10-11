@@ -11,25 +11,6 @@ using the named probe. Archived entries record completed checks.
 
 ## Tracking
 
-### chelis#1393: Reef auto-fetch misreads lockfile GitHub origins
-
-With an empty Reef registry, `chelis check` or `chelis test` can pass a full
-`github://` lockfile origin to the GitHub release installer, which expects an
-`org/repo@tag` coordinate. The resulting fetch fails before the package check.
-
-**Effect here:** the no-Docker path in the book
-([Set up the package](book/src/capstones.md#set-up-the-package))
-explicitly runs
-`chelis reef install --from-lockfile` before checking examples.
-
-**Probe:** set `CHELIS_REEF_HOME` to a fresh directory and run
-`chelis check src/basics/hellotensor.ch`; compare it with
-`chelis reef install --from-lockfile` followed by the same check.
-**De-narrow when fixed:** once the pinned compiler's auto-fetch handles the
-lockfile origin, drop the explicit install step from the chelis.ch
-hello-chelis capstones page and re-render the book from it (see the Book
-section of `AGENTS.md`).
-
 ### chelis#2552: host-runtime `grad` cannot lower a function that uses a string literal
 
 `chelis test` fails `grad` over any function whose body passes a string
@@ -46,6 +27,23 @@ under `chelis test tests_blocked --expect blocked`.
 `get_float_col`, and describe it as gradient flow through a frame.
 
 ## Archived
+
+### chelis#1393: Reef auto-fetch misreads lockfile GitHub origins
+
+Closed upstream; the `github://` lockfile origin now reaches Reef's release
+installer through automatic fetch. Re-probed with Chelis 0.19.2 by running
+`env -u GITHUB_TOKEN -u GH_TOKEN CHELIS_REEF_HOME=<fresh-empty-directory> chelis check src/basics/hellotensor.ch`.
+The empty Reef home auto-fetched published `shoals` 0.24.15 from
+`github://chelis-lang/shoals@v0.24.15`; the command then stopped at the separate
+`package.compiler must be =0.19.2 in shoals` mismatch. This confirms origin
+handling without a token, while the incompatible published package prevents a
+successful downstream check.
+
+The no-Docker path in the book
+([Set up the package](book/src/capstones.md#set-up-the-package)) still runs
+`chelis reef install --from-lockfile` explicitly. Remove that step and
+re-render the book after the canonical hello-chelis capstones page is approved
+for the follow-up; this PR does not change the page or generated book.
 
 ### chelis#2840: public release downloads
 
