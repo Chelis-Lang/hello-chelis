@@ -42,7 +42,7 @@ jobs:
           no-cache: true
           cache-to: type=gha,mode=max
           build-args: |
-            CHELIS_VERSION=0.19.1
+            CHELIS_VERSION=0.19.2
             CORAL_VERSION=0.7.47
             NAUTILUS_VERSION=0.7.50
             SHORELEAVE_VERSION=0.1.2
