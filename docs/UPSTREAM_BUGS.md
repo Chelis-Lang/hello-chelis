@@ -41,8 +41,10 @@ successful downstream check.
 
 The hello-chelis source book now directs readers to clone the repository and
 lets Reef fetch locked dependencies on the first project check; it no longer
-requires `chelis reef install --from-lockfile`. The corresponding chelis.ch
-capstones page already omitted that command, so no website change was needed.
+requires `chelis reef install --from-lockfile`. The live chelis.ch capstones
+page still contains the old command; website PR
+[#36](https://github.com/Chelis-Lang/website/pull/36) removes it and updates
+the matching book reference. Verify the published page after that PR merges.
 `mdbook build docs/book` renders the updated source. The published Shoals
 compiler-version mismatch still blocks the book examples until compatible
 packages are released.
