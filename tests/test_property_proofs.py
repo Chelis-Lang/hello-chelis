@@ -35,6 +35,10 @@ def test_scaled_monotonicity_is_proved_by_smt() -> None:
         property_result["proof_tier"],
     ) == ("scaled_monotone", "passed", "smt")
     assert property_result["samples"] == 0
+    assert (
+        property_result["goal"]
+        == "forall(x1: f32, x2: f32) where x2 > x1: (scaled(x2) > scaled(x1))"
+    )
     assert property_result["qualifiers"] == ["real_arithmetic"]
     assert property_result["assumptions"][0]["non_vacuity"]["status"] == "established"
     assert (summary["total"], summary["passed"], summary["failed"]) == (1, 1, 0)
@@ -49,4 +53,7 @@ def test_missing_order_guard_has_counterexample() -> None:
         property_result["proof_tier"],
     ) == ("scaled_without_order", "failed", "smt")
     assert property_result["counterexample"]
+    assert property_result["goal"] == (
+        "(Hello.Basics.PropertyProof.scaled(x2) > Hello.Basics.PropertyProof.scaled(x1))"
+    )
     assert (summary["total"], summary["passed"], summary["failed"]) == (1, 0, 1)
