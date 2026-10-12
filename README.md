@@ -29,13 +29,13 @@ It then shows how to read the larger calculations in this repository.
 ## Run the examples
 
 Install the compiler version that [`reef.toml`](reef.toml) names (see
-[Install](https://chelis.ch/docs/chelis/install/)), then fetch the pinned
-packages and run the tests:
+[Install](https://chelis.ch/docs/chelis/install/)), then clone the repository
+and run the tests. The first project check fetches any missing dependencies
+recorded in `reef.lock`:
 
 ```sh
 git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
-chelis reef install --from-lockfile
 chelis check src/basics/hellotensor.ch
 chelis test tests/ --jobs auto
 ```

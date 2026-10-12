@@ -23,6 +23,12 @@ Coral README and the feature matrix say so.
 
 **Probe:** [`../tests_blocked/coral/grad_string_key.ch`](../tests_blocked/coral/grad_string_key.ch)
 under `chelis test tests_blocked --expect blocked`.
+Re-probed with Chelis 0.19.2 and published Coral 0.7.49, Nautilus 0.7.53,
+Shoals 0.24.19, and Shoreleave 0.1.3: the same frame-gradient remains blocked, now with
+`application of append has no numeric IR lowering; preserve its host
+execution`. The probe still exercises the string-keyed Coral column path; the
+current failure occurs while lowering frame construction, before the earlier
+string-literal diagnostic.
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.
 
@@ -31,23 +37,17 @@ under `chelis test tests_blocked --expect blocked`.
 ### chelis#1393: Reef auto-fetch misreads lockfile GitHub origins
 
 Closed upstream; the `github://` lockfile origin now reaches Reef's release
-installer through automatic fetch. Re-probed with Chelis 0.19.2 by running
-`env -u GITHUB_TOKEN -u GH_TOKEN CHELIS_REEF_HOME=<fresh-empty-directory> chelis check src/basics/hellotensor.ch`.
-The empty Reef home auto-fetched published `shoals` 0.24.15 from
-`github://chelis-lang/shoals@v0.24.15`; the command then stopped at the separate
-`package.compiler must be =0.19.2 in shoals` mismatch. This confirms origin
-handling without a token, while the incompatible published package prevents a
-successful downstream check.
+installer through automatic fetch. Re-probed with Chelis 0.19.2 and a fresh
+empty Reef home, with `GITHUB_TOKEN` and `GH_TOKEN` unset:
+`chelis check src/basics/hellotensor.ch` fetched Shoals 0.24.19, Shoreleave
+0.1.3, Nautilus 0.7.53, and Coral 0.7.49 from their canonical `github://`
+origins, then
+returned a perfect check (score 1, no unresolved names or errors).
 
 The hello-chelis source book now directs readers to clone the repository and
 lets Reef fetch locked dependencies on the first project check; it no longer
-requires `chelis reef install --from-lockfile`. The live chelis.ch capstones
-page still contains the old command; website PR
-[#36](https://github.com/Chelis-Lang/website/pull/36) removes it and updates
-the matching book reference. Verify the published page after that PR merges.
-`mdbook build docs/book` renders the updated source. The published Shoals
-compiler-version mismatch still blocks the book examples until compatible
-packages are released.
+requires a separate install step. `mdbook build docs/book` renders the updated
+source book.
 
 ### chelis#2840: public release downloads
 
@@ -56,23 +56,28 @@ token. `GITHUB_TOKEN` remains available to raise the API rate limit.
 
 ### chelis#1247: integer type-application arguments are unenforced
 
-Closed upstream. Re-probed on 0.18.11 (2026-09-25): a `Column[3]` built from
-a two-element tensor is rejected with `DimensionMismatch`. Pinned by
-[`tests_neg/check/adt_extent_mismatch.ch`](../tests_neg/check/adt_extent_mismatch.ch).
+Closed upstream. Re-probed with Chelis 0.19.2 and the published dependency
+graph: a `Column[3]` built from a two-element tensor is rejected with
+`DimensionMismatch` (`expected () -> Column 3`, `got () -> Column 2`). Pinned by
+[`tests_neg/check/adt_extent_mismatch.ch`](../tests_neg/check/adt_extent_mismatch.ch)
+and passing in the negative suite.
 
 ### chelis#1258: `Frame[N]` Deep resugaring
 
-Closed upstream. Re-probed on 0.18.11 (2026-09-25): `chelis migrate surf
---from 0.18 --check` passes on all 92 maintained `.ch` files, and
-`chelis deep` then `chelis surf` succeeds on every `src/coral/` file.
+Closed upstream. Re-probed with Chelis 0.19.2: `chelis migrate surf --from
+0.18 --check` passes on all 103 `.ch` files, and the full Surf/Deep
+equivalence suite passes (103 tests).
 
 ### chelis#405: scalar-`wrt` `grad` in the C backend
 
-Closed upstream. Re-probed on 0.18.11 (2026-09-25): the issue's reproducer
-builds and prints `out = 3.0`.
+Closed upstream. Re-probed with Chelis 0.19.2 and the published dependency
+graph: the Black-Scholes package, including scalar-wrt `delta` and `vega`,
+builds to C; its C API test passes for the documented at-the-money inputs.
 
 ### chelis#406: runtime leaks under valgrind
 
-Closed upstream. Re-probed on 0.18.11 (2026-09-25): the nightly valgrind
-lane on `verify/grad_quadratic.ch` reports 0 errors and 0 bytes lost, with
-only the libgomp thread-pool suppression applied.
+Closed upstream. Re-probed with Chelis 0.19.2, GCC 13, and Valgrind 3.22 on
+`verify/grad_quadratic.ch`: there are no definitely or indirectly lost bytes.
+Valgrind reports 2,880 possibly lost bytes in 9 blocks from libgomp's thread
+pool TLS; with `--errors-for-leak-kinds=definite,indirect --error-exitcode=1`,
+the run exits successfully with 0 errors.
