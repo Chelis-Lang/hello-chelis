@@ -20,6 +20,7 @@ It then shows how to read the larger calculations in this repository.
 | Area | Folder | Demonstrates |
 |---|---|---|
 | Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, explicit random keys and replay, borrowed tensor reads and explicit copy into an owned parameter, `grad`, `vmap`, `realize`, macros |
+| Property checking | [`src/basics/propertyproof.ch`](src/basics/propertyproof.ch) | a guarded monotonicity claim proved by SMT over the reals, with a missing-guard counterexample in the tests |
 | `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `Date` arithmetic, `List` / `Dict` / iteration, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
@@ -38,6 +39,9 @@ git clone https://github.com/Chelis-Lang/hello-chelis.git
 cd hello-chelis
 chelis check src/basics/hellotensor.ch
 chelis test tests/ --jobs auto
+
+# Inspect the proof method and real-arithmetic qualification.
+chelis prove src/basics/propertyproof.ch --tier smt-only --json
 ```
 
 Or use Docker, which installs the pinned toolchain and packages from public
