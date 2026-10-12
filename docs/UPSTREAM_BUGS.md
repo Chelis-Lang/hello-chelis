@@ -52,7 +52,11 @@ source book.
 ### chelis#2840: public release downloads
 
 The pinned Chelis toolchain installs public Reef packages without a GitHub
-token. `GITHUB_TOKEN` remains available to raise the API rate limit.
+token. `GITHUB_TOKEN` remains available to raise the API rate limit. Re-probed
+Chelis 0.19.2 with a fresh `CHELIS_HOME` and both `GITHUB_TOKEN` and `GH_TOKEN`
+unset: `chelisup install 0.19.2` installed the Darwin arm64 toolchain, then
+`chelisup show` reported only 0.19.2 in that isolated store. A separate empty
+Reef home fetched every locked package from public GitHub release origins.
 
 ### chelis#1247: integer type-application arguments are unenforced
 
