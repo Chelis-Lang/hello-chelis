@@ -7,17 +7,21 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
-- Add the user-facing book, `docs/book/`, rendered page for page from
-  https://chelis.ch/docs/hello-chelis/. It replaces `docs/getting_started.md`
-  and `docs/curriculum.md`. CI builds it, lints it and the README against the
-  book writing standard, and runs every lesson and capstone example it shows
-  against the pinned compiler.
-- Add the corpus's first `shoals` lessons, three capstones (#35):
-  `yieldcurve` (par bootstrap, bond pricing, DV01 and key-rate risk, and
-  the wrong curve a gapped pillar set gives), `americanput` (CRR tree,
-  Crank-Nicolson, and Barone-Adesi-Whaley on Nautilus `brent`), and
-  `varbacktest` (historical and parametric VaR/CVaR, with Kupiec and
-  Christoffersen backtests of a rolling and an EWMA model).
+## 0.1.13 - 2026-10-11
+
+- Pin Chelis 0.19.2 and bundled `chelis-std` 0.4.0, with published Coral
+  0.7.49, Nautilus 0.7.53, Shoals 0.24.19, and Shoreleave 0.1.3 artifacts in
+  the Reef lock and Docker image.
+- Add the user-facing book, `docs/book/`, rendered from the canonical
+  hello-chelis pages. CI builds and lints the book and runs every lesson and
+  capstone example against the pinned compiler.
+- Add Shoals capstones for yield-curve bootstrapping and bond risk, three
+  American-put pricing methods, and historical and parametric VaR/CVaR
+  backtests.
+- Let the first project check fetch missing public packages from `reef.lock`;
+  the quickstart no longer needs a separate Reef install command.
+- The host-runtime `grad` path for functions using string-keyed Coral frames
+  remains blocked by the append-lowering limitation (chelis#2552).
 
 ## 0.1.12 - 2026-10-07
 
