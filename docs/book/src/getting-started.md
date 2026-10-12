@@ -2,7 +2,7 @@
 
 ## Install and open a folder
 
-Follow [Get started](https://chelis.ch/get-started) to install the current Chelis release. Check
+Follow [Get started](https://chelis.ch/get-started) to install Chelis. Check
 that your terminal can find it:
 
 ```sh
