@@ -188,6 +188,11 @@ def test_capstone_greeks_compile_and_run_from_package() -> None:
                 f'  printf("{greek} = %.9g\\n", {symbols[greek]}(100.0f, 100.0f, 0.05f, 0.2f, 1.0f));\n'
                 for greek in ("delta", "vega")
             )
+            + "".join(
+                f'  printf("{greek}_s{spot} = %.9g\\n", {symbols[greek]}({spot}.0f, 100.0f, 0.05f, 0.2f, 1.0f));\n'
+                for greek in ("delta", "vega")
+                for spot in (96, 104)
+            )
             + "  return 0;\n}\n"
         )
         binary = out_dir / "greeks_driver"
@@ -212,3 +217,6 @@ def test_capstone_greeks_compile_and_run_from_package() -> None:
         readings = dict(line.split(" = ") for line in run.stdout.strip().splitlines())
         assert float(readings["delta"]) == pytest.approx(0.63683, abs=0.001)
         assert float(readings["vega"]) == pytest.approx(37.524, abs=0.01)
+        for spot in (96, 104):
+            assert 0.0 <= float(readings[f"delta_s{spot}"]) <= 1.0
+            assert 0.0 <= float(readings[f"vega_s{spot}"]) <= 42.0

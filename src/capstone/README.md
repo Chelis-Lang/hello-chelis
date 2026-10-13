@@ -36,6 +36,18 @@ these last.
 The Black-Scholes Greeks run under `chelis test` and through the compiled
 package C API in [`tests/test_c_backend.py`](../../tests/test_c_backend.py).
 
+[`properties/blackscholes_greeks.ch`](../../properties/blackscholes_greeks.ch)
+states bounds on the exported AD functions for spot in `[96, 104]`, strike
+`100`, rate `0.05`, volatility `0.2`, and time `1`. The target bounds follow
+the exact-model identities `delta = N(d1)` and
+`vega = S * phi(d1) * sqrt(t)` derived in
+[ETH Zurich's Black-Scholes lecture](https://people.math.ethz.ch/~farkas/teaching/QF_material/QF15_Slides_Lecture06.pdf).
+The [standard normal density](https://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm)
+satisfies `phi(d1) <= 1/sqrt(2*pi)`, so the chosen box gives
+`vega <= 104/sqrt(2*pi) < 42` in the exact model. The source-bound proof
+test reports an unsupported result for the exported AD graph; the native and
+compiled-C tests check the interval endpoints as execution samples.
+
 Every expected value in the Shoals capstone tests was derived independently
 of Chelis, so the tests check the libraries rather than restate their
 output. The data is synthetic and deterministic: the VaR returns are normal
