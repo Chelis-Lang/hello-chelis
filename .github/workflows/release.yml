@@ -12,7 +12,7 @@ permissions:
 env:
   CHELIS_VERSION: 0.19.4
   PACKAGE_NAME: hello-chelis
-  PACKAGE_VERSION: 0.1.14
+  PACKAGE_VERSION: 0.1.15
 
 jobs:
   build-reef-assets:

@@ -16,7 +16,7 @@ The Python files here cover what `chelis test` does not:
 | [`test_c_backend.py`](test_c_backend.py) | every `../verify/*.ch` compiles to C, links, runs, and prints its golden output |
 | [`test_c_earchin_artifacts.py`](test_c_earchin_artifacts.py) | the c-earchin fixtures match their release hashes, the witnesses prove, and the failing witness is reported against its EARS line |
 | [`test_literature_properties.py`](test_literature_properties.py) | quadratic AD descent and parabola bounds are proved under real arithmetic; four false claims yield SMT counterexamples |
-| [`test_greek_properties.py`](test_greek_properties.py) | four imported AD Greek bound claims stay source-bound and fail closed as unsupported on the pinned SMT lane; two false claims produce sampled counterexamples |
+| [`test_greek_properties.py`](test_greek_properties.py) | four imported AD Greek bounds stay source-bound, the pinned SMT lane reports them unsupported, and Beacon certifies their real-arithmetic full-box claims; two false claims have sampled and Beacon-checked counterexamples |
 | [`test_book_examples.py`](test_book_examples.py) | every lesson and package example in [`../docs/book/src/`](../docs/book/src/) checks clean and prints the output the book shows; every quoted `def` is verbatim in the module it links |
 
 Run them with:
@@ -52,6 +52,7 @@ with exact goals, source declarations, roots, input box, and engine digest.
 The audited fingerprint fixture pins declaration, expression, graph, request,
 and Beacon DAG digests for the published compiler and shell graph; source or
 compiler changes require a new proof run and an explicit fixture review.
-Uncertified full-box goals remain unknown; the two false controls require
-checked real-arithmetic Arb witnesses. These results do not certify rounded
-floating-point execution. The compiled-C endpoint tests remain samples.
+The four full-box goals require complete, strict real-arithmetic Arb covers;
+the two false controls require checked Arb point witnesses. These results do
+not certify rounded floating-point execution. The compiled-C endpoint tests
+remain samples.

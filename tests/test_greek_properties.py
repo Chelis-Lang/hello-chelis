@@ -1,4 +1,4 @@
-"""Keep direct Greek claims source-bound and fail closed until provable."""
+"""Keep certified Greek claims bound to their checked source graphs."""
 
 from __future__ import annotations
 
@@ -176,10 +176,8 @@ def validate_beacon_records(
     summary = next(r for r in records if r.get("kind") == "summary")
     assert summary.get("total") == len(expected) and summary.get("errors") == 0
     assert summary.get("failed") == (len(expected) if controls else 0)
-    assert summary.get("passed") == sum(r.get("status") == "passed" for r in properties)
-    assert summary.get("unsupported") == sum(
-        r.get("status") == "unsupported" for r in properties
-    )
+    assert summary.get("passed") == (0 if controls else len(expected))
+    assert summary.get("unsupported") == 0
     assert re.fullmatch("[0-9a-f]{64}", engine_sha256)
     for record in properties:
         name = record["name"]
@@ -259,12 +257,6 @@ def validate_beacon_records(
             assert (
                 96.0 <= numbers[0] == numbers[1] <= 104.0
                 and 0.0 < numbers[2] <= numbers[3]
-            )
-        elif record.get("status") == "unsupported":
-            assert engine.get("verdict") == "unknown" and record.get("qualifiers") == []
-            assert (
-                record.get("counterexample") is None
-                and engine.get("counterexample") is None
             )
         else:
             assert record.get("status") == "passed" and record.get("qualifiers") == [
@@ -382,8 +374,23 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
                 "selected_root_node_id": fingerprint["folded_root"],
                 "dag_sha256": fingerprint["dag_sha256"],
                 "strict_upper": 0.0,
-                "verdict": "failed" if controls else "unknown",
+                "verdict": "failed" if controls else "certified",
                 "counterexample": witness if controls else None,
+                "certificate": (
+                    None
+                    if controls
+                    else {
+                        "method": "arb_box_cover_v1",
+                        "leaves_certified": 1,
+                        "leaves_unresolved": 0,
+                        "leaves": [
+                            {
+                                "inputs": {"s": {"lo": 96.0, "hi": 104.0}},
+                                "bound": {"lo": -2.0, "hi": -1.0},
+                            }
+                        ],
+                    }
+                ),
             },
         }
         records.append(
@@ -392,11 +399,11 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
                 "name": name,
                 "goal": GOALS[name],
                 "source": {"file": path},
-                "status": "failed" if controls else "unsupported",
+                "status": "failed" if controls else "passed",
                 "proof_tier": "beacon",
                 "arith_model": "real",
                 "samples": 0,
-                "qualifiers": ["real_arithmetic"] if controls else [],
+                "qualifiers": ["real_arithmetic"],
                 "counterexample": witness if controls else None,
                 "engine_evidence": engine,
             }
@@ -416,9 +423,9 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
         {
             "kind": "summary",
             "total": len(names),
-            "passed": 0,
+            "passed": 0 if controls else len(names),
             "failed": len(names) if controls else 0,
-            "unsupported": 0 if controls else len(names),
+            "unsupported": 0,
             "errors": 0,
             "dependency_graph": {
                 "status": "complete",
@@ -430,7 +437,9 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
     return records
 
 
-def test_actual_beacon_dispatch_keeps_unknown_honest_and_refutes_controls() -> None:
+def test_actual_beacon_dispatch_requires_certified_bounds_and_refutes_controls() -> (
+    None
+):
     validate_beacon_records(beacon_fixture(), "a" * 64)
     validate_beacon_records(beacon_fixture(True), "a" * 64, controls=True)
 
@@ -438,9 +447,9 @@ def test_actual_beacon_dispatch_keeps_unknown_honest_and_refutes_controls() -> N
 def test_actual_beacon_dispatch_rejects_binding_and_verdict_drift() -> None:
     for field, value in [
         ("goal", "(s == s)"),
-        ("status", "passed"),
+        ("status", "unsupported"),
         ("samples", 1),
-        ("qualifiers", ["real_arithmetic"]),
+        ("qualifiers", []),
     ]:
         records = beacon_fixture()
         records[0][field] = value
@@ -462,6 +471,10 @@ def test_actual_beacon_dispatch_rejects_binding_and_verdict_drift() -> None:
         validate_beacon_records(records, "a" * 64)
     records = beacon_fixture()
     records[0]["engine_evidence"]["source_binding"]["declarations"].pop()
+    with pytest.raises(AssertionError):
+        validate_beacon_records(records, "a" * 64)
+    records = beacon_fixture()
+    records[0]["engine_evidence"]["beacon_evidence"]["verdict"] = "unknown"
     with pytest.raises(AssertionError):
         validate_beacon_records(records, "a" * 64)
     records = beacon_fixture(True)
@@ -521,10 +534,7 @@ def test_certified_greek_receipt_requires_complete_strict_cover() -> None:
     def certified_records() -> list[dict]:
         records = beacon_fixture()
         record = records[0]
-        record["status"] = "passed"
-        record["qualifiers"] = ["real_arithmetic"]
         engine = record["engine_evidence"]["beacon_evidence"]
-        engine["verdict"] = "certified"
         engine["certificate"] = {
             "method": "arb_box_cover_v1",
             "leaves_certified": 2,
@@ -537,8 +547,6 @@ def test_certified_greek_receipt_requires_complete_strict_cover() -> None:
                 for lo, hi in ((96.0, 100.0), (100.0, 104.0))
             ],
         }
-        records[-1]["passed"] = 1
-        records[-1]["unsupported"] = len(BOUNDS) - 1
         return records
 
     validate_beacon_records(certified_records(), "a" * 64)
@@ -640,7 +648,7 @@ def run_beacon_gate() -> None:
             text=True,
             timeout=120,
         )
-        assert result.returncode in ((1,) if controls else (0, 2)), (
+        assert result.returncode == (1 if controls else 0), (
             result.stdout or result.stderr
         )
         records = [
