@@ -12,7 +12,16 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def prove(path: str, names: set[str], expected_returncode: int) -> list[dict]:
     result = subprocess.run(
-        ["chelis", "prove", path, "--tier", "smt-only", "--smt-timeout", "20000", "--json"],
+        [
+            "chelis",
+            "prove",
+            path,
+            "--tier",
+            "smt-only",
+            "--smt-timeout",
+            "20000",
+            "--json",
+        ],
         cwd=ROOT,
         check=False,
         capture_output=True,
@@ -46,18 +55,47 @@ def assert_counterexamples(properties: list[dict]) -> None:
 
 
 def test_quadratic_gradient_properties() -> None:
-    assert_real_smt(prove("src/basics/quadraticdescent.ch", {
-        "gradient_step_descends", "half_step_reaches_minimum",
-    }, 0))
-    assert_counterexamples(prove("proof_controls/quadratic_wrong.ch", {
-        "unrestricted_step_descends_wrong", "half_step_exceeds_minimum_wrong",
-    }, 1))
+    assert_real_smt(
+        prove(
+            "src/basics/quadraticdescent.ch",
+            {
+                "gradient_step_descends",
+                "half_step_reaches_minimum",
+            },
+            0,
+        )
+    )
+    assert_counterexamples(
+        prove(
+            "proof_controls/quadratic_wrong.ch",
+            {
+                "unrestricted_step_descends_wrong",
+                "half_step_exceeds_minimum_wrong",
+            },
+            1,
+        )
+    )
 
 
 def test_parabola_properties() -> None:
-    assert_real_smt(prove("src/nautilus/optimize.ch", {
-        "parabola_global_minimum", "parabola_box_lower", "parabola_box_upper",
-    }, 0))
-    assert_counterexamples(prove("proof_controls/parabola_wrong.ch", {
-        "parabola_minimum_too_high_wrong", "parabola_box_upper_too_low_wrong",
-    }, 1))
+    assert_real_smt(
+        prove(
+            "src/nautilus/optimize.ch",
+            {
+                "parabola_global_minimum",
+                "parabola_box_lower",
+                "parabola_box_upper",
+            },
+            0,
+        )
+    )
+    assert_counterexamples(
+        prove(
+            "proof_controls/parabola_wrong.ch",
+            {
+                "parabola_minimum_too_high_wrong",
+                "parabola_box_upper_too_low_wrong",
+            },
+            1,
+        )
+    )
