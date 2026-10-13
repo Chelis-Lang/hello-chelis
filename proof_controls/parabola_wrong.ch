@@ -1,4 +1,4 @@
-module Hello.ProofControls.ParabolaWrong
+module Hello.Proof_controls.Parabola_wrong
 import Hello.Nautilus.Optimize (parabola)
 @property parabola_minimum_too_high_wrong forall(x: f32):
   (parabola(x) >= 8.0f32)

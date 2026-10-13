@@ -42,11 +42,11 @@ jobs:
           no-cache: true
           cache-to: type=gha,mode=max
           build-args: |
-            CHELIS_VERSION=0.19.2
-            CORAL_VERSION=0.7.49
-            NAUTILUS_VERSION=0.7.53
-            SHORELEAVE_VERSION=0.1.3
-            SHOALS_VERSION=0.24.19
+            CHELIS_VERSION=0.19.4
+            CORAL_VERSION=0.7.50
+            NAUTILUS_VERSION=0.7.55
+            SHORELEAVE_VERSION=0.1.4
+            SHOALS_VERSION=0.24.20
 
       # Offline pin guard (shell contract §2). Passes trivially when the reef
       # pin is unchanged against main; when it changed, it requires a green

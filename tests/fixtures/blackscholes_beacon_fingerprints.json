@@ -1,0 +1,98 @@
+{
+  "delta_box_lower": {
+    "dag_sha256": "8da5f279bb2308a8247794998850d980f84f20e3ebaf46a236a5377c2940f8cd",
+    "declarations": {
+      "Hello.Capstone.BlackScholes.call_price": "4f83f046d1a302553ceac817b5e231ac5a34b308060b498d95ce0a451ddee279",
+      "Hello.Capstone.BlackScholes.d1": "fd5875a82202a5a5b6b568c18e3f61f153ac344bd06e8800f7604e56aa91a601",
+      "Hello.Capstone.BlackScholes.d2": "1fb1106fa3d3fe613325ea302c9fac908a658d88e4fcc322fd32bfd1cb2ed3ad",
+      "Hello.Capstone.BlackScholes.delta": "62571e4fbfe8eb8134011adfc208e5e3b1fcf53d9aa788a5c22b87f04cdd97c1",
+      "Nautilus.Distributions.normal_cdf": "62c35655548d0022b9dd7d0edece7c2a09bf69c9fe6189e87aef41b6b201d511"
+    },
+    "expression_sha256": "a287b8f697245d5644f0a9ed468e9857f505f559f766dad4c15d1b4d598ffd04",
+    "folded_root": 234,
+    "graph_sha256": "c96fb1305237f8aed52c2eb8782991718b1e949edc989ac9bf9c8403200f0d0e",
+    "request_sha256": "602731abd62ad9a2763af8ae4171ec23159371eb0c1c9a281cc6aa1003121f57",
+    "selected_root": 232,
+    "source_output_root": 231
+  },
+  "delta_box_nonpositive_wrong": {
+    "dag_sha256": "cab49c0daff83bbeef93aa829ea0bac9d63f47cec4821e830ff13e2cda0e3ee5",
+    "declarations": {
+      "Hello.Capstone.BlackScholes.call_price": "4f83f046d1a302553ceac817b5e231ac5a34b308060b498d95ce0a451ddee279",
+      "Hello.Capstone.BlackScholes.d1": "fd5875a82202a5a5b6b568c18e3f61f153ac344bd06e8800f7604e56aa91a601",
+      "Hello.Capstone.BlackScholes.d2": "1fb1106fa3d3fe613325ea302c9fac908a658d88e4fcc322fd32bfd1cb2ed3ad",
+      "Hello.Capstone.BlackScholes.delta": "62571e4fbfe8eb8134011adfc208e5e3b1fcf53d9aa788a5c22b87f04cdd97c1",
+      "Nautilus.Distributions.normal_cdf": "62c35655548d0022b9dd7d0edece7c2a09bf69c9fe6189e87aef41b6b201d511"
+    },
+    "expression_sha256": "8bf61d4f3e8e41259db13e982d4404e455074182b46dcb25655fd31c408bfdbe",
+    "folded_root": 233,
+    "graph_sha256": "f3f271a204bfadbe241afc1b4d1b075af0929b5d8cc219dfe5bf7faa13722966",
+    "request_sha256": "4df7a2b68c64464aa893da8b37a979a725cf37e84a1587fbc6c13cac48fdc02a",
+    "selected_root": 231,
+    "source_output_root": 231
+  },
+  "delta_box_upper": {
+    "dag_sha256": "78a2a8478c9ba5134641c83bf6746f27cdc321b8c4936021960a8571d4218c4d",
+    "declarations": {
+      "Hello.Capstone.BlackScholes.call_price": "4f83f046d1a302553ceac817b5e231ac5a34b308060b498d95ce0a451ddee279",
+      "Hello.Capstone.BlackScholes.d1": "fd5875a82202a5a5b6b568c18e3f61f153ac344bd06e8800f7604e56aa91a601",
+      "Hello.Capstone.BlackScholes.d2": "1fb1106fa3d3fe613325ea302c9fac908a658d88e4fcc322fd32bfd1cb2ed3ad",
+      "Hello.Capstone.BlackScholes.delta": "62571e4fbfe8eb8134011adfc208e5e3b1fcf53d9aa788a5c22b87f04cdd97c1",
+      "Nautilus.Distributions.normal_cdf": "62c35655548d0022b9dd7d0edece7c2a09bf69c9fe6189e87aef41b6b201d511"
+    },
+    "expression_sha256": "d955dcfb062a3c7fd417a01440640ec291c8fca8ceb581cb85af9ee838e694b3",
+    "folded_root": 233,
+    "graph_sha256": "f3f271a204bfadbe241afc1b4d1b075af0929b5d8cc219dfe5bf7faa13722966",
+    "request_sha256": "031a68917fefdf308f41a86aedc1b8d25cd1a615051d520328e0c6f0b6b9b6d5",
+    "selected_root": 231,
+    "source_output_root": 231
+  },
+  "vega_box_lower": {
+    "dag_sha256": "728df3523ccd88c3910be3bcbbf2fda6e654380acd9694ce85ae1fb46d0e0811",
+    "declarations": {
+      "Hello.Capstone.BlackScholes.call_price": "4f83f046d1a302553ceac817b5e231ac5a34b308060b498d95ce0a451ddee279",
+      "Hello.Capstone.BlackScholes.d1": "fd5875a82202a5a5b6b568c18e3f61f153ac344bd06e8800f7604e56aa91a601",
+      "Hello.Capstone.BlackScholes.d2": "1fb1106fa3d3fe613325ea302c9fac908a658d88e4fcc322fd32bfd1cb2ed3ad",
+      "Hello.Capstone.BlackScholes.vega": "9bf763650f58790bacf5448e63d55bd67c3a34d21a20f3403c4ded2edab928d3",
+      "Nautilus.Distributions.normal_cdf": "62c35655548d0022b9dd7d0edece7c2a09bf69c9fe6189e87aef41b6b201d511"
+    },
+    "expression_sha256": "4c2251917d87d5bae7659e0acae3b6a1fe747689c04f7ad47ab81e30b1e7c361",
+    "folded_root": 251,
+    "graph_sha256": "35c412b7989a91cccee77e17c289e253e9905d2f400633f9e0c2d8c22e9f1649",
+    "request_sha256": "b0b748faf1ddccff634feb32ce280fa6e27f8fa2a784178eb16bc2fceed60e23",
+    "selected_root": 249,
+    "source_output_root": 248
+  },
+  "vega_box_nonpositive_wrong": {
+    "dag_sha256": "df07a08906eb359662c9af76c890297ba865a65ddba7959b0b8f4317dbd5851e",
+    "declarations": {
+      "Hello.Capstone.BlackScholes.call_price": "4f83f046d1a302553ceac817b5e231ac5a34b308060b498d95ce0a451ddee279",
+      "Hello.Capstone.BlackScholes.d1": "fd5875a82202a5a5b6b568c18e3f61f153ac344bd06e8800f7604e56aa91a601",
+      "Hello.Capstone.BlackScholes.d2": "1fb1106fa3d3fe613325ea302c9fac908a658d88e4fcc322fd32bfd1cb2ed3ad",
+      "Hello.Capstone.BlackScholes.vega": "9bf763650f58790bacf5448e63d55bd67c3a34d21a20f3403c4ded2edab928d3",
+      "Nautilus.Distributions.normal_cdf": "62c35655548d0022b9dd7d0edece7c2a09bf69c9fe6189e87aef41b6b201d511"
+    },
+    "expression_sha256": "da3391aaa30f837c7e6acbdf661a2d2457f4ca104079ec2c53a27c6919b317b7",
+    "folded_root": 250,
+    "graph_sha256": "b02c625099c3c3bc25f1e0cb8029d80906a99402897cb797c8fcccb9c83293d4",
+    "request_sha256": "eb2de3b9ffa6bdf8fab466a1e4aaa55bcc764fc4dfce36f874a74096faeab8a3",
+    "selected_root": 248,
+    "source_output_root": 248
+  },
+  "vega_box_upper": {
+    "dag_sha256": "94632a4aeb43e5dff5160825d77e7e4d9b31796c33ebcec44cb435162c928fdd",
+    "declarations": {
+      "Hello.Capstone.BlackScholes.call_price": "4f83f046d1a302553ceac817b5e231ac5a34b308060b498d95ce0a451ddee279",
+      "Hello.Capstone.BlackScholes.d1": "fd5875a82202a5a5b6b568c18e3f61f153ac344bd06e8800f7604e56aa91a601",
+      "Hello.Capstone.BlackScholes.d2": "1fb1106fa3d3fe613325ea302c9fac908a658d88e4fcc322fd32bfd1cb2ed3ad",
+      "Hello.Capstone.BlackScholes.vega": "9bf763650f58790bacf5448e63d55bd67c3a34d21a20f3403c4ded2edab928d3",
+      "Nautilus.Distributions.normal_cdf": "62c35655548d0022b9dd7d0edece7c2a09bf69c9fe6189e87aef41b6b201d511"
+    },
+    "expression_sha256": "6ce20d4a21f6927527dcf6f2f7cfe1fe39f048032cd9cdf832ad3ecf306dd4d6",
+    "folded_root": 250,
+    "graph_sha256": "b02c625099c3c3bc25f1e0cb8029d80906a99402897cb797c8fcccb9c83293d4",
+    "request_sha256": "078eda60b242fe109429c3f07012282422cbcdc37a0f0efa64162848b0106787",
+    "selected_root": 248,
+    "source_output_root": 248
+  }
+}

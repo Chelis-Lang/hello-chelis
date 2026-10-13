@@ -1,4 +1,4 @@
-module Hello.Properties.BlackScholesGreeks
+module Hello.Properties.Blackscholes_greeks
 import Hello.Capstone.BlackScholes (delta, vega)
 -- European call Greeks on a finite spot box with fixed positive model inputs.
 @property delta_box_lower forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
