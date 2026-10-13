@@ -7,6 +7,9 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Add a guarded monotonicity property example with an SMT proof over real
+  arithmetic and a missing-guard claim that produces a counterexample.
+
 ## 0.1.13 - 2026-10-11
 
 - Pin Chelis 0.19.2 and bundled `chelis-std` 0.4.0, with published Coral
