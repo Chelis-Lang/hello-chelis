@@ -17,7 +17,7 @@ functions, they compose with the rest of the language like any other code.
 | [`odenutilus.ch`](odenutilus.ch) | `Nautilus.Ode` | Euler and RK4 on dy/dt = -y |
 | [`sde.ch`](sde.ch) | `Nautilus.Sde` | Euler-Maruyama with the noise set to zero |
 | [`interpolation.ch`](interpolation.ch) | `Nautilus.Interpolation` | linear and cubic Hermite interpolation |
-| [`optimize.ch`](optimize.ch) | `Nautilus.Optim` | golden section, Brent, and Newton on (x-3)^2 + 7 |
+| [`optimize.ch`](optimize.ch) | `Nautilus.Optim` | golden section, Brent, and Newton on (x-3)^2 + 7, with SMT bounds on the objective |
 | [`hypothesis.ch`](hypothesis.ch) | `Nautilus.Testing` | z and one-sample t statistics, two-sided p-values |
 | [`curvefit.ch`](curvefit.ch) | `Nautilus.CurveFit` | one-parameter Levenberg-Marquardt |
 

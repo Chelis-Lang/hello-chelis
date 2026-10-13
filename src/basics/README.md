@@ -16,6 +16,7 @@ and a test of the same name under [`tests/basics/`](../../tests/basics/).
 | 6 | [`effectsrandom.ch`](effectsrandom.ch) | explicit keys, deterministic replay, and independent draws via `split_key` |
 | 7 | [`linearity.ch`](linearity.ch) | repeated borrowed reads and explicit copy into an owned parameter; see the [rejected call](../../tests_neg/check/borrow_requires_copy.ch) |
 | 8 | [`gradbasic.ch`](gradbasic.ch) | `grad(loss, wrt=w)` on a scalar loss |
+| 8a | [`quadraticdescent.ch`](quadraticdescent.ch) | an AD gradient step and real-arithmetic proof of quadratic descent for a bounded step size |
 | 9 | [`vmap.ch`](vmap.ch) | lifting a per-example function over a batch dimension |
 | 10 | [`jitrealize.ch`](jitrealize.ch) | forcing evaluation with `realize`, next to an eager baseline |
 | 11 | [`macrobasic.ch`](macrobasic.ch) | the prelude `residual` macro, expanded to typed Deep at compile time |
@@ -23,3 +24,10 @@ and a test of the same name under [`tests/basics/`](../../tests/basics/).
 `chelis test tests/basics/` runs the assertions for every file.
 [`../../verify/`](../../verify/) compiles `grad`, `realize`, `cast`, and the
 activations to C and runs them.
+
+The quadratic step uses `grad` on `(x-3)^2+7`. For real arithmetic, its
+signed displacement from the minimizer changes by the factor `1-2*eta`, so every
+`eta` in `[0,1]` gives nonincreasing objective value and `eta=0.5` reaches
+the minimum. The property result reports its real-arithmetic proof tier; it
+does not establish rounded `f32` descent. The positive curvature and minimum
+follow the [one-variable quadratic criterion](https://www.itl.nist.gov/div898/handbook/pri/section5/pri5314.htm).

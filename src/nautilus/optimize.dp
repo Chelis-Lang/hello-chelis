@@ -4,92 +4,163 @@
     nautilus.optim
     (golden_section_search brent_minimize newton_minimize_1d))
   (export {}
+    parabola
     parabola_minimum_gss
     parabola_minimum_brent
     parabola_minimum_newton)
-  (defsig {span: "surf:192..271"}
+  (defsig {span: "surf:202..281"}
     parabola
     (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {span: "surf:192..271"}
+  (def {span: "surf:202..281"}
     parabola
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (let {span: "surf:222..271"}
+      (let {span: "surf:232..281"}
         (bind {}
           d
-          (app {span: "surf:230..244"}
-            (var {span: "surf:230..233"} sub)
-            (var {span: "surf:234..235"} x)
-            (lit {span: "surf:237..243", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)))
-        (app {span: "surf:247..269"}
-          (var {span: "surf:247..250"} add)
-          (app {span: "surf:251..260"}
-            (var {span: "surf:251..254"} mul)
-            (var {span: "surf:255..256"} d)
-            (var {span: "surf:258..259"} d))
-          (lit {span: "surf:262..268", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)))))
-  (defsig {span: "surf:272..330"}
+          (app {span: "surf:240..254"}
+            (var {span: "surf:240..243"} sub)
+            (var {span: "surf:244..245"} x)
+            (lit {span: "surf:247..253", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)))
+        (app {span: "surf:257..279"}
+          (var {span: "surf:257..260"} add)
+          (app {span: "surf:261..270"}
+            (var {span: "surf:261..264"} mul)
+            (var {span: "surf:265..266"} d)
+            (var {span: "surf:268..269"} d))
+          (lit {span: "surf:272..278", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)))))
+  (defsig {span: "surf:282..356"}
+    parabola_global_minimum
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {} (x {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:282..356"
+       }
+    parabola_global_minimum
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {span: "surf:335..356"}
+        (var {} gte)
+        (app {span: "surf:335..346"}
+          (var {span: "surf:335..343"} parabola)
+          (var {span: "surf:344..345"} x))
+        (lit {span: "surf:350..356", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0))))
+  (defsig {span: "surf:358..458"}
+    parabola_box_lower
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:408..419"}
+                                     (var {} gte)
+                                     (var {span: "surf:408..409"} x)
+                                     (lit {span: "surf:413..419", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.1))
+                                   (app {span: "surf:421..432"}
+                                     (var {} lte)
+                                     (var {span: "surf:421..422"} x)
+                                     (lit {span: "surf:426..432", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.9))),
+         property_quantifiers: (params {} (x {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:358..458"
+       }
+    parabola_box_lower
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {span: "surf:437..458"}
+        (var {} gte)
+        (app {span: "surf:437..448"}
+          (var {span: "surf:437..445"} parabola)
+          (var {span: "surf:446..447"} x))
+        (lit {span: "surf:452..458", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0))))
+  (defsig {span: "surf:460..560"}
+    parabola_box_upper
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:510..521"}
+                                     (var {} gte)
+                                     (var {span: "surf:510..511"} x)
+                                     (lit {span: "surf:515..521", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.1))
+                                   (app {span: "surf:523..534"}
+                                     (var {} lte)
+                                     (var {span: "surf:523..524"} x)
+                                     (lit {span: "surf:528..534", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.9))),
+         property_quantifiers: (params {} (x {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:460..560"
+       }
+    parabola_box_upper
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {span: "surf:539..560"}
+        (var {} lte)
+        (app {span: "surf:539..550"}
+          (var {span: "surf:539..547"} parabola)
+          (var {span: "surf:548..549"} x))
+        (lit {span: "surf:554..560", surf_literal_style: "explicit", type: (t-prim {} f32)} 8.0))))
+  (defsig {span: "surf:562..620"}
     dparabola
     (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {span: "surf:272..330"}
+  (def {span: "surf:562..620"}
     dparabola
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (app {span: "surf:303..330"}
-        (var {span: "surf:303..306"} mul)
-        (lit {span: "surf:307..313", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
-        (app {span: "surf:315..329"}
-          (var {span: "surf:315..318"} sub)
-          (var {span: "surf:319..320"} x)
-          (lit {span: "surf:322..328", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)))))
-  (defsig {span: "surf:331..369"}
+      (app {span: "surf:593..620"}
+        (var {span: "surf:593..596"} mul)
+        (lit {span: "surf:597..603", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+        (app {span: "surf:605..619"}
+          (var {span: "surf:605..608"} sub)
+          (var {span: "surf:609..610"} x)
+          (lit {span: "surf:612..618", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)))))
+  (defsig {span: "surf:621..659"}
     ddparabola
     (t-fn {} (t-prim {} f32) (t-prim {} f32)))
-  (def {span: "surf:331..369"}
+  (def {span: "surf:621..659"}
     ddparabola
     (fn {}
       (params {} (x {type: (t-var {} _)}))
-      (lit {span: "surf:363..369", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)))
-  (defsig {span: "surf:370..471"}
+      (lit {span: "surf:653..659", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)))
+  (defsig {span: "surf:660..761"}
     parabola_minimum_gss
     (t-fn {} (t-prim {} f32)))
-  (def {span: "surf:370..471"}
+  (def {span: "surf:660..761"}
     parabola_minimum_gss
     (fn {}
       (params {})
-      (app {span: "surf:406..471"}
-        (var {span: "surf:406..427"} golden_section_search)
-        (var {span: "surf:428..436"} parabola)
-        (lit {span: "surf:438..444", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-        (lit {span: "surf:446..453", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
-        (lit {span: "surf:455..462", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
-        (lit {span: "surf:464..470", type: (t-prim {} i64)} 200))))
-  (defsig {span: "surf:472..568"}
+      (app {span: "surf:696..761"}
+        (var {span: "surf:696..717"} golden_section_search)
+        (var {span: "surf:718..726"} parabola)
+        (lit {span: "surf:728..734", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:736..743", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+        (lit {span: "surf:745..752", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
+        (lit {span: "surf:754..760", type: (t-prim {} i64)} 200))))
+  (defsig {span: "surf:762..858"}
     parabola_minimum_brent
     (t-fn {} (t-prim {} f32)))
-  (def {span: "surf:472..568"}
+  (def {span: "surf:762..858"}
     parabola_minimum_brent
     (fn {}
       (params {})
-      (app {span: "surf:510..568"}
-        (var {span: "surf:510..524"} brent_minimize)
-        (var {span: "surf:525..533"} parabola)
-        (lit {span: "surf:535..541", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-        (lit {span: "surf:543..550", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
-        (lit {span: "surf:552..559", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
-        (lit {span: "surf:561..567", type: (t-prim {} i64)} 200))))
-  (defsig {span: "surf:569..684"}
+      (app {span: "surf:800..858"}
+        (var {span: "surf:800..814"} brent_minimize)
+        (var {span: "surf:815..823"} parabola)
+        (lit {span: "surf:825..831", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:833..840", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+        (lit {span: "surf:842..849", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00000001)
+        (lit {span: "surf:851..857", type: (t-prim {} i64)} 200))))
+  (defsig {span: "surf:859..974"}
     parabola_minimum_newton
     (t-fn {} (t-prim {} f32)))
-  (def {span: "surf:569..684"}
+  (def {span: "surf:859..974"}
     parabola_minimum_newton
     (fn {}
       (params {})
-      (app {span: "surf:608..684"}
-        (var {span: "surf:608..626"} newton_minimize_1d)
-        (var {span: "surf:627..635"} parabola)
-        (var {span: "surf:637..646"} dparabola)
-        (var {span: "surf:648..658"} ddparabola)
-        (lit {span: "surf:660..666", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-        (lit {span: "surf:668..676", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0000000001)
-        (lit {span: "surf:678..683", type: (t-prim {} i64)} 50)))))
+      (app {span: "surf:898..974"}
+        (var {span: "surf:898..916"} newton_minimize_1d)
+        (var {span: "surf:917..925"} parabola)
+        (var {span: "surf:927..936"} dparabola)
+        (var {span: "surf:938..948"} ddparabola)
+        (lit {span: "surf:950..956", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+        (lit {span: "surf:958..966", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0000000001)
+        (lit {span: "surf:968..973", type: (t-prim {} i64)} 50)))))
