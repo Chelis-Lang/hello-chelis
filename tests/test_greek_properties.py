@@ -122,6 +122,37 @@ def assert_source_edges(records: list[dict], path: str) -> None:
         assert (origin, target) in pairs and (target, call) in pairs
 
 
+def assert_certified_cover(certificate: dict) -> None:
+    assert certificate.get("method") == "arb_box_cover_v1"
+    leaves = certificate.get("leaves")
+    assert isinstance(leaves, list) and leaves
+    assert type(certificate.get("leaves_certified")) is int
+    assert certificate["leaves_certified"] == len(leaves)
+    assert type(certificate.get("leaves_unresolved")) is int
+    assert certificate["leaves_unresolved"] == 0
+    intervals = []
+    for leaf in leaves:
+        assert isinstance(leaf, dict)
+        inputs = leaf.get("inputs")
+        assert isinstance(inputs, dict) and set(inputs) == {"s"}
+        domain, bound = inputs["s"], leaf.get("bound")
+        assert isinstance(domain, dict) and isinstance(bound, dict)
+        lo, hi = domain.get("lo"), domain.get("hi")
+        bound_lo, bound_hi = bound.get("lo"), bound.get("hi")
+        assert all(
+            type(value) in (int, float) and math.isfinite(value)
+            for value in (lo, hi, bound_lo, bound_hi)
+        )
+        assert 96.0 <= lo <= hi <= 104.0
+        assert bound_lo <= bound_hi < 0.0
+        intervals.append((lo, hi))
+    covered_to = 96.0
+    for lo, hi in sorted(intervals):
+        assert lo <= covered_to
+        covered_to = max(covered_to, hi)
+    assert covered_to == 104.0
+
+
 def validate_beacon_records(
     records: list[dict], engine_sha256: str, controls: bool = False
 ) -> None:
@@ -190,6 +221,8 @@ def validate_beacon_records(
         assert all(type(r) is int and r >= 0 for r in roots)
         assert roots[1] != roots[2] and engine.get("selected_root_node_id") == roots[2]
         assert engine.get("schema_version") == "beacon.scalar_upper_bound.v1"
+        assert type(engine.get("strict_upper")) in (int, float)
+        assert math.isfinite(engine["strict_upper"]) and engine["strict_upper"] == 0.0
         if controls:
             assert record.get("status") == "failed" and record.get("qualifiers") == [
                 "real_arithmetic"
@@ -224,13 +257,7 @@ def validate_beacon_records(
                 "real_arithmetic"
             ]
             assert engine.get("verdict") == "certified"
-            certificate = engine.get("certificate") or {}
-            leaves = certificate.get("leaves") or []
-            assert certificate.get("method") == "arb_box_cover_v1" and leaves
-            assert (
-                certificate.get("leaves_certified") == len(leaves)
-                and certificate.get("leaves_unresolved") == 0
-            )
+            assert_certified_cover(engine.get("certificate") or {})
 
 
 def beacon_fixture(controls: bool = False) -> list[dict]:
@@ -317,6 +344,7 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
             "beacon_evidence": {
                 "schema_version": "beacon.scalar_upper_bound.v1",
                 "selected_root_node_id": 12,
+                "strict_upper": 0.0,
                 "verdict": "failed" if controls else "unknown",
                 "counterexample": witness if controls else None,
             },
@@ -407,6 +435,62 @@ def test_actual_beacon_dispatch_rejects_binding_and_verdict_drift() -> None:
     records.append(copy.deepcopy(records[0]))
     with pytest.raises(AssertionError):
         validate_beacon_records(records, "a" * 64)
+
+
+def test_certified_greek_receipt_requires_complete_strict_cover() -> None:
+    def certified_records() -> list[dict]:
+        records = beacon_fixture()
+        record = records[0]
+        record["status"] = "passed"
+        record["qualifiers"] = ["real_arithmetic"]
+        engine = record["engine_evidence"]["beacon_evidence"]
+        engine["verdict"] = "certified"
+        engine["certificate"] = {
+            "method": "arb_box_cover_v1",
+            "leaves_certified": 2,
+            "leaves_unresolved": 0,
+            "leaves": [
+                {
+                    "inputs": {"s": {"lo": lo, "hi": hi}},
+                    "bound": {"lo": -2.0, "hi": -1.0},
+                }
+                for lo, hi in ((96.0, 100.0), (100.0, 104.0))
+            ],
+        }
+        records[-1]["passed"] = 1
+        records[-1]["unsupported"] = len(BOUNDS) - 1
+        return records
+
+    validate_beacon_records(certified_records(), "a" * 64)
+
+    def rejects(change) -> None:
+        records = certified_records()
+        change(records[0]["engine_evidence"]["beacon_evidence"])
+        with pytest.raises(AssertionError):
+            validate_beacon_records(records, "a" * 64)
+
+    rejects(lambda engine: engine.update(strict_upper=1000.0))
+
+    def drop_leaf(engine) -> None:
+        certificate = engine["certificate"]
+        certificate["leaves"].pop()
+        certificate["leaves_certified"] = 1
+
+    rejects(drop_leaf)
+    for bound in (
+        {"lo": 1.0, "hi": 2.0},
+        {"lo": -2.0, "hi": 0.0},
+        {"lo": -2.0, "hi": float("nan")},
+    ):
+        rejects(lambda engine: engine["certificate"]["leaves"][0].update(bound=bound))
+    for domain in (
+        {"lo": 96.0, "hi": 99.0},
+        {"lo": 95.0, "hi": 100.0},
+        {"lo": 96.0, "hi": float("inf")},
+    ):
+        rejects(
+            lambda engine: engine["certificate"]["leaves"][0]["inputs"].update(s=domain)
+        )
 
 
 def prove(path: str, tier: str, extra: list[str]) -> tuple[int, list[dict]]:
