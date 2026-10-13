@@ -37,7 +37,7 @@ hello-specific worktree handoff. For a completion claim, use
 <!-- ## Pointers -->
 <!-- shell-local:exclude:end -->
 
-<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.19.2 (sha256:4008940f0419e8ef) -->
+<!-- BEGIN CHELIS MANAGED BLOCK: agents-inheritance chelis@0.19.3 (sha256:4008940f0419e8ef) -->
 # Chelis Agent Contract
 
 Keep this file concise and relevant to every agent working in this repository.

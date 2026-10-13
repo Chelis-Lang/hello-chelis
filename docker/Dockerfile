@@ -81,7 +81,7 @@ EOF
 RUN chmod +x /usr/local/bin/download-github-release-asset
 
 # --- Chelis compiler from release tarball ---------------------------------
-ARG CHELIS_VERSION=0.19.2
+ARG CHELIS_VERSION=0.19.3
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
     && export GITHUB_TOKEN="$token" \
