@@ -1,0 +1,106 @@
+(module {surf_path: "Hello.Basics.QuadraticDescent"}
+  hello.basics.quadraticdescent
+  (export {} quadratic quadratic_gradient gradient_step)
+  (defsig {span: "surf:91..171"}
+    quadratic
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:91..171"}
+    quadratic
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (let {span: "surf:122..171"}
+        (bind {}
+          d
+          (app {span: "surf:130..144"}
+            (var {span: "surf:130..133"} sub)
+            (var {span: "surf:134..135"} x)
+            (lit {span: "surf:137..143", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)))
+        (app {span: "surf:147..169"}
+          (var {span: "surf:147..150"} add)
+          (app {span: "surf:151..160"}
+            (var {span: "surf:151..154"} mul)
+            (var {span: "surf:155..156"} d)
+            (var {span: "surf:158..159"} d))
+          (lit {span: "surf:162..168", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)))))
+  (defsig {span: "surf:172..237"}
+    quadratic_gradient
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:172..237"}
+    quadratic_gradient
+    (fn {}
+      (params {} (x {type: (t-var {} _)}))
+      (app {span: "surf:212..237"}
+        (grad {span: "surf:212..234", wrt: (var {} x)}
+          (var {span: "surf:217..226"} quadratic)
+          (lit {type: (t-prim {} i32)} 0))
+        (var {span: "surf:235..236"} x))))
+  (defsig {span: "surf:238..322"}
+    gradient_step
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:238..322"}
+    gradient_step
+    (fn {}
+      (params {} (x {type: (t-var {} _)}) (eta {type: (t-var {} _)}))
+      (app {span: "surf:283..322"}
+        (var {span: "surf:283..286"} sub)
+        (var {span: "surf:287..288"} x)
+        (app {span: "surf:290..321"}
+          (var {span: "surf:290..293"} mul)
+          (var {span: "surf:294..297"} eta)
+          (app {span: "surf:299..320"}
+            (var {span: "surf:299..317"} quadratic_gradient)
+            (var {span: "surf:318..319"} x))))))
+  (defsig {span: "surf:323..468"}
+    gradient_step_descends
+    (t-fn {} (t-prim {} f32) (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:387..400"}
+                                     (var {} gte)
+                                     (var {span: "surf:387..390"} eta)
+                                     (lit {span: "surf:394..400", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:402..415"}
+                                     (var {} lte)
+                                     (var {span: "surf:402..405"} eta)
+                                     (lit {span: "surf:409..415", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))),
+         property_quantifiers: (params {}
+                                 (x {type: (t-prim {} f32)})
+                                 (eta {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:323..468"
+       }
+    gradient_step_descends
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}) (eta {type: (t-prim {} f32)}))
+      (app {span: "surf:420..468"}
+        (var {} lte)
+        (app {span: "surf:420..452"}
+          (var {span: "surf:420..429"} quadratic)
+          (app {span: "surf:430..451"}
+            (var {span: "surf:430..443"} gradient_step)
+            (var {span: "surf:444..445"} x)
+            (var {span: "surf:447..450"} eta)))
+        (app {span: "surf:456..468"}
+          (var {span: "surf:456..465"} quadratic)
+          (var {span: "surf:466..467"} x)))))
+  (defsig {span: "surf:470..570"}
+    half_step_reaches_minimum
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}),
+         property_quantifiers: (params {} (x {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:470..570"
+       }
+    half_step_reaches_minimum
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {span: "surf:525..570"}
+        (var {} eq)
+        (app {span: "surf:525..560"}
+          (var {span: "surf:525..534"} quadratic)
+          (app {span: "surf:535..559"}
+            (var {span: "surf:535..548"} gradient_step)
+            (var {span: "surf:549..550"} x)
+            (lit {span: "surf:552..558", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)))
+        (lit {span: "surf:564..570", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)))))

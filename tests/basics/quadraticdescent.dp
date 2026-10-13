@@ -1,0 +1,47 @@
+(module {surf_path: "Hello.Tests.Basics.QuadraticDescent"}
+  hello.tests.basics.quadraticdescent
+  (import {surf_path: "Hello.Basics.QuadraticDescent"}
+    hello.basics.quadraticdescent
+    (quadratic quadratic_gradient gradient_step))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {span: "surf:158..494"}
+    test_gradient_step
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:158..494"}
+    test_gradient_step
+    (fn {}
+      (params {})
+      (let {span: "surf:204..494"}
+        (bind {destructure: true}
+          __chelis_tmp1
+          (app {span: "surf:212..291"}
+            (var {span: "surf:212..224"} assert_close)
+            (app {span: "surf:225..251"}
+              (var {span: "surf:225..243"} quadratic_gradient)
+              (lit {span: "surf:244..250", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0))
+            (lit {span: "surf:253..259", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0)
+            (lit {span: "surf:261..268", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+            (lit {span: "surf:270..290", type: (t-prim {} string)} "quadratic gradient")))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp0
+            (app {span: "surf:298..389"}
+              (var {span: "surf:298..310"} assert_close)
+              (app {span: "surf:311..340"}
+                (var {span: "surf:311..324"} gradient_step)
+                (lit {span: "surf:325..331", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
+                (lit {span: "surf:333..339", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5))
+              (lit {span: "surf:342..348", surf_literal_style: "explicit", type: (t-prim {} f32)} 3.0)
+              (lit {span: "surf:350..357", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+              (lit {span: "surf:359..388", type: (t-prim {} string)} "half step reaches minimizer")))
+          (app {span: "surf:392..492"}
+            (var {span: "surf:392..404"} assert_close)
+            (app {span: "surf:405..445"}
+              (var {span: "surf:405..414"} quadratic)
+              (app {span: "surf:415..444"}
+                (var {span: "surf:415..428"} gradient_step)
+                (lit {span: "surf:429..435", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
+                (lit {span: "surf:437..443", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)))
+            (lit {span: "surf:447..453", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)
+            (lit {span: "surf:455..462", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+            (lit {span: "surf:464..491", type: (t-prim {} string)} "half step reaches minimum")))))))
