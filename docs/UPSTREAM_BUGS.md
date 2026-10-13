@@ -23,11 +23,11 @@ Coral README and the feature matrix say so.
 
 **Probe:** [`../tests_blocked/coral/grad_string_key.ch`](../tests_blocked/coral/grad_string_key.ch)
 under `chelis test tests_blocked --expect blocked`.
-Re-probed with Chelis 0.19.2 and published Coral 0.7.49, Nautilus 0.7.53,
-Shoals 0.24.19, and Shoreleave 0.1.3: the same frame-gradient remains blocked, now with
+Re-probed with Chelis 0.19.4 and published Coral 0.7.50, Nautilus 0.7.55,
+Shoals 0.24.20, and Shoreleave 0.1.4: the same frame-gradient remains blocked with
 `application of append has no numeric IR lowering; preserve its host
 execution`. The probe still exercises the string-keyed Coral column path; the
-current failure occurs while lowering frame construction, before the earlier
+failure occurs while lowering frame construction, before the earlier
 string-literal diagnostic.
 **De-narrow when fixed:** make the Coral example differentiate through
 `get_float_col`, and describe it as gradient flow through a frame.

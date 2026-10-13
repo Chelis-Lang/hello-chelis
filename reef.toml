@@ -2,7 +2,7 @@ schema = "3"
 [package]
 name = "hello-chelis"
 version = "0.1.14"
-compiler = "=0.19.3"
+compiler = "=0.19.4"
 module_prefix = "Hello"
 additional_sources = ["properties", "proof_controls"]
 resolver = "2"
