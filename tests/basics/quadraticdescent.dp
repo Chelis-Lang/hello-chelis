@@ -44,4 +44,47 @@
                 (lit {span: "surf:437..443", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5)))
             (lit {span: "surf:447..453", surf_literal_style: "explicit", type: (t-prim {} f32)} 7.0)
             (lit {span: "surf:455..462", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
-            (lit {span: "surf:464..491", type: (t-prim {} string)} "half step reaches minimum")))))))
+            (lit {span: "surf:464..491", type: (t-prim {} string)} "half step reaches minimum"))))))
+  (defsig {span: "surf:495..851"}
+    test_quarter_step_descends_from_left
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:495..851"}
+    test_quarter_step_descends_from_left
+    (fn {}
+      (params {})
+      (let {span: "surf:559..851"}
+        (bind {destructure: true}
+          __chelis_tmp3
+          (app {span: "surf:567..655"}
+            (var {span: "surf:567..579"} assert_close)
+            (app {span: "surf:580..606"}
+              (var {span: "surf:580..598"} quadratic_gradient)
+              (lit {span: "surf:599..605", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+            (app {span: "surf:608..615"}
+              (var {} neg)
+              (lit {span: "surf:609..615", surf_literal_style: "explicit", type: (t-prim {} f32)} 4.0))
+            (lit {span: "surf:617..624", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+            (lit {span: "surf:626..654", type: (t-prim {} string)} "gradient left of minimizer")))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp2
+            (app {span: "surf:662..749"}
+              (var {span: "surf:662..674"} assert_close)
+              (app {span: "surf:675..705"}
+                (var {span: "surf:675..688"} gradient_step)
+                (lit {span: "surf:689..695", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:697..704", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.25))
+              (lit {span: "surf:707..713", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+              (lit {span: "surf:715..722", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+              (lit {span: "surf:724..748", type: (t-prim {} string)} "quarter step from left")))
+          (app {span: "surf:752..849"}
+            (var {span: "surf:752..764"} assert_close)
+            (app {span: "surf:765..806"}
+              (var {span: "surf:765..774"} quadratic)
+              (app {span: "surf:775..805"}
+                (var {span: "surf:775..788"} gradient_step)
+                (lit {span: "surf:789..795", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:797..804", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.25)))
+            (lit {span: "surf:808..814", surf_literal_style: "explicit", type: (t-prim {} f32)} 8.0)
+            (lit {span: "surf:816..823", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.000001)
+            (lit {span: "surf:825..848", type: (t-prim {} string)} "quarter step descends")))))))
