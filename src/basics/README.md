@@ -26,7 +26,7 @@ and a test of the same name under [`tests/basics/`](../../tests/basics/).
 activations to C and runs them.
 
 The quadratic step uses `grad` on `(x-3)^2+7`. For real arithmetic, its
-distance from the minimizer changes by the factor `1-2*eta`, so every
+signed displacement from the minimizer changes by the factor `1-2*eta`, so every
 `eta` in `[0,1]` gives nonincreasing objective value and `eta=0.5` reaches
 the minimum. The property result reports its real-arithmetic proof tier; it
 does not establish rounded `f32` descent. The positive curvature and minimum
