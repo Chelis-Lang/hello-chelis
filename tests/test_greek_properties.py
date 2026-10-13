@@ -109,7 +109,9 @@ def assert_source_edges(records: list[dict], path: str) -> None:
         "normal_cdf",
         "src/distributions.ch",
     )
-    assert (call, cdf) in pairs
+    d1 = declaration("function", "hello-chelis", module, "d1", function_file)
+    d2 = declaration("function", "hello-chelis", module, "d2", function_file)
+    assert {(call, cdf), (call, d1), (call, d2), (d2, d1)} <= pairs
     controls = path == "proof_controls/blackscholes_greeks_wrong.ch"
     assert controls or path == "properties/blackscholes_greeks.ch"
     property_module = (
@@ -294,6 +296,18 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
             "Hello.Capstone.BlackScholes",
             "src/capstone/blackscholes.ch",
         ),
+        (
+            "d1",
+            "hello-chelis",
+            "Hello.Capstone.BlackScholes",
+            "src/capstone/blackscholes.ch",
+        ),
+        (
+            "d2",
+            "hello-chelis",
+            "Hello.Capstone.BlackScholes",
+            "src/capstone/blackscholes.ch",
+        ),
         ("normal_cdf", "nautilus", "Nautilus.Distributions", "src/distributions.ch"),
     ]:
         declarations.append(
@@ -308,6 +322,10 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
         )
     edges.extend({"from": greek, "to": "call_price"} for greek in ("delta", "vega"))
     edges.append({"from": "call_price", "to": "normal_cdf"})
+    edges.extend(
+        {"from": source, "to": target}
+        for source, target in (("call_price", "d1"), ("call_price", "d2"), ("d2", "d1"))
+    )
     path = (
         "proof_controls/blackscholes_greeks_wrong.ch"
         if controls
@@ -483,6 +501,20 @@ def test_greek_receipts_reject_graph_and_source_fingerprint_drift() -> None:
         )
         with pytest.raises(AssertionError):
             validate_beacon_records(records, "a" * 64, controls)
+
+
+def test_greek_receipts_require_complete_internal_dependency_chain() -> None:
+    for controls in (False, True):
+        for source, target in (
+            ("call_price", "d1"),
+            ("call_price", "d2"),
+            ("d2", "d1"),
+        ):
+            records = beacon_fixture(controls)
+            edges = records[-1]["dependency_graph"]["edges"]
+            edges.remove({"from": source, "to": target})
+            with pytest.raises(AssertionError):
+                validate_beacon_records(records, "a" * 64, controls)
 
 
 def test_certified_greek_receipt_requires_complete_strict_cover() -> None:
