@@ -16,6 +16,11 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parent.parent
+# Audited Chelis 0.19.4 receipts over the published shell dependency graph.
+# Source or compiler changes must refresh these alongside an actual Beacon run.
+BEACON_FINGERPRINTS = json.loads(
+    (ROOT / "tests/fixtures/blackscholes_beacon_fingerprints.json").read_text()
+)
 BOX = "s >= 96.0f32, s <= 104.0f32"
 PARAMETERS = "s, 100.0f32, 0.05f32, 0.2f32, 1.0f32"
 BOUNDS = {
@@ -176,6 +181,7 @@ def validate_beacon_records(
     assert re.fullmatch("[0-9a-f]{64}", engine_sha256)
     for record in properties:
         name = record["name"]
+        fingerprint = BEACON_FINGERPRINTS[name]
         greek = FALSE_BOUNDS[name] if controls else BOUNDS[name][0]
         comparison = "<= 0.0f32" if controls else BOUNDS[name][1]
         assert_goal(record)
@@ -210,16 +216,22 @@ def validate_beacon_records(
         }
         assert len(declarations) == len(expected_sources)
         assert {d.get("name") for d in declarations} == expected_sources
-        assert all(
-            re.fullmatch("[0-9a-f]{64}", d.get("sha256", "")) for d in declarations
-        )
-        assert re.fullmatch("[0-9a-f]{64}", source.get("expression_sha256", ""))
+        assert {d["name"]: d.get("sha256") for d in declarations} == fingerprint[
+            "declarations"
+        ]
+        assert source.get("expression_sha256") == fingerprint["expression_sha256"]
         roots = [
             evidence.get(k)
             for k in ("source_output_root", "selected_root", "folded_root")
         ]
-        assert all(type(r) is int and r >= 0 for r in roots)
+        assert roots == [
+            fingerprint[k]
+            for k in ("source_output_root", "selected_root", "folded_root")
+        ]
         assert roots[1] != roots[2] and engine.get("selected_root_node_id") == roots[2]
+        assert evidence.get("graph_sha256") == fingerprint["graph_sha256"]
+        assert evidence.get("request_sha256") == fingerprint["request_sha256"]
+        assert engine.get("dag_sha256") == fingerprint["dag_sha256"]
         assert engine.get("schema_version") == "beacon.scalar_upper_bound.v1"
         assert type(engine.get("strict_upper")) in (int, float)
         assert math.isfinite(engine["strict_upper"]) and engine["strict_upper"] == 0.0
@@ -307,6 +319,7 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
         else "Hello.Properties.Blackscholes_greeks"
     )
     for name in names:
+        fingerprint = BEACON_FINGERPRINTS[name]
         greek = FALSE_BOUNDS[name] if controls else BOUNDS[name][0]
         comparison = "<= 0.0f32" if controls else BOUNDS[name][1]
         witness = {
@@ -334,16 +347,22 @@ def beacon_fixture(controls: bool = False) -> list[dict]:
             "source_dtype": "f32",
             "proof_graph_dtype": "f64",
             "float_execution_covered": False,
-            "source_output_root": 10,
-            "selected_root": 10,
-            "folded_root": 12,
+            "source_output_root": fingerprint["source_output_root"],
+            "selected_root": fingerprint["selected_root"],
+            "folded_root": fingerprint["folded_root"],
+            "graph_sha256": fingerprint["graph_sha256"],
+            "request_sha256": fingerprint["request_sha256"],
             "source_binding": {
-                "expression_sha256": "b" * 64,
-                "declarations": [{"name": f, "sha256": "c" * 64} for f in source_names],
+                "expression_sha256": fingerprint["expression_sha256"],
+                "declarations": [
+                    {"name": f, "sha256": fingerprint["declarations"][f]}
+                    for f in source_names
+                ],
             },
             "beacon_evidence": {
                 "schema_version": "beacon.scalar_upper_bound.v1",
-                "selected_root_node_id": 12,
+                "selected_root_node_id": fingerprint["folded_root"],
+                "dag_sha256": fingerprint["dag_sha256"],
                 "strict_upper": 0.0,
                 "verdict": "failed" if controls else "unknown",
                 "counterexample": witness if controls else None,
@@ -435,6 +454,35 @@ def test_actual_beacon_dispatch_rejects_binding_and_verdict_drift() -> None:
     records.append(copy.deepcopy(records[0]))
     with pytest.raises(AssertionError):
         validate_beacon_records(records, "a" * 64)
+
+
+def test_greek_receipts_reject_graph_and_source_fingerprint_drift() -> None:
+    for controls in (False, True):
+        for field, value in [
+            ("source_output_root", 999999),
+            ("selected_root", 999999),
+            ("folded_root", 999999),
+            ("graph_sha256", "f" * 64),
+            ("request_sha256", "f" * 64),
+        ]:
+            records = beacon_fixture(controls)
+            records[0]["engine_evidence"][field] = value
+            with pytest.raises(AssertionError):
+                validate_beacon_records(records, "a" * 64, controls)
+        records = beacon_fixture(controls)
+        records[0]["engine_evidence"]["beacon_evidence"]["dag_sha256"] = "f" * 64
+        with pytest.raises(AssertionError):
+            validate_beacon_records(records, "a" * 64, controls)
+        records = beacon_fixture(controls)
+        records[0]["engine_evidence"]["source_binding"]["expression_sha256"] = "f" * 64
+        with pytest.raises(AssertionError):
+            validate_beacon_records(records, "a" * 64, controls)
+        records = beacon_fixture(controls)
+        records[0]["engine_evidence"]["source_binding"]["declarations"][0]["sha256"] = (
+            "f" * 64
+        )
+        with pytest.raises(AssertionError):
+            validate_beacon_records(records, "a" * 64, controls)
 
 
 def test_certified_greek_receipt_requires_complete_strict_cover() -> None:
