@@ -37,3 +37,18 @@ run them inside the Docker image for full coverage.
 | A compiled-C example | add a standalone `.ch` under `verify/` and save its output as `verify/expected/<name>.txt` |
 
 The harnesses discover new files automatically.
+
+## Beacon Greek acceptance
+
+The ordinary corpus tests use the pinned compiler. The explicit Beacon check
+requires `CHELIS_BEACON_BIN` to name a verified engine binary:
+
+```sh
+uv run --group test python tests/test_greek_properties.py
+```
+
+The check requires the compiler to dispatch the actual exported AD graph,
+with exact goals, source declarations, roots, input box, and engine digest.
+Uncertified full-box goals remain unknown; the two false controls require
+checked real-arithmetic Arb witnesses. These results do not certify rounded
+floating-point execution. The compiled-C endpoint tests remain samples.

@@ -1,1 +1,0 @@
-Pin the compiler, Docker toolchain, and managed authoring guidance to Chelis 0.19.3. Published sibling dependency versions and the last released lock remain unchanged until compatible release artifacts are available.
