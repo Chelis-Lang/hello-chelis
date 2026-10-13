@@ -2,7 +2,7 @@ schema = "1"
 
 [package]
 name = "hello-chelis"
-version = "0.1.14"
+version = "0.1.15"
 
 [[dependencies]]
 name = "chelis-std"

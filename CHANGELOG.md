@@ -7,6 +7,23 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+## 0.1.15 - 2026-10-13
+
+- Require certified real-arithmetic Beacon 0.1.21 results for four
+  Black-Scholes delta and vega bounds on spots from 96 to 104, with checked
+  Arb point witnesses for two false controls. The proof follows the linked
+  AD graph and does not cover `f32` rounding.
+- Explain the mathematical bounds and the proof's scope in the Black-Scholes
+  capstone book page.
+
+## 0.1.14 - 2026-10-13
+
+- Pin Chelis 0.19.4 and compatible released Coral 0.7.50, Nautilus 0.7.55,
+  Shoals 0.24.20, and Shoreleave 0.1.4 packages.
+- Add an AD quadratic gradient step with real-arithmetic descent properties
+  and SMT bounds for the Nautilus optimization parabola.
+- Add bounded Black-Scholes delta and vega property targets, spot endpoint
+  checks through Chelis and compiled C, and source-bound proof status checks.
 - Add a guarded monotonicity property example with an SMT proof over real
   arithmetic and a missing-guard claim that produces a counterexample.
 

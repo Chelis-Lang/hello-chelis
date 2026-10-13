@@ -229,6 +229,19 @@ s * sqrt(t) times the normal density at 0.35, 100 × 0.3752.
 **Try it:** raise `s` to 101.0. The price rises from 10.4506 to 11.0967, a
 change of 0.646: delta's 0.637 plus a little curvature.
 
+### Bounds on the exported gradients
+
+Fix `k = 100`, `r = 0.05`, `sigma = 0.2`, and `t = 1`. For every spot `s`
+in `[96, 104]`, the exported gradients satisfy `0 <= delta <= 1` and
+`0 <= vega <= 42` over real arithmetic. The textbook identities
+`delta = N(d1)` and `vega = s * phi(d1) * sqrt(t)` motivate the limits:
+`N` lies in `[0, 1]`, and the normal density `phi` is at most
+`1 / sqrt(2 * pi)`, so `vega <= 104 / sqrt(2 * pi) < 42`.
+
+The certified range proof checks Chelis's package-linked `grad` graph,
+including Nautilus's normal-CDF implementation and its stored `f32`
+constants. It does not bound rounding in `f32` execution.
+
 ## Returns and risk
 
 Module `Hello.Capstone.ReturnsRisk` ([`returnsrisk.ch`](https://github.com/Chelis-Lang/hello-chelis/blob/main/src/capstone/returnsrisk.ch))
