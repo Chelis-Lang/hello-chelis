@@ -4,7 +4,7 @@ name = "hello-chelis"
 version = "0.1.15"
 compiler = "=0.19.4"
 module_prefix = "Hello"
-additional_sources = ["properties", "proof_controls"]
+additional_sources = ["properties", "proof_controls", "examples"]
 resolver = "2"
 
 [dependencies]
@@ -12,3 +12,4 @@ chelis-std = { version = "=0.4.0" }
 coral = { version = "=0.7.50" }
 nautilus = { version = "=0.7.55" }
 shoals = { version = "=0.24.20" }
+economoist = { version = "=0.2.20" }

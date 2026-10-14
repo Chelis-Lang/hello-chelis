@@ -1,0 +1,279 @@
+(module {surf_path: "Hello.Examples.Proofdemos.ProbabilityBudget"}
+  hello.examples.proofdemos.probabilitybudget
+  (import {surf_path: "Nautilus.Distributions"}
+    nautilus.distributions
+    (uniform_cdf normal_cdf))
+  (export {} uniform_payout normal_tail_reserve probability_report)
+  (defsig {span: "surf:1089..1250"}
+    uniform_payout
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {span: "surf:1089..1250"}
+    uniform_payout
+    (fn {}
+      (params {}
+        (threshold {type: (t-var {} _)})
+        (lo {type: (t-var {} _)})
+        (hi {type: (t-var {} _)})
+        (payout {type: (t-var {} _)}))
+      (let {span: "surf:1164..1250"}
+        (bind {}
+          probability
+          (app {span: "surf:1183..1222"}
+            (var {} sub)
+            (lit {span: "surf:1183..1189", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+            (app {span: "surf:1192..1222"}
+              (var {span: "surf:1192..1203"} uniform_cdf)
+              (var {span: "surf:1204..1213"} threshold)
+              (var {span: "surf:1215..1217"} lo)
+              (var {span: "surf:1219..1221"} hi))))
+        (app {span: "surf:1227..1247"}
+          (var {} mul)
+          (var {span: "surf:1227..1233"} payout)
+          (var {span: "surf:1236..1247"} probability)))))
+  (defsig {span: "surf:1478..1571"}
+    normal_tail_reserve
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:1478..1571"}
+    normal_tail_reserve
+    (fn {}
+      (params {} (z {type: (t-var {} _)}))
+      (app {span: "surf:1520..1571"}
+        (var {} mul)
+        (lit {span: "surf:1520..1529", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
+        (app {span: "surf:1533..1571"}
+          (var {} sub)
+          (lit {span: "surf:1533..1539", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+          (app {span: "surf:1542..1571"}
+            (var {span: "surf:1542..1552"} normal_cdf)
+            (var {span: "surf:1553..1554"} z)
+            (lit {span: "surf:1556..1562", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:1564..1570", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))))
+  (defsig {span: "surf:1732..1911"}
+    probability_report
+    (t-fn {} (t-tuple {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32))))
+  (def {span: "surf:1732..1911"}
+    probability_report
+    (fn {}
+      (params {})
+      (tuple {span: "surf:1778..1911"}
+        (app {span: "surf:1779..1829"}
+          (var {span: "surf:1779..1793"} uniform_payout)
+          (lit {span: "surf:1794..1800", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+          (lit {span: "surf:1802..1808", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:1810..1817", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+          (lit {span: "surf:1819..1828", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))
+        (app {span: "surf:1831..1881"}
+          (var {span: "surf:1831..1845"} uniform_payout)
+          (lit {span: "surf:1846..1852", surf_literal_style: "explicit", type: (t-prim {} f32)} 8.0)
+          (lit {span: "surf:1854..1860", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:1862..1869", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+          (lit {span: "surf:1871..1880", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))
+        (app {span: "surf:1883..1910"}
+          (var {span: "surf:1883..1902"} normal_tail_reserve)
+          (lit {span: "surf:1903..1909", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))))
+  (defsig {span: "surf:2135..2311"}
+    smt_uniform_payout_lower
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2230..2237"}
+                                     (var {} gt)
+                                     (var {span: "surf:2230..2232"} hi)
+                                     (var {span: "surf:2235..2237"} lo))
+                                   (app {span: "surf:2239..2255"}
+                                     (var {} gte)
+                                     (var {span: "surf:2239..2245"} payout)
+                                     (lit {span: "surf:2249..2255", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))),
+         property_quantifiers: (params {}
+                                 (threshold {type: (t-prim {} f32)})
+                                 (lo {type: (t-prim {} f32)})
+                                 (hi {type: (t-prim {} f32)})
+                                 (payout {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2135..2311"
+       }
+    smt_uniform_payout_lower
+    (fn {}
+      (params {}
+        (threshold {type: (t-prim {} f32)})
+        (lo {type: (t-prim {} f32)})
+        (hi {type: (t-prim {} f32)})
+        (payout {type: (t-prim {} f32)}))
+      (app {span: "surf:2260..2311"}
+        (var {} gte)
+        (app {span: "surf:2260..2301"}
+          (var {span: "surf:2260..2274"} uniform_payout)
+          (var {span: "surf:2275..2284"} threshold)
+          (var {span: "surf:2286..2288"} lo)
+          (var {span: "surf:2290..2292"} hi)
+          (var {span: "surf:2294..2300"} payout))
+        (lit {span: "surf:2305..2311", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))))
+  (defsig {span: "surf:2313..2489"}
+    smt_uniform_payout_upper
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2408..2415"}
+                                     (var {} gt)
+                                     (var {span: "surf:2408..2410"} hi)
+                                     (var {span: "surf:2413..2415"} lo))
+                                   (app {span: "surf:2417..2433"}
+                                     (var {} gte)
+                                     (var {span: "surf:2417..2423"} payout)
+                                     (lit {span: "surf:2427..2433", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))),
+         property_quantifiers: (params {}
+                                 (threshold {type: (t-prim {} f32)})
+                                 (lo {type: (t-prim {} f32)})
+                                 (hi {type: (t-prim {} f32)})
+                                 (payout {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2313..2489"
+       }
+    smt_uniform_payout_upper
+    (fn {}
+      (params {}
+        (threshold {type: (t-prim {} f32)})
+        (lo {type: (t-prim {} f32)})
+        (hi {type: (t-prim {} f32)})
+        (payout {type: (t-prim {} f32)}))
+      (app {span: "surf:2438..2489"}
+        (var {} lte)
+        (app {span: "surf:2438..2479"}
+          (var {span: "surf:2438..2452"} uniform_payout)
+          (var {span: "surf:2453..2462"} threshold)
+          (var {span: "surf:2464..2466"} lo)
+          (var {span: "surf:2468..2470"} hi)
+          (var {span: "surf:2472..2478"} payout))
+        (var {span: "surf:2483..2489"} payout))))
+  (defsig {span: "surf:2491..2612"}
+    beacon_normal_reserve_lower
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2550..2562"}
+                                     (var {} gte)
+                                     (var {span: "surf:2550..2551"} z)
+                                     (app {span: "surf:2555..2562"}
+                                       (var {} neg)
+                                       (lit {span: "surf:2556..2562", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)))
+                                   (app {span: "surf:2564..2575"}
+                                     (var {} lte)
+                                     (var {span: "surf:2564..2565"} z)
+                                     (lit {span: "surf:2569..2575", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0))),
+         property_quantifiers: (params {} (z {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2491..2612"
+       }
+    beacon_normal_reserve_lower
+    (fn {}
+      (params {} (z {type: (t-prim {} f32)}))
+      (app {span: "surf:2580..2612"}
+        (var {} gte)
+        (app {span: "surf:2580..2602"}
+          (var {span: "surf:2580..2599"} normal_tail_reserve)
+          (var {span: "surf:2600..2601"} z))
+        (lit {span: "surf:2606..2612", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))))
+  (defsig {span: "surf:2614..2738"}
+    beacon_normal_reserve_upper
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2673..2685"}
+                                     (var {} gte)
+                                     (var {span: "surf:2673..2674"} z)
+                                     (app {span: "surf:2678..2685"}
+                                       (var {} neg)
+                                       (lit {span: "surf:2679..2685", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)))
+                                   (app {span: "surf:2687..2698"}
+                                     (var {} lte)
+                                     (var {span: "surf:2687..2688"} z)
+                                     (lit {span: "surf:2692..2698", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0))),
+         property_quantifiers: (params {} (z {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2614..2738"
+       }
+    beacon_normal_reserve_upper
+    (fn {}
+      (params {} (z {type: (t-prim {} f32)}))
+      (app {span: "surf:2703..2738"}
+        (var {} lte)
+        (app {span: "surf:2703..2725"}
+          (var {span: "surf:2703..2722"} normal_tail_reserve)
+          (var {span: "surf:2723..2724"} z))
+        (lit {span: "surf:2729..2738", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))))
+  (def {span: "surf:2964..3006"}
+    payout_expectations
+    (app {span: "surf:2986..3006"}
+      (var {span: "surf:2986..3004"} probability_report)))
+  (defsig {span: "surf:3083..3244"}
+    counterexample_symbolic_payout_half_budget
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:3157..3168"}
+                                     (var {} gte)
+                                     (var {span: "surf:3157..3158"} x)
+                                     (lit {span: "surf:3162..3168", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:3170..3182"}
+                                     (var {} lte)
+                                     (var {span: "surf:3170..3171"} x)
+                                     (lit {span: "surf:3175..3182", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0))),
+         property_quantifiers: (params {} (x {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:3083..3244"
+       }
+    counterexample_symbolic_payout_half_budget
+    (fn {}
+      (params {} (x {type: (t-prim {} f32)}))
+      (app {span: "surf:3187..3244"}
+        (var {} lte)
+        (app {span: "surf:3187..3232"}
+          (var {span: "surf:3187..3201"} uniform_payout)
+          (var {span: "surf:3202..3203"} x)
+          (lit {span: "surf:3205..3211", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:3213..3220", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+          (lit {span: "surf:3222..3231", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))
+        (lit {span: "surf:3236..3244", surf_literal_style: "explicit", type: (t-prim {} f32)} 500.0))))
+  (defsig {span: "surf:3246..3376"}
+    counterexample_interval_reserve_zero
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:3314..3326"}
+                                     (var {} gte)
+                                     (var {span: "surf:3314..3315"} z)
+                                     (app {span: "surf:3319..3326"}
+                                       (var {} neg)
+                                       (lit {span: "surf:3320..3326", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)))
+                                   (app {span: "surf:3328..3339"}
+                                     (var {} lte)
+                                     (var {span: "surf:3328..3329"} z)
+                                     (lit {span: "surf:3333..3339", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0))),
+         property_quantifiers: (params {} (z {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:3246..3376"
+       }
+    counterexample_interval_reserve_zero
+    (fn {}
+      (params {} (z {type: (t-prim {} f32)}))
+      (app {span: "surf:3344..3376"}
+        (var {} lte)
+        (app {span: "surf:3344..3366"}
+          (var {span: "surf:3344..3363"} normal_tail_reserve)
+          (var {span: "surf:3364..3365"} z))
+        (lit {span: "surf:3370..3376", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))))
