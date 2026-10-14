@@ -1,5 +1,5 @@
 module Hello.Tests.Proofdemos.CollateralBudget
-import Hello.Proofdemos.CollateralBudget (bond_mark, unsecured_exposure, capital_buffer)
+import Hello.Examples.Proofdemos.CollateralBudget (bond_mark, unsecured_exposure, capital_buffer)
 import Std.Test (assert_close, assert_true)
 def test_bond_coupon_scenario() -> unit ! { Test } = assert_true((bond_mark(0.06f32, 0.05f32) > bond_mark(0.04f32, 0.05f32)), "higher coupon raises the mark")
 def test_collateral_budget() -> unit ! { Test } = {

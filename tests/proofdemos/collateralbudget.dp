@@ -1,92 +1,92 @@
 (module {surf_path: "Hello.Tests.Proofdemos.CollateralBudget"}
   hello.tests.proofdemos.collateralbudget
-  (import {surf_path: "Hello.Proofdemos.CollateralBudget"}
-    hello.proofdemos.collateralbudget
+  (import {surf_path: "Hello.Examples.Proofdemos.CollateralBudget"}
+    hello.examples.proofdemos.collateralbudget
     (bond_mark unsecured_exposure capital_buffer))
   (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
-  (defsig {span: "surf:180..338"}
+  (defsig {span: "surf:189..347"}
     test_bond_coupon_scenario
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {span: "surf:180..338"}
+  (def {span: "surf:189..347"}
     test_bond_coupon_scenario
     (fn {}
       (params {})
-      (app {span: "surf:233..338"}
-        (var {span: "surf:233..244"} assert_true)
-        (app {span: "surf:246..303"}
+      (app {span: "surf:242..347"}
+        (var {span: "surf:242..253"} assert_true)
+        (app {span: "surf:255..312"}
           (var {} gt)
-          (app {span: "surf:246..273"}
-            (var {span: "surf:246..255"} bond_mark)
-            (lit {span: "surf:256..263", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.06)
-            (lit {span: "surf:265..272", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05))
-          (app {span: "surf:276..303"}
-            (var {span: "surf:276..285"} bond_mark)
-            (lit {span: "surf:286..293", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.04)
-            (lit {span: "surf:295..302", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)))
-        (lit {span: "surf:306..337", type: (t-prim {} string)} "higher coupon raises the mark"))))
-  (defsig {span: "surf:339..910"}
+          (app {span: "surf:255..282"}
+            (var {span: "surf:255..264"} bond_mark)
+            (lit {span: "surf:265..272", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.06)
+            (lit {span: "surf:274..281", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05))
+          (app {span: "surf:285..312"}
+            (var {span: "surf:285..294"} bond_mark)
+            (lit {span: "surf:295..302", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.04)
+            (lit {span: "surf:304..311", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)))
+        (lit {span: "surf:315..346", type: (t-prim {} string)} "higher coupon raises the mark"))))
+  (defsig {span: "surf:348..919"}
     test_collateral_budget
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {span: "surf:339..910"}
+  (def {span: "surf:348..919"}
     test_collateral_budget
     (fn {}
       (params {})
-      (let {span: "surf:389..910"}
+      (let {span: "surf:398..919"}
         (bind {}
           residual
-          (app {span: "surf:404..441"}
-            (var {span: "surf:404..422"} unsecured_exposure)
-            (lit {span: "surf:423..432", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
-            (lit {span: "surf:434..440", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))
+          (app {span: "surf:413..450"}
+            (var {span: "surf:413..431"} unsecured_exposure)
+            (lit {span: "surf:432..441", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
+            (lit {span: "surf:443..449", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))
         (let {}
           (bind {destructure: true}
             __chelis_tmp2
-            (app {span: "surf:448..554"}
-              (var {span: "surf:448..459"} assert_true)
-              (app {span: "surf:462..507"}
+            (app {span: "surf:457..563"}
+              (var {span: "surf:457..468"} assert_true)
+              (app {span: "surf:471..516"}
                 (var {} and)
-                (app {span: "surf:462..480"}
+                (app {span: "surf:471..489"}
                   (var {} gte)
-                  (var {span: "surf:462..470"} residual)
-                  (lit {span: "surf:474..480", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
-                (app {span: "surf:486..507"}
+                  (var {span: "surf:471..479"} residual)
+                  (lit {span: "surf:483..489", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                (app {span: "surf:495..516"}
                   (var {} lte)
-                  (var {span: "surf:486..494"} residual)
-                  (lit {span: "surf:498..507", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)))
-              (lit {span: "surf:511..553", type: (t-prim {} string)} "residual is within the original exposure")))
+                  (var {span: "surf:495..503"} residual)
+                  (lit {span: "surf:507..516", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)))
+              (lit {span: "surf:520..562", type: (t-prim {} string)} "residual is within the original exposure")))
           (let {}
             (bind {destructure: true}
               __chelis_tmp1
-              (app {span: "surf:561..668"}
-                (var {span: "surf:561..572"} assert_true)
-                (app {span: "surf:574..623"}
+              (app {span: "surf:570..677"}
+                (var {span: "surf:570..581"} assert_true)
+                (app {span: "surf:583..632"}
                   (var {} gte)
-                  (app {span: "surf:574..611"}
-                    (var {span: "surf:574..592"} unsecured_exposure)
-                    (lit {span: "surf:593..602", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
-                    (lit {span: "surf:604..610", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5))
-                  (var {span: "surf:615..623"} residual))
-                (lit {span: "surf:626..667", type: (t-prim {} string)} "a haircut reduces recognized collateral")))
+                  (app {span: "surf:583..620"}
+                    (var {span: "surf:583..601"} unsecured_exposure)
+                    (lit {span: "surf:602..611", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
+                    (lit {span: "surf:613..619", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5))
+                  (var {span: "surf:624..632"} residual))
+                (lit {span: "surf:635..676", type: (t-prim {} string)} "a haircut reduces recognized collateral")))
             (let {}
               (bind {destructure: true}
                 __chelis_tmp0
-                (app {span: "surf:675..782"}
-                  (var {span: "surf:675..687"} assert_close)
-                  (app {span: "surf:688..725"}
-                    (var {span: "surf:688..706"} unsecured_exposure)
-                    (app {span: "surf:707..716"}
+                (app {span: "surf:684..791"}
+                  (var {span: "surf:684..696"} assert_close)
+                  (app {span: "surf:697..734"}
+                    (var {span: "surf:697..715"} unsecured_exposure)
+                    (app {span: "surf:716..725"}
                       (var {} neg)
-                      (lit {span: "surf:708..716", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0))
-                    (lit {span: "surf:718..724", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2))
-                  (lit {span: "surf:727..733", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                  (lit {span: "surf:735..743", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
-                  (lit {span: "surf:745..781", type: (t-prim {} string)} "negative exposure needs no reserve")))
-              (app {span: "surf:785..908"}
-                (var {span: "surf:785..797"} assert_close)
-                (app {span: "surf:798..831"}
-                  (var {span: "surf:798..812"} capital_buffer)
-                  (lit {span: "surf:813..822", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
-                  (lit {span: "surf:824..830", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
-                (lit {span: "surf:833..842", surf_literal_style: "explicit", type: (t-prim {} f32)} 118.75)
-                (lit {span: "surf:844..852", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
-                (lit {span: "surf:854..907", type: (t-prim {} string)} "full haircut still subtracts the independent amount")))))))))
+                      (lit {span: "surf:717..725", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0))
+                    (lit {span: "surf:727..733", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2))
+                  (lit {span: "surf:736..742", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                  (lit {span: "surf:744..752", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+                  (lit {span: "surf:754..790", type: (t-prim {} string)} "negative exposure needs no reserve")))
+              (app {span: "surf:794..917"}
+                (var {span: "surf:794..806"} assert_close)
+                (app {span: "surf:807..840"}
+                  (var {span: "surf:807..821"} capital_buffer)
+                  (lit {span: "surf:822..831", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
+                  (lit {span: "surf:833..839", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+                (lit {span: "surf:842..851", surf_literal_style: "explicit", type: (t-prim {} f32)} 118.75)
+                (lit {span: "surf:853..861", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+                (lit {span: "surf:863..916", type: (t-prim {} string)} "full haircut still subtracts the independent amount")))))))))

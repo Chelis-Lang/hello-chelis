@@ -1,5 +1,5 @@
 module Hello.Tests.Proofdemos.VolatilityScreen
-import Hello.Proofdemos.VolatilityScreen (total_variance, screened_variance, implied_volatility)
+import Hello.Examples.Proofdemos.VolatilityScreen (total_variance, screened_variance, implied_volatility)
 import Std.Test (assert_close, assert_true)
 def test_svi_slice() -> unit ! { Test } = {
   _ = assert_close(total_variance(0.01f32, 0.1f32, 0.0f32, 0.0f32, 0.2f32, 0.0f32), 0.03f32, 0.00001f32, "ATM variance")

@@ -1,4 +1,4 @@
-Add six commented, runnable proof demos for CDF payout budgets, Hermite
+Add six self-contained, commented, runnable proof demos under examples/proofdemos for CDF payout budgets, Hermite
 allocation schedules, bond collateral, Gordon valuation, differentiated
 Black-Scholes position risk, and SVI variance screening. Include guarded SMT
 properties, explicit Beacon interval checks, false-claim controls, runtime

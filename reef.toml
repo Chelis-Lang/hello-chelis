@@ -4,7 +4,7 @@ name = "hello-chelis"
 version = "0.1.15"
 compiler = "=0.19.4"
 module_prefix = "Hello"
-additional_sources = ["properties", "proof_controls"]
+additional_sources = ["properties", "proof_controls", "examples"]
 resolver = "2"
 
 [dependencies]

@@ -1,12 +1,15 @@
 # Calculations with explicit bounds
 
 These six programs combine numerical libraries, small application policies,
-and properties on the functions the programs actually call. Start with the
-runnable file, then read its commented implementation under
-[`src/proofdemos/`](../../src/proofdemos/). Each implementation states its own
-`@property` obligations beside the calculation.
+and properties on the functions the programs actually call. Each runnable file contains its imports, calculation, commentary,
+`@property` obligations, and report invocation. Read and
+run the same file; the implementations live here.
 
-Run from the repository root with its pinned compiler and dependencies:
+Start in a hello-chelis checkout containing these examples, with its pinned
+compiler on `PATH`. Paths below are relative to that repository, so first
+change to the hello-chelis directory (the Chelis compiler checkout is a
+separate repository). Install the locked published dependencies, then run a
+program:
 
 ```sh
 chelis reef install --from-lockfile
@@ -16,6 +19,29 @@ chelis eval --file examples/proofdemos/collateralbudget.ch
 chelis eval --file examples/proofdemos/growthscreen.ch
 chelis eval --file examples/proofdemos/optionrisk.ch
 chelis eval --file examples/proofdemos/volatilityscreen.ch
+```
+
+For the collateral example, evaluation prints the bond mark, unsecured
+exposure after the haircut, and the illustrative capital buffer:
+
+```text
+collateral.0 = 1018.5941
+collateral.1 = 233.71881
+collateral.2 = 29.214851
+```
+
+`eval` executes the report; it does not prove its properties. To check its
+five guarded mathematical claims, use:
+
+```sh
+chelis prove examples/proofdemos/collateralbudget.ch --tier smt-only --only smt_ --json
+```
+
+Successful proof records say `"status":"passed"`, and the command exits zero.
+To execute the runtime assertions for the same functions, use:
+
+```sh
+chelis test tests/proofdemos/collateralbudget.ch --jobs auto
 ```
 
 | Program | Calculation and property |
@@ -39,12 +65,12 @@ The uniform payout, allocation, CSA, coupon, Gordon, SVI, and position-scaling
 properties use SMT. Run the exact authored obligations with no sampling:
 
 ```sh
-chelis prove src/proofdemos/probabilitybudget.ch --tier smt-only --only smt_ --json
-chelis prove src/proofdemos/curvebudget.ch --tier smt-only --only smt_ --json
-chelis prove src/proofdemos/collateralbudget.ch --tier smt-only --only smt_ --json
-chelis prove src/proofdemos/growthscreen.ch --tier smt-only --only smt_ --json
-chelis prove src/proofdemos/optionrisk.ch --tier smt-only --only smt_ --json
-chelis prove src/proofdemos/volatilityscreen.ch --tier smt-only --only smt_ --json
+chelis prove examples/proofdemos/probabilitybudget.ch --tier smt-only --only smt_ --json
+chelis prove examples/proofdemos/curvebudget.ch --tier smt-only --only smt_ --json
+chelis prove examples/proofdemos/collateralbudget.ch --tier smt-only --only smt_ --json
+chelis prove examples/proofdemos/growthscreen.ch --tier smt-only --only smt_ --json
+chelis prove examples/proofdemos/optionrisk.ch --tier smt-only --only smt_ --json
+chelis prove examples/proofdemos/volatilityscreen.ch --tier smt-only --only smt_ --json
 ```
 
 For example, the coupon comparison allows every nonnegative yield and every
@@ -59,8 +85,8 @@ route. Set `CHELIS_BEACON_BIN` to a verified Beacon 0.1.21 binary:
 
 ```sh
 export CHELIS_BEACON_BIN=/path/to/chelis-beacon
-chelis prove src/proofdemos/probabilitybudget.ch --tier beacon-only --only beacon_ --json
-chelis prove src/proofdemos/optionrisk.ch --tier beacon-only --only beacon_ --json
+chelis prove examples/proofdemos/probabilitybudget.ch --tier beacon-only --only beacon_ --json
+chelis prove examples/proofdemos/optionrisk.ch --tier beacon-only --only beacon_ --json
 uv run --group test python tests/test_proof_demos.py
 ```
 
@@ -87,18 +113,23 @@ IEEE floating-point roundoff bounds. The execution tests exercise rounded
 
 ## Try a claim that fails
 
-The counterexample files deliberately omit a domain condition, reverse a
-monotonicity claim, or demand an unjustifiably tight ceiling:
+Each program also contains deliberately false `counterexample_*` properties.
+They omit a domain condition, reverse a monotonicity claim, or demand an
+unjustifiably tight ceiling. Select those separately from the true claims:
 
 ```sh
-chelis prove proof_controls/proofdemos_wrong.ch --tier smt-only --json
-chelis prove proof_controls/proofdemos_beacon_wrong.ch --tier beacon-only --json
+chelis prove examples/proofdemos/collateralbudget.ch --tier smt-only --only counterexample_symbolic_ --json
+chelis prove examples/proofdemos/probabilitybudget.ch --tier beacon-only --only counterexample_interval_ --json
+chelis prove examples/proofdemos/optionrisk.ch --tier beacon-only --only counterexample_interval_ --json
 ```
 
-Both commands are expected to exit with status **1**. The SMT file contains
-eight refuted claims. The Beacon file contains three false nonpositive
-claims whose counterexamples must be checked Arb point witnesses. A
-successful run of a demo is not evidence that these stronger claims hold.
+These commands are expected to exit with status **1**, with `"status":"failed"`
+records containing counterexamples. The six files contain eight symbolic
+false claims in total, selected with `--only counterexample_symbolic_` and
+`--tier smt-only`. The three interval false claims require checked Arb point
+witnesses. Run the explicit selectors above: proving every property in a
+lesson includes its intentionally false claims and therefore fails. A
+successful evaluation is not evidence that those stronger claims hold.
 
 The `where` clause restricts a proof; it does not insert runtime validation.
 The allocation, growth, option, and SVI examples therefore show separate

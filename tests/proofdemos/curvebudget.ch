@@ -1,5 +1,5 @@
 module Hello.Tests.Proofdemos.CurveBudget
-import Hello.Proofdemos.CurveBudget (planned_spend, planned_spend_checked)
+import Hello.Examples.Proofdemos.CurveBudget (planned_spend, planned_spend_checked)
 import Std.Test (assert_close, assert_true)
 def test_spend_schedule() -> unit ! { Test } = {
   _ = assert_close(planned_spend(0.0f32), 250.0f32, 0.001f32, "initial allocation")
