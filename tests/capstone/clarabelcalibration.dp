@@ -129,14 +129,14 @@
                             (var {} neg)
                             (lit {span: "surf:887..894", type: (t-prim {} f64)} 0.000001)))
                         (lit {span: "surf:897..944", type: (t-prim {} string)} "the QP score also improves over equal weights"))))))))))))
-  (defsig {span: "surf:1154..2077"}
+  (defsig {span: "surf:1154..2236"}
     test_interior_calibration
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {span: "surf:1154..2077"}
+  (def {span: "surf:1154..2236"}
     test_interior_calibration
     (fn {}
       (params {})
-      (let {span: "surf:1207..2077"}
+      (let {span: "surf:1207..2236"}
         (bind {}
           basis
           (app {span: "surf:1219..1502"}
@@ -309,7 +309,7 @@
                     (lit {type: (t-prim {} i32)} 0))))
               (let {}
                 (bind {destructure: true}
-                  __chelis_tmp8
+                  __chelis_tmp10
                   (app {span: "surf:1668..1771"}
                     (var {span: "surf:1668..1679"} assert_true)
                     (app {span: "surf:1681..1744"}
@@ -327,47 +327,73 @@
                     (lit {span: "surf:1747..1770", type: (t-prim {} string)} "interior first weight")))
                 (let {}
                   (bind {destructure: true}
-                    __chelis_tmp7
-                    (app {span: "surf:1778..1883"}
+                    __chelis_tmp9
+                    (app {span: "surf:1778..1851"}
                       (var {span: "surf:1778..1789"} assert_true)
-                      (app {span: "surf:1791..1855"}
-                        (var {} cmplt)
-                        (app {span: "surf:1791..1843"}
-                          (var {span: "surf:1791..1794"} abs)
-                          (app {span: "surf:1796..1841"}
-                            (var {} sub)
-                            (app {span: "surf:1796..1816"}
-                              (var {span: "surf:1796..1801"} index)
-                              (var {span: "surf:1802..1809"} weights)
-                              (lit {span: "surf:1811..1815", type: (t-prim {} i64)} 3))
-                            (lit {span: "surf:1819..1841", type: (t-prim {} f64)} 0.09615384615384616)))
-                        (lit {span: "surf:1846..1855", type: (t-prim {} f64)} 0.0001))
-                      (lit {span: "surf:1858..1882", type: (t-prim {} string)} "interior fourth weight")))
+                      (app {span: "surf:1791..1823"}
+                        (var {} gt)
+                        (app {span: "surf:1791..1811"}
+                          (var {span: "surf:1791..1796"} index)
+                          (var {span: "surf:1797..1804"} weights)
+                          (lit {span: "surf:1806..1810", type: (t-prim {} i64)} 1))
+                        (lit {span: "surf:1814..1823", type: (t-prim {} f64)} 0.0001))
+                      (lit {span: "surf:1826..1850", type: (t-prim {} string)} "interior second weight")))
                   (let {}
                     (bind {destructure: true}
-                      __chelis_tmp6
-                      (app {span: "surf:1890..1994"}
-                        (var {span: "surf:1890..1901"} assert_true)
-                        (app {span: "surf:1903..1950"}
-                          (var {} cmplt)
-                          (app {span: "surf:1903..1940"}
-                            (var {span: "surf:1903..1919"} tensor_to_scalar)
-                            (app {span: "surf:1920..1939"}
-                              (var {span: "surf:1920..1923"} sum)
-                              (tuple-get {span: "surf:1924..1932"}
-                                (var {span: "surf:1924..1930"} report)
-                                (lit {type: (t-prim {} i32)} 0))
-                              (lit {span: "surf:1934..1938", surf_literal_style: "explicit", type: (t-prim {} i32)} 0)))
-                          (lit {span: "surf:1943..1950", type: (t-prim {} f64)} 0.97))
-                        (lit {span: "surf:1953..1993", type: (t-prim {} string)} "interior solution leaves budget unused")))
-                    (app {span: "surf:1997..2075"}
-                      (var {span: "surf:1997..2008"} assert_true)
-                      (app {span: "surf:2010..2029"}
-                        (var {} cmplt)
-                        (tuple-get {span: "surf:2010..2018"}
-                          (var {span: "surf:2010..2016"} report)
-                          (lit {type: (t-prim {} i32)} 1))
-                        (tuple-get {span: "surf:2021..2029"}
-                          (var {span: "surf:2021..2027"} report)
-                          (lit {type: (t-prim {} i32)} 2)))
-                      (lit {span: "surf:2032..2074", type: (t-prim {} string)} "interior calibration beats equal weights"))))))))))))
+                      __chelis_tmp8
+                      (app {span: "surf:1858..1930"}
+                        (var {span: "surf:1858..1869"} assert_true)
+                        (app {span: "surf:1871..1903"}
+                          (var {} gt)
+                          (app {span: "surf:1871..1891"}
+                            (var {span: "surf:1871..1876"} index)
+                            (var {span: "surf:1877..1884"} weights)
+                            (lit {span: "surf:1886..1890", type: (t-prim {} i64)} 2))
+                          (lit {span: "surf:1894..1903", type: (t-prim {} f64)} 0.0001))
+                        (lit {span: "surf:1906..1929", type: (t-prim {} string)} "interior third weight")))
+                    (let {}
+                      (bind {destructure: true}
+                        __chelis_tmp7
+                        (app {span: "surf:1937..2042"}
+                          (var {span: "surf:1937..1948"} assert_true)
+                          (app {span: "surf:1950..2014"}
+                            (var {} cmplt)
+                            (app {span: "surf:1950..2002"}
+                              (var {span: "surf:1950..1953"} abs)
+                              (app {span: "surf:1955..2000"}
+                                (var {} sub)
+                                (app {span: "surf:1955..1975"}
+                                  (var {span: "surf:1955..1960"} index)
+                                  (var {span: "surf:1961..1968"} weights)
+                                  (lit {span: "surf:1970..1974", type: (t-prim {} i64)} 3))
+                                (lit {span: "surf:1978..2000", type: (t-prim {} f64)} 0.09615384615384616)))
+                            (lit {span: "surf:2005..2014", type: (t-prim {} f64)} 0.0001))
+                          (lit {span: "surf:2017..2041", type: (t-prim {} string)} "interior fourth weight")))
+                      (let {}
+                        (bind {destructure: true}
+                          __chelis_tmp6
+                          (app {span: "surf:2049..2153"}
+                            (var {span: "surf:2049..2060"} assert_true)
+                            (app {span: "surf:2062..2109"}
+                              (var {} cmplt)
+                              (app {span: "surf:2062..2099"}
+                                (var {span: "surf:2062..2078"} tensor_to_scalar)
+                                (app {span: "surf:2079..2098"}
+                                  (var {span: "surf:2079..2082"} sum)
+                                  (tuple-get {span: "surf:2083..2091"}
+                                    (var {span: "surf:2083..2089"} report)
+                                    (lit {type: (t-prim {} i32)} 0))
+                                  (lit {span: "surf:2093..2097", surf_literal_style: "explicit", type: (t-prim {} i32)} 0)))
+                              (lit {span: "surf:2102..2109", type: (t-prim {} f64)} 0.97))
+                            (lit {span: "surf:2112..2152", type: (t-prim {} string)} "interior solution leaves budget unused")))
+                        (app {span: "surf:2156..2234"}
+                          (var {span: "surf:2156..2167"} assert_true)
+                          (app {span: "surf:2169..2188"}
+                            (var {} cmplt)
+                            (tuple-get {span: "surf:2169..2177"}
+                              (var {span: "surf:2169..2175"} report)
+                              (lit {type: (t-prim {} i32)} 1))
+                            (tuple-get {span: "surf:2180..2188"}
+                              (var {span: "surf:2180..2186"} report)
+                              (lit {type: (t-prim {} i32)} 2)))
+                          (lit {span: "surf:2191..2233", type: (t-prim {} string)} "interior calibration beats equal weights"))))))))))))))
