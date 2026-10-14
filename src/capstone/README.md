@@ -62,8 +62,9 @@ Every expected value in the other Shoals capstone tests was derived independentl
 of Chelis, so the tests check the libraries rather than restate their
 output. The data is synthetic and deterministic: the VaR returns are normal
 shocks drawn from a golden-ratio sequence through `normal_inv_cdf`, with no
-random keys. `shoals`, like `nautilus`, works in f32, so the tolerances are
-set for single precision.
+random keys. Those earlier Shoals examples use f32 and tolerances for that
+precision; the Clarabel calibration uses f64 and tolerances for its
+approximate solver output.
 
 Conventions in the Shoals capstones:
 
