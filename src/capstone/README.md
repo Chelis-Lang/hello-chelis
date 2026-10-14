@@ -11,6 +11,7 @@ these last.
 | [`yieldcurve.ch`](yieldcurve.ch) | `shoals` | Bootstrap a zero curve from par yields (`Shoals.Curves`), price a bond on it, and measure DV01 and key-rate risk by bump-and-reprice. Also shows what happens when the bootstrap's precondition (consecutive annual pillars) is broken: no error, just a wrong curve. |
 | [`americanput.ch`](americanput.ch) | `shoals` + `nautilus` | One American put priced three independent ways: a CRR binomial tree (`Shoals.Trees`), Crank-Nicolson finite differences (`Shoals.Pde`), and the Barone-Adesi-Whaley approximation, built from Nautilus `brent` and `normal_cdf`. The European price (`Shoals.Pricing`) is the lower bound. |
 | [`varbacktest.ch`](varbacktest.ch) | `shoals` + `coral` + `nautilus` | Historical and parametric VaR/CVaR (`Shoals.Risk`), then a backtest: a rolling 100-day historical model against an EWMA model (Coral `ewm`), scored with the Kupiec and Christoffersen tests (`Shoals.RiskExt`) across a volatility regime change. |
+| [`clarabelcalibration.ch`](clarabelcalibration.ch) | `shoals` + `chelis-clarabel` | Price four listed calls and a liability in four spot scenarios, choose long-only hedge weights under a unit budget, and compare tracking loss with an equal-weight hedge. Its [properties](../../properties/clarabel_calibration.ch) use an explicit exact-real optimizer axiom to prove a baseline comparison and interior stationarity. |
 
 ## What is tested
 
@@ -31,6 +32,11 @@ these last.
   `returnsrisk.ch`'s `parametric_var`; the historical model fails its
   backtest (18 exceptions where 10 are expected) and the EWMA model passes
   (13), in [`tests/capstone/varbacktest.ch`](../../tests/capstone/varbacktest.ch).
+- `clarabelcalibration.ch`: numerical nonnegativity, budget, and tracking-loss
+  checks for the Shoals-priced hedge and a separate strictly interior input
+  in [`tests/capstone/clarabelcalibration.ch`](../../tests/capstone/clarabelcalibration.ch).
+  [`tests/test_clarabel_calibration.py`](../../tests/test_clarabel_calibration.py)
+  checks both conditional proof verdicts and a reversed-claim counterexample.
 - `linreg.ch`: type-checked by `chelis check`, with no runtime test yet.
 
 The Black-Scholes Greeks run under `chelis test` and through the compiled
@@ -48,12 +54,17 @@ satisfies `phi(d1) <= 1/sqrt(2*pi)`, so the chosen box gives
 test reports an unsupported result for the exported AD graph; the native and
 compiled-C tests check the interval endpoints as execution samples.
 
-Every expected value in the Shoals capstone tests was derived independently
+The option-hedge test uses tolerances for Clarabel's approximate output; its
+exact-real proof does not certify the returned `f64` weights. The option
+quotes are synthetic Black-Scholes prices, not market data.
+
+Every expected value in the other Shoals capstone tests was derived independently
 of Chelis, so the tests check the libraries rather than restate their
 output. The data is synthetic and deterministic: the VaR returns are normal
 shocks drawn from a golden-ratio sequence through `normal_inv_cdf`, with no
-random keys. `shoals`, like `nautilus`, works in f32, so the tolerances are
-set for single precision.
+random keys. Those earlier Shoals examples use f32 and tolerances for that
+precision; the Clarabel calibration uses f64 and tolerances for its
+approximate solver output.
 
 Conventions in the Shoals capstones:
 

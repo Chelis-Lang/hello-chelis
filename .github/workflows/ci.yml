@@ -46,7 +46,8 @@ jobs:
             CORAL_VERSION=0.7.50
             NAUTILUS_VERSION=0.7.55
             SHORELEAVE_VERSION=0.1.4
-            SHOALS_VERSION=0.24.20
+            SHOALS_VERSION=0.24.22
+            CLARABEL_VERSION=0.1.0
 
       # Offline pin guard (shell contract §2). Passes trivially when the reef
       # pin is unchanged against main; when it changed, it requires a green
@@ -97,12 +98,13 @@ jobs:
 
       # Surf/Deep drift, negative error kinds, C-backend build + run +
       # golden diff, c-earchin proofs, and the book's lesson and capstone
-      # outputs (tests/test_book_examples.py).
+      # outputs (tests/test_book_examples.py). The expensive Clarabel SMT
+      # proof test runs on owning-path PRs and nightly in clarabel-proofs.yml.
       # See tests/README.md.
       - name: pytest tests/
         run: |
           docker run --rm -v "$PWD:/workspace" -w /workspace hello-chelis:ci \
-            uv run --frozen --group test pytest -q tests/
+            uv run --frozen --group test pytest -q tests/ --ignore=tests/test_clarabel_calibration.py
 
   # The user-facing book (docs/book), rendered from the chelis.ch docs. It
   # must build and pass the writing-standard lint with the README. Its

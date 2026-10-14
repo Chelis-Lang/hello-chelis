@@ -1,0 +1,399 @@
+(module {surf_path: "Hello.Tests.Capstone.ClarabelCalibration"}
+  hello.tests.capstone.clarabelcalibration
+  (import {surf_path: "Hello.Capstone.ClarabelCalibration"}
+    hello.capstone.clarabelcalibration
+    (calibrate_hedge demo_calibration))
+  (import {surf_path: "Std.Test"} std.test (assert_true))
+  (defsig {span: "surf:156..947"}
+    test_constrained_option_hedge
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:156..947"}
+    test_constrained_option_hedge
+    (fn {}
+      (params {})
+      (let {span: "surf:213..947"}
+        (bind {}
+          report
+          (app {span: "surf:226..244"}
+            (var {span: "surf:226..242"} demo_calibration)))
+        (let {}
+          (bind {}
+            weights
+            (app {span: "surf:257..274"}
+              (var {span: "surf:257..264"} to_list)
+              (tuple-get {span: "surf:265..273"}
+                (var {span: "surf:265..271"} report)
+                (lit {type: (t-prim {} i32)} 0))))
+          (let {}
+            (bind {destructure: true}
+              __chelis_tmp5
+              (app {span: "surf:281..359"}
+                (var {span: "surf:281..292"} assert_true)
+                (app {span: "surf:294..326"}
+                  (var {} gte)
+                  (app {span: "surf:294..314"}
+                    (var {span: "surf:294..299"} index)
+                    (var {span: "surf:300..307"} weights)
+                    (lit {span: "surf:309..313", type: (t-prim {} i64)} 0))
+                  (app {span: "surf:318..326"}
+                    (var {} neg)
+                    (lit {span: "surf:319..326", type: (t-prim {} f64)} 0.000001)))
+                (lit {span: "surf:329..358", type: (t-prim {} string)} "first position is long-only")))
+            (let {}
+              (bind {destructure: true}
+                __chelis_tmp4
+                (app {span: "surf:366..445"}
+                  (var {span: "surf:366..377"} assert_true)
+                  (app {span: "surf:379..411"}
+                    (var {} gte)
+                    (app {span: "surf:379..399"}
+                      (var {span: "surf:379..384"} index)
+                      (var {span: "surf:385..392"} weights)
+                      (lit {span: "surf:394..398", type: (t-prim {} i64)} 1))
+                    (app {span: "surf:403..411"}
+                      (var {} neg)
+                      (lit {span: "surf:404..411", type: (t-prim {} f64)} 0.000001)))
+                  (lit {span: "surf:414..444", type: (t-prim {} string)} "second position is long-only")))
+              (let {}
+                (bind {destructure: true}
+                  __chelis_tmp3
+                  (app {span: "surf:452..530"}
+                    (var {span: "surf:452..463"} assert_true)
+                    (app {span: "surf:465..497"}
+                      (var {} gte)
+                      (app {span: "surf:465..485"}
+                        (var {span: "surf:465..470"} index)
+                        (var {span: "surf:471..478"} weights)
+                        (lit {span: "surf:480..484", type: (t-prim {} i64)} 2))
+                      (app {span: "surf:489..497"}
+                        (var {} neg)
+                        (lit {span: "surf:490..497", type: (t-prim {} f64)} 0.000001)))
+                    (lit {span: "surf:500..529", type: (t-prim {} string)} "third position is long-only")))
+                (let {}
+                  (bind {destructure: true}
+                    __chelis_tmp2
+                    (app {span: "surf:537..616"}
+                      (var {span: "surf:537..548"} assert_true)
+                      (app {span: "surf:550..582"}
+                        (var {} gte)
+                        (app {span: "surf:550..570"}
+                          (var {span: "surf:550..555"} index)
+                          (var {span: "surf:556..563"} weights)
+                          (lit {span: "surf:565..569", type: (t-prim {} i64)} 3))
+                        (app {span: "surf:574..582"}
+                          (var {} neg)
+                          (lit {span: "surf:575..582", type: (t-prim {} f64)} 0.000001)))
+                      (lit {span: "surf:585..615", type: (t-prim {} string)} "fourth position is long-only")))
+                  (let {}
+                    (bind {destructure: true}
+                      __chelis_tmp1
+                      (app {span: "surf:623..732"}
+                        (var {span: "surf:623..634"} assert_true)
+                        (app {span: "surf:636..688"}
+                          (var {} lte)
+                          (app {span: "surf:636..673"}
+                            (var {span: "surf:636..652"} tensor_to_scalar)
+                            (app {span: "surf:653..672"}
+                              (var {span: "surf:653..656"} sum)
+                              (tuple-get {span: "surf:657..665"}
+                                (var {span: "surf:657..663"} report)
+                                (lit {type: (t-prim {} i32)} 0))
+                              (lit {span: "surf:667..671", surf_literal_style: "explicit", type: (t-prim {} i32)} 0)))
+                          (lit {span: "surf:677..688", type: (t-prim {} f64)} 1.000001))
+                        (lit {span: "surf:691..731", type: (t-prim {} string)} "total notional stays within the budget")))
+                    (let {}
+                      (bind {destructure: true}
+                        __chelis_tmp0
+                        (app {span: "surf:739..858"}
+                          (var {span: "surf:739..750"} assert_true)
+                          (app {span: "surf:752..783"}
+                            (var {} lte)
+                            (tuple-get {span: "surf:752..760"}
+                              (var {span: "surf:752..758"} report)
+                              (lit {type: (t-prim {} i32)} 1))
+                            (app {span: "surf:765..783"}
+                              (var {} add)
+                              (tuple-get {span: "surf:765..773"}
+                                (var {span: "surf:765..771"} report)
+                                (lit {type: (t-prim {} i32)} 2))
+                              (lit {span: "surf:776..783", type: (t-prim {} f64)} 0.000001)))
+                          (lit {span: "surf:787..857", type: (t-prim {} string)} "the solved hedge has no larger least-squares loss than equal weights")))
+                      (app {span: "surf:861..945"}
+                        (var {span: "surf:861..872"} assert_true)
+                        (app {span: "surf:874..894"}
+                          (var {} gte)
+                          (tuple-get {span: "surf:874..882"}
+                            (var {span: "surf:874..880"} report)
+                            (lit {type: (t-prim {} i32)} 3))
+                          (app {span: "surf:886..894"}
+                            (var {} neg)
+                            (lit {span: "surf:887..894", type: (t-prim {} f64)} 0.000001)))
+                        (lit {span: "surf:897..944", type: (t-prim {} string)} "the QP score also improves over equal weights"))))))))))))
+  (defsig {span: "surf:1154..2236"}
+    test_interior_calibration
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:1154..2236"}
+    test_interior_calibration
+    (fn {}
+      (params {})
+      (let {span: "surf:1207..2236"}
+        (bind {}
+          basis
+          (app {span: "surf:1219..1502"}
+            (var {span: "surf:1219..1228"} to_tensor)
+            (app {span: "surf:1229..1501"}
+              (var {} Cons)
+              (app {span: "surf:1230..1262"}
+                (var {} Cons)
+                (lit {span: "surf:1231..1237", type: (t-prim {} f64)} 1.0)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:1239..1245", type: (t-prim {} f64)} 0.0)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:1247..1253", type: (t-prim {} f64)} 0.0)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1255..1261", type: (t-prim {} f64)} 0.0)
+                      (var {} Nil)))))
+              (app {}
+                (var {} Cons)
+                (app {span: "surf:1264..1296"}
+                  (var {} Cons)
+                  (lit {span: "surf:1265..1271", type: (t-prim {} f64)} 0.0)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:1273..1279", type: (t-prim {} f64)} 1.0)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1281..1287", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1289..1295", type: (t-prim {} f64)} 0.0)
+                        (var {} Nil)))))
+                (app {}
+                  (var {} Cons)
+                  (app {span: "surf:1298..1330"}
+                    (var {} Cons)
+                    (lit {span: "surf:1299..1305", type: (t-prim {} f64)} 0.0)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1307..1313", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1315..1321", type: (t-prim {} f64)} 1.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1323..1329", type: (t-prim {} f64)} 0.0)
+                          (var {} Nil)))))
+                  (app {}
+                    (var {} Cons)
+                    (app {span: "surf:1332..1364"}
+                      (var {} Cons)
+                      (lit {span: "surf:1333..1339", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1341..1347", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1349..1355", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1357..1363", type: (t-prim {} f64)} 1.0)
+                            (var {} Nil)))))
+                    (app {}
+                      (var {} Cons)
+                      (app {span: "surf:1366..1398"}
+                        (var {} Cons)
+                        (lit {span: "surf:1367..1373", type: (t-prim {} f64)} 0.2)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1375..1381", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1383..1389", type: (t-prim {} f64)} 0.0)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:1391..1397", type: (t-prim {} f64)} 0.0)
+                              (var {} Nil)))))
+                      (app {}
+                        (var {} Cons)
+                        (app {span: "surf:1400..1432"}
+                          (var {} Cons)
+                          (lit {span: "surf:1401..1407", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1409..1415", type: (t-prim {} f64)} 0.2)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:1417..1423", type: (t-prim {} f64)} 0.0)
+                              (app {}
+                                (var {} Cons)
+                                (lit {span: "surf:1425..1431", type: (t-prim {} f64)} 0.0)
+                                (var {} Nil)))))
+                        (app {}
+                          (var {} Cons)
+                          (app {span: "surf:1434..1466"}
+                            (var {} Cons)
+                            (lit {span: "surf:1435..1441", type: (t-prim {} f64)} 0.0)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:1443..1449", type: (t-prim {} f64)} 0.0)
+                              (app {}
+                                (var {} Cons)
+                                (lit {span: "surf:1451..1457", type: (t-prim {} f64)} 0.2)
+                                (app {}
+                                  (var {} Cons)
+                                  (lit {span: "surf:1459..1465", type: (t-prim {} f64)} 0.0)
+                                  (var {} Nil)))))
+                          (app {}
+                            (var {} Cons)
+                            (app {span: "surf:1468..1500"}
+                              (var {} Cons)
+                              (lit {span: "surf:1469..1475", type: (t-prim {} f64)} 0.0)
+                              (app {}
+                                (var {} Cons)
+                                (lit {span: "surf:1477..1483", type: (t-prim {} f64)} 0.0)
+                                (app {}
+                                  (var {} Cons)
+                                  (lit {span: "surf:1485..1491", type: (t-prim {} f64)} 0.0)
+                                  (app {}
+                                    (var {} Cons)
+                                    (lit {span: "surf:1493..1499", type: (t-prim {} f64)} 0.2)
+                                    (var {} Nil)))))
+                            (var {} Nil)))))))))))
+        (let {}
+          (bind {}
+            target
+            (app {span: "surf:1514..1589"}
+              (var {span: "surf:1514..1523"} to_tensor)
+              (app {span: "surf:1524..1588"}
+                (var {} Cons)
+                (lit {span: "surf:1525..1531", type: (t-prim {} f64)} 0.4)
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:1533..1539", type: (t-prim {} f64)} 0.3)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:1541..1547", type: (t-prim {} f64)} 0.2)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1549..1555", type: (t-prim {} f64)} 0.1)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1557..1563", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1565..1571", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1573..1579", type: (t-prim {} f64)} 0.0)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:1581..1587", type: (t-prim {} f64)} 0.0)
+                              (var {} Nil)))))))))))
+          (let {}
+            (bind {}
+              report
+              (app {span: "surf:1601..1631"}
+                (var {span: "surf:1601..1616"} calibrate_hedge)
+                (var {span: "surf:1617..1622"} basis)
+                (var {span: "surf:1624..1630"} target)))
+            (let {}
+              (bind {}
+                weights
+                (app {span: "surf:1644..1661"}
+                  (var {span: "surf:1644..1651"} to_list)
+                  (tuple-get {span: "surf:1652..1660"}
+                    (var {span: "surf:1652..1658"} report)
+                    (lit {type: (t-prim {} i32)} 0))))
+              (let {}
+                (bind {destructure: true}
+                  __chelis_tmp10
+                  (app {span: "surf:1668..1771"}
+                    (var {span: "surf:1668..1679"} assert_true)
+                    (app {span: "surf:1681..1744"}
+                      (var {} cmplt)
+                      (app {span: "surf:1681..1732"}
+                        (var {span: "surf:1681..1684"} abs)
+                        (app {span: "surf:1686..1730"}
+                          (var {} sub)
+                          (app {span: "surf:1686..1706"}
+                            (var {span: "surf:1686..1691"} index)
+                            (var {span: "surf:1692..1699"} weights)
+                            (lit {span: "surf:1701..1705", type: (t-prim {} i64)} 0))
+                          (lit {span: "surf:1709..1730", type: (t-prim {} f64)} 0.3846153846153846)))
+                      (lit {span: "surf:1735..1744", type: (t-prim {} f64)} 0.0001))
+                    (lit {span: "surf:1747..1770", type: (t-prim {} string)} "interior first weight")))
+                (let {}
+                  (bind {destructure: true}
+                    __chelis_tmp9
+                    (app {span: "surf:1778..1851"}
+                      (var {span: "surf:1778..1789"} assert_true)
+                      (app {span: "surf:1791..1823"}
+                        (var {} gt)
+                        (app {span: "surf:1791..1811"}
+                          (var {span: "surf:1791..1796"} index)
+                          (var {span: "surf:1797..1804"} weights)
+                          (lit {span: "surf:1806..1810", type: (t-prim {} i64)} 1))
+                        (lit {span: "surf:1814..1823", type: (t-prim {} f64)} 0.0001))
+                      (lit {span: "surf:1826..1850", type: (t-prim {} string)} "interior second weight")))
+                  (let {}
+                    (bind {destructure: true}
+                      __chelis_tmp8
+                      (app {span: "surf:1858..1930"}
+                        (var {span: "surf:1858..1869"} assert_true)
+                        (app {span: "surf:1871..1903"}
+                          (var {} gt)
+                          (app {span: "surf:1871..1891"}
+                            (var {span: "surf:1871..1876"} index)
+                            (var {span: "surf:1877..1884"} weights)
+                            (lit {span: "surf:1886..1890", type: (t-prim {} i64)} 2))
+                          (lit {span: "surf:1894..1903", type: (t-prim {} f64)} 0.0001))
+                        (lit {span: "surf:1906..1929", type: (t-prim {} string)} "interior third weight")))
+                    (let {}
+                      (bind {destructure: true}
+                        __chelis_tmp7
+                        (app {span: "surf:1937..2042"}
+                          (var {span: "surf:1937..1948"} assert_true)
+                          (app {span: "surf:1950..2014"}
+                            (var {} cmplt)
+                            (app {span: "surf:1950..2002"}
+                              (var {span: "surf:1950..1953"} abs)
+                              (app {span: "surf:1955..2000"}
+                                (var {} sub)
+                                (app {span: "surf:1955..1975"}
+                                  (var {span: "surf:1955..1960"} index)
+                                  (var {span: "surf:1961..1968"} weights)
+                                  (lit {span: "surf:1970..1974", type: (t-prim {} i64)} 3))
+                                (lit {span: "surf:1978..2000", type: (t-prim {} f64)} 0.09615384615384616)))
+                            (lit {span: "surf:2005..2014", type: (t-prim {} f64)} 0.0001))
+                          (lit {span: "surf:2017..2041", type: (t-prim {} string)} "interior fourth weight")))
+                      (let {}
+                        (bind {destructure: true}
+                          __chelis_tmp6
+                          (app {span: "surf:2049..2153"}
+                            (var {span: "surf:2049..2060"} assert_true)
+                            (app {span: "surf:2062..2109"}
+                              (var {} cmplt)
+                              (app {span: "surf:2062..2099"}
+                                (var {span: "surf:2062..2078"} tensor_to_scalar)
+                                (app {span: "surf:2079..2098"}
+                                  (var {span: "surf:2079..2082"} sum)
+                                  (tuple-get {span: "surf:2083..2091"}
+                                    (var {span: "surf:2083..2089"} report)
+                                    (lit {type: (t-prim {} i32)} 0))
+                                  (lit {span: "surf:2093..2097", surf_literal_style: "explicit", type: (t-prim {} i32)} 0)))
+                              (lit {span: "surf:2102..2109", type: (t-prim {} f64)} 0.97))
+                            (lit {span: "surf:2112..2152", type: (t-prim {} string)} "interior solution leaves budget unused")))
+                        (app {span: "surf:2156..2234"}
+                          (var {span: "surf:2156..2167"} assert_true)
+                          (app {span: "surf:2169..2188"}
+                            (var {} cmplt)
+                            (tuple-get {span: "surf:2169..2177"}
+                              (var {span: "surf:2169..2175"} report)
+                              (lit {type: (t-prim {} i32)} 1))
+                            (tuple-get {span: "surf:2180..2188"}
+                              (var {span: "surf:2180..2186"} report)
+                              (lit {type: (t-prim {} i32)} 2)))
+                          (lit {span: "surf:2191..2233", type: (t-prim {} string)} "interior calibration beats equal weights"))))))))))))))
