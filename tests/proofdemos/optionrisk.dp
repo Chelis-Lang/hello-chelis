@@ -1,0 +1,165 @@
+(module {surf_path: "Hello.Tests.Proofdemos.OptionRisk"}
+  hello.tests.proofdemos.optionrisk
+  (import {surf_path: "Hello.Proofdemos.OptionRisk"}
+    hello.proofdemos.optionrisk
+    (option_report screened_report report_delta report_vega))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
+  (defsig {span: "surf:180..523"}
+    test_option_report
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:180..523"}
+    test_option_report
+    (fn {}
+      (params {})
+      (let {span: "surf:226..523"}
+        (bind {destructure: true}
+          __chelis_tmp2
+          (app {span: "surf:263..286"}
+            (var {span: "surf:263..276"} option_report)
+            (lit {span: "surf:277..285", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp5
+            (tuple-get {}
+              (var {} __chelis_tmp2)
+              (lit {type: (t-prim {} i32)} 0)))
+          (let {}
+            (bind {destructure: true}
+              price
+              (var {} __chelis_tmp5))
+            (let {}
+              (bind {destructure: true}
+                __chelis_tmp4
+                (tuple-get {}
+                  (var {} __chelis_tmp2)
+                  (lit {type: (t-prim {} i32)} 1)))
+              (let {}
+                (bind {destructure: true}
+                  shares
+                  (var {} __chelis_tmp4))
+                (let {}
+                  (bind {destructure: true}
+                    __chelis_tmp3
+                    (tuple-get {}
+                      (var {} __chelis_tmp2)
+                      (lit {type: (t-prim {} i32)} 2)))
+                  (let {}
+                    (bind {destructure: true}
+                      vega_notional
+                      (var {} __chelis_tmp3))
+                    (let {}
+                      (bind {destructure: true}
+                        __chelis_tmp1
+                        (app {span: "surf:293..354"}
+                          (var {span: "surf:293..305"} assert_close)
+                          (var {span: "surf:306..311"} price)
+                          (lit {span: "surf:313..323", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.4506)
+                          (lit {span: "surf:325..332", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+                          (lit {span: "surf:334..353", type: (t-prim {} string)} "single call price")))
+                      (let {}
+                        (bind {destructure: true}
+                          __chelis_tmp0
+                          (app {span: "surf:361..430"}
+                            (var {span: "surf:361..373"} assert_close)
+                            (var {span: "surf:374..380"} shares)
+                            (lit {span: "surf:382..391", surf_literal_style: "explicit", type: (t-prim {} f32)} 6.3683)
+                            (lit {span: "surf:393..400", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+                            (lit {span: "surf:402..429", type: (t-prim {} string)} "delta hedge for ten calls")))
+                        (app {span: "surf:433..521"}
+                          (var {span: "surf:433..445"} assert_close)
+                          (var {span: "surf:446..459"} vega_notional)
+                          (lit {span: "surf:461..470", surf_literal_style: "explicit", type: (t-prim {} f32)} 375.24)
+                          (lit {span: "surf:472..478", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+                          (lit {span: "surf:480..520", type: (t-prim {} string)} "vega for ten calls per unit volatility")))))))))))))
+  (defsig {span: "surf:524..1011"}
+    test_greek_endpoints_and_rejection
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:524..1011"}
+    test_greek_endpoints_and_rejection
+    (fn {}
+      (params {})
+      (let {span: "surf:586..1011"}
+        (bind {destructure: true}
+          __chelis_tmp7
+          (app {span: "surf:594..719"}
+            (var {span: "surf:594..605"} assert_true)
+            (app {span: "surf:608..677"}
+              (var {} and)
+              (app {span: "surf:608..639"}
+                (var {} gte)
+                (app {span: "surf:608..629"}
+                  (var {span: "surf:608..620"} report_delta)
+                  (lit {span: "surf:621..628", surf_literal_style: "explicit", type: (t-prim {} f32)} 96.0))
+                (lit {span: "surf:633..639", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+              (app {span: "surf:645..677"}
+                (var {} lte)
+                (app {span: "surf:645..667"}
+                  (var {span: "surf:645..657"} report_delta)
+                  (lit {span: "surf:658..666", surf_literal_style: "explicit", type: (t-prim {} f32)} 104.0))
+                (lit {span: "surf:671..677", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+            (lit {span: "surf:681..718", type: (t-prim {} string)} "sample the certified spot endpoints")))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp6
+            (app {span: "surf:726..843"}
+              (var {span: "surf:726..737"} assert_true)
+              (app {span: "surf:740..808"}
+                (var {} and)
+                (app {span: "surf:740..770"}
+                  (var {} gte)
+                  (app {span: "surf:740..760"}
+                    (var {span: "surf:740..751"} report_vega)
+                    (lit {span: "surf:752..759", surf_literal_style: "explicit", type: (t-prim {} f32)} 96.0))
+                  (lit {span: "surf:764..770", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                (app {span: "surf:776..808"}
+                  (var {} lte)
+                  (app {span: "surf:776..797"}
+                    (var {span: "surf:776..787"} report_vega)
+                    (lit {span: "surf:788..796", surf_literal_style: "explicit", type: (t-prim {} f32)} 104.0))
+                  (lit {span: "surf:801..808", surf_literal_style: "explicit", type: (t-prim {} f32)} 42.0)))
+              (lit {span: "surf:812..842", type: (t-prim {} string)} "sample vega at the endpoints")))
+          (let {}
+            (bind {}
+              rejected
+              (match {span: "surf:857..941"}
+                (app {span: "surf:863..888"}
+                  (var {span: "surf:863..878"} screened_report)
+                  (lit {span: "surf:879..887", surf_literal_style: "explicit", type: (t-prim {} f32)} 120.0))
+                (arm {}
+                  (pat-ctor {} None)
+                  ()
+                  (lit {span: "surf:910..914", type: (t-prim {} bool)} true))
+                (arm {}
+                  (pat-ctor {} Some (pat-wild {}))
+                  ()
+                  (lit {span: "surf:932..937", type: (t-prim {} bool)} false))))
+            (app {span: "surf:944..1009"}
+              (var {span: "surf:944..955"} assert_true)
+              (var {span: "surf:956..964"} rejected)
+              (lit {span: "surf:966..1008", type: (t-prim {} string)} "outside this report's certified spot box")))))))
+  (defsig {span: "surf:1012..1221"}
+    test_accept_spot_box
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:1012..1221"}
+    test_accept_spot_box
+    (fn {}
+      (params {})
+      (let {span: "surf:1060..1221"}
+        (bind {}
+          admitted
+          (match {span: "surf:1075..1159"}
+            (app {span: "surf:1081..1106"}
+              (var {span: "surf:1081..1096"} screened_report)
+              (lit {span: "surf:1097..1105", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0))
+            (arm {}
+              (pat-ctor {} Some (pat-wild {}))
+              ()
+              (lit {span: "surf:1131..1135", type: (t-prim {} bool)} true))
+            (arm {}
+              (pat-ctor {} None)
+              ()
+              (lit {span: "surf:1150..1155", type: (t-prim {} bool)} false))))
+        (app {span: "surf:1162..1219"}
+          (var {span: "surf:1162..1173"} assert_true)
+          (var {span: "surf:1174..1182"} admitted)
+          (lit {span: "surf:1184..1218", type: (t-prim {} string)} "the report admits an in-box spot"))))))

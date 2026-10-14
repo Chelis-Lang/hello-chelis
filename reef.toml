@@ -13,3 +13,4 @@ coral = { version = "=0.7.52" }
 nautilus = { version = "=0.7.58" }
 shoals = { version = "=0.25.1" }
 chelis-clarabel = { version = "=0.1.2" }
+economoist = { version = "=0.2.22" }

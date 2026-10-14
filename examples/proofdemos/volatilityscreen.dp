@@ -1,0 +1,20 @@
+(import {surf_path: "Hello.Proofdemos.VolatilityScreen"}
+  hello.proofdemos.volatilityscreen
+  (volatility_report screened_variance))
+
+(def {span: "surf:237..277"}
+  slice_volatilities
+  (app {span: "surf:258..277"} (var {span: "surf:258..275"} volatility_report)))
+
+(def {span: "surf:278..368"}
+  negative_variance_fit
+  (app {span: "surf:302..368"}
+    (var {span: "surf:302..319"} screened_variance)
+    (app {span: "surf:320..327"}
+      (var {} neg)
+      (lit {span: "surf:321..327", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+    (lit {span: "surf:329..335", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+    (lit {span: "surf:337..343", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+    (lit {span: "surf:345..351", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+    (lit {span: "surf:353..359", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+    (lit {span: "surf:361..367", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))

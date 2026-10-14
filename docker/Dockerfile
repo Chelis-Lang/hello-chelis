@@ -101,6 +101,7 @@ ARG NAUTILUS_VERSION=0.7.58
 ARG SHORELEAVE_VERSION=0.1.6
 ARG SHOALS_VERSION=0.25.1
 ARG CLARABEL_VERSION=0.1.2
+ARG ECONOMOIST_VERSION=0.2.22
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \

@@ -1,0 +1,73 @@
+(module {surf_path: "Hello.Tests.Proofdemos.ProbabilityBudget"}
+  hello.tests.proofdemos.probabilitybudget
+  (import {surf_path: "Hello.Proofdemos.ProbabilityBudget"}
+    hello.proofdemos.probabilitybudget
+    (uniform_payout normal_tail_reserve))
+  (import {surf_path: "Std.Test"} std.test (assert_close))
+  (defsig {span: "surf:159..344"}
+    test_uniform_payout_middle
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:159..344"}
+    test_uniform_payout_middle
+    (fn {}
+      (params {})
+      (app {span: "surf:213..344"}
+        (var {span: "surf:213..225"} assert_close)
+        (app {span: "surf:226..276"}
+          (var {span: "surf:226..240"} uniform_payout)
+          (lit {span: "surf:241..247", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0)
+          (lit {span: "surf:249..255", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:257..264", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+          (lit {span: "surf:266..275", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))
+        (lit {span: "surf:278..286", surf_literal_style: "explicit", type: (t-prim {} f32)} 500.0)
+        (lit {span: "surf:288..296", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+        (lit {span: "surf:298..343", type: (t-prim {} string)} "half the events exceed the middle threshold"))))
+  (defsig {span: "surf:345..658"}
+    test_uniform_payout_outside_support
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:345..658"}
+    test_uniform_payout_outside_support
+    (fn {}
+      (params {})
+      (let {span: "surf:408..658"}
+        (bind {destructure: true}
+          __chelis_tmp0
+          (app {span: "surf:416..540"}
+            (var {span: "surf:416..428"} assert_close)
+            (app {span: "surf:429..480"}
+              (var {span: "surf:429..443"} uniform_payout)
+              (app {span: "surf:444..451"}
+                (var {} neg)
+                (lit {span: "surf:445..451", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+              (lit {span: "surf:453..459", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:461..468", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+              (lit {span: "surf:470..479", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))
+            (lit {span: "surf:482..491", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0)
+            (lit {span: "surf:493..501", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+            (lit {span: "surf:503..539", type: (t-prim {} string)} "below support pays the full budget")))
+        (app {span: "surf:543..656"}
+          (var {span: "surf:543..555"} assert_close)
+          (app {span: "surf:556..607"}
+            (var {span: "surf:556..570"} uniform_payout)
+            (lit {span: "surf:571..578", surf_literal_style: "explicit", type: (t-prim {} f32)} 11.0)
+            (lit {span: "surf:580..586", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:588..595", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+            (lit {span: "surf:597..606", surf_literal_style: "explicit", type: (t-prim {} f32)} 1000.0))
+          (lit {span: "surf:609..615", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:617..625", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+          (lit {span: "surf:627..655", type: (t-prim {} string)} "above support pays nothing")))))
+  (defsig {span: "surf:659..816"}
+    test_normal_tail_reserve
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:659..816"}
+    test_normal_tail_reserve
+    (fn {}
+      (params {})
+      (app {span: "surf:711..816"}
+        (var {span: "surf:711..723"} assert_close)
+        (app {span: "surf:724..751"}
+          (var {span: "surf:724..743"} normal_tail_reserve)
+          (lit {span: "surf:744..750", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+        (lit {span: "surf:753..761", surf_literal_style: "explicit", type: (t-prim {} f32)} 500.0)
+        (lit {span: "surf:763..770", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+        (lit {span: "surf:772..815", type: (t-prim {} string)} "half of a standard normal lies above zero")))))

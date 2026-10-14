@@ -1,0 +1,15 @@
+(import {surf_path: "Hello.Proofdemos.GrowthScreen"}
+  hello.proofdemos.growthscreen
+  (valuation_report screened_value))
+
+(def {span: "surf:148..185"}
+  growth_scenarios
+  (app {span: "surf:167..185"} (var {span: "surf:167..183"} valuation_report)))
+
+(def {span: "surf:186..243"}
+  invalid_spread
+  (app {span: "surf:203..243"}
+    (var {span: "surf:203..217"} screened_value)
+    (lit {span: "surf:218..224", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+    (lit {span: "surf:226..233", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+    (lit {span: "surf:235..242", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.08)))
