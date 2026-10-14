@@ -1,143 +1,143 @@
 (module {surf_path: "Hello.Tests.Proofdemos.VolatilityScreen"}
   hello.tests.proofdemos.volatilityscreen
-  (import {surf_path: "Hello.Proofdemos.VolatilityScreen"}
-    hello.proofdemos.volatilityscreen
+  (import {surf_path: "Hello.Examples.Proofdemos.VolatilityScreen"}
+    hello.examples.proofdemos.volatilityscreen
     (total_variance screened_variance implied_volatility))
   (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
-  (defsig {span: "surf:188..501"}
+  (defsig {span: "surf:197..510"}
     test_svi_slice
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {span: "surf:188..501"}
+  (def {span: "surf:197..510"}
     test_svi_slice
     (fn {}
       (params {})
-      (let {span: "surf:230..501"}
+      (let {span: "surf:239..510"}
         (bind {destructure: true}
           __chelis_tmp0
-          (app {span: "surf:238..352"}
-            (var {span: "surf:238..250"} assert_close)
-            (app {span: "surf:251..314"}
-              (var {span: "surf:251..265"} total_variance)
-              (lit {span: "surf:266..273", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-              (lit {span: "surf:275..281", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
-              (lit {span: "surf:283..289", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:291..297", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:299..305", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
-              (lit {span: "surf:307..313", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
-            (lit {span: "surf:316..323", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
-            (lit {span: "surf:325..335", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
-            (lit {span: "surf:337..351", type: (t-prim {} string)} "ATM variance")))
-        (app {span: "surf:355..499"}
-          (var {span: "surf:355..367"} assert_close)
-          (app {span: "surf:368..443"}
-            (var {span: "surf:368..386"} implied_volatility)
-            (lit {span: "surf:387..394", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-            (lit {span: "surf:396..402", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
-            (lit {span: "surf:404..410", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-            (lit {span: "surf:412..418", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-            (lit {span: "surf:420..426", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
-            (lit {span: "surf:428..434", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-            (lit {span: "surf:436..442", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
-          (lit {span: "surf:445..456", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.173205)
-          (lit {span: "surf:458..467", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
-          (lit {span: "surf:469..498", type: (t-prim {} string)} "one-year implied volatility")))))
-  (defsig {span: "surf:502..981"}
+          (app {span: "surf:247..361"}
+            (var {span: "surf:247..259"} assert_close)
+            (app {span: "surf:260..323"}
+              (var {span: "surf:260..274"} total_variance)
+              (lit {span: "surf:275..282", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+              (lit {span: "surf:284..290", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+              (lit {span: "surf:292..298", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:300..306", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:308..314", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+              (lit {span: "surf:316..322", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+            (lit {span: "surf:325..332", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+            (lit {span: "surf:334..344", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.00001)
+            (lit {span: "surf:346..360", type: (t-prim {} string)} "ATM variance")))
+        (app {span: "surf:364..508"}
+          (var {span: "surf:364..376"} assert_close)
+          (app {span: "surf:377..452"}
+            (var {span: "surf:377..395"} implied_volatility)
+            (lit {span: "surf:396..403", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+            (lit {span: "surf:405..411", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+            (lit {span: "surf:413..419", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:421..427", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:429..435", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+            (lit {span: "surf:437..443", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+            (lit {span: "surf:445..451", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+          (lit {span: "surf:454..465", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.173205)
+          (lit {span: "surf:467..476", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0001)
+          (lit {span: "surf:478..507", type: (t-prim {} string)} "one-year implied volatility")))))
+  (defsig {span: "surf:511..990"}
     test_reject_negative_minimum_and_bad_rho
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {span: "surf:502..981"}
+  (def {span: "surf:511..990"}
     test_reject_negative_minimum_and_bad_rho
     (fn {}
       (params {})
-      (let {span: "surf:570..981"}
+      (let {span: "surf:579..990"}
         (bind {}
           negative
-          (match {span: "surf:585..710"}
-            (app {span: "surf:591..657"}
-              (var {span: "surf:591..608"} screened_variance)
-              (app {span: "surf:609..616"}
+          (match {span: "surf:594..719"}
+            (app {span: "surf:600..666"}
+              (var {span: "surf:600..617"} screened_variance)
+              (app {span: "surf:618..625"}
                 (var {} neg)
-                (lit {span: "surf:610..616", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
-              (lit {span: "surf:618..624", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:626..632", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:634..640", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:642..648", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
-              (lit {span: "surf:650..656", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                (lit {span: "surf:619..625", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+              (lit {span: "surf:627..633", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:635..641", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:643..649", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:651..657", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+              (lit {span: "surf:659..665", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
             (arm {}
               (pat-ctor {} None)
               ()
-              (lit {span: "surf:679..683", type: (t-prim {} bool)} true))
+              (lit {span: "surf:688..692", type: (t-prim {} bool)} true))
             (arm {}
               (pat-ctor {} Some (pat-wild {}))
               ()
-              (lit {span: "surf:701..706", type: (t-prim {} bool)} false))))
+              (lit {span: "surf:710..715", type: (t-prim {} bool)} false))))
         (let {}
           (bind {}
             bad_rho
-            (match {span: "surf:723..848"}
-              (app {span: "surf:729..795"}
-                (var {span: "surf:729..746"} screened_variance)
-                (lit {span: "surf:747..754", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-                (lit {span: "surf:756..762", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
-                (lit {span: "surf:764..770", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
-                (lit {span: "surf:772..778", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-                (lit {span: "surf:780..786", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
-                (lit {span: "surf:788..794", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+            (match {span: "surf:732..857"}
+              (app {span: "surf:738..804"}
+                (var {span: "surf:738..755"} screened_variance)
+                (lit {span: "surf:756..763", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+                (lit {span: "surf:765..771", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+                (lit {span: "surf:773..779", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+                (lit {span: "surf:781..787", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+                (lit {span: "surf:789..795", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+                (lit {span: "surf:797..803", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
               (arm {}
                 (pat-ctor {} None)
                 ()
-                (lit {span: "surf:817..821", type: (t-prim {} bool)} true))
+                (lit {span: "surf:826..830", type: (t-prim {} bool)} true))
               (arm {}
                 (pat-ctor {} Some (pat-wild {}))
                 ()
-                (lit {span: "surf:839..844", type: (t-prim {} bool)} false))))
+                (lit {span: "surf:848..853", type: (t-prim {} bool)} false))))
           (let {}
             (bind {destructure: true}
               __chelis_tmp1
-              (app {span: "surf:855..914"}
-                (var {span: "surf:855..866"} assert_true)
-                (var {span: "surf:867..875"} negative)
-                (lit {span: "surf:877..913", type: (t-prim {} string)} "minimum-variance condition matters")))
-            (app {span: "surf:917..979"}
-              (var {span: "surf:917..928"} assert_true)
-              (var {span: "surf:929..936"} bad_rho)
-              (lit {span: "surf:938..978", type: (t-prim {} string)} "reject rho before taking sqrt(1-rho^2)")))))))
-  (defsig {span: "surf:982..1288"}
+              (app {span: "surf:864..923"}
+                (var {span: "surf:864..875"} assert_true)
+                (var {span: "surf:876..884"} negative)
+                (lit {span: "surf:886..922", type: (t-prim {} string)} "minimum-variance condition matters")))
+            (app {span: "surf:926..988"}
+              (var {span: "surf:926..937"} assert_true)
+              (var {span: "surf:938..945"} bad_rho)
+              (lit {span: "surf:947..987", type: (t-prim {} string)} "reject rho before taking sqrt(1-rho^2)")))))))
+  (defsig {span: "surf:991..1297"}
     test_accept_nonnegative_fit
     (t-fn {eff: (effects {} test)} (t-unit {})))
-  (def {span: "surf:982..1288"}
+  (def {span: "surf:991..1297"}
     test_accept_nonnegative_fit
     (fn {}
       (params {})
-      (let {span: "surf:1037..1288"}
+      (let {span: "surf:1046..1297"}
         (bind {}
           admitted
-          (match {span: "surf:1052..1213"}
-            (app {span: "surf:1058..1124"}
-              (var {span: "surf:1058..1075"} screened_variance)
-              (lit {span: "surf:1076..1083", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
-              (lit {span: "surf:1085..1091", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
-              (lit {span: "surf:1093..1099", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:1101..1107", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-              (lit {span: "surf:1109..1115", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
-              (lit {span: "surf:1117..1123", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+          (match {span: "surf:1061..1222"}
+            (app {span: "surf:1067..1133"}
+              (var {span: "surf:1067..1084"} screened_variance)
+              (lit {span: "surf:1085..1092", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+              (lit {span: "surf:1094..1100", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+              (lit {span: "surf:1102..1108", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:1110..1116", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+              (lit {span: "surf:1118..1124", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+              (lit {span: "surf:1126..1132", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
             (arm {}
               (pat-ctor {} Some (pat-var {} v))
               ()
-              (app {span: "surf:1151..1187"}
+              (app {span: "surf:1160..1196"}
                 (var {} and)
-                (app {span: "surf:1151..1166"}
+                (app {span: "surf:1160..1175"}
                   (var {} gte)
-                  (var {span: "surf:1151..1152"} v)
-                  (lit {span: "surf:1156..1166", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.02999))
-                (app {span: "surf:1172..1187"}
+                  (var {span: "surf:1160..1161"} v)
+                  (lit {span: "surf:1165..1175", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.02999))
+                (app {span: "surf:1181..1196"}
                   (var {} lte)
-                  (var {span: "surf:1172..1173"} v)
-                  (lit {span: "surf:1177..1187", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03001))))
+                  (var {span: "surf:1181..1182"} v)
+                  (lit {span: "surf:1186..1196", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03001))))
             (arm {}
               (pat-ctor {} None)
               ()
-              (lit {span: "surf:1204..1209", type: (t-prim {} bool)} false))))
-        (app {span: "surf:1216..1286"}
-          (var {span: "surf:1216..1227"} assert_true)
-          (var {span: "surf:1228..1236"} admitted)
-          (lit {span: "surf:1238..1285", type: (t-prim {} string)} "accept a fitted slice with a positive minimum"))))))
+              (lit {span: "surf:1213..1218", type: (t-prim {} bool)} false))))
+        (app {span: "surf:1225..1295"}
+          (var {span: "surf:1225..1236"} assert_true)
+          (var {span: "surf:1237..1245"} admitted)
+          (lit {span: "surf:1247..1294", type: (t-prim {} string)} "accept a fitted slice with a positive minimum"))))))

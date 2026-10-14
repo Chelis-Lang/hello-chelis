@@ -1,5 +1,5 @@
 module Hello.Tests.Proofdemos.OptionRisk
-import Hello.Proofdemos.OptionRisk (option_report, screened_report, report_delta, report_vega)
+import Hello.Examples.Proofdemos.OptionRisk (option_report, screened_report, report_delta, report_vega)
 import Std.Test (assert_close, assert_true)
 def test_option_report() -> unit ! { Test } = {
   (price, shares, vega_notional) = option_report(100.0f32)

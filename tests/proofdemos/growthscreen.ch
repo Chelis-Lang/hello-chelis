@@ -1,5 +1,5 @@
 module Hello.Tests.Proofdemos.GrowthScreen
-import Hello.Proofdemos.GrowthScreen (valuation, screened_value, purchase_margin)
+import Hello.Examples.Proofdemos.GrowthScreen (valuation, screened_value, purchase_margin)
 import Std.Test (assert_close, assert_true)
 def test_growth_scenario() -> unit ! { Test } = {
   _ = assert_close(valuation(1.0f32, 0.08f32, 0.03f32), 20.0f32, 0.001f32, "Gordon value")

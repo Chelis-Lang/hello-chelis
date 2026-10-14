@@ -19,7 +19,6 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DEMO = "Hello.Proofdemos."
 
 
 def claim(params: str, guards: str, body: str) -> str:
@@ -115,40 +114,40 @@ SMT_GOALS = {
 }
 
 WRONG_GOALS = {
-    "smt_payout_half_budget_wrong": claim(
+    "counterexample_symbolic_payout_half_budget": claim(
         "x: f32",
         "x >= 0.0f32, x <= 10.0f32",
-        f"({DEMO}ProbabilityBudget.uniform_payout(x, 0.0f32, 10.0f32, 1000.0f32) <= 500.0f32)",
+        "(uniform_payout(x, 0.0f32, 10.0f32, 1000.0f32) <= 500.0f32)",
     ),
-    "smt_spend_without_weight_guard_wrong": claim(
-        "weight: f32", "", f"({DEMO}CurveBudget.spend_from_weight(weight) <= 750.0f32)"
+    "counterexample_symbolic_spend_without_weight_guard": claim(
+        "weight: f32", "", "(spend_from_weight(weight) <= 750.0f32)"
     ),
-    "smt_coupon_reverse_wrong": claim(
+    "counterexample_symbolic_coupon_reverse": claim(
         "c1: f32, c2: f32, y: f32",
         "c1 >= 0.0f32, c2 > c1, y >= 0.0f32",
-        f"({DEMO}CollateralBudget.bond_mark(c2, y) <= {DEMO}CollateralBudget.bond_mark(c1, y))",
+        "(bond_mark(c2, y) <= bond_mark(c1, y))",
     ),
-    "smt_haircut_reverse_wrong": claim(
+    "counterexample_symbolic_haircut_reverse": claim(
         "h: f32",
         "h > 0.0f32, h <= 1.0f32",
-        f"({DEMO}CollateralBudget.unsecured_exposure(1000.0f32, h) < {DEMO}CollateralBudget.unsecured_exposure(1000.0f32, 0.0f32))",
+        "(unsecured_exposure(1000.0f32, h) < unsecured_exposure(1000.0f32, 0.0f32))",
     ),
-    "smt_growth_without_order_wrong": claim(
+    "counterexample_symbolic_growth_without_order": claim(
         "g1: f32, g2: f32",
         "g1 >= 0.02f32, g1 <= 0.04f32, g2 >= 0.02f32, g2 <= 0.04f32",
-        f"({DEMO}GrowthScreen.valuation(1.0f32, 0.1f32, g2) > {DEMO}GrowthScreen.valuation(1.0f32, 0.1f32, g1))",
+        "(valuation(1.0f32, 0.1f32, g2) > valuation(1.0f32, 0.1f32, g1))",
     ),
-    "smt_hedge_half_position_wrong": claim(
+    "counterexample_symbolic_hedge_half_position": claim(
         "d: f32",
         "d >= 0.0f32, d <= 1.0f32",
-        f"({DEMO}OptionRisk.hedge_from_delta(d) <= 5.0f32)",
+        "(hedge_from_delta(d) <= 5.0f32)",
     ),
-    "smt_vega_tight_budget_wrong": claim(
+    "counterexample_symbolic_vega_tight_budget": claim(
         "v: f32",
         "v >= 0.0f32, v <= 42.0f32",
-        f"({DEMO}OptionRisk.notional_from_vega(v) <= 400.0f32)",
+        "(notional_from_vega(v) <= 400.0f32)",
     ),
-    "smt_svi_without_minimum_wrong": claim(
+    "counterexample_symbolic_svi_without_minimum": claim(
         "a: f32, b: f32, rho: f32, m: f32, sigma: f32, k: f32",
         "b >= 0.0f32, rho > -1.0f32, rho < 1.0f32, sigma > 0.0f32",
         "(Shoals.VolSurface.vs_total_variance(Shoals.VolSurface.SVI { a, b, rho, m, sigma }, k) >= 0.0f32)",
@@ -217,7 +216,7 @@ BEACON_CASES = {
         "upper",
         42.0,
     ),
-    "beacon_reserve_zero_wrong": (
+    "counterexample_interval_reserve_zero": (
         "probabilitybudget",
         "ProbabilityBudget",
         "normal_tail_reserve",
@@ -227,7 +226,7 @@ BEACON_CASES = {
         "upper",
         0.0,
     ),
-    "beacon_delta_zero_wrong": (
+    "counterexample_interval_delta_zero": (
         "optionrisk",
         "OptionRisk",
         "report_delta",
@@ -237,7 +236,7 @@ BEACON_CASES = {
         "upper",
         0.0,
     ),
-    "beacon_vega_zero_wrong": (
+    "counterexample_interval_vega_zero": (
         "optionrisk",
         "OptionRisk",
         "report_vega",
@@ -269,8 +268,8 @@ def run_prove(path: str, tier: str, only: str) -> list[dict]:
         text=True,
         timeout=600,
     )
-    assert result.returncode == (1 if "wrong" in path else 0), (
-        result.stderr or result.stdout
+    assert result.returncode == (1 if only.startswith("counterexample_") else 0), (
+        result.stdout + result.stderr
     )
     return [json.loads(line) for line in result.stdout.splitlines() if line.strip()]
 
@@ -387,18 +386,18 @@ SMT_FILES = {
 
 @pytest.mark.parametrize("stem,names", SMT_FILES.items())
 def test_contextual_smt_properties(stem: str, names: set[str]) -> None:
-    records = run_prove(f"src/proofdemos/{stem}.ch", "smt-only", "smt_")
+    records = run_prove(f"examples/proofdemos/{stem}.ch", "smt-only", "smt_")
     validate_records(records, {name: SMT_GOALS[name] for name in names}, False)
     for record in records:
         if record.get("kind") == "property":
-            assert record["source"]["file"] == f"src/proofdemos/{stem}.ch"
+            assert record["source"]["file"] == f"examples/proofdemos/{stem}.ch"
             assert record["proof_tier"] == "smt"
             assert record["composite_verdict"] == "proven_modulo_real_arithmetic"
     for name in names:
         if "uniform_payout" in name:
             target = "Nautilus.Distributions.uniform_cdf"
         elif "spend" in name:
-            target = DEMO + "CurveBudget.spend_from_weight"
+            target = "Hello.Examples.Proofdemos.CurveBudget.spend_from_weight"
         elif "allocation" in name:
             target = "Nautilus.Interpolation.cubic_hermite"
         elif "coupon" in name:
@@ -410,20 +409,38 @@ def test_contextual_smt_properties(stem: str, names: set[str]) -> None:
         elif "svi" in name:
             target = "Shoals.VolSurface.vs_total_variance"
         else:
-            target = (
-                DEMO
-                + "OptionRisk."
-                + ("hedge_from_delta" if "hedge" in name else "notional_from_vega")
+            target = "Hello.Examples.Proofdemos.OptionRisk." + (
+                "hedge_from_delta" if "hedge" in name else "notional_from_vega"
             )
         assert_source_reachable(records, name, target)
 
 
-def test_contextual_smt_counterexamples() -> None:
-    records = run_prove("proof_controls/proofdemos_wrong.ch", "smt-only", "smt_")
-    validate_records(records, WRONG_GOALS, True)
+COUNTEREXAMPLE_FILES = {
+    "probabilitybudget": {"counterexample_symbolic_payout_half_budget"},
+    "curvebudget": {"counterexample_symbolic_spend_without_weight_guard"},
+    "collateralbudget": {
+        "counterexample_symbolic_coupon_reverse",
+        "counterexample_symbolic_haircut_reverse",
+    },
+    "growthscreen": {"counterexample_symbolic_growth_without_order"},
+    "optionrisk": {
+        "counterexample_symbolic_hedge_half_position",
+        "counterexample_symbolic_vega_tight_budget",
+    },
+    "volatilityscreen": {"counterexample_symbolic_svi_without_minimum"},
+}
+
+
+@pytest.mark.parametrize("stem,names", COUNTEREXAMPLE_FILES.items())
+def test_contextual_smt_counterexamples(stem: str, names: set[str]) -> None:
+    # Restrict the tier too: the numerical false claims use Beacon separately.
+    records = run_prove(
+        f"examples/proofdemos/{stem}.ch", "smt-only", "counterexample_symbolic_"
+    )
+    validate_records(records, {name: WRONG_GOALS[name] for name in names}, True)
     assert all(
         r["proof_tier"] == "smt"
-        and r["source"]["file"] == "proof_controls/proofdemos_wrong.ch"
+        and r["source"]["file"] == f"examples/proofdemos/{stem}.ch"
         for r in records
         if r.get("kind") == "property"
     )
@@ -448,7 +465,7 @@ def test_runnable_demo(stem: str, label: str, expected: tuple[float, ...]) -> No
         text=True,
         timeout=300,
     )
-    assert result.returncode == 0, result.stderr or result.stdout
+    assert result.returncode == 0, result.stdout + result.stderr
     outputs = dict(
         line.split(" = ", 1) for line in result.stdout.splitlines() if " = " in line
     )
@@ -502,18 +519,21 @@ def run_beacon_gate() -> None:
     engine_path = Path(os.environ["CHELIS_BEACON_BIN"])
     engine_sha256 = hashlib.sha256(engine_path.read_bytes()).hexdigest()
     for path, failed in (
-        ("src/proofdemos/probabilitybudget.ch", False),
-        ("src/proofdemos/optionrisk.ch", False),
-        ("proof_controls/proofdemos_beacon_wrong.ch", True),
+        ("examples/proofdemos/probabilitybudget.ch", False),
+        ("examples/proofdemos/optionrisk.ch", False),
+        ("examples/proofdemos/probabilitybudget.ch", True),
+        ("examples/proofdemos/optionrisk.ch", True),
     ):
-        records = run_prove(path, "beacon-only", "beacon_")
+        records = run_prove(
+            path, "beacon-only", "counterexample_interval_" if failed else "beacon_"
+        )
         goals = {}
         for name, (stem, _, fn, var, low, high, side, bound) in BEACON_CASES.items():
-            if name.endswith("wrong") != failed:
+            if name.startswith("counterexample_") != failed:
                 continue
-            if not failed and Path(path).stem != stem:
+            if Path(path).stem != stem:
                 continue
-            target = f"{DEMO}{BEACON_CASES[name][1]}.{fn}" if failed else fn
+            target = fn
             comparison = ">=" if side == "lower" else "<="
             goals[name] = claim(
                 f"{var}: f32",
@@ -543,7 +563,9 @@ def run_beacon_gate() -> None:
             }
             for key in ("graph_sha256", "request_sha256"):
                 assert re.fullmatch("[0-9a-f]{64}", evidence[key])
-            assert_source_reachable(records, record["name"], f"{DEMO}{module}.{fn}")
+            assert_source_reachable(
+                records, record["name"], f"Hello.Examples.Proofdemos.{module}.{fn}"
+            )
             assert_source_reachable(
                 records, record["name"], "Nautilus.Distributions.normal_cdf"
             )

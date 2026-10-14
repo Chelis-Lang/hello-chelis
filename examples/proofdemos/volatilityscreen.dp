@@ -1,20 +1,362 @@
-(import {surf_path: "Hello.Proofdemos.VolatilityScreen"}
-  hello.proofdemos.volatilityscreen
-  (volatility_report screened_variance))
-
-(def {span: "surf:237..277"}
-  slice_volatilities
-  (app {span: "surf:258..277"} (var {span: "surf:258..275"} volatility_report)))
-
-(def {span: "surf:278..368"}
-  negative_variance_fit
-  (app {span: "surf:302..368"}
-    (var {span: "surf:302..319"} screened_variance)
-    (app {span: "surf:320..327"}
-      (var {} neg)
-      (lit {span: "surf:321..327", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
-    (lit {span: "surf:329..335", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-    (lit {span: "surf:337..343", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-    (lit {span: "surf:345..351", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
-    (lit {span: "surf:353..359", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
-    (lit {span: "surf:361..367", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))
+(module {surf_path: "Hello.Examples.Proofdemos.VolatilityScreen"}
+  hello.examples.proofdemos.volatilityscreen
+  (import {surf_path: "Shoals.VolSurface"}
+    shoals.volsurface
+    (SVI vs_total_variance))
+  (export {}
+    total_variance
+    screened_variance
+    implied_volatility
+    volatility_report)
+  (defsig {span: "surf:878..1009"}
+    total_variance
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {span: "surf:878..1009"}
+    total_variance
+    (fn {}
+      (params {}
+        (a {type: (t-var {} _)})
+        (b {type: (t-var {} _)})
+        (rho {type: (t-var {} _)})
+        (m {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (k {type: (t-var {} _)}))
+      (app {span: "surf:960..1009"}
+        (var {span: "surf:960..977"} vs_total_variance)
+        (record {span: "surf:978..1005"}
+          SVI
+          (kv {} a (var {span: "surf:984..985"} a))
+          (kv {} b (var {span: "surf:987..988"} b))
+          (kv {} rho (var {span: "surf:990..993"} rho))
+          (kv {} m (var {span: "surf:995..996"} m))
+          (kv {} sigma (var {span: "surf:998..1003"} sigma)))
+        (var {span: "surf:1007..1008"} k))))
+  (defsig {span: "surf:1158..1505"}
+    screened_variance
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-adt {} Option (t-prim {} f32))))
+  (def {span: "surf:1158..1505"}
+    screened_variance
+    (fn {}
+      (params {}
+        (a {type: (t-var {} _)})
+        (b {type: (t-var {} _)})
+        (rho {type: (t-var {} _)})
+        (m {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (k {type: (t-var {} _)}))
+      (if {span: "surf:1253..1505"}
+        (app {span: "surf:1260..1330"}
+          (var {} and)
+          (app {span: "surf:1260..1309"}
+            (var {} and)
+            (app {span: "surf:1260..1290"}
+              (var {} and)
+              (app {span: "surf:1260..1271"}
+                (var {} gte)
+                (var {span: "surf:1260..1261"} b)
+                (lit {span: "surf:1265..1271", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+              (app {span: "surf:1277..1290"}
+                (var {} gt)
+                (var {span: "surf:1277..1280"} rho)
+                (app {span: "surf:1283..1290"}
+                  (var {} neg)
+                  (lit {span: "surf:1284..1290", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
+            (app {span: "surf:1297..1309"}
+              (var {} cmplt)
+              (var {span: "surf:1297..1300"} rho)
+              (lit {span: "surf:1303..1309", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+          (app {span: "surf:1316..1330"}
+            (var {} gt)
+            (var {span: "surf:1316..1321"} sigma)
+            (lit {span: "surf:1324..1330", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))
+        (let {span: "surf:1338..1495"}
+          (bind {}
+            minimum
+            (app {span: "surf:1355..1402"}
+              (var {} add)
+              (var {span: "surf:1355..1356"} a)
+              (app {span: "surf:1361..1402"}
+                (var {} mul)
+                (app {span: "surf:1361..1370"}
+                  (var {} mul)
+                  (var {span: "surf:1361..1362"} b)
+                  (var {span: "surf:1365..1370"} sigma))
+                (app {span: "surf:1374..1402"}
+                  (var {span: "surf:1374..1378"} sqrt)
+                  (app {span: "surf:1380..1399"}
+                    (var {} sub)
+                    (lit {span: "surf:1380..1386", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+                    (app {span: "surf:1390..1399"}
+                      (var {} mul)
+                      (var {span: "surf:1390..1393"} rho)
+                      (var {span: "surf:1396..1399"} rho)))))))
+          (if {span: "surf:1409..1491"}
+            (app {span: "surf:1413..1430"}
+              (var {} gte)
+              (var {span: "surf:1413..1420"} minimum)
+              (lit {span: "surf:1424..1430", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+            (app {span: "surf:1437..1481"}
+              (var {span: "surf:1437..1441"} Some)
+              (app {span: "surf:1442..1480"}
+                (var {span: "surf:1442..1456"} total_variance)
+                (var {span: "surf:1457..1458"} a)
+                (var {span: "surf:1460..1461"} b)
+                (var {span: "surf:1463..1466"} rho)
+                (var {span: "surf:1468..1469"} m)
+                (var {span: "surf:1471..1476"} sigma)
+                (var {span: "surf:1478..1479"} k)))
+            (var {span: "surf:1487..1491"} None)))
+        (var {span: "surf:1501..1505"} None))))
+  (defsig {span: "surf:1727..1885"}
+    implied_volatility
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)))
+  (def {span: "surf:1727..1885"}
+    implied_volatility
+    (fn {}
+      (params {}
+        (a {type: (t-var {} _)})
+        (b {type: (t-var {} _)})
+        (rho {type: (t-var {} _)})
+        (m {type: (t-var {} _)})
+        (sigma {type: (t-var {} _)})
+        (k {type: (t-var {} _)})
+        (maturity {type: (t-var {} _)}))
+      (app {span: "surf:1828..1885"}
+        (var {span: "surf:1828..1832"} sqrt)
+        (app {span: "surf:1834..1883"}
+          (var {} div)
+          (app {span: "surf:1834..1872"}
+            (var {span: "surf:1834..1848"} total_variance)
+            (var {span: "surf:1849..1850"} a)
+            (var {span: "surf:1852..1853"} b)
+            (var {span: "surf:1855..1858"} rho)
+            (var {span: "surf:1860..1861"} m)
+            (var {span: "surf:1863..1868"} sigma)
+            (var {span: "surf:1870..1871"} k))
+          (var {span: "surf:1875..1883"} maturity)))))
+  (defsig {span: "surf:1886..2166"}
+    volatility_report
+    (t-fn {} (t-tuple {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32))))
+  (def {span: "surf:1886..2166"}
+    volatility_report
+    (fn {}
+      (params {})
+      (tuple {span: "surf:1931..2166"}
+        (app {span: "surf:1932..2009"}
+          (var {span: "surf:1932..1950"} implied_volatility)
+          (lit {span: "surf:1951..1958", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+          (lit {span: "surf:1960..1966", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+          (app {span: "surf:1968..1975"}
+            (var {} neg)
+            (lit {span: "surf:1969..1975", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2))
+          (lit {span: "surf:1977..1983", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:1985..1991", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (app {span: "surf:1993..2000"}
+            (var {} neg)
+            (lit {span: "surf:1994..2000", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1))
+          (lit {span: "surf:2002..2008", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (app {span: "surf:2011..2087"}
+          (var {span: "surf:2011..2029"} implied_volatility)
+          (lit {span: "surf:2030..2037", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+          (lit {span: "surf:2039..2045", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+          (app {span: "surf:2047..2054"}
+            (var {} neg)
+            (lit {span: "surf:2048..2054", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2))
+          (lit {span: "surf:2056..2062", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:2064..2070", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:2072..2078", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:2080..2086", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (app {span: "surf:2089..2165"}
+          (var {span: "surf:2089..2107"} implied_volatility)
+          (lit {span: "surf:2108..2115", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.01)
+          (lit {span: "surf:2117..2123", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+          (app {span: "surf:2125..2132"}
+            (var {} neg)
+            (lit {span: "surf:2126..2132", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2))
+          (lit {span: "surf:2134..2140", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+          (lit {span: "surf:2142..2148", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:2150..2156", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.1)
+          (lit {span: "surf:2158..2164", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))))
+  (defsig {span: "surf:2395..2683"}
+    smt_svi_variance_nonnegative
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2501..2512"}
+                                     (var {} gte)
+                                     (var {span: "surf:2501..2502"} b)
+                                     (lit {span: "surf:2506..2512", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:2514..2527"}
+                                     (var {} gt)
+                                     (var {span: "surf:2514..2517"} rho)
+                                     (app {span: "surf:2520..2527"}
+                                       (var {} neg)
+                                       (lit {span: "surf:2521..2527", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+                                   (app {span: "surf:2529..2541"}
+                                     (var {} cmplt)
+                                     (var {span: "surf:2529..2532"} rho)
+                                     (lit {span: "surf:2535..2541", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+                                   (app {span: "surf:2543..2557"}
+                                     (var {} gt)
+                                     (var {span: "surf:2543..2548"} sigma)
+                                     (lit {span: "surf:2551..2557", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:2560..2619"}
+                                     (var {} gte)
+                                     (app {span: "surf:2560..2607"}
+                                       (var {} add)
+                                       (var {span: "surf:2560..2561"} a)
+                                       (app {span: "surf:2566..2607"}
+                                         (var {} mul)
+                                         (app {span: "surf:2566..2575"}
+                                           (var {} mul)
+                                           (var {span: "surf:2566..2567"} b)
+                                           (var {span: "surf:2570..2575"} sigma))
+                                         (app {span: "surf:2579..2607"}
+                                           (var {span: "surf:2579..2583"} sqrt)
+                                           (app {span: "surf:2585..2604"}
+                                             (var {} sub)
+                                             (lit {span: "surf:2585..2591", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+                                             (app {span: "surf:2595..2604"}
+                                               (var {} mul)
+                                               (var {span: "surf:2595..2598"} rho)
+                                               (var {span: "surf:2601..2604"} rho))))))
+                                     (lit {span: "surf:2613..2619", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))),
+         property_quantifiers: (params {}
+                                 (a {type: (t-prim {} f32)})
+                                 (b {type: (t-prim {} f32)})
+                                 (rho {type: (t-prim {} f32)})
+                                 (m {type: (t-prim {} f32)})
+                                 (sigma {type: (t-prim {} f32)})
+                                 (k {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2395..2683"
+       }
+    smt_svi_variance_nonnegative
+    (fn {}
+      (params {}
+        (a {type: (t-prim {} f32)})
+        (b {type: (t-prim {} f32)})
+        (rho {type: (t-prim {} f32)})
+        (m {type: (t-prim {} f32)})
+        (sigma {type: (t-prim {} f32)})
+        (k {type: (t-prim {} f32)}))
+      (app {span: "surf:2624..2683"}
+        (var {} gte)
+        (app {span: "surf:2624..2673"}
+          (var {span: "surf:2624..2641"} vs_total_variance)
+          (record {span: "surf:2642..2669"}
+            SVI
+            (kv {} a (var {span: "surf:2648..2649"} a))
+            (kv {} b (var {span: "surf:2651..2652"} b))
+            (kv {} rho (var {span: "surf:2654..2657"} rho))
+            (kv {} m (var {span: "surf:2659..2660"} m))
+            (kv {} sigma (var {span: "surf:2662..2667"} sigma)))
+          (var {span: "surf:2671..2672"} k))
+        (lit {span: "surf:2677..2683", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))))
+  (def {span: "surf:2915..2955"}
+    slice_volatilities
+    (app {span: "surf:2936..2955"}
+      (var {span: "surf:2936..2953"} volatility_report)))
+  (def {span: "surf:2956..3046"}
+    negative_variance_fit
+    (app {span: "surf:2980..3046"}
+      (var {span: "surf:2980..2997"} screened_variance)
+      (app {span: "surf:2998..3005"}
+        (var {} neg)
+        (lit {span: "surf:2999..3005", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+      (lit {span: "surf:3007..3013", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+      (lit {span: "surf:3015..3021", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+      (lit {span: "surf:3023..3029", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)
+      (lit {span: "surf:3031..3037", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+      (lit {span: "surf:3039..3045", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))
+  (defsig {span: "surf:3123..3364"}
+    counterexample_symbolic_svi_without_minimum
+    (t-fn {}
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} f32)
+      (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:3244..3255"}
+                                     (var {} gte)
+                                     (var {span: "surf:3244..3245"} b)
+                                     (lit {span: "surf:3249..3255", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:3257..3270"}
+                                     (var {} gt)
+                                     (var {span: "surf:3257..3260"} rho)
+                                     (app {span: "surf:3263..3270"}
+                                       (var {} neg)
+                                       (lit {span: "surf:3264..3270", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)))
+                                   (app {span: "surf:3272..3284"}
+                                     (var {} cmplt)
+                                     (var {span: "surf:3272..3275"} rho)
+                                     (lit {span: "surf:3278..3284", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+                                   (app {span: "surf:3286..3300"}
+                                     (var {} gt)
+                                     (var {span: "surf:3286..3291"} sigma)
+                                     (lit {span: "surf:3294..3300", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))),
+         property_quantifiers: (params {}
+                                 (a {type: (t-prim {} f32)})
+                                 (b {type: (t-prim {} f32)})
+                                 (rho {type: (t-prim {} f32)})
+                                 (m {type: (t-prim {} f32)})
+                                 (sigma {type: (t-prim {} f32)})
+                                 (k {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:3123..3364"
+       }
+    counterexample_symbolic_svi_without_minimum
+    (fn {}
+      (params {}
+        (a {type: (t-prim {} f32)})
+        (b {type: (t-prim {} f32)})
+        (rho {type: (t-prim {} f32)})
+        (m {type: (t-prim {} f32)})
+        (sigma {type: (t-prim {} f32)})
+        (k {type: (t-prim {} f32)}))
+      (app {span: "surf:3305..3364"}
+        (var {} gte)
+        (app {span: "surf:3305..3354"}
+          (var {span: "surf:3305..3322"} vs_total_variance)
+          (record {span: "surf:3323..3350"}
+            SVI
+            (kv {} a (var {span: "surf:3329..3330"} a))
+            (kv {} b (var {span: "surf:3332..3333"} b))
+            (kv {} rho (var {span: "surf:3335..3338"} rho))
+            (kv {} m (var {span: "surf:3340..3341"} m))
+            (kv {} sigma (var {span: "surf:3343..3348"} sigma)))
+          (var {span: "surf:3352..3353"} k))
+        (lit {span: "surf:3358..3364", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0)))))
