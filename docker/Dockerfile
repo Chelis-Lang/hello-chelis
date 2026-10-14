@@ -99,7 +99,8 @@ RUN --mount=type=secret,id=github_token \
 ARG CORAL_VERSION=0.7.50
 ARG NAUTILUS_VERSION=0.7.55
 ARG SHORELEAVE_VERSION=0.1.4
-ARG SHOALS_VERSION=0.24.20
+ARG SHOALS_VERSION=0.24.22
+ARG CLARABEL_VERSION=0.1.0
 
 RUN --mount=type=secret,id=github_token \
     token="$(cat /run/secrets/github_token 2>/dev/null || true)" \
@@ -107,6 +108,7 @@ RUN --mount=type=secret,id=github_token \
     && chelis reef install --from-github "chelis-lang/coral@v${CORAL_VERSION}" \
     && chelis reef install --from-github "chelis-lang/nautilus@v${NAUTILUS_VERSION}" \
     && chelis reef install --from-github "chelis-lang/shoreleave@v${SHORELEAVE_VERSION}" \
+    && chelis reef install --from-github "chelis-lang/chelis-clarabel@v${CLARABEL_VERSION}" \
     && chelis reef install --from-github "chelis-lang/shoals@v${SHOALS_VERSION}"
 
 # --- Python harness (uv-managed interpreter and environment) --------------

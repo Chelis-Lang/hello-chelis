@@ -1,10 +1,10 @@
 # Read a larger calculation
 
-Three of the hello-chelis capstone modules combine
-the ideas from the [five lessons](curriculum.md): explicit
-shapes, borrowing, and `grad`. Each section below gives the module's
-signatures, quotes the key function, explains what it computes, and calls it
-with inputs you can check by hand. The outputs are from `chelis eval`.
+The hello-chelis capstone modules combine the ideas from the
+[five lessons](curriculum.md): explicit shapes, borrowing, `grad`, and
+package calls. The first three sections quote key functions and call them
+with inputs you can check by hand; their outputs are from `chelis eval`.
+The option-hedge section shows a larger solver workflow and its proof.
 
 ## Set up the package
 
@@ -403,3 +403,61 @@ standard deviation 0.1042.
 
 **Try it:** pass a risk-free return of 0.01 to `sharpe_ratio(rising(), ...)`.
 The numerator drops from 0.03 to 0.02, so the ratio falls to about 1.265.
+
+## A constrained option hedge with a conditional proof
+
+[`Hello.Capstone.ClarabelCalibration`](https://github.com/Chelis-Lang/hello-chelis/blob/main/src/capstone/clarabelcalibration.ch)
+uses Shoals to price four listed calls in four spot scenarios. It then asks
+Clarabel for nonnegative positions whose total is at most one. The target is
+the scenario price of a call struck between the listed strikes. Four extra
+rows discourage concentrating the entire hedge in one call. These are
+synthetic model prices, so the example teaches the optimization workflow
+rather than a trading recommendation.
+
+The design matrix `B` has eight rows and four columns. For positions `z`,
+`B z` contains four scenario hedge prices and four concentration penalties;
+`t` contains four liability prices and four zeros. The program minimizes
+half the squared tracking error, `||B z - t||² / 2`, subject to the long-only
+and budget constraints. It constructs Clarabel's QP data as `P = Bᵀ B` and
+`q = -Bᵀ t`. A constant omitted from the QP objective has no effect on
+which positions minimize the error. `calibrate_hedge` accepts a different
+matrix and target, while `demo_calibration` builds the worked inputs with
+Shoals pricing.
+
+For these synthetic prices, a run puts about 0.6693 in the strike-100 call
+and 0.3307 in the strike-110 call, with the other two weights near zero. The
+penalized squared tracking loss is about 0.02895, compared with 0.28254 for
+equal weights. The long-only and budget boundaries are active here, so the
+interior-stationarity implication does not assert a zero gradient for this
+particular numerical solution.
+
+The [property file](https://github.com/Chelis-Lang/hello-chelis/blob/main/properties/clarabel_calibration.ch)
+uses `with contract = "clarabel.qp.ideal_optimality"` on a resolved call with
+that QP structure. For any supported `B` and `q`, if the call returns
+`Solved`, it proves that the exact-real modeled result has at least the
+`quality` of an equal-weight hedge. The equal-weight hedge satisfies all
+five inequalities. A second property proves `P z + q = 0` **if** the result
+is strictly inside all five constraints. At a budget or long-only boundary,
+the gradient need not be zero. The
+[reversed property](https://github.com/Chelis-Lang/hello-chelis/blob/main/proof_controls/clarabel_reversed_quality.ch)
+provides a counterexample, showing that the axiom does not make arbitrary
+downstream claims pass.
+
+The property invokes `solve` directly with symbolic QP data and calls the
+same exported `quality` function used by `calibrate_hedge`. It proves that
+conditional mathematical relationship for the stated QP shape; it does not
+verify the Shoals pricing model, the runtime function's entire call path, or
+the accuracy of Clarabel's floating-point answer.
+
+From the package root, run the numerical example and inspect the two proof
+verdicts:
+
+```sh
+chelis test tests/capstone/clarabelcalibration.ch --batch-mode file
+chelis prove properties/clarabel_calibration.ch --tier smt-only --json
+```
+
+The numerical test checks the actual returned `f64` positions and loss with
+tolerances. The proofs instead report `proven_modulo_asserted_axiom` with a
+`real_arithmetic` qualification: they reason about an ideal exact optimizer
+for each `Solved` call, not the exact bits returned at runtime.

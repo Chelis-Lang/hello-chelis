@@ -25,7 +25,7 @@ It then shows how to read the larger calculations in this repository.
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |
 | `c-earchin` (requirements to proofs) | [`c-earchin/`](c-earchin/) | EARS requirements translated to property witnesses, proven by `chelis prove`, with failures reported against the requirement's source line |
-| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, returns and risk across `coral` and `nautilus`, and three `shoals` capstones: a yield curve, an American put priced three ways, and a VaR backtest |
+| Capstones | [`src/capstone/`](src/capstone/) | Black-Scholes price and Greeks via `grad`, linear regression with an SGD step, returns and risk across `coral` and `nautilus`, and Shoals examples for curves, American puts, VaR backtesting, and a Clarabel-backed option hedge with conditional proofs |
 
 ## Run the examples
 

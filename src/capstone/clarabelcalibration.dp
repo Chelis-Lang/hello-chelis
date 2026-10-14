@@ -1,0 +1,628 @@
+(module {surf_path: "Hello.Capstone.ClarabelCalibration"}
+  hello.capstone.clarabelcalibration
+  (import {surf_path: "Clarabel.Qp"}
+    clarabel.qp
+    (NonnegativeCone Settings Solved solve))
+  (import {surf_path: "Shoals.Pricing"} shoals.pricing (bs_call_f64))
+  (export {} calibrate_hedge demo_calibration quality)
+  (defsig {span: "surf:421..686"}
+    scenario_prices
+    (t-fn {} (t-prim {} f64) (t-adt {} List (t-prim {} f64))))
+  (def {span: "surf:421..686"}
+    scenario_prices
+    (fn {}
+      (params {} (spot {type: (t-var {} _)}))
+      (app {span: "surf:467..686"}
+        (var {} Cons)
+        (app {span: "surf:468..520"}
+          (var {span: "surf:468..479"} bs_call_f64)
+          (var {span: "surf:480..484"} spot)
+          (lit {span: "surf:486..493", type: (t-prim {} f64)} 90.0)
+          (lit {span: "surf:495..502", type: (t-prim {} f64)} 0.03)
+          (lit {span: "surf:504..511", type: (t-prim {} f64)} 0.25)
+          (lit {span: "surf:513..519", type: (t-prim {} f64)} 1.0))
+        (app {}
+          (var {} Cons)
+          (app {span: "surf:522..575"}
+            (var {span: "surf:522..533"} bs_call_f64)
+            (var {span: "surf:534..538"} spot)
+            (lit {span: "surf:540..548", type: (t-prim {} f64)} 100.0)
+            (lit {span: "surf:550..557", type: (t-prim {} f64)} 0.03)
+            (lit {span: "surf:559..566", type: (t-prim {} f64)} 0.25)
+            (lit {span: "surf:568..574", type: (t-prim {} f64)} 1.0))
+          (app {}
+            (var {} Cons)
+            (app {span: "surf:577..630"}
+              (var {span: "surf:577..588"} bs_call_f64)
+              (var {span: "surf:589..593"} spot)
+              (lit {span: "surf:595..603", type: (t-prim {} f64)} 110.0)
+              (lit {span: "surf:605..612", type: (t-prim {} f64)} 0.03)
+              (lit {span: "surf:614..621", type: (t-prim {} f64)} 0.25)
+              (lit {span: "surf:623..629", type: (t-prim {} f64)} 1.0))
+            (app {}
+              (var {} Cons)
+              (app {span: "surf:632..685"}
+                (var {span: "surf:632..643"} bs_call_f64)
+                (var {span: "surf:644..648"} spot)
+                (lit {span: "surf:650..658", type: (t-prim {} f64)} 120.0)
+                (lit {span: "surf:660..667", type: (t-prim {} f64)} 0.03)
+                (lit {span: "surf:669..676", type: (t-prim {} f64)} 0.25)
+                (lit {span: "surf:678..684", type: (t-prim {} f64)} 1.0))
+              (var {} Nil)))))))
+  (defsig {span: "surf:687..780"}
+    liability_price
+    (t-fn {} (t-prim {} f64) (t-prim {} f64)))
+  (def {span: "surf:687..780"}
+    liability_price
+    (fn {}
+      (params {} (spot {type: (t-var {} _)}))
+      (app {span: "surf:727..780"}
+        (var {span: "surf:727..738"} bs_call_f64)
+        (var {span: "surf:739..743"} spot)
+        (lit {span: "surf:745..753", type: (t-prim {} f64)} 103.0)
+        (lit {span: "surf:755..762", type: (t-prim {} f64)} 0.03)
+        (lit {span: "surf:764..771", type: (t-prim {} f64)} 0.25)
+        (lit {span: "surf:773..779", type: (t-prim {} f64)} 1.0))))
+  (defsig {span: "surf:917..1211"}
+    hedge_basis
+    (t-fn {} (t-tensor {} (d-lit {} 8) (d-lit {} 4) (t-prim {} f64))))
+  (def {span: "surf:917..1211"}
+    hedge_basis
+    (fn {}
+      (params {})
+      (app {span: "surf:958..1211"}
+        (var {span: "surf:958..967"} to_tensor)
+        (app {span: "surf:968..1210"}
+          (var {} Cons)
+          (app {span: "surf:969..993"}
+            (var {span: "surf:969..984"} scenario_prices)
+            (lit {span: "surf:985..992", type: (t-prim {} f64)} 85.0))
+          (app {}
+            (var {} Cons)
+            (app {span: "surf:995..1019"}
+              (var {span: "surf:995..1010"} scenario_prices)
+              (lit {span: "surf:1011..1018", type: (t-prim {} f64)} 95.0))
+            (app {}
+              (var {} Cons)
+              (app {span: "surf:1021..1046"}
+                (var {span: "surf:1021..1036"} scenario_prices)
+                (lit {span: "surf:1037..1045", type: (t-prim {} f64)} 105.0))
+              (app {}
+                (var {} Cons)
+                (app {span: "surf:1048..1073"}
+                  (var {span: "surf:1048..1063"} scenario_prices)
+                  (lit {span: "surf:1064..1072", type: (t-prim {} f64)} 115.0))
+                (app {}
+                  (var {} Cons)
+                  (app {span: "surf:1075..1107"}
+                    (var {} Cons)
+                    (lit {span: "surf:1076..1082", type: (t-prim {} f64)} 0.2)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1084..1090", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1092..1098", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1100..1106", type: (t-prim {} f64)} 0.0)
+                          (var {} Nil)))))
+                  (app {}
+                    (var {} Cons)
+                    (app {span: "surf:1109..1141"}
+                      (var {} Cons)
+                      (lit {span: "surf:1110..1116", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1118..1124", type: (t-prim {} f64)} 0.2)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1126..1132", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1134..1140", type: (t-prim {} f64)} 0.0)
+                            (var {} Nil)))))
+                    (app {}
+                      (var {} Cons)
+                      (app {span: "surf:1143..1175"}
+                        (var {} Cons)
+                        (lit {span: "surf:1144..1150", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:1152..1158", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1160..1166", type: (t-prim {} f64)} 0.2)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:1168..1174", type: (t-prim {} f64)} 0.0)
+                              (var {} Nil)))))
+                      (app {}
+                        (var {} Cons)
+                        (app {span: "surf:1177..1209"}
+                          (var {} Cons)
+                          (lit {span: "surf:1178..1184", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:1186..1192", type: (t-prim {} f64)} 0.0)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:1194..1200", type: (t-prim {} f64)} 0.0)
+                              (app {}
+                                (var {} Cons)
+                                (lit {span: "surf:1202..1208", type: (t-prim {} f64)} 0.2)
+                                (var {} Nil)))))
+                        (var {} Nil))))))))))))
+  (defsig {span: "surf:1212..1404"}
+    liability_quotes
+    (t-fn {} (t-tensor {} (d-lit {} 8) (t-prim {} f64))))
+  (def {span: "surf:1212..1404"}
+    liability_quotes
+    (fn {}
+      (params {})
+      (app {span: "surf:1255..1404"}
+        (var {span: "surf:1255..1264"} to_tensor)
+        (app {span: "surf:1265..1403"}
+          (var {} Cons)
+          (app {span: "surf:1266..1290"}
+            (var {span: "surf:1266..1281"} liability_price)
+            (lit {span: "surf:1282..1289", type: (t-prim {} f64)} 85.0))
+          (app {}
+            (var {} Cons)
+            (app {span: "surf:1292..1316"}
+              (var {span: "surf:1292..1307"} liability_price)
+              (lit {span: "surf:1308..1315", type: (t-prim {} f64)} 95.0))
+            (app {}
+              (var {} Cons)
+              (app {span: "surf:1318..1343"}
+                (var {span: "surf:1318..1333"} liability_price)
+                (lit {span: "surf:1334..1342", type: (t-prim {} f64)} 105.0))
+              (app {}
+                (var {} Cons)
+                (app {span: "surf:1345..1370"}
+                  (var {span: "surf:1345..1360"} liability_price)
+                  (lit {span: "surf:1361..1369", type: (t-prim {} f64)} 115.0))
+                (app {}
+                  (var {} Cons)
+                  (lit {span: "surf:1372..1378", type: (t-prim {} f64)} 0.0)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:1380..1386", type: (t-prim {} f64)} 0.0)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1388..1394", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:1396..1402", type: (t-prim {} f64)} 0.0)
+                        (var {} Nil))))))))))))
+  (defsig {span: "surf:1623..1953"}
+    quality
+    (t-fn {}
+      (t-tensor {} (d-lit {} 4) (t-prim {} f64))
+      (t-tensor {} (d-lit {} 4) (t-prim {} f64))
+      (t-tensor {} (d-lit {} 4) (d-lit {} 4) (t-prim {} f64))
+      (t-tensor {} (d-lit {} 4) (t-prim {} f64))
+      (t-prim {} f64)))
+  (def {span: "surf:1623..1953"}
+    quality
+    (fn {}
+      (params {}
+        (updated {type: (t-var {} _)})
+        (state {type: (t-var {} _)})
+        (p {type: (t-var {} _)})
+        (q {type: (t-var {} _)}))
+      (let {span: "surf:1733..1953"}
+        (bind {}
+          step
+          (app {span: "surf:1744..1763"}
+            (var {span: "surf:1744..1747"} sub)
+            (var {span: "surf:1748..1755"} updated)
+            (var {span: "surf:1757..1762"} state)))
+        (let {}
+          (bind {}
+            weighted
+            (app {span: "surf:1777..1832"}
+              (var {span: "surf:1777..1784"} reshape)
+              (app {span: "surf:1785..1823"}
+                (var {span: "surf:1785..1791"} matmul)
+                (var {span: "surf:1792..1793"} p)
+                (app {span: "surf:1795..1822"}
+                  (var {span: "surf:1795..1802"} reshape)
+                  (var {span: "surf:1803..1807"} step)
+                  (app {span: "surf:1809..1821"}
+                    (var {} Cons)
+                    (lit {span: "surf:1810..1814", type: (t-prim {} i64)} 4)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:1816..1820", type: (t-prim {} i64)} 1)
+                      (var {} Nil)))))
+              (app {span: "surf:1825..1831"}
+                (var {} Cons)
+                (lit {span: "surf:1826..1830", type: (t-prim {} i64)} 4)
+                (var {} Nil))))
+          (app {span: "surf:1837..1950"}
+            (var {} sub)
+            (app {span: "surf:1837..1904"}
+              (var {} sub)
+              (lit {span: "surf:1837..1843", type: (t-prim {} f64)} 0.0)
+              (app {span: "surf:1847..1904"}
+                (var {} mul)
+                (lit {span: "surf:1847..1853", type: (t-prim {} f64)} 0.5)
+                (app {span: "surf:1856..1904"}
+                  (var {span: "surf:1856..1872"} tensor_to_scalar)
+                  (app {span: "surf:1873..1903"}
+                    (var {span: "surf:1873..1876"} sum)
+                    (app {span: "surf:1877..1896"}
+                      (var {span: "surf:1877..1880"} mul)
+                      (var {span: "surf:1881..1885"} step)
+                      (var {span: "surf:1887..1895"} weighted))
+                    (lit {span: "surf:1898..1902", surf_literal_style: "explicit", type: (t-prim {} i32)} 0)))))
+            (app {span: "surf:1909..1950"}
+              (var {span: "surf:1909..1925"} tensor_to_scalar)
+              (app {span: "surf:1926..1949"}
+                (var {span: "surf:1926..1929"} sum)
+                (app {span: "surf:1930..1942"}
+                  (var {span: "surf:1930..1933"} mul)
+                  (var {span: "surf:1934..1935"} q)
+                  (var {span: "surf:1937..1941"} step))
+                (lit {span: "surf:1944..1948", surf_literal_style: "explicit", type: (t-prim {} i32)} 0))))))))
+  (defsig {span: "surf:1954..2227"}
+    tracking_loss
+    (t-fn {}
+      (t-tensor {} (d-lit {} 4) (t-prim {} f64))
+      (t-tensor {} (d-lit {} 8) (d-lit {} 4) (t-prim {} f64))
+      (t-tensor {} (d-lit {} 8) (t-prim {} f64))
+      (t-prim {} f64)))
+  (def {span: "surf:1954..2227"}
+    tracking_loss
+    (fn {}
+      (params {}
+        (weights {type: (t-var {} _)})
+        (basis {type: (t-var {} _)})
+        (target {type: (t-var {} _)}))
+      (let {span: "surf:2056..2227"}
+        (bind {}
+          predicted
+          (app {span: "surf:2072..2134"}
+            (var {span: "surf:2072..2079"} reshape)
+            (app {span: "surf:2080..2125"}
+              (var {span: "surf:2080..2086"} matmul)
+              (var {span: "surf:2087..2092"} basis)
+              (app {span: "surf:2094..2124"}
+                (var {span: "surf:2094..2101"} reshape)
+                (var {span: "surf:2102..2109"} weights)
+                (app {span: "surf:2111..2123"}
+                  (var {} Cons)
+                  (lit {span: "surf:2112..2116", type: (t-prim {} i64)} 4)
+                  (app {}
+                    (var {} Cons)
+                    (lit {span: "surf:2118..2122", type: (t-prim {} i64)} 1)
+                    (var {} Nil)))))
+            (app {span: "surf:2127..2133"}
+              (var {} Cons)
+              (lit {span: "surf:2128..2132", type: (t-prim {} i64)} 8)
+              (var {} Nil))))
+        (let {}
+          (bind {}
+            residual
+            (app {span: "surf:2148..2170"}
+              (var {span: "surf:2148..2151"} sub)
+              (var {span: "surf:2152..2161"} predicted)
+              (var {span: "surf:2163..2169"} target)))
+          (app {span: "surf:2173..2225"}
+            (var {span: "surf:2173..2189"} tensor_to_scalar)
+            (app {span: "surf:2190..2224"}
+              (var {span: "surf:2190..2193"} sum)
+              (app {span: "surf:2194..2217"}
+                (var {span: "surf:2194..2197"} mul)
+                (var {span: "surf:2198..2206"} residual)
+                (var {span: "surf:2208..2216"} residual))
+              (lit {span: "surf:2219..2223", surf_literal_style: "explicit", type: (t-prim {} i32)} 0)))))))
+  (defsig {span: "surf:2607..3860"}
+    calibrate_hedge
+    (t-fn {}
+      (t-tensor {} (d-lit {} 8) (d-lit {} 4) (t-prim {} f64))
+      (t-tensor {} (d-lit {} 8) (t-prim {} f64))
+      (t-tuple {}
+        (t-tensor {} (d-lit {} 4) (t-prim {} f64))
+        (t-prim {} f64)
+        (t-prim {} f64)
+        (t-prim {} f64))))
+  (def {span: "surf:2607..3860"}
+    calibrate_hedge
+    (fn {}
+      (params {} (basis {type: (t-var {} _)}) (target {type: (t-var {} _)}))
+      (let {span: "surf:2714..3860"}
+        (bind {}
+          p
+          (app {span: "surf:2722..2763"}
+            (var {span: "surf:2722..2728"} matmul)
+            (app {span: "surf:2729..2755"}
+              (var {span: "surf:2729..2736"} permute)
+              (var {span: "surf:2737..2742"} basis)
+              (lit {span: "surf:2744..2748", surf_literal_style: "explicit", type: (t-prim {} i32)} 1)
+              (lit {span: "surf:2750..2754", surf_literal_style: "explicit", type: (t-prim {} i32)} 0))
+            (var {span: "surf:2757..2762"} basis)))
+        (let {}
+          (bind {}
+            q
+            (app {span: "surf:2770..2857"}
+              (var {span: "surf:2770..2773"} neg)
+              (app {span: "surf:2774..2856"}
+                (var {span: "surf:2774..2781"} reshape)
+                (app {span: "surf:2782..2847"}
+                  (var {span: "surf:2782..2788"} matmul)
+                  (app {span: "surf:2789..2815"}
+                    (var {span: "surf:2789..2796"} permute)
+                    (var {span: "surf:2797..2802"} basis)
+                    (lit {span: "surf:2804..2808", surf_literal_style: "explicit", type: (t-prim {} i32)} 1)
+                    (lit {span: "surf:2810..2814", surf_literal_style: "explicit", type: (t-prim {} i32)} 0))
+                  (app {span: "surf:2817..2846"}
+                    (var {span: "surf:2817..2824"} reshape)
+                    (var {span: "surf:2825..2831"} target)
+                    (app {span: "surf:2833..2845"}
+                      (var {} Cons)
+                      (lit {span: "surf:2834..2838", type: (t-prim {} i64)} 8)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:2840..2844", type: (t-prim {} i64)} 1)
+                        (var {} Nil)))))
+                (app {span: "surf:2849..2855"}
+                  (var {} Cons)
+                  (lit {span: "surf:2850..2854", type: (t-prim {} i64)} 4)
+                  (var {} Nil)))))
+          (let {}
+            (bind {}
+              a
+              (app {span: "surf:2864..3049"}
+                (var {span: "surf:2864..2873"} to_tensor)
+                (app {span: "surf:2874..3048"}
+                  (var {} Cons)
+                  (app {span: "surf:2875..2908"}
+                    (var {} Cons)
+                    (app {span: "surf:2876..2883"}
+                      (var {} neg)
+                      (lit {span: "surf:2877..2883", type: (t-prim {} f64)} 1.0))
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:2885..2891", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:2893..2899", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:2901..2907", type: (t-prim {} f64)} 0.0)
+                          (var {} Nil)))))
+                  (app {}
+                    (var {} Cons)
+                    (app {span: "surf:2910..2943"}
+                      (var {} Cons)
+                      (lit {span: "surf:2911..2917", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (app {span: "surf:2919..2926"}
+                          (var {} neg)
+                          (lit {span: "surf:2920..2926", type: (t-prim {} f64)} 1.0))
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:2928..2934", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:2936..2942", type: (t-prim {} f64)} 0.0)
+                            (var {} Nil)))))
+                    (app {}
+                      (var {} Cons)
+                      (app {span: "surf:2945..2978"}
+                        (var {} Cons)
+                        (lit {span: "surf:2946..2952", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:2954..2960", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (app {span: "surf:2962..2969"}
+                              (var {} neg)
+                              (lit {span: "surf:2963..2969", type: (t-prim {} f64)} 1.0))
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:2971..2977", type: (t-prim {} f64)} 0.0)
+                              (var {} Nil)))))
+                      (app {}
+                        (var {} Cons)
+                        (app {span: "surf:2980..3013"}
+                          (var {} Cons)
+                          (lit {span: "surf:2981..2987", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:2989..2995", type: (t-prim {} f64)} 0.0)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:2997..3003", type: (t-prim {} f64)} 0.0)
+                              (app {}
+                                (var {} Cons)
+                                (app {span: "surf:3005..3012"}
+                                  (var {} neg)
+                                  (lit {span: "surf:3006..3012", type: (t-prim {} f64)} 1.0))
+                                (var {} Nil)))))
+                        (app {}
+                          (var {} Cons)
+                          (app {span: "surf:3015..3047"}
+                            (var {} Cons)
+                            (lit {span: "surf:3016..3022", type: (t-prim {} f64)} 1.0)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:3024..3030", type: (t-prim {} f64)} 1.0)
+                              (app {}
+                                (var {} Cons)
+                                (lit {span: "surf:3032..3038", type: (t-prim {} f64)} 1.0)
+                                (app {}
+                                  (var {} Cons)
+                                  (lit {span: "surf:3040..3046", type: (t-prim {} f64)} 1.0)
+                                  (var {} Nil)))))
+                          (var {} Nil))))))))
+            (let {}
+              (bind {}
+                b
+                (app {span: "surf:3056..3107"}
+                  (var {span: "surf:3056..3065"} to_tensor)
+                  (app {span: "surf:3066..3106"}
+                    (var {} Cons)
+                    (lit {span: "surf:3067..3073", type: (t-prim {} f64)} 0.0)
+                    (app {}
+                      (var {} Cons)
+                      (lit {span: "surf:3075..3081", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:3083..3089", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:3091..3097", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:3099..3105", type: (t-prim {} f64)} 1.0)
+                            (var {} Nil))))))))
+              (let {}
+                (bind {}
+                  state
+                  (app {span: "surf:3118..3161"}
+                    (var {span: "surf:3118..3127"} to_tensor)
+                    (app {span: "surf:3128..3160"}
+                      (var {} Cons)
+                      (lit {span: "surf:3129..3135", type: (t-prim {} f64)} 0.0)
+                      (app {}
+                        (var {} Cons)
+                        (lit {span: "surf:3137..3143", type: (t-prim {} f64)} 0.0)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:3145..3151", type: (t-prim {} f64)} 0.0)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:3153..3159", type: (t-prim {} f64)} 0.0)
+                            (var {} Nil)))))))
+                (let {}
+                  (bind {}
+                    baseline
+                    (app {span: "surf:3175..3222"}
+                      (var {span: "surf:3175..3184"} to_tensor)
+                      (app {span: "surf:3185..3221"}
+                        (var {} Cons)
+                        (lit {span: "surf:3186..3193", type: (t-prim {} f64)} 0.25)
+                        (app {}
+                          (var {} Cons)
+                          (lit {span: "surf:3195..3202", type: (t-prim {} f64)} 0.25)
+                          (app {}
+                            (var {} Cons)
+                            (lit {span: "surf:3204..3211", type: (t-prim {} f64)} 0.25)
+                            (app {}
+                              (var {} Cons)
+                              (lit {span: "surf:3213..3220", type: (t-prim {} f64)} 0.25)
+                              (var {} Nil)))))))
+                  (let {}
+                    (bind {}
+                      settings
+                      (record {span: "surf:3236..3369"}
+                        Settings
+                        (kv {}
+                          max_iterations
+                          (lit {span: "surf:3263..3269", type: (t-prim {} i64)} 200))
+                        (kv {}
+                          absolute_gap_tolerance
+                          (lit {span: "surf:3295..3302", type: (t-prim {} f64)} 0.000000001))
+                        (kv {}
+                          relative_gap_tolerance
+                          (lit {span: "surf:3328..3335", type: (t-prim {} f64)} 0.000000001))
+                        (kv {}
+                          feasibility_tolerance
+                          (lit {span: "surf:3360..3367", type: (t-prim {} f64)} 0.000000001))))
+                    (match {span: "surf:3372..3858"}
+                      (app {span: "surf:3378..3430"}
+                        (var {span: "surf:3378..3383"} solve)
+                        (var {span: "surf:3384..3385"} p)
+                        (var {span: "surf:3387..3388"} q)
+                        (var {span: "surf:3390..3391"} a)
+                        (var {span: "surf:3393..3394"} b)
+                        (app {span: "surf:3396..3419"}
+                          (var {} Cons)
+                          (app {span: "surf:3397..3418"}
+                            (var {span: "surf:3397..3412"} NonnegativeCone)
+                            (lit {span: "surf:3413..3417", type: (t-prim {} i64)} 5))
+                          (var {} Nil))
+                        (var {span: "surf:3421..3429"} settings))
+                      (arm {}
+                        (pat-record {}
+                          Solved
+                          (kv {} primal (pat-var {} primal))
+                          (kv {} dual (pat-var {} dual))
+                          (kv {} slack (pat-var {} slack))
+                          (kv {} iterations (pat-var {} iterations))
+                          (kv {} primal_residual (pat-var {} primal_residual))
+                          (kv {} dual_residual (pat-var {} dual_residual)))
+                        ()
+                        (let {span: "surf:3522..3799"}
+                          (bind {}
+                            updated
+                            (app {span: "surf:3538..3556"}
+                              (var {span: "surf:3538..3541"} add)
+                              (var {span: "surf:3542..3547"} state)
+                              (var {span: "surf:3549..3555"} primal)))
+                          (let {}
+                            (bind {}
+                              baseline_updated
+                              (app {span: "surf:3580..3600"}
+                                (var {span: "surf:3580..3583"} add)
+                                (var {span: "surf:3584..3589"} state)
+                                (var {span: "surf:3591..3599"} baseline)))
+                            (let {}
+                              (bind {}
+                                score_gain
+                                (app {span: "surf:3619..3689"}
+                                  (var {} sub)
+                                  (app {span: "surf:3619..3648"}
+                                    (var {span: "surf:3619..3626"} quality)
+                                    (var {span: "surf:3627..3634"} updated)
+                                    (var {span: "surf:3636..3641"} state)
+                                    (var {span: "surf:3643..3644"} p)
+                                    (var {span: "surf:3646..3647"} q))
+                                  (app {span: "surf:3651..3689"}
+                                    (var {span: "surf:3651..3658"} quality)
+                                    (var {span: "surf:3659..3675"} baseline_updated)
+                                    (var {span: "surf:3677..3682"} state)
+                                    (var {span: "surf:3684..3685"} p)
+                                    (var {span: "surf:3687..3688"} q))))
+                              (tuple {span: "surf:3695..3795"}
+                                (var {span: "surf:3696..3703"} updated)
+                                (app {span: "surf:3705..3742"}
+                                  (var {span: "surf:3705..3718"} tracking_loss)
+                                  (var {span: "surf:3719..3726"} updated)
+                                  (var {span: "surf:3728..3733"} basis)
+                                  (var {span: "surf:3735..3741"} target))
+                                (app {span: "surf:3744..3782"}
+                                  (var {span: "surf:3744..3757"} tracking_loss)
+                                  (var {span: "surf:3758..3766"} baseline)
+                                  (var {span: "surf:3768..3773"} basis)
+                                  (var {span: "surf:3775..3781"} target))
+                                (var {span: "surf:3784..3794"} score_gain))))))
+                      (arm {}
+                        (pat-wild {})
+                        ()
+                        (app {span: "surf:3811..3854"}
+                          (var {span: "surf:3811..3815"} fail)
+                          (lit {span: "surf:3816..3853", type: (t-prim {} string)} "Clarabel did not solve the hedge QP")))))))))))))
+  (defsig {span: "surf:3861..3971"}
+    demo_calibration
+    (t-fn {}
+      (t-tuple {}
+        (t-tensor {} (d-lit {} 4) (t-prim {} f64))
+        (t-prim {} f64)
+        (t-prim {} f64)
+        (t-prim {} f64))))
+  (def {span: "surf:3861..3971"}
+    demo_calibration
+    (fn {}
+      (params {})
+      (app {span: "surf:3921..3971"}
+        (var {span: "surf:3921..3936"} calibrate_hedge)
+        (app {span: "surf:3937..3950"}
+          (var {span: "surf:3937..3948"} hedge_basis))
+        (app {span: "surf:3952..3970"}
+          (var {span: "surf:3952..3968"} liability_quotes))))))
