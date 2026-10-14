@@ -1,0 +1,15 @@
+(import {surf_path: "Hello.Proofdemos.OptionRisk"}
+  hello.proofdemos.optionrisk
+  (option_report screened_report))
+
+(def {span: "surf:215..259"}
+  option_risk_at_100
+  (app {span: "surf:236..259"}
+    (var {span: "surf:236..249"} option_report)
+    (lit {span: "surf:250..258", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)))
+
+(def {span: "surf:260..309"}
+  outside_certified_box
+  (app {span: "surf:284..309"}
+    (var {span: "surf:284..299"} screened_report)
+    (lit {span: "surf:300..308", surf_literal_style: "explicit", type: (t-prim {} f32)} 120.0)))

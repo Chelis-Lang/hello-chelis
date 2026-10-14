@@ -7,7 +7,7 @@ hand-edited.
 
 Usage:
     uv run scripts/regen_deep.py            # walks src/, tests/,
-                                            # tests_neg/, verify/
+                                            # tests_neg/, verify/, examples/
     uv run scripts/regen_deep.py --check    # regen to a temp location,
                                             # diff against committed;
                                             # non-zero on drift
@@ -26,7 +26,7 @@ import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-WALK_DIRS = ["src", "tests", "tests_neg", "verify"]
+WALK_DIRS = ["src", "tests", "tests_neg", "verify", "examples"]
 
 
 def discover() -> list[Path]:

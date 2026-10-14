@@ -1,0 +1,7 @@
+(import {surf_path: "Hello.Proofdemos.CollateralBudget"}
+  hello.proofdemos.collateralbudget
+  (collateral_report))
+
+(def {span: "surf:138..170"}
+  collateral
+  (app {span: "surf:151..170"} (var {span: "surf:151..168"} collateral_report)))

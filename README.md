@@ -2,7 +2,7 @@
 
 A runnable tour of the [Chelis](https://github.com/Chelis-Lang/chelis)
 language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
-`shoals`, and `c-earchin`. Every module under `src/` is a real program that
+`shoals`, `economoist`, and `c-earchin`. Every module under `src/` is a real program that
 type-checks, and nearly every one has a test under `tests/` that calls it
 and asserts the result.
 Standalone programs under `verify/` compile to C and run.
@@ -21,6 +21,7 @@ It then shows how to read the larger calculations in this repository.
 |---|---|---|
 | Language fundamentals | [`src/basics/`](src/basics/) | named dimensions, ADTs and `match`, modules, dimension polymorphism, precision and `cast`, explicit random keys and replay, borrowed tensor reads and explicit copy into an owned parameter, `grad`, `vmap`, `realize`, macros |
 | Property checking | [`src/basics/propertyproof.ch`](src/basics/propertyproof.ch) | a guarded monotonicity claim proved by SMT over the reals, with a missing-guard counterexample in the tests |
+| Calculations with bounds | [`examples/proofdemos/`](examples/proofdemos/README.md) | six commented programs combining CDF payout budgets, interpolation, bond collateral, Gordon valuation, differentiated option risk, and SVI screening with guarded SMT properties and certified interval proofs |
 | `chelis-std` | [`src/std/`](src/std/) | elementwise math, normalization, reductions, exact `Decimal` arithmetic, `Date` arithmetic, `List` / `Dict` / iteration, text I/O |
 | `coral` (typed dataframes) | [`src/coral/`](src/coral/) | typed columns, `group_by`, joins, rolling windows, reshape, CSV/JSON I/O |
 | `nautilus` (numerics) | [`src/nautilus/`](src/nautilus/) | special functions, distributions, linear algebra, statistics, information theory, root-finding, integration, ODE/SDE, interpolation, optimization, hypothesis tests, curve fitting |

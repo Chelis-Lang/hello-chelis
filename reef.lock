@@ -27,6 +27,17 @@ kind = "local_registry"
 remote_origin = "github://chelis-lang/coral@v0.7.50"
 
 [[dependencies]]
+name = "economoist"
+version = "0.2.20"
+compiler = "=0.19.4"
+archive_sha256 = "81919aefe99422eed2462735691ae346b2a21532299afbac9ef1de56e3f9ba57"
+shell_sha256 = "e95e3a8d72be07c2d1055f9fac39c8c47ff0e5085b1040f932d9e5815527cc7b"
+
+[dependencies.source]
+kind = "local_registry"
+remote_origin = "github://Chelis-Lang/economoist@v0.2.20"
+
+[[dependencies]]
 name = "nautilus"
 version = "0.7.55"
 compiler = "=0.19.4"

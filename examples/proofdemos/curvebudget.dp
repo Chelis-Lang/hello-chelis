@@ -1,0 +1,13 @@
+(import {surf_path: "Hello.Proofdemos.CurveBudget"}
+  hello.proofdemos.curvebudget
+  (allocation_report planned_spend_checked))
+
+(def {span: "surf:156..197"}
+  checkpoint_spending
+  (app {span: "surf:178..197"} (var {span: "surf:178..195"} allocation_report)))
+
+(def {span: "surf:198..245"}
+  outside_segment
+  (app {span: "surf:216..245"}
+    (var {span: "surf:216..237"} planned_spend_checked)
+    (lit {span: "surf:238..244", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5)))

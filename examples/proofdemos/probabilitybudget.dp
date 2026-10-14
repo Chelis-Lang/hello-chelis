@@ -1,0 +1,7 @@
+(import {surf_path: "Hello.Proofdemos.ProbabilityBudget"}
+  hello.proofdemos.probabilitybudget
+  (probability_report))
+
+(def {span: "surf:214..256"}
+  payout_expectations
+  (app {span: "surf:236..256"} (var {span: "surf:236..254"} probability_report)))

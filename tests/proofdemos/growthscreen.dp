@@ -1,0 +1,98 @@
+(module {surf_path: "Hello.Tests.Proofdemos.GrowthScreen"}
+  hello.tests.proofdemos.growthscreen
+  (import {surf_path: "Hello.Proofdemos.GrowthScreen"}
+    hello.proofdemos.growthscreen
+    (valuation screened_value purchase_margin))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
+  (defsig {span: "surf:169..425"}
+    test_growth_scenario
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:169..425"}
+    test_growth_scenario
+    (fn {}
+      (params {})
+      (let {span: "surf:217..425"}
+        (bind {destructure: true}
+          __chelis_tmp0
+          (app {span: "surf:225..309"}
+            (var {span: "surf:225..237"} assert_close)
+            (app {span: "surf:238..273"}
+              (var {span: "surf:238..247"} valuation)
+              (lit {span: "surf:248..254", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+              (lit {span: "surf:256..263", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.08)
+              (lit {span: "surf:265..272", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03))
+            (lit {span: "surf:275..282", surf_literal_style: "explicit", type: (t-prim {} f32)} 20.0)
+            (lit {span: "surf:284..292", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+            (lit {span: "surf:294..308", type: (t-prim {} string)} "Gordon value")))
+        (app {span: "surf:312..423"}
+          (var {span: "surf:312..324"} assert_close)
+          (app {span: "surf:325..375"}
+            (var {span: "surf:325..340"} purchase_margin)
+            (lit {span: "surf:341..347", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+            (lit {span: "surf:349..356", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.08)
+            (lit {span: "surf:358..365", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+            (lit {span: "surf:367..374", surf_literal_style: "explicit", type: (t-prim {} f32)} 18.0))
+          (lit {span: "surf:377..383", surf_literal_style: "explicit", type: (t-prim {} f32)} 2.0)
+          (lit {span: "surf:385..393", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+          (lit {span: "surf:395..422", type: (t-prim {} string)} "value less purchase price")))))
+  (defsig {span: "surf:426..865"}
+    test_screened_domain
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:426..865"}
+    test_screened_domain
+    (fn {}
+      (params {})
+      (let {span: "surf:474..865"}
+        (bind {}
+          accepted
+          (match {span: "surf:489..617"}
+            (app {span: "surf:495..535"}
+              (var {span: "surf:495..509"} screened_value)
+              (lit {span: "surf:510..516", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+              (lit {span: "surf:518..525", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.08)
+              (lit {span: "surf:527..534", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03))
+            (arm {}
+              (pat-ctor {} Some (pat-var {} v))
+              ()
+              (app {span: "surf:562..591"}
+                (var {} and)
+                (app {span: "surf:562..573"}
+                  (var {} gte)
+                  (var {span: "surf:562..563"} v)
+                  (lit {span: "surf:567..573", surf_literal_style: "explicit", type: (t-prim {} f32)} 6.0))
+                (app {span: "surf:579..591"}
+                  (var {} lte)
+                  (var {span: "surf:579..580"} v)
+                  (lit {span: "surf:584..591", surf_literal_style: "explicit", type: (t-prim {} f32)} 26.0))))
+            (arm {}
+              (pat-ctor {} None)
+              ()
+              (lit {span: "surf:608..613", type: (t-prim {} bool)} false))))
+        (let {}
+          (bind {}
+            rejected
+            (match {span: "surf:631..730"}
+              (app {span: "surf:637..677"}
+                (var {span: "surf:637..651"} screened_value)
+                (lit {span: "surf:652..658", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0)
+                (lit {span: "surf:660..667", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.03)
+                (lit {span: "surf:669..676", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.08))
+              (arm {}
+                (pat-ctor {} None)
+                ()
+                (lit {span: "surf:699..703", type: (t-prim {} bool)} true))
+              (arm {}
+                (pat-ctor {} Some (pat-wild {}))
+                ()
+                (lit {span: "surf:721..726", type: (t-prim {} bool)} false))))
+          (let {}
+            (bind {destructure: true}
+              __chelis_tmp1
+              (app {span: "surf:737..793"}
+                (var {span: "surf:737..748"} assert_true)
+                (var {span: "surf:749..757"} accepted)
+                (lit {span: "surf:759..792", type: (t-prim {} string)} "inside the finite valuation box")))
+            (app {span: "surf:796..863"}
+              (var {span: "surf:796..807"} assert_true)
+              (var {span: "surf:808..816"} rejected)
+              (lit {span: "surf:818..862", type: (t-prim {} string)} "reject a growth rate above required return"))))))))
