@@ -26,6 +26,12 @@ Run them with:
 uv run --group test pytest tests/
 ```
 
+The Clarabel proof test takes several minutes. CI runs it for changes to the
+example, proof, dependency pins, and owning workflows, and on a nightly
+schedule. The regular PR corpus runs the other Python tests and the numerical
+Clarabel runtime tests. Run the proof test directly with
+`uv run --group test pytest tests/test_clarabel_calibration.py`.
+
 A test whose tool is missing from `PATH` (`chelis` or `gcc`) is skipped, so
 run them inside the Docker image for full coverage.
 
