@@ -2,70 +2,70 @@ schema = "1"
 
 [package]
 name = "hello-chelis"
-version = "0.1.15"
+version = "0.1.16"
 
 [[dependencies]]
 name = "chelis-clarabel"
-version = "0.1.0"
-compiler = "=0.19.4"
-archive_sha256 = "123b6d95a86e44c71fcfa98cae2672505cddd8f13cd6084ab7bac0e23004dc5f"
-shell_sha256 = "3df909c193b60795ed0f0969fbebf793db8875329636fa325dbb8f9331d3977f"
+version = "0.1.1"
+compiler = "=0.21.0"
+archive_sha256 = "078e971c65bd3b086db37fe6a1f07627c7f93acbce091e0d3a78398dcc0d30f0"
+shell_sha256 = "586e09c6c7d1179a97e1c4906bc00c632f02612dc684ff37f25da4955112f162"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/chelis-clarabel@v0.1.0"
+remote_origin = "github://chelis-lang/chelis-clarabel@v0.1.1"
 
 [[dependencies]]
 name = "chelis-std"
 version = "0.4.0"
-compiler = "=0.19.4"
-archive_sha256 = "0550cffcd67f6311b22ea2056b58bd42b7790e0d52fb3418f2c5df63a67a5241"
-shell_sha256 = "557d2f2036a33ae9255cb136ac7a51a0780611dea7e14d6b8b3df003985b83f7"
+compiler = "=0.21.0"
+archive_sha256 = "ce2d947d683ae9804c5847f4598e6cb35aa77f3cda51dd5785f18804e1311488"
+shell_sha256 = "68b2629d57e1266289762940e1089f85b3e45e771bd995b0adc758b8a3dee70d"
 
 [dependencies.source]
 kind = "bundled"
-compiler_version = "0.19.4"
+compiler_version = "0.21.0"
 
 [[dependencies]]
 name = "coral"
-version = "0.7.50"
-compiler = "=0.19.4"
-archive_sha256 = "ccf1b1e552b4327811cc5737167829a1ac8e18e7a5bca812ad07faf97fe107f9"
-shell_sha256 = "bf6e7107106a16ee1afce5f7d663d918c4cd26eb74ae6245df62f39faac6b1a1"
+version = "0.7.51"
+compiler = "=0.21.0"
+archive_sha256 = "e2831cb9b1531072223f4b291ad80e3927aa14d15f61420a6cab4573994c5a2a"
+shell_sha256 = "ee8d0ef367ba9b70cc18e7b9f3dcb7bf8adcfb56ae67dc50601c2d772389847a"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/coral@v0.7.50"
+remote_origin = "github://chelis-lang/coral@v0.7.51"
 
 [[dependencies]]
 name = "nautilus"
-version = "0.7.55"
-compiler = "=0.19.4"
-archive_sha256 = "021a2d6084e11b2fe50b1cf2f0df6a84adb7f688cfc3c716ebb6e7244135b938"
-shell_sha256 = "a59b9ab593d3a0f91bc496051ed42e2f4c3fe9b08f24288860c26ddfc77794c6"
+version = "0.7.57"
+compiler = "=0.21.0"
+archive_sha256 = "6eeae7a1c5b8afb7b0df6e7ddaba16c0ae7716c669b7c95efdc4ce79e25bd865"
+shell_sha256 = "c23f59078e96c0c85117663e581225a747b0dcf1b7b30a716b5ac2a6bdb12b08"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/nautilus@v0.7.55"
+remote_origin = "github://chelis-lang/nautilus@v0.7.57"
 
 [[dependencies]]
 name = "shoals"
-version = "0.24.22"
-compiler = "=0.19.4"
-archive_sha256 = "9540267d20c2dd487cc634f2974fd381db4f8a01b8d02b81e499fb869067b4ac"
-shell_sha256 = "c58118caf8803e8d971d13a4db7d5778bb4703a3c07d24aabf5be7b321525eac"
+version = "0.25.0"
+compiler = "=0.21.0"
+archive_sha256 = "cca8135829baecf327ff1f675eceed199338a42f58ff62a05bd09017c0ffd308"
+shell_sha256 = "72b28cc08fa1204f9a8ec61006f7277e297d4352b3c2ff2ad810ca274e57897b"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/shoals@v0.24.22"
+remote_origin = "github://chelis-lang/shoals@v0.25.0"
 
 [[dependencies]]
 name = "shoreleave"
-version = "0.1.4"
-compiler = "=0.19.4"
-archive_sha256 = "678fd542ab52c978af90bc84f56015e2a8cf78785b19d5d210b3bf5b5448cf2a"
-shell_sha256 = "e4f66dee734358b528a54aac0d457b399a75108cdaa920b47be2f59f067b14ec"
+version = "0.1.5"
+compiler = "=0.21.0"
+archive_sha256 = "47ef291f92c6a469f3fae4b7fe0ec97f1b0aaab6b0b1de26673894911df3eb62"
+shell_sha256 = "08afbe449beb153a1de98011c97f1d3306caf813da3cc7720e367057f7d351a8"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://chelis-lang/shoreleave@v0.1.4"
+remote_origin = "github://chelis-lang/shoreleave@v0.1.5"

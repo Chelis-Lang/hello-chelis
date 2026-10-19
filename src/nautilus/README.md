@@ -31,8 +31,10 @@ The full API is documented in the Nautilus book (`docs/book/` in the
   `Nautilus.Sde`, hypothesis tests `Nautilus.Testing`, and the minimizers
   `Nautilus.Optim`. (`Nautilus.Optimize` also exists, as a higher-level
   front end over `Optim` and `Roots`.)
-- Nautilus is f32-only, so expect 6 to 7 significant digits
-  ([nautilus#70](https://github.com/Chelis-Lang/nautilus/issues/70)).
+- These examples use `f32`, so expect about 6 to 7 significant digits.
+  Some Nautilus functions, including `Nautilus.Special.gamma`, accept `f64`;
+  the remaining precision gaps are tracked in
+  [nautilus#70](https://github.com/Chelis-Lang/nautilus/issues/70).
 - `gauss_legendre_5` requires `n_points = 5` and traps for another order
   ([positive case](https://github.com/Chelis-Lang/nautilus/blob/v0.7.57/tests/integrate.ch),
   [rejection case](https://github.com/Chelis-Lang/nautilus/blob/v0.7.57/tests_neg/integrate/gauss_legendre_5_n_points_neg.ch)).
