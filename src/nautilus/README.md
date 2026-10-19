@@ -33,8 +33,10 @@ The full API is documented in the Nautilus book (`docs/book/` in the
   front end over `Optim` and `Roots`.)
 - Nautilus is f32-only, so expect 6 to 7 significant digits
   ([nautilus#70](https://github.com/Chelis-Lang/nautilus/issues/70)).
-- `gauss_legendre_5` takes an `n_points` argument that it ignores; it is
-  always a 5-point rule
-  ([nautilus#80](https://github.com/Chelis-Lang/nautilus/issues/80)).
+- `gauss_legendre_5` requires `n_points = 5` and traps for another order
+  ([positive case](https://github.com/Chelis-Lang/nautilus/blob/v0.7.57/tests/integrate.ch),
+  [rejection case](https://github.com/Chelis-Lang/nautilus/blob/v0.7.57/tests_neg/integrate/gauss_legendre_5_n_points_neg.ch)).
+  Arbitrary-order quadrature is tracked in
+  [nautilus#104](https://github.com/Chelis-Lang/nautilus/issues/104).
 - `Nautilus.Signal` is skipped: its transforms and filters return
   NaN ([nautilus#81](https://github.com/Chelis-Lang/nautilus/issues/81)).
