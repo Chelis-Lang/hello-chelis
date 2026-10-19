@@ -16,7 +16,7 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parent.parent
-# Audited Chelis 0.19.4 receipts over the published shell dependency graph.
+# Audited receipts bind the published compiler and shell dependency graph.
 # Source or compiler changes must refresh these alongside an actual Beacon run.
 BEACON_FINGERPRINTS = json.loads(
     (ROOT / "tests/fixtures/blackscholes_beacon_fingerprints.json").read_text()

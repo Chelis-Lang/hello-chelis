@@ -7,6 +7,11 @@ version with the compiler and shell releases it is pinned to.
 
 ## [Unreleased]
 
+- Pin Chelis 0.21.0 and compatible Coral 0.7.51, Nautilus 0.7.57, Shoals
+  0.25.0, Shoreleave 0.1.5, and chelis-clarabel 0.1.1 package releases.
+- Resolve the c-earchin EARS source path so its provenance-bound proof examples
+  run with the pinned compiler.
+
 ## 0.1.15 - 2026-10-13
 
 - Require certified real-arithmetic Beacon 0.1.21 results for four
