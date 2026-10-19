@@ -51,7 +51,7 @@ jobs:
             CORAL_VERSION=0.7.51
             NAUTILUS_VERSION=0.7.57
             SHORELEAVE_VERSION=0.1.5
-            SHOALS_VERSION=0.24.23
+            SHOALS_VERSION=0.25.0
             CLARABEL_VERSION=0.1.1
 
       - name: Prove conditional and reversed claims
