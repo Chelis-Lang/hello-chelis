@@ -100,7 +100,7 @@ checker rejects it.
 The [maintained Surf/Deep pairs](surf_and_deep.md) have `.dp` files generated
 by `chelis deep`. `uv run scripts/regen_deep.py` regenerates them, and
 [`tests/test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py)
-fails CI if a paired `.dp` differs from what `chelis deep` produces now.
+fails CI if a paired `.dp` differs from `chelis deep` output.
 
 ## Test lanes
 

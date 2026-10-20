@@ -32,7 +32,7 @@ schedule. The regular PR corpus runs the other Python tests and the numerical
 Clarabel runtime tests. Run the proof test directly with
 `uv run --group test pytest tests/test_clarabel_calibration.py`.
 
-A test whose tool is missing from `PATH` (`chelis` or `gcc`) is skipped, so
+A test whose tool is missing from `PATH` (`chelis` or a C compiler) is skipped, so
 run them inside the Docker image for full coverage.
 
 ## Adding a test

@@ -22,8 +22,8 @@ Coral's own documentation is in the
 
 - Build integer columns with `int_col_of_list([...])`, as `framebasics.ch`
   does, rather than calling the `IntCol` constructor directly.
-- **Differentiating through frame operations is not yet possible.** Column
-  access is keyed by a string name, and `grad` cannot yet evaluate a function
+- **Keep this example's differentiated loss on tensors.** Column
+  access is keyed by a string name, and `grad` rejects a function
   that uses a string
   ([chelis#2552](https://github.com/Chelis-Lang/chelis/issues/2552)). So
   `adthroughdataframe.ch` differentiates the tensor loss directly, and a
