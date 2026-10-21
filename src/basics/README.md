@@ -28,6 +28,6 @@ activations to C and runs them.
 The quadratic step uses `grad` on `(x-3)^2+7`. For real arithmetic, its
 signed displacement from the minimizer changes by the factor `1-2*eta`, so every
 `eta` in `[0,1]` gives nonincreasing objective value and `eta=0.5` reaches
-the minimum. The property result names its real-arithmetic proof method; it
+the minimum. The property result reports its real-arithmetic proof tier; it
 does not establish rounded `f32` descent. The positive curvature and minimum
 follow the [one-variable quadratic criterion](https://www.itl.nist.gov/div898/handbook/pri/section5/pri5314.htm).
