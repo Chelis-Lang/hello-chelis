@@ -8,7 +8,7 @@ You do not need to write Deep to run the lessons.
 ## Inspect the addition function
 
 Save this source as `module.ch`. It contains the same `add_vec` definition
-as lesson 1, now inside a module:
+as lesson 1, inside a module:
 
 ```chelis
 module Hello.Basics.HelloTensor

@@ -1,5 +1,5 @@
-"""Build each verify/*.ch via `chelis build --target c`, link with the
-chelis runtime + OpenBLAS, run the binary, and compare its tensor structure
+"""Build each verify/*.ch via `chelis build --target c`, run the resulting
+native executable, and compare its tensor structure
 and numeric values with verify/expected/<name>.txt.
 
 Each verify/<name>.ch is a standalone module (no `Hello.*` prefix) built
@@ -94,8 +94,8 @@ def link_flags() -> list[str]:
 def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> None:
     if shutil.which("chelis") is None:
         pytest.skip("chelis not on PATH")
-    if shutil.which("gcc") is None:
-        pytest.skip("gcc not on PATH")
+    if shutil.which("cc") is None:
+        pytest.skip("C compiler not on PATH")
 
     with tempfile.TemporaryDirectory() as tmp:
         # Copy outside the project so each build lowers only this C example.
@@ -111,28 +111,9 @@ def test_c_backend_lowers_runs_matches_golden(source: Path, golden: Path) -> Non
         )
         assert r.returncode == 0, f"chelis build failed:\n{r.stdout}\n{r.stderr}"
 
-        # The auto-link line chelis emits omits -lopenblas; we link manually
-        # against the same .a it dropped in the output dir.
-        c_file = out_dir / f"{source.stem}.c"
+        # Chelis selects the platform's compiler and runtime link flags.
         bin_path = out_dir / source.stem
-        # Host-specific ISA flags can change FLT_EVAL_METHOD for this C runtime.
-        link = subprocess.run(
-            [
-                "gcc",
-                "-O2",
-                "-fopenmp",
-                str(c_file),
-                f"-L{out_dir}",
-                "-lchelis_runtime",
-                *link_flags(),
-                "-o",
-                str(bin_path),
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
-        assert link.returncode == 0, f"gcc failed:\n{link.stdout}\n{link.stderr}"
+        assert bin_path.is_file(), f"chelis build did not produce {bin_path}"
 
         run = subprocess.run(
             [str(bin_path)], check=False, capture_output=True, text=True

@@ -24,7 +24,7 @@ language itself is described in the
                             IR evaluator                        C codegen
                        (chelis test, eval)                   (chelis build)
                                                                     |
-                                                    gcc + libchelis_runtime + OpenBLAS
+                                                  native C compiler + bundled runtime
 ```
 
 Three commands share the front end and diverge after lowering:
@@ -34,9 +34,10 @@ Three commands share the front end and diverge after lowering:
   package.
 - **`chelis test` and `chelis eval`** run the IR evaluator in-process. This
   is how the runtime assertions under `tests/` execute.
-- **`chelis build --target c`** lowers to C with `// span:` comments that link
-  the output back to its Surf source. You compile and link it
-  yourself against `libchelis_runtime.a` and OpenBLAS.
+- **`chelis build --target c`** emits C with `// span:` comments that link
+  the output back to its Surf source, stages the bundled runtime, and invokes
+  the native compiler to produce an executable or static library. Generated
+  sources stay beside the artifact. `--emit-c` stops after source emission.
 
 The evaluator and the C backend do not accept exactly the same programs.
 Where they differ in a way that affects this corpus, the difference is tracked
@@ -100,7 +101,7 @@ checker rejects it.
 The [maintained Surf/Deep pairs](surf_and_deep.md) have `.dp` files generated
 by `chelis deep`. `uv run scripts/regen_deep.py` regenerates them, and
 [`tests/test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py)
-fails CI if a paired `.dp` differs from what `chelis deep` produces now.
+fails CI if a paired `.dp` differs from `chelis deep` output.
 
 ## Test lanes
 

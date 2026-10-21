@@ -1,8 +1,8 @@
 # `verify/`: compiling to C
 
 Small standalone programs that go through the C backend end to end:
-`chelis build` turns each into C, the harness links it against
-`libchelis_runtime.a` and OpenBLAS, runs the binary, and compares its output
+`chelis build` compiles and links each with the platform's C toolchain.
+The harness runs the resulting binary and compares its output
 with a golden file in `expected/`.
 
 | Feature | Source | Golden |
@@ -24,10 +24,10 @@ uv run --group test pytest -q tests/test_c_backend.py
 For each program, [`tests/test_c_backend.py`](../tests/test_c_backend.py):
 
 1. copies `verify/<name>.ch` to a temporary directory;
-2. runs `chelis build <name>.ch --output <tmp>/<name>`;
-3. links with `gcc -fopenmp <name>.c -L<tmp>/<name> -lchelis_runtime
-   -lopenblas -lm -lpthread -ldl`;
-4. runs the binary and compares its output with `expected/<name>.txt`.
+2. runs `chelis build <name>.ch --output <tmp>/<name>`, which compiles and
+   links the executable;
+3. runs that executable and compares its tensor shapes and numeric values
+   with `expected/<name>.txt`.
 
 ## Why these live outside `src/`
 

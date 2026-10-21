@@ -5,7 +5,8 @@ language and the packages built on it: `chelis-std`, `coral`, `nautilus`,
 `shoals`, and `c-earchin`. Every module under `src/` is a real program that
 type-checks, and nearly every one has a test under `tests/` that calls it
 and asserts the result.
-Standalone programs under `verify/` compile to C and run.
+Standalone programs under [`verify/`](verify/) compile to native executables
+with Chelis's C backend and check their output against reference values.
 
 ## Learn Chelis
 
