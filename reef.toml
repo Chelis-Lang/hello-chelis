@@ -1,15 +1,15 @@
 schema = "3"
 [package]
 name = "hello-chelis"
-version = "0.1.16"
-compiler = "=0.21.0"
+version = "0.1.17"
+compiler = "=0.22.1"
 module_prefix = "Hello"
 additional_sources = ["properties", "proof_controls"]
 resolver = "2"
 
 [dependencies]
 chelis-std = { version = "=0.4.0" }
-coral = { version = "=0.7.51" }
-nautilus = { version = "=0.7.57" }
-shoals = { version = "=0.25.0" }
-chelis-clarabel = { version = "=0.1.1" }
+coral = { version = "=0.7.52" }
+nautilus = { version = "=0.7.58" }
+shoals = { version = "=0.25.1" }
+chelis-clarabel = { version = "=0.1.2" }
