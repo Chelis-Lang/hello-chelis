@@ -47,12 +47,12 @@ jobs:
             github_token=${{ secrets.CHELIS_RELEASE_TOKEN || github.token }}
           no-cache: true
           build-args: |
-            CHELIS_VERSION=0.21.0
-            CORAL_VERSION=0.7.51
-            NAUTILUS_VERSION=0.7.57
-            SHORELEAVE_VERSION=0.1.5
-            SHOALS_VERSION=0.25.0
-            CLARABEL_VERSION=0.1.1
+            CHELIS_VERSION=0.22.1
+            CORAL_VERSION=0.7.52
+            NAUTILUS_VERSION=0.7.58
+            SHORELEAVE_VERSION=0.1.6
+            SHOALS_VERSION=0.25.1
+            CLARABEL_VERSION=0.1.2
 
       - name: Prove conditional and reversed claims
         run: |
