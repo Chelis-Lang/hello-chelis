@@ -1,9 +1,10 @@
 # Calculations with explicit bounds
 
 These six programs combine numerical libraries, small application policies,
-and properties on the functions the programs actually call. Each runnable file contains its imports, calculation, commentary,
-`@property` obligations, and report invocation. Read and
-run the same file; the implementations live here.
+and properties on the functions the programs actually call. Each runnable
+file contains its imports, calculation, commentary, `@property` obligations,
+and report invocation. Read and run the same file; the implementations live
+here.
 
 Start in a hello-chelis checkout containing these examples, with its pinned
 compiler on `PATH`. Paths below are relative to that repository, so first
@@ -50,7 +51,7 @@ chelis test tests/proofdemos/collateralbudget.ch --jobs auto
 | [Allocation curve](curvebudget.ch) | Nautilus cubic Hermite interpolation fills in an allocation schedule between two checkpoints. The weight stays in `[0.25, 0.75]` throughout the segment, so the planned spending stays in `[250, 750]`. The checked entry point rejects extrapolation. |
 | [Collateral budget](collateralbudget.ch) | Shoals marks a two-period bond, applies a CSA, and reserves one eighth of the unsecured exposure. A higher coupon raises the mark at fixed nonnegative yield; residual exposure is between zero and the original positive exposure; larger haircuts cannot reduce it; the reserve stays within the stated policy ceiling. |
 | [Growth screen](growthscreen.ch) | Economoist values a growing dividend and compares it with a market price. Increasing growth raises both valuation and the purchase margin when both discount spreads are positive. A finite input box gives a valuation in `[6, 26]`; the screened API admits that box and returns `None` otherwise. |
-| [Option risk](optionrisk.ch) | The capstone's actual differentiated Black-Scholes implementation supplies a ten-call position's delta equivalent and vega. Beacon certifies per-option `delta` in `[0, 1]` and `vega` in `[0, 42]` on spot `[96, 104]`. Separate scalar SMT properties turn those intervals into position bounds `[0, 10]` and `[0, 420]`. |
+| [Option risk](optionrisk.ch) | The capstone's actual differentiated Black-Scholes implementation supplies a ten-call position's delta equivalent and vega. The existing [Greek certificates](../../properties/blackscholes_greeks.ch) bound per-option `delta` in `[0, 1]` and `vega` in `[0, 42]` on spot `[96, 104]`. Separate scalar SMT properties turn those intervals into position bounds `[0, 10]` and `[0, 420]`. |
 | [Volatility screen](volatilityscreen.ch) | Shoals raw SVI supplies a volatility smile at three log-strikes. A parameter screen checks the minimum-variance condition before a quote uses variance in a square root. The SMT theorem covers nonnegative variance at every log-strike under that condition. |
 
 The datasets and policies are deliberately small and fixed. A payout
@@ -80,14 +81,15 @@ ordered nonnegative coupon pair. The SVI claim allows every `k` and `m`, with
 The allocation schedule instead proves one chosen Hermite segment at every
 `t` in `[0, 1]`; it does not certify arbitrary endpoint slopes.
 
-The normal-reserve and AD Greek bounds use Beacon's certified interval
-route. Set `CHELIS_BEACON_BIN` to a verified Beacon 0.1.21 binary:
+The normal-reserve bounds use Beacon's certified interval route. The
+option report reuses the capstone's existing Greek properties and proof
+harness. Set `CHELIS_BEACON_BIN` to a verified Beacon 0.1.22 binary:
 
 ```sh
 export CHELIS_BEACON_BIN=/path/to/chelis-beacon
 chelis prove examples/proofdemos/probabilitybudget.ch --tier beacon-only --only beacon_ --json
-chelis prove examples/proofdemos/optionrisk.ch --tier beacon-only --only beacon_ --json
 uv run --group test python tests/test_proof_demos.py
+uv run --group test python tests/test_greek_properties.py
 ```
 
 The option inputs are strike `100`, rate `0.05`, volatility `0.2`, and time
@@ -120,14 +122,13 @@ unjustifiably tight ceiling. Select those separately from the true claims:
 ```sh
 chelis prove examples/proofdemos/collateralbudget.ch --tier smt-only --only counterexample_symbolic_ --json
 chelis prove examples/proofdemos/probabilitybudget.ch --tier beacon-only --only counterexample_interval_ --json
-chelis prove examples/proofdemos/optionrisk.ch --tier beacon-only --only counterexample_interval_ --json
 ```
 
 These commands are expected to exit with status **1**, with `"status":"failed"`
 records containing counterexamples. The six files contain eight symbolic
 false claims in total, selected with `--only counterexample_symbolic_` and
-`--tier smt-only`. The three interval false claims require checked Arb point
-witnesses. Run the explicit selectors above: proving every property in a
+`--tier smt-only`. The normal-reserve interval false claim requires a checked Arb point
+witness. The existing Greek gate checks its own two false controls. Run the explicit selectors above: proving every property in a
 lesson includes its intentionally false claims and therefore fails. A
 successful evaluation is not evidence that those stronger claims hold.
 
@@ -147,5 +148,7 @@ uv run --group test pytest -q tests/test_proof_demos.py
 The ordinary Docker corpus runs the execution tests, all 18 positive SMT
 claims, the eight SMT counterexamples, and Surf/Deep drift checks. The
 explicit Beacon script is a separate acceptance command because the
-ordinary Docker image does not install Beacon. It requires six certified
-box bounds and three checked false controls, with no unknown results.
+ordinary Docker image does not install Beacon. It requires two certified
+normal-reserve box bounds and one checked false control, with no unknown
+results. The separate existing Greek gate requires four certified bounds
+and two checked false controls.

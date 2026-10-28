@@ -176,46 +176,6 @@ BEACON_CASES = {
         "upper",
         1000.0,
     ),
-    "beacon_report_delta_lower": (
-        "optionrisk",
-        "OptionRisk",
-        "report_delta",
-        "s",
-        96.0,
-        104.0,
-        "lower",
-        0.0,
-    ),
-    "beacon_report_delta_upper": (
-        "optionrisk",
-        "OptionRisk",
-        "report_delta",
-        "s",
-        96.0,
-        104.0,
-        "upper",
-        1.0,
-    ),
-    "beacon_report_vega_lower": (
-        "optionrisk",
-        "OptionRisk",
-        "report_vega",
-        "s",
-        96.0,
-        104.0,
-        "lower",
-        0.0,
-    ),
-    "beacon_report_vega_upper": (
-        "optionrisk",
-        "OptionRisk",
-        "report_vega",
-        "s",
-        96.0,
-        104.0,
-        "upper",
-        42.0,
-    ),
     "counterexample_interval_reserve_zero": (
         "probabilitybudget",
         "ProbabilityBudget",
@@ -223,26 +183,6 @@ BEACON_CASES = {
         "z",
         -2.0,
         2.0,
-        "upper",
-        0.0,
-    ),
-    "counterexample_interval_delta_zero": (
-        "optionrisk",
-        "OptionRisk",
-        "report_delta",
-        "s",
-        96.0,
-        104.0,
-        "upper",
-        0.0,
-    ),
-    "counterexample_interval_vega_zero": (
-        "optionrisk",
-        "OptionRisk",
-        "report_vega",
-        "s",
-        96.0,
-        104.0,
         "upper",
         0.0,
     ),
@@ -288,7 +228,17 @@ def validate_records(records: list[dict], goals: dict[str, str], failed: bool) -
         assert record["goal"] == goals[record["name"]], record
         assert record["status"] == ("failed" if failed else "passed"), record
         assert record["samples"] == 0 and record["arith_model"] == "real", record
-        assert record["qualifiers"] == ["real_arithmetic"], record
+        if failed and record["proof_tier"] == "smt":
+            # SMT's real-model witness must also falsify the actual machine
+            # expression. An unconfirmed real witness is unsupported.
+            assert record["qualifiers"] == [], record
+            assert record.get("machine_arithmetic") == {
+                "status": "confirmed",
+                "real_arithmetic_verdict": "disproved_modulo_real_arithmetic",
+                "samples": 0,
+            }, record
+        else:
+            assert record["qualifiers"] == ["real_arithmetic"], record
         if failed:
             assert record.get("counterexample"), record
         else:
@@ -324,6 +274,52 @@ def test_record_gate_rejects_changed_goal_and_missing_result() -> None:
         validate_records([{**record, "goal": "true"}, summary], {name: goal}, False)
     with pytest.raises(AssertionError):
         validate_records([summary], {name: goal}, False)
+    with pytest.raises(AssertionError):
+        validate_records([{**record, "qualifiers": []}, summary], {name: goal}, False)
+
+
+def test_smt_refutation_gate_requires_machine_confirmed_counterexample() -> None:
+    name = "counterexample_symbolic_spend_without_weight_guard"
+    goal = WRONG_GOALS[name]
+    record = {
+        "kind": "property",
+        "name": name,
+        "goal": goal,
+        "status": "failed",
+        "proof_tier": "smt",
+        "samples": 0,
+        "arith_model": "real",
+        "qualifiers": [],
+        "counterexample": {"weight": 1.75},
+        "machine_arithmetic": {
+            "status": "confirmed",
+            "real_arithmetic_verdict": "disproved_modulo_real_arithmetic",
+            "samples": 0,
+        },
+    }
+    summary = {
+        "kind": "summary",
+        "errors": 0,
+        "unsupported": 0,
+        "total": 1,
+        "failed": 1,
+        "passed": 0,
+    }
+    validate_records([record, summary], {name: goal}, True)
+    for change in (
+        {"qualifiers": ["real_arithmetic"]},
+        {"counterexample": {}},
+        {"machine_arithmetic": {}},
+        {"machine_arithmetic": {**record["machine_arithmetic"], "status": "unknown"}},
+        {
+            "machine_arithmetic": {
+                **record["machine_arithmetic"],
+                "real_arithmetic_verdict": "proven_modulo_real_arithmetic",
+            }
+        },
+    ):
+        with pytest.raises(AssertionError):
+            validate_records([{**record, **change}, summary], {name: goal}, True)
 
 
 def assert_source_reachable(records: list[dict], name: str, function: str) -> None:
@@ -520,9 +516,7 @@ def run_beacon_gate() -> None:
     engine_sha256 = hashlib.sha256(engine_path.read_bytes()).hexdigest()
     for path, failed in (
         ("examples/proofdemos/probabilitybudget.ch", False),
-        ("examples/proofdemos/optionrisk.ch", False),
         ("examples/proofdemos/probabilitybudget.ch", True),
-        ("examples/proofdemos/optionrisk.ch", True),
     ):
         records = run_prove(
             path, "beacon-only", "counterexample_interval_" if failed else "beacon_"
@@ -569,14 +563,6 @@ def run_beacon_gate() -> None:
             assert_source_reachable(
                 records, record["name"], "Nautilus.Distributions.normal_cdf"
             )
-            if module == "OptionRisk":
-                greek = "delta" if "delta" in fn else "vega"
-                assert_source_reachable(
-                    records, record["name"], "Hello.Capstone.BlackScholes." + greek
-                )
-                assert_source_reachable(
-                    records, record["name"], "Hello.Capstone.BlackScholes.call_price"
-                )
             assert engine["schema_version"] == "beacon.scalar_upper_bound.v1"
             if failed:
                 witness = record["counterexample"]

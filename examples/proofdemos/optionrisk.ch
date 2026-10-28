@@ -3,11 +3,11 @@ module Hello.Examples.Proofdemos.OptionRisk
 -- chelis eval --file examples/proofdemos/optionrisk.ch
 -- Prove the guarded mathematical claims:
 -- chelis prove examples/proofdemos/optionrisk.ch --tier smt-only --only smt_ --json
--- With CHELIS_BEACON_BIN set, certify the numerical bounds:
--- chelis prove examples/proofdemos/optionrisk.ch --tier beacon-only --only beacon_ --json
+-- The per-option Greek bounds live in properties/blackscholes_greeks.ch.
+-- With CHELIS_BEACON_BIN set, run their existing source-bound gate:
+-- uv run --group test python tests/test_greek_properties.py
 -- The counterexample_* claims below are deliberately false. Select them
--- with --tier smt-only --only counterexample_symbolic_, or
--- --tier beacon-only --only counterexample_interval_; refutation exits 1.
+-- with --tier smt-only --only counterexample_symbolic_; refutation exits 1.
 import Hello.Capstone.BlackScholes (call_price, delta, vega)
 export (report_delta, report_vega, hedge_from_delta, notional_from_vega, option_report, screened_report)
 -- This report holds strike 100, rate 5%, volatility 20%, maturity one year,
@@ -25,16 +25,8 @@ def notional_from_vega(v: f32) -> f32 = (10.0f32 * v)
 -- not a certified bound on the nonlinear repricing error for a finite shock.
 def option_report(s: f32) -> (f32, f32, f32) = (call_price(s, 100.0f32, 0.05f32, 0.2f32, 1.0f32), hedge_from_delta(report_delta(s)), notional_from_vega(report_vega(s)))
 def screened_report(s: f32) -> Option[(f32, f32, f32)] = if ((s >= 96.0f32) && (s <= 104.0f32)) then Some(option_report(s)) else None
--- Beacon proves all four bounds across the whole spot box. Changing another
--- model input changes the proof target and requires a new certificate.
-@property beacon_report_delta_lower forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
-  (report_delta(s) >= 0.0f32)
-@property beacon_report_delta_upper forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
-  (report_delta(s) <= 1.0f32)
-@property beacon_report_vega_lower forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
-  (report_vega(s) >= 0.0f32)
-@property beacon_report_vega_upper forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
-  (report_vega(s) <= 42.0f32)
+-- The existing Greek certificates use these same fixed model inputs.
+-- These scaling properties state the certified intervals as explicit guards.
 @property smt_hedge_position_bounded forall(d: f32) where d >= 0.0f32, d <= 1.0f32:
   ((hedge_from_delta(d) >= 0.0f32) && (hedge_from_delta(d) <= 10.0f32))
 @property smt_vega_position_bounded forall(v: f32) where v >= 0.0f32, v <= 42.0f32:
@@ -49,7 +41,3 @@ outside_certified_box = screened_report(120.0f32)
   (hedge_from_delta(d) <= 5.0f32)
 @property counterexample_symbolic_vega_tight_budget forall(v: f32) where v >= 0.0f32, v <= 42.0f32:
   (notional_from_vega(v) <= 400.0f32)
-@property counterexample_interval_delta_zero forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
-  (report_delta(s) <= 0.0f32)
-@property counterexample_interval_vega_zero forall(s: f32) where s >= 96.0f32, s <= 104.0f32:
-  (report_vega(s) <= 0.0f32)

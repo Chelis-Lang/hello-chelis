@@ -39,14 +39,14 @@ remote_origin = "github://chelis-lang/coral@v0.7.52"
 
 [[dependencies]]
 name = "economoist"
-version = "0.2.20"
-compiler = "=0.19.4"
-archive_sha256 = "81919aefe99422eed2462735691ae346b2a21532299afbac9ef1de56e3f9ba57"
-shell_sha256 = "e95e3a8d72be07c2d1055f9fac39c8c47ff0e5085b1040f932d9e5815527cc7b"
+version = "0.2.22"
+compiler = "=0.22.1"
+archive_sha256 = "70360721a9ef3ba4eb5ee6928938429c810ec1bfade34897b69a0ad36d3c79ba"
+shell_sha256 = "3efde8239fba031e9a0427afab532d4c432d3b99f8a33a954acda6b9156724a0"
 
 [dependencies.source]
 kind = "local_registry"
-remote_origin = "github://Chelis-Lang/economoist@v0.2.20"
+remote_origin = "github://Chelis-Lang/economoist@v0.2.22"
 
 [[dependencies]]
 name = "nautilus"

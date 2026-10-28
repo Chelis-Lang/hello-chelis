@@ -110,7 +110,8 @@ RUN --mount=type=secret,id=github_token \
     && chelis reef install --from-github "chelis-lang/nautilus@v${NAUTILUS_VERSION}" \
     && chelis reef install --from-github "chelis-lang/shoreleave@v${SHORELEAVE_VERSION}" \
     && chelis reef install --from-github "chelis-lang/chelis-clarabel@v${CLARABEL_VERSION}" \
-    && chelis reef install --from-github "chelis-lang/shoals@v${SHOALS_VERSION}"
+    && chelis reef install --from-github "chelis-lang/shoals@v${SHOALS_VERSION}" \
+    && chelis reef install --from-github "chelis-lang/economoist@v${ECONOMOIST_VERSION}"
 
 # --- Python harness (uv-managed interpreter and environment) --------------
 # The pytest harness under tests/ runs from a uv environment outside the
