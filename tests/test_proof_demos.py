@@ -7,11 +7,11 @@ verified CHELIS_BEACON_BIN for the explicit certified interval lane.
 from __future__ import annotations
 
 import hashlib
+import copy
 import json
 import math
 import os
 from pathlib import Path
-import re
 import struct
 import subprocess
 
@@ -19,6 +19,11 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parent.parent
+# Captured from an actual verified Beacon run on the pinned compiler and
+# released dependencies. Refresh only alongside source-bound engine checks.
+BEACON_FINGERPRINTS = json.loads(
+    (ROOT / "tests/fixtures/normal_reserve_beacon_fingerprints.json").read_text()
+)
 
 
 def claim(params: str, guards: str, body: str) -> str:
@@ -511,6 +516,107 @@ def test_cover_rejects_gap_or_non_strict_bound() -> None:
             assert_cover(changed, "z", -2.0, 2.0)
 
 
+def assert_beacon_binding(evidence: dict, name: str) -> None:
+    fingerprint = BEACON_FINGERPRINTS[name]
+    source = evidence.get("source_binding") or {}
+    assert isinstance(source, dict)
+    assert source.get("expression_sha256") == fingerprint["expression_sha256"]
+    declarations = source.get("declarations") or []
+    assert isinstance(declarations, list)
+    assert all(isinstance(d, dict) for d in declarations)
+    assert len(declarations) == len(fingerprint["declarations"])
+    assert {d.get("name"): d.get("sha256") for d in declarations} == fingerprint[
+        "declarations"
+    ]
+    roots = [
+        evidence.get(key)
+        for key in ("source_output_root", "selected_root", "folded_root")
+    ]
+    assert all(type(root) is int for root in roots)
+    assert roots == [
+        fingerprint[key]
+        for key in ("source_output_root", "selected_root", "folded_root")
+    ]
+    for key in ("graph_sha256", "request_sha256"):
+        assert evidence.get(key) == fingerprint[key]
+    engine = evidence.get("beacon_evidence") or {}
+    assert isinstance(engine, dict)
+    assert engine.get("dag_sha256") == fingerprint["dag_sha256"]
+    assert roots[1] != roots[2] and engine.get("selected_root_node_id") == roots[2]
+    assert type(engine.get("strict_upper")) in (int, float)
+    assert math.isfinite(engine["strict_upper"]) and engine["strict_upper"] == 0.0
+
+
+@pytest.mark.parametrize("name", sorted(BEACON_FINGERPRINTS))
+def test_normal_reserve_receipt_binding_rejects_mutations(name: str) -> None:
+    fingerprint = BEACON_FINGERPRINTS[name]
+    evidence = {
+        key: fingerprint[key]
+        for key in (
+            "source_output_root",
+            "selected_root",
+            "folded_root",
+            "graph_sha256",
+            "request_sha256",
+        )
+    }
+    evidence["source_binding"] = {
+        "expression_sha256": fingerprint["expression_sha256"],
+        "declarations": [
+            {"name": declaration, "sha256": digest}
+            for declaration, digest in fingerprint["declarations"].items()
+        ],
+    }
+    evidence["beacon_evidence"] = {
+        "dag_sha256": fingerprint["dag_sha256"],
+        "selected_root_node_id": fingerprint["folded_root"],
+        "strict_upper": 0.0,
+    }
+    assert_beacon_binding(evidence, name)
+    mutations = []
+    for field in ("source_binding", "graph_sha256", "request_sha256"):
+        changed = copy.deepcopy(evidence)
+        changed.pop(field)
+        mutations.append(changed)
+    for field in (
+        "source_output_root",
+        "selected_root",
+        "folded_root",
+        "graph_sha256",
+        "request_sha256",
+    ):
+        mutations.append({**evidence, field: "f" * 64 if "sha256" in field else 999999})
+    for field, value in (
+        ("dag_sha256", "d" * 64),
+        ("selected_root_node_id", 999999),
+        ("strict_upper", 1000.0),
+    ):
+        changed = copy.deepcopy(evidence)
+        changed["beacon_evidence"][field] = value
+        mutations.append(changed)
+    for field in ("dag_sha256", "selected_root_node_id", "strict_upper"):
+        changed = copy.deepcopy(evidence)
+        changed["beacon_evidence"].pop(field)
+        mutations.append(changed)
+    for field in ("expression_sha256", "declarations"):
+        changed = copy.deepcopy(evidence)
+        changed["source_binding"].pop(field)
+        mutations.append(changed)
+    changed = copy.deepcopy(evidence)
+    changed["source_binding"]["expression_sha256"] = "f" * 64
+    mutations.append(changed)
+    for replacement in ([], [{"name": "unrelated", "sha256": "f" * 64}]):
+        changed = copy.deepcopy(evidence)
+        changed["source_binding"]["declarations"] = replacement
+        mutations.append(changed)
+    changed = copy.deepcopy(evidence)
+    changed["source_binding"]["declarations"][0]["sha256"] = "f" * 64
+    mutations.append(changed)
+    for changed in mutations:
+        with pytest.raises(AssertionError):
+            assert_beacon_binding(changed, name)
+
+
 def run_beacon_gate() -> None:
     engine_path = Path(os.environ["CHELIS_BEACON_BIN"])
     engine_sha256 = hashlib.sha256(engine_path.read_bytes()).hexdigest()
@@ -555,8 +661,7 @@ def run_beacon_gate() -> None:
                 "dtype": "f64",
                 "bits": struct.pack(">d", bound).hex(),
             }
-            for key in ("graph_sha256", "request_sha256"):
-                assert re.fullmatch("[0-9a-f]{64}", evidence[key])
+            assert_beacon_binding(evidence, record["name"])
             assert_source_reachable(
                 records, record["name"], f"Hello.Examples.Proofdemos.{module}.{fn}"
             )
