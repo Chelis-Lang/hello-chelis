@@ -53,6 +53,7 @@ jobs:
             SHORELEAVE_VERSION=0.1.6
             SHOALS_VERSION=0.25.1
             CLARABEL_VERSION=0.1.2
+            ECONOMOIST_VERSION=0.2.22
 
       - name: Prove conditional and reversed claims
         run: |

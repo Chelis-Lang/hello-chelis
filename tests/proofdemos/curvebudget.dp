@@ -1,0 +1,109 @@
+(module {surf_path: "Hello.Tests.Proofdemos.CurveBudget"}
+  hello.tests.proofdemos.curvebudget
+  (import {surf_path: "Hello.Examples.Proofdemos.CurveBudget"}
+    hello.examples.proofdemos.curvebudget
+    (planned_spend planned_spend_checked))
+  (import {surf_path: "Std.Test"} std.test (assert_close assert_true))
+  (defsig {span: "surf:170..575"}
+    test_spend_schedule
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:170..575"}
+    test_spend_schedule
+    (fn {}
+      (params {})
+      (let {span: "surf:217..575"}
+        (bind {destructure: true}
+          __chelis_tmp2
+          (app {span: "surf:225..302"}
+            (var {span: "surf:225..237"} assert_close)
+            (app {span: "surf:238..259"}
+              (var {span: "surf:238..251"} planned_spend)
+              (lit {span: "surf:252..258", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+            (lit {span: "surf:261..269", surf_literal_style: "explicit", type: (t-prim {} f32)} 250.0)
+            (lit {span: "surf:271..279", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+            (lit {span: "surf:281..301", type: (t-prim {} string)} "initial allocation")))
+        (let {}
+          (bind {destructure: true}
+            __chelis_tmp1
+            (app {span: "surf:309..412"}
+              (var {span: "surf:309..321"} assert_close)
+              (app {span: "surf:322..344"}
+                (var {span: "surf:322..335"} planned_spend)
+                (lit {span: "surf:336..343", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.25))
+              (lit {span: "surf:346..356", surf_literal_style: "explicit", type: (t-prim {} f32)} 328.125)
+              (lit {span: "surf:358..366", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+              (lit {span: "surf:368..411", type: (t-prim {} string)} "curved schedule at the quarter checkpoint")))
+          (let {}
+            (bind {destructure: true}
+              __chelis_tmp0
+              (app {span: "surf:419..495"}
+                (var {span: "surf:419..431"} assert_close)
+                (app {span: "surf:432..453"}
+                  (var {span: "surf:432..445"} planned_spend)
+                  (lit {span: "surf:446..452", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5))
+                (lit {span: "surf:455..463", surf_literal_style: "explicit", type: (t-prim {} f32)} 500.0)
+                (lit {span: "surf:465..473", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+                (lit {span: "surf:475..494", type: (t-prim {} string)} "middle allocation")))
+            (app {span: "surf:498..573"}
+              (var {span: "surf:498..510"} assert_close)
+              (app {span: "surf:511..532"}
+                (var {span: "surf:511..524"} planned_spend)
+                (lit {span: "surf:525..531", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+              (lit {span: "surf:534..542", surf_literal_style: "explicit", type: (t-prim {} f32)} 750.0)
+              (lit {span: "surf:544..552", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.001)
+              (lit {span: "surf:554..572", type: (t-prim {} string)} "final allocation")))))))
+  (defsig {span: "surf:576..811"}
+    test_reject_extrapolation
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:576..811"}
+    test_reject_extrapolation
+    (fn {}
+      (params {})
+      (let {span: "surf:629..811"}
+        (bind {}
+          rejected
+          (match {span: "surf:644..732"}
+            (app {span: "surf:650..679"}
+              (var {span: "surf:650..671"} planned_spend_checked)
+              (lit {span: "surf:672..678", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.5))
+            (arm {}
+              (pat-ctor {} None)
+              ()
+              (lit {span: "surf:701..705", type: (t-prim {} bool)} true))
+            (arm {}
+              (pat-ctor {} Some (pat-wild {}))
+              ()
+              (lit {span: "surf:723..728", type: (t-prim {} bool)} false))))
+        (app {span: "surf:735..809"}
+          (var {span: "surf:735..746"} assert_true)
+          (var {span: "surf:747..755"} rejected)
+          (lit {span: "surf:757..808", type: (t-prim {} string)} "the segment proof supplies no extrapolation bound")))))
+  (defsig {span: "surf:812..1052"}
+    test_accept_segment_input
+    (t-fn {eff: (effects {} test)} (t-unit {})))
+  (def {span: "surf:812..1052"}
+    test_accept_segment_input
+    (fn {}
+      (params {})
+      (let {span: "surf:865..1052"}
+        (bind {}
+          admitted
+          (match {span: "surf:880..979"}
+            (app {span: "surf:886..915"}
+              (var {span: "surf:886..907"} planned_spend_checked)
+              (lit {span: "surf:908..914", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.5))
+            (arm {}
+              (pat-ctor {} Some (pat-var {} v))
+              ()
+              (app {span: "surf:941..954"}
+                (var {} eq)
+                (var {span: "surf:941..942"} v)
+                (lit {span: "surf:946..954", surf_literal_style: "explicit", type: (t-prim {} f32)} 500.0)))
+            (arm {}
+              (pat-ctor {} None)
+              ()
+              (lit {span: "surf:970..975", type: (t-prim {} bool)} false))))
+        (app {span: "surf:982..1050"}
+          (var {span: "surf:982..993"} assert_true)
+          (var {span: "surf:994..1002"} admitted)
+          (lit {span: "surf:1004..1049", type: (t-prim {} string)} "accept the middle of the allocation segment"))))))

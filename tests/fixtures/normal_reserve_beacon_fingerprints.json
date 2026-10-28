@@ -1,0 +1,41 @@
+{
+  "beacon_normal_reserve_lower": {
+    "dag_sha256": "53c601df2051acb5ffe432df1285f52478900bb0429eccd6e87b9d026e7203db",
+    "declarations": {
+      "Nautilus.Distributions.normal_cdf": "43af190c2227f2bad33a8d6e116964c13b8efeabf487e529c8ec48242a1a5c28",
+      "normal_tail_reserve": "94782b5992b3310fb57786545154522095d6bc431cb20ff5baaf72b41a9b136a"
+    },
+    "expression_sha256": "22be974b9d65aedca2ba455498a05c15bb03b46536b65ac036e626efc589ceef",
+    "folded_root": 54,
+    "graph_sha256": "4a6e809b6e24d0de2d67fb90bc3b3bb6837cb619dcd04789c0c56a707111e3a5",
+    "request_sha256": "04f5ba4d22b3f9c873f315c9dea067f8c1f942cb628f4c665bfbf9bb88c42f18",
+    "selected_root": 52,
+    "source_output_root": 51
+  },
+  "beacon_normal_reserve_upper": {
+    "dag_sha256": "e2d9bb70e4a0f44e258403df073ac3d0a9e832408c65294b7a98a05e514acff1",
+    "declarations": {
+      "Nautilus.Distributions.normal_cdf": "43af190c2227f2bad33a8d6e116964c13b8efeabf487e529c8ec48242a1a5c28",
+      "normal_tail_reserve": "94782b5992b3310fb57786545154522095d6bc431cb20ff5baaf72b41a9b136a"
+    },
+    "expression_sha256": "c969348fd2ece8ae3b26598252dba4f51b3f53b1168048b8b8002f50e2d608d9",
+    "folded_root": 53,
+    "graph_sha256": "00e7a44e6fef98d9f020e20410ab35094b2ad3172b6c75c369a6012c22443ac2",
+    "request_sha256": "f3b53162cc0ae4d8cdfcb66ade63ce89d947fb2e1d374ac5475e2ff87c239a59",
+    "selected_root": 51,
+    "source_output_root": 51
+  },
+  "counterexample_interval_reserve_zero": {
+    "dag_sha256": "22409e9b2429d916beacb7b4edc72b3916627f5a1a1416715cd835b39d42c6d1",
+    "declarations": {
+      "Nautilus.Distributions.normal_cdf": "43af190c2227f2bad33a8d6e116964c13b8efeabf487e529c8ec48242a1a5c28",
+      "normal_tail_reserve": "94782b5992b3310fb57786545154522095d6bc431cb20ff5baaf72b41a9b136a"
+    },
+    "expression_sha256": "c37f7d6a9fcd7cfdd9a0aaa1652f5ae6b5aee480f6ecab1b2804dfee6edc5436",
+    "folded_root": 53,
+    "graph_sha256": "00e7a44e6fef98d9f020e20410ab35094b2ad3172b6c75c369a6012c22443ac2",
+    "request_sha256": "52ad9fbbe921bfa69d9d6d4854e41d754e10510b80ff9edcaeb703e33e857520",
+    "selected_root": 51,
+    "source_output_root": 51
+  }
+}

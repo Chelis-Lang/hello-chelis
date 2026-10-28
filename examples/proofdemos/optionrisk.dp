@@ -1,0 +1,247 @@
+(module {surf_path: "Hello.Examples.Proofdemos.OptionRisk"}
+  hello.examples.proofdemos.optionrisk
+  (import {surf_path: "Hello.Capstone.BlackScholes"}
+    hello.capstone.blackscholes
+    (call_price delta vega))
+  (export {}
+    report_delta
+    report_vega
+    hedge_from_delta
+    notional_from_vega
+    option_report
+    screened_report)
+  (defsig {span: "surf:1025..1102"}
+    report_delta
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:1025..1102"}
+    report_delta
+    (fn {}
+      (params {} (s {type: (t-var {} _)}))
+      (app {span: "surf:1059..1102"}
+        (var {span: "surf:1059..1064"} delta)
+        (var {span: "surf:1065..1066"} s)
+        (lit {span: "surf:1068..1076", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+        (lit {span: "surf:1078..1085", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+        (lit {span: "surf:1087..1093", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+        (lit {span: "surf:1095..1101", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
+  (defsig {span: "surf:1103..1178"}
+    report_vega
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:1103..1178"}
+    report_vega
+    (fn {}
+      (params {} (s {type: (t-var {} _)}))
+      (app {span: "surf:1136..1178"}
+        (var {span: "surf:1136..1140"} vega)
+        (var {span: "surf:1141..1142"} s)
+        (lit {span: "surf:1144..1152", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+        (lit {span: "surf:1154..1161", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+        (lit {span: "surf:1163..1169", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+        (lit {span: "surf:1171..1177", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))))
+  (defsig {span: "surf:1330..1380"}
+    hedge_from_delta
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:1330..1380"}
+    hedge_from_delta
+    (fn {}
+      (params {} (d {type: (t-var {} _)}))
+      (app {span: "surf:1369..1380"}
+        (var {} mul)
+        (lit {span: "surf:1369..1376", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+        (var {span: "surf:1379..1380"} d))))
+  (defsig {span: "surf:1382..1434"}
+    notional_from_vega
+    (t-fn {} (t-prim {} f32) (t-prim {} f32)))
+  (def {span: "surf:1382..1434"}
+    notional_from_vega
+    (fn {}
+      (params {} (v {type: (t-var {} _)}))
+      (app {span: "surf:1423..1434"}
+        (var {} mul)
+        (lit {span: "surf:1423..1430", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)
+        (var {span: "surf:1433..1434"} v))))
+  (defsig {span: "surf:1742..1910"}
+    option_report
+    (t-fn {}
+      (t-prim {} f32)
+      (t-tuple {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32))))
+  (def {span: "surf:1742..1910"}
+    option_report
+    (fn {}
+      (params {} (s {type: (t-var {} _)}))
+      (tuple {span: "surf:1789..1910"}
+        (app {span: "surf:1790..1838"}
+          (var {span: "surf:1790..1800"} call_price)
+          (var {span: "surf:1801..1802"} s)
+          (lit {span: "surf:1804..1812", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)
+          (lit {span: "surf:1814..1821", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.05)
+          (lit {span: "surf:1823..1829", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.2)
+          (lit {span: "surf:1831..1837", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))
+        (app {span: "surf:1840..1873"}
+          (var {span: "surf:1840..1856"} hedge_from_delta)
+          (app {span: "surf:1857..1872"}
+            (var {span: "surf:1857..1869"} report_delta)
+            (var {span: "surf:1870..1871"} s)))
+        (app {span: "surf:1875..1909"}
+          (var {span: "surf:1875..1893"} notional_from_vega)
+          (app {span: "surf:1894..1908"}
+            (var {span: "surf:1894..1905"} report_vega)
+            (var {span: "surf:1906..1907"} s))))))
+  (defsig {span: "surf:1911..2044"}
+    screened_report
+    (t-fn {}
+      (t-prim {} f32)
+      (t-adt {}
+        Option
+        (t-tuple {} (t-prim {} f32) (t-prim {} f32) (t-prim {} f32)))))
+  (def {span: "surf:1911..2044"}
+    screened_report
+    (fn {}
+      (params {} (s {type: (t-var {} _)}))
+      (if {span: "surf:1968..2044"}
+        (app {span: "surf:1973..2004"}
+          (var {} and)
+          (app {span: "surf:1973..1985"}
+            (var {} gte)
+            (var {span: "surf:1973..1974"} s)
+            (lit {span: "surf:1978..1985", surf_literal_style: "explicit", type: (t-prim {} f32)} 96.0))
+          (app {span: "surf:1991..2004"}
+            (var {} lte)
+            (var {span: "surf:1991..1992"} s)
+            (lit {span: "surf:1996..2004", surf_literal_style: "explicit", type: (t-prim {} f32)} 104.0)))
+        (app {span: "surf:2012..2034"}
+          (var {span: "surf:2012..2016"} Some)
+          (app {span: "surf:2017..2033"}
+            (var {span: "surf:2017..2030"} option_report)
+            (var {span: "surf:2031..2032"} s)))
+        (var {span: "surf:2040..2044"} None))))
+  (defsig {span: "surf:2193..2346"}
+    smt_hedge_position_bounded
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2251..2262"}
+                                     (var {} gte)
+                                     (var {span: "surf:2251..2252"} d)
+                                     (lit {span: "surf:2256..2262", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:2264..2275"}
+                                     (var {} lte)
+                                     (var {span: "surf:2264..2265"} d)
+                                     (lit {span: "surf:2269..2275", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))),
+         property_quantifiers: (params {} (d {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2193..2346"
+       }
+    smt_hedge_position_bounded
+    (fn {}
+      (params {} (d {type: (t-prim {} f32)}))
+      (app {span: "surf:2281..2346"}
+        (var {} and)
+        (app {span: "surf:2281..2310"}
+          (var {} gte)
+          (app {span: "surf:2281..2300"}
+            (var {span: "surf:2281..2297"} hedge_from_delta)
+            (var {span: "surf:2298..2299"} d))
+          (lit {span: "surf:2304..2310", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+        (app {span: "surf:2316..2346"}
+          (var {} lte)
+          (app {span: "surf:2316..2335"}
+            (var {span: "surf:2316..2332"} hedge_from_delta)
+            (var {span: "surf:2333..2334"} d))
+          (lit {span: "surf:2339..2346", surf_literal_style: "explicit", type: (t-prim {} f32)} 10.0)))))
+  (defsig {span: "surf:2349..2507"}
+    smt_vega_position_bounded
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2406..2417"}
+                                     (var {} gte)
+                                     (var {span: "surf:2406..2407"} v)
+                                     (lit {span: "surf:2411..2417", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:2419..2431"}
+                                     (var {} lte)
+                                     (var {span: "surf:2419..2420"} v)
+                                     (lit {span: "surf:2424..2431", surf_literal_style: "explicit", type: (t-prim {} f32)} 42.0))),
+         property_quantifiers: (params {} (v {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2349..2507"
+       }
+    smt_vega_position_bounded
+    (fn {}
+      (params {} (v {type: (t-prim {} f32)}))
+      (app {span: "surf:2437..2507"}
+        (var {} and)
+        (app {span: "surf:2437..2468"}
+          (var {} gte)
+          (app {span: "surf:2437..2458"}
+            (var {span: "surf:2437..2455"} notional_from_vega)
+            (var {span: "surf:2456..2457"} v))
+          (lit {span: "surf:2462..2468", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+        (app {span: "surf:2474..2507"}
+          (var {} lte)
+          (app {span: "surf:2474..2495"}
+            (var {span: "surf:2474..2492"} notional_from_vega)
+            (var {span: "surf:2493..2494"} v))
+          (lit {span: "surf:2499..2507", surf_literal_style: "explicit", type: (t-prim {} f32)} 420.0)))))
+  (def {span: "surf:2730..2774"}
+    option_risk_at_100
+    (app {span: "surf:2751..2774"}
+      (var {span: "surf:2751..2764"} option_report)
+      (lit {span: "surf:2765..2773", surf_literal_style: "explicit", type: (t-prim {} f32)} 100.0)))
+  (def {span: "surf:2775..2824"}
+    outside_certified_box
+    (app {span: "surf:2799..2824"}
+      (var {span: "surf:2799..2814"} screened_report)
+      (lit {span: "surf:2815..2823", surf_literal_style: "explicit", type: (t-prim {} f32)} 120.0)))
+  (defsig {span: "surf:2901..3034"}
+    counterexample_symbolic_hedge_half_position
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:2976..2987"}
+                                     (var {} gte)
+                                     (var {span: "surf:2976..2977"} d)
+                                     (lit {span: "surf:2981..2987", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:2989..3000"}
+                                     (var {} lte)
+                                     (var {span: "surf:2989..2990"} d)
+                                     (lit {span: "surf:2994..3000", surf_literal_style: "explicit", type: (t-prim {} f32)} 1.0))),
+         property_quantifiers: (params {} (d {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:2901..3034"
+       }
+    counterexample_symbolic_hedge_half_position
+    (fn {}
+      (params {} (d {type: (t-prim {} f32)}))
+      (app {span: "surf:3005..3034"}
+        (var {} lte)
+        (app {span: "surf:3005..3024"}
+          (var {span: "surf:3005..3021"} hedge_from_delta)
+          (var {span: "surf:3022..3023"} d))
+        (lit {span: "surf:3028..3034", surf_literal_style: "explicit", type: (t-prim {} f32)} 5.0))))
+  (defsig {span: "surf:3036..3172"}
+    counterexample_symbolic_vega_tight_budget
+    (t-fn {} (t-prim {} f32) (t-prim {} bool)))
+  (def {chelis_role: "property",
+         property_preconditions: (tuple {}
+                                   (app {span: "surf:3109..3120"}
+                                     (var {} gte)
+                                     (var {span: "surf:3109..3110"} v)
+                                     (lit {span: "surf:3114..3120", surf_literal_style: "explicit", type: (t-prim {} f32)} 0.0))
+                                   (app {span: "surf:3122..3134"}
+                                     (var {} lte)
+                                     (var {span: "surf:3122..3123"} v)
+                                     (lit {span: "surf:3127..3134", surf_literal_style: "explicit", type: (t-prim {} f32)} 42.0))),
+         property_quantifiers: (params {} (v {type: (t-prim {} f32)})),
+         property_source_kind: "user",
+         span: "surf:3036..3172"
+       }
+    counterexample_symbolic_vega_tight_budget
+    (fn {}
+      (params {} (v {type: (t-prim {} f32)}))
+      (app {span: "surf:3139..3172"}
+        (var {} lte)
+        (app {span: "surf:3139..3160"}
+          (var {span: "surf:3139..3157"} notional_from_vega)
+          (var {span: "surf:3158..3159"} v))
+        (lit {span: "surf:3164..3172", surf_literal_style: "explicit", type: (t-prim {} f32)} 400.0)))))

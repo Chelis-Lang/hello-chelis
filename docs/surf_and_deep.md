@@ -1,7 +1,7 @@
 # Surf and Deep
 
 Chelis has two syntaxes for the same AST. Programs under `src/`, `tests/`,
-`tests_neg/`, and `verify/` ship in both, as paired files in the same
+`tests_neg/`, `verify/`, and `examples/` ship in both, as paired files in the same
 directory. Blocked probes under `tests_blocked/` pair Surf with an
 expected-failure sidecar instead.
 
@@ -31,7 +31,7 @@ uv run scripts/regen_deep.py            # regenerate paired .dp files
 uv run scripts/regen_deep.py --check    # report drift, change nothing
 ```
 
-For every `.ch` under `src/`, `tests/`, `tests_neg/`, and `verify/`,
+For every `.ch` under `src/`, `tests/`, `tests_neg/`, `verify/`, and `examples/`,
 [`tests/test_surf_deep_equivalence.py`](../tests/test_surf_deep_equivalence.py)
 runs `chelis deep` and requires the output to equal the committed `.dp` byte
 for byte. Because each `.dp` is generated from its `.ch`, the two cannot
